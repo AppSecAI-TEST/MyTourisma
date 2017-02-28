@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:id="@+id/llCategory"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/mWhite">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:layout_width="@dimen/m1.2dp"
+                android:layout_height="match_parent"
+                android:background="@color/mWhite" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/m0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/m6dp"
+            android:layout_marginLeft="@dimen/m6dp"
+            android:layout_marginRight="@dimen/m10dp"
+            android:layout_marginTop="@dimen/m6dp"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="@dimen/m0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/tv_explore_grid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:paddingLeft="@dimen/m5dp"
+                    android:paddingRight="@dimen/m5dp"
+                    android:paddingTop="@dimen/m15dp"
+                    android:paddingBottom="@dimen/m15dp"
+                    android:maxLines="1"
+                    android:inputType="text"
+                    android:text="National Parks"
+                    android:textColor="@color/mWhite"
+                    android:textSize="@dimen/TEXT_SMALL" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/m0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.10">
+
+                <ImageView
+                    android:id="@+id/iv_arrow_less"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/arrow_white" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/mWhite"
+            android:visibility="gone">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:layout_width="@dimen/m1.2dp"
+                android:layout_height="match_parent"
+                android:background="@color/mWhite" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.ftl.tourisma.custom_views.NormalTextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/m1.2dp"
+        android:background="@color/mWhite" />
+</LinearLayout>

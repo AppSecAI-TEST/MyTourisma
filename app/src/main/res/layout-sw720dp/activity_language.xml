@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_bg_blur"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/m50dp"
+        android:src="@drawable/ic_splash_logo" />
+
+
+    <com.ftl.tourisma.custom_views.NormalTextView
+        android:id="@+id/txtChooseLanguage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/llChooseLanguage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/m30dp"
+        android:text="@string/choose_language_string_en"
+        android:textAllCaps="true"
+        android:textColor="@color/mBlack"
+        android:textSize="@dimen/TEXT_NORMAL" />
+
+
+    <LinearLayout
+        android:id="@+id/llChooseLanguage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
+
+        <com.andexert.library.RippleView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:ripple="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            ripple:rv_type="rectangle">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/button_bt_english"
+                style="@style/MyCustomButton"
+                android:gravity="center"
+                android:paddingBottom="@dimen/m5dp"
+                android:paddingLeft="@dimen/m20dp"
+                android:paddingRight="@dimen/m20dp"
+                android:paddingTop="@dimen/m5dp"
+                android:text="English"
+                android:textSize="@dimen/TEXT_SMALL"
+                android:textStyle="bold" />
+        </com.andexert.library.RippleView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llEnglish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llChooseLanguage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/m5dp"
+        android:orientation="horizontal">
+
+        <com.andexert.library.RippleView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            ripple:rv_type="rectangle">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/button_bt_russian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:paddingBottom="@dimen/m5dp"
+                android:paddingLeft="@dimen/m20dp"
+                android:paddingRight="@dimen/m20dp"
+                android:paddingTop="@dimen/m5dp"
+                android:text="Русский"
+                android:textColor="@color/mBlack"
+                android:textSize="@dimen/TEXT_SMALL"
+                android:textStyle="bold" />
+        </com.andexert.library.RippleView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llRasian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llEnglish"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/m5dp"
+        android:orientation="horizontal">
+
+        <com.andexert.library.RippleView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            ripple:rv_type="rectangle">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/button_bt_arabic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:paddingBottom="@dimen/m5dp"
+                android:paddingLeft="@dimen/m20dp"
+                android:paddingRight="@dimen/m20dp"
+                android:paddingTop="@dimen/m5dp"
+                android:text="العربية "
+                android:textColor="@color/mBlack"
+                android:textSize="@dimen/TEXT_SMALL"
+                android:textStyle="bold" />
+        </com.andexert.library.RippleView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llArabic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llRasian"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/m30dp">
+
+        <com.andexert.library.RippleView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            ripple:rv_type="rectangle">
+
+            <ImageView
+                android:id="@+id/iv_arrow_language"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_true_go_inside" />
+        </com.andexert.library.RippleView>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/m15dp"
+        android:src="@drawable/_ic_lang_footer" />
+<!--    <ImageView
+        android:id="@+id/background_one"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_bg_blur"/>
+
+    <ImageView
+        android:id="@+id/background_two"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_bg_blur"/>-->
+</RelativeLayout>

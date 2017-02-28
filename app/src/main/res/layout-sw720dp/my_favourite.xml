@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_my_favourite"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mWhite"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_my_favorite1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#0070CC"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/mBlue"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible">
+
+                        <com.andexert.library.RippleView xmlns:android="http://schemas.android.com/apk/res/android"
+                            xmlns:ripple="http://schemas.android.com/apk/res-auto"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            ripple:rv_type="rectangle">
+
+                            <ImageView
+                                android:id="@+id/iv_back_favorite"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/m20dp"
+                                android:src="@drawable/ic_left_arrow" />
+                        </com.andexert.library.RippleView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="@dimen/m0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.ftl.tourisma.custom_views.NormalTextView
+                            android:id="@+id/tv_my_favorite_list"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/favorite_list"
+                            android:textColor="@color/mWhite"
+                            android:textSize="@dimen/TEXT_SMALL" />
+
+                        <com.ftl.tourisma.custom_views.NormalTextView
+                            android:id="@+id/tv_total_favorite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/favorite_list"
+                            android:textColor="@color/mGrayLight"
+                            android:textSize="@dimen/TEXT_SMALL_SKIP" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible">
+
+                        <ImageView
+                            android:id="@+id/iv_search_favorite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/m20dp"
+                            android:src="@drawable/search_white" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--   <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:padding="@dimen/m5dp">
+
+               <com.ftl.tourisma.custom_views.NormalTextView
+                   android:id="@+id/tv_total_favorite"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="@dimen/m15dp"
+                   android:text="Search Result"
+                   android:textSize="@dimen/m10dp" />
+           </LinearLayout>
+   -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ic_bg_blur"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_favorite"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fadingEdge="none">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <include layout="@layout/layout_empty" />
+            </LinearLayout>
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fb_favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="@dimen/m15dp"
+                android:layout_marginRight="@dimen/m20dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/map_view"
+                android:visibility="gone"
+                fab:fab_colorNormal="#00000000"
+                fab:fab_colorPressed="#00000000"
+                fab:fab_colorRipple="#00000000" />
+        </FrameLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_my_favorite3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/layout_place_details" />
+        </ScrollView>
+    </LinearLayout>
+
+</LinearLayout>

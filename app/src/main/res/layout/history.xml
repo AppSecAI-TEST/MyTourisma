@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- <app.num.numandroidpagecurleffect.PageCurlView
+         android:layout_width="match_parent"
+         android:id="@+id/pageCurlView"
+         android:layout_height="match_parent">-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mTrans1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                layout="@layout/header4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mWhite"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|left"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/m20dp"
+                    android:src="@drawable/search_icon_grey" />
+
+                <com.ftl.tourisma.custom_views.NormalEditText
+                    android:id="@+id/edt_search"
+                    android:layout_width="@dimen/m0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="@string/landmark_more"
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/TEXT_SMALL" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/mGrayLight">
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/tv_suggestion"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/m20dp"
+                    android:gravity="bottom"
+                    android:padding="@dimen/m10dp"
+                    android:text="SUGGESTIONS"
+                    android:textColor="@color/mBlue"
+                    android:textSize="@dimen/m15dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_all_places"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|left"
+                android:orientation="horizontal"
+                android:padding="@dimen/m20dp">
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/tv_all_places"
+                    android:layout_width="@dimen/m0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/m10dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:text="All Places in Ahmedabad"
+                    android:textColor="@color/mBlack"
+                    android:textSize="@dimen/m15dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/black_arrow" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/mGrayLight">
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/tv_recent_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/m20dp"
+                    android:gravity="bottom"
+                    android:padding="@dimen/m10dp"
+                    android:text="RECENT SEARCH"
+                    android:textColor="@color/mBlue"
+                    android:textSize="@dimen/m15dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_search_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/m15dp">
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <!--</app.num.numandroidpagecurleffect.PageCurlView>-->
+</LinearLayout>

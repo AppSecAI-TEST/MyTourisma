@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/mBlue">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/m5dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.ftl.tourisma.custom_views.NormalTextView
+            android:id="@+id/tv_your_location_header4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/your_location"
+            android:textColor="@color/mGrayLight"
+            android:textSize="@dimen/TEXT_EXTRA_SMALL" />
+
+        <LinearLayout
+            android:id="@+id/ll_header4_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/tv_city_header4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/m5dp"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:maxLength="35"
+                android:maxLines="1"
+                android:text="df"
+                android:textColor="@color/mWhite"
+                android:textSize="@dimen/TEXT_SMALL" />
+
+            <ImageView
+                android:layout_width="@dimen/m10dp"
+                android:layout_height="@dimen/m10dp"
+                android:layout_gravity="center"
+                android:src="@drawable/down_arrow_white" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.andexert.library.RippleView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        ripple:rv_type="rectangle">
+
+
+        <ImageView
+            android:id="@+id/iv_back_header4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/m18dp"
+            android:src="@drawable/ic_left_arrow"
+
+            android:visibility="visible" />
+    </com.andexert.library.RippleView>
+
+    <com.andexert.library.RippleView
+        android:id="@+id/search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+
+        android:visibility="invisible"
+        ripple:rv_type="rectangle">
+
+        <ImageView
+            android:id="@+id/iv_search_header3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/m18dp"
+            android:src="@drawable/ic_search_" />
+    </com.andexert.library.RippleView>
+</RelativeLayout><!--
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:ripple="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/mBlue"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <com.andexert.library.RippleView xmlns:android="http://schemas.android.com/apk/res/android"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            ripple:rv_type="rectangle">
+
+            <ImageView
+                android:id="@+id/iv_back_header4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/m18dp"
+                android:src="@drawable/ic_left_arrow" />
+        </com.andexert.library.RippleView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/m0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_your_location_header4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/your_location"
+            android:textColor="@color/mGray"
+            android:textSize="@dimen/TEXT_SMALL_SKIP" />
+
+        <LinearLayout
+            android:id="@+id/ll_header4_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_city_header4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BTM"
+                android:textColor="@color/mWhite"
+                android:textSize="@dimen/TEXT_SMALL" />
+
+            <ImageView
+                android:layout_width="@dimen/m10dp"
+                android:layout_height="@dimen/m10dp"
+                android:src="@drawable/down_arrow_white" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.andexert.library.RippleView
+        android:id="@+id/search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        ripple:rv_type="rectangle">
+
+        <ImageView
+            android:id="@+id/iv_search_header3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/m18dp"
+            android:src="@drawable/ic_search_" />
+    </com.andexert.library.RippleView>
+</LinearLayout>
+</LinearLayout>-->

@@ -1,0 +1,42 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="m0dp">0dp</dimen>
+    <dimen name="m17dp">17dp</dimen>
+    <dimen name="m18dp">18dp</dimen>
+    <dimen name="m20dp">20dp</dimen>
+    <dimen name="m30dp">30dp</dimen>
+    <dimen name="m50dp">50dp</dimen>
+    <dimen name="m60dp">60dp</dimen>
+    <dimen name="m70dp">70dp</dimen>
+    <dimen name="m15dp">15dp</dimen>
+    <dimen name="m9dp">9dp</dimen>
+    <dimen name="m10dp">10dp</dimen>
+    <dimen name="m5dp">5dp</dimen>
+    <dimen name="m6dp">6dp</dimen>
+    <dimen name="m3dp">3dp</dimen>
+    <dimen name="m2dp">2dp</dimen>
+    <dimen name="m1dp">1dp</dimen>
+    <dimen name="m1.2dp">1.4dp</dimen>
+    <dimen name="m12dp">12dp</dimen>
+    <dimen name="m13dp">13dp</dimen>
+    <dimen name="m14dp">14dp</dimen>
+    <dimen name="m8dp">8dp</dimen>
+
+    <dimen name="TEXT_EXTRA_SMALL">12sp</dimen>
+    <dimen name="TEXT_SMALL_SKIP">10sp</dimen>
+    <dimen name="TEXT_SMALL">14sp</dimen>
+    <dimen name="TEXT_MEDIUM">16sp</dimen>
+    <dimen name="TEXT_NORMAL">17sp</dimen>
+    <dimen name="m40dp">40dp</dimen>
+    <dimen name="m25dp">25dp</dimen>
+    <dimen name="m55dp">55dp</dimen>
+    <dimen name="m150dp">150dp</dimen>
+    <dimen name="m80dp">80dp</dimen>
+    <dimen name="m300dp">300dp</dimen>
+    <dimen name="m4dp">4dp</dimen>
+    <dimen name="height_of_profile_top_view">200dp</dimen>
+    <dimen name="profile_height">80dp</dimen>
+    <dimen name="m110dp">110dp</dimen>
+    <dimen name="progressDailog">76dip</dimen>
+
+</resources>

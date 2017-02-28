@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llEmptyLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_bg_blur"
+    android:orientation="vertical"
+    android:visibility="gone">
+
+    <!-- <include
+          layout="@layout/header5"
+          android:id="@+id/layoutEmptyView"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mTrans2">
+
+        <ImageView
+            android:id="@+id/imgIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/m40dp"
+            android:src="@drawable/ic_black_place_holder" />
+
+        <com.ftl.tourisma.custom_views.NormalTextView
+            android:id="@+id/txtMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgIcon"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/m60dp"
+            android:gravity="center"
+            android:text="No records available for this place"
+            android:textColor="@color/texthint"
+            android:textSize="@dimen/TEXT_MEDIUM" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/m20dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/txtOk"
+                style="@style/MyCustomButton"
+                android:layout_width="match_parent"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="@dimen/m10dp"
+                android:text="Change Location" />
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/txtSuggest"
+                style="@style/MyCustomButton"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/m5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="@dimen/m10dp"
+                android:text="Suggest Location" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

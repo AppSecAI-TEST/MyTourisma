@@ -1,0 +1,34 @@
+package com.ftl.tourisma;
+
+import android.content.Context;
+import android.content.Intent;
+import android.support.multidex.MultiDexApplication;
+
+import com.crashlytics.android.Crashlytics;
+import com.ftl.tourisma.beacons.MyBeaconsService;
+import com.ftl.tourisma.utils.MyTypeFace;
+
+import io.fabric.sdk.android.Fabric;
+
+/**
+ * Created by C162 on 10/10/16.
+ */
+
+public class MyTorismaApplication extends MultiDexApplication {
+    public static Context context;
+    public static MyTypeFace typeFace;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        this.context = getApplicationContext();
+        typeFace = new MyTypeFace(context);
+        Fabric.with(getApplicationContext(), new Crashlytics());
+        startService(new Intent(this, MyBeaconsService.class));
+
+    }
+
+    public static Context getContext() {
+        return context;
+    }
+}

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".SearchActivity"
+    android:background="@drawable/ic_bg_blur"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mBlue"
+        android:id="@+id/llTop"
+        android:orientation="vertical">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mBlue"
+            android:gravity="center_horizontal">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:padding="@dimen/m10dp"
+                android:textSize="@dimen/TEXT_MEDIUM"
+                android:text="Cancel"
+                android:id="@+id/txtCancel"
+                android:textColor="@color/selector_white_blue"/>
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/txtSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical"
+                android:padding="@dimen/m10dp"
+                android:text="Search"
+                android:textColor="@color/mWhite"
+                android:textSize="@dimen/TEXT_MEDIUM" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/m10dp"
+            android:layout_marginRight="@dimen/m10dp"
+            android:background="@drawable/bg_white_rounded"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/m10dp"
+                android:src="@drawable/ic_search_blue" />
+
+            <com.ftl.tourisma.custom_views.NormalEditText
+                android:id="@+id/etSearchPlace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:dropDownSelector="@color/wallet_holo_blue_light"
+                android:dropDownWidth="match_parent"
+                android:hint=""
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:inputType="text"
+                android:textSize="@dimen/TEXT_SMALL" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/m10dp"
+            android:background="@drawable/bg_white_rounded">
+
+            <ImageView
+                android:id="@+id/imgAutoDetect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/m10dp"
+                android:src="@drawable/ic_gps_dark_gray" />
+
+            <LinearLayout
+                android:layout_width="@dimen/m0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|left">
+
+                <com.ftl.tourisma.custom_views.NormalEditText
+                    android:id="@+id/etAutoDetect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:imeOptions="actionDone"
+                    android:background="@null"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textSize="@dimen/TEXT_SMALL" />
+            </LinearLayout>
+
+        </LinearLayout>
+        </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:dividerHeight="0.5dp"
+        android:divider="@color/mBlack"
+        android:layout_below="@+id/llTop"
+        android:layout_height="wrap_content"
+        android:background="@color/mWhite" />
+    <com.ftl.tourisma.custom_views.NormalTextView
+        android:layout_width="match_parent"
+        android:id="@+id/txtEmptyView"
+        android:padding="@dimen/m10dp"
+        android:visibility="gone"
+        android:layout_below="@+id/llTop"
+        android:gravity="center"
+        android:background="@color/mWhite"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/llBeaconToast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/mWhite"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <include
+            layout="@layout/layout_snackbar_beacon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</RelativeLayout>

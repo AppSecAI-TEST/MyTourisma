@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mBlue"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/tv_snack_msg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/m2dp"
+                android:singleLine="true"
+                android:text="@string/sign_up_msg"
+                android:textColor="@color/mWhite"
+                android:textSize="@dimen/m12dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_login_snack"
+                android:layout_width="@dimen/m0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/tv_login_snack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/m6dp"
+                    android:singleLine="true"
+                    android:text="@string/login_cap"
+                    android:textColor="@color/mWhite"
+                    android:textSize="@dimen/m13dp" />
+            </LinearLayout>
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:layout_width="@dimen/m1dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/mWhite" />
+
+            <LinearLayout
+                android:id="@+id/ll_sign_up_snack"
+                android:layout_width="@dimen/m0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/tv_sign_up_snack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/m6dp"
+                    android:singleLine="true"
+                    android:text="@string/sign_up_cap"
+                    android:textColor="@color/mWhite"
+                    android:textSize="@dimen/m13dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

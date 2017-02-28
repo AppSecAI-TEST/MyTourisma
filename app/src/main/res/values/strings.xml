@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">myTourisma</string>
+    <string name="facebook_app_id">182867745423299</string>
+    <string name="sign_up_cap">SIGN UP</string>
+    <string name="sign_up_msg">Log in or sign up to get started.</string>
+    <string name="login_cap">LOGIN</string>
+    <string name="submit_cap">SUBMIT</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_up_using_mail_new">Sign up using email</string>
+    <string name="login_using_mail_new">Login using email</string>
+    <string name="forgot_msg_new">Enter your email address and we will send your password to it.</string>
+    <string name="name_hint">Name</string>
+    <string name="address_hint">Address</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="your_location">Your location</string>
+    <string name="nearby">Nearby</string>
+    <string name="landmark_more">Landmarks, Rivers, Places, more...</string>
+    <string name="search_result">Search result</string>
+    <string name="close">Close</string>
+    <string name="similar_places">Similar Places</string>
+    <string name="view_all">View All</string>
+    <string name="description">Desciption</string>
+    <string name="favorite_list">MY FAVOURITE</string>
+    <string name="about_us">About Us</string>
+    <string name="logout">Logout</string>
+    <string name="share_friend">Share with your friends</string>
+    <string name="facebook">Facebook</string>
+    <string name="twitter">Twitter</string>
+    <string name="google">Google</string>
+    <string name="sms">SMS</string>
+
+
+    <string name="font_normal_app">fonts/AlrightSans-Regular-v3.otf</string>
+    <!--<string name="font_normal_app">fonts/Ubuntu_R.ttf</string>-->
+    <string name="font_bold_app">fonts/AlrightSans-Medium-v3.otf</string>
+    <string name="font_Muraid_Pro">fonts/myriadpro_regular.otf</string>
+
+
+    <!--New String-->
+
+    <string name="text_sign_up">Don\'t have an account? Sign up</string>
+    <string name="choose_language_string_en">Please choose your language</string>
+    <string name="choose_language_string_ar">الرجاء اختيار اللغة</string>
+    <string name="choose_language_string_ru">Пожалуйста выберите язык</string>
+    <string name="fees">FEES</string>
+    <string name="ok">Ok</string>
+    <string name="new_line">\n</string>
+
+    <string name="network_error">No internet connection. You need to be connected to the internet</string>
+
+
+</resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/FlycoAnimation_Lib/FlycoAnimation_Lib.iml" filepath="$PROJECT_DIR$/FlycoAnimation_Lib/FlycoAnimation_Lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FlycoDialog_Lib/FlycoDialog_Lib.iml" filepath="$PROJECT_DIR$/FlycoDialog_Lib/FlycoDialog_Lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MyTourisma.iml" filepath="$PROJECT_DIR$/MyTourisma.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/audioVR/audioVR.iml" filepath="$PROJECT_DIR$/audioVR/audioVR.iml" />
+      <module fileurl="file://$PROJECT_DIR$/auto_slider_gallery/auto_slider_gallery.iml" filepath="$PROJECT_DIR$/auto_slider_gallery/auto_slider_gallery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/baseVR/baseVR.iml" filepath="$PROJECT_DIR$/baseVR/baseVR.iml" />
+      <module fileurl="file://$PROJECT_DIR$/circularimageview/circularimageview.iml" filepath="$PROJECT_DIR$/circularimageview/circularimageview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/commonVR/commonVR.iml" filepath="$PROJECT_DIR$/commonVR/commonVR.iml" />
+      <module fileurl="file://$PROJECT_DIR$/commonwidget/commonwidget.iml" filepath="$PROJECT_DIR$/commonwidget/commonwidget.iml" />
+      <module fileurl="file://$PROJECT_DIR$/controllerVR/controllerVR.iml" filepath="$PROJECT_DIR$/controllerVR/controllerVR.iml" />
+      <module fileurl="file://$PROJECT_DIR$/facebook_sdk/facebook_sdk.iml" filepath="$PROJECT_DIR$/facebook_sdk/facebook_sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/flotingbutton/flotingbutton.iml" filepath="$PROJECT_DIR$/flotingbutton/flotingbutton.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library_pager_indicator/library_pager_indicator.iml" filepath="$PROJECT_DIR$/library_pager_indicator/library_pager_indicator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/panowidget/panowidget.iml" filepath="$PROJECT_DIR$/panowidget/panowidget.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rippleeffect/rippleeffect.iml" filepath="$PROJECT_DIR$/rippleeffect/rippleeffect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/snackbar/snackbar.iml" filepath="$PROJECT_DIR$/snackbar/snackbar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/topsnackbar/topsnackbar.iml" filepath="$PROJECT_DIR$/topsnackbar/topsnackbar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/videowidgetVR/videowidgetVR.iml" filepath="$PROJECT_DIR$/videowidgetVR/videowidgetVR.iml" />
+    </modules>
+  </component>
+</project>

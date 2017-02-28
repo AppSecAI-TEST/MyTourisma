@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mWhite"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/header5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <com.daimajia.slider.library.SliderLayout
+                android:id="@+id/sliderPlaceImages"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/dotLayout_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@+id/rlVirtualTour"
+                        android:layout_marginBottom="@dimen/m10dp"
+                        android:layout_marginLeft="@dimen/m10dp"
+                        android:layout_marginRight="@dimen/m10dp"
+
+                        android:gravity="top|center_horizontal">
+
+                        <com.daimajia.slider.library.Indicators.PagerIndicator
+                            android:id="@+id/custom_indicator1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center" />
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rlVirtualTour"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/m70dp"
+                        android:visibility="gone"
+                        android:background="@color/mBlueTran"
+                        android:orientation="horizontal">
+
+                        <com.ftl.tourisma.custom_views.NormalBoldTextView
+                            android:id="@+id/txtViewAVirtalTour"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:drawableLeft="@drawable/ic_card_board"
+                            android:drawablePadding="@dimen/m10dp"
+                            android:text="View a Virtual Tour"
+                            android:textColor="@color/mWhite"
+                            android:textSize="@dimen/TEXT_MEDIUM" />
+
+                        <ImageView
+                            android:id="@+id/txtViewAVirtalTourNext"
+                            android:layout_width="@dimen/m30dp"
+                            android:layout_height="@dimen/m30dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/m15dp"
+                            android:background="@drawable/bg_blue_arrow"
+                            android:padding="@dimen/m10dp"
+                            android:src="@drawable/ic_right_white_arrow" />
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imgSharePlace"
+                    android:layout_width="@dimen/m30dp"
+                    android:layout_height="@dimen/m30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:layout_margin="@dimen/m15dp"
+                    android:background="@drawable/bg_blue_arrow"
+                    android:padding="@dimen/m8dp"
+                    android:src="@drawable/ic_share_" />
+            </com.daimajia.slider.library.SliderLayout>
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/m10dp"
+            android:layout_marginRight="@dimen/m10dp"
+            android:layout_marginTop="@dimen/m10dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.ftl.tourisma.custom_views.NormalBoldTextView
+                android:id="@+id/tv_full_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/m10dp"
+                android:layout_marginRight="@dimen/m10dp"
+                android:gravity="center"
+                android:text="Jumeirah 1, Dubai"
+                android:textColor="@color/mBlack"
+                android:textSize="@dimen/TEXT_MEDIUM" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/m10dp"
+                android:layout_marginLeft="@dimen/m10dp"
+                android:layout_marginRight="@dimen/m10dp"
+                android:layout_marginTop="@dimen/m10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/tv_info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:text="Jumeirah 1, Dubai"
+                    android:textColor="@color/mBlack1"
+                    android:textSize="@dimen/TEXT_SMALL" />
+
+                <View
+                    android:layout_width="@dimen/m2dp"
+                    android:layout_height="@dimen/m20dp"
+                    android:layout_marginLeft="@dimen/m5dp"
+                    android:layout_marginRight="@dimen/m5dp"
+                    android:background="@color/mBlack" />
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/tv_distance1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="12.3 km"
+                    android:textColor="@color/mBlue"
+                    android:textSize="@dimen/TEXT_MEDIUM" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/m10dp"
+                android:layout_marginRight="@dimen/m10dp"
+                android:background="#E7E7E7" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/m10dp"
+                android:layout_marginLeft="@dimen/m10dp"
+                android:layout_marginRight="@dimen/m10dp"
+                android:layout_marginTop="@dimen/m10dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <!-- <com.ftl.tourisma.custom_views.NormalTextView
+                     android:id="@+id/txtOpenNow"
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:gravity="right"
+                     android:visibility="gone"
+                     android:text="Open Now:"
+                     android:textColor="@color/mGreen"
+                     android:textSize="@dimen/TEXT_SMALL" />-->
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/txtOpenNowVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/m5dp"
+                    android:paddingRight="@dimen/m5dp"
+                    android:paddingTop="@dimen/m5dp"
+                    android:text="10ap to 7pm (Mon)"
+                    android:textSize="@dimen/TEXT_SMALL" />
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/txtDailyWorkingHours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/m5dp"
+                    android:paddingLeft="@dimen/m5dp"
+                    android:paddingRight="@dimen/m5dp"
+                    android:text="View Daily Working Hours"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/TEXT_SMALL_SKIP" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/m10dp"
+                android:layout_marginRight="@dimen/m10dp"
+                android:background="#E7E7E7" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/m10dp"
+            android:layout_marginLeft="@dimen/m20dp"
+            android:layout_marginRight="@dimen/m20dp"
+            android:layout_marginTop="@dimen/m10dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/txtStartNavigating"
+                style="@style/MyCustomButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/m5dp"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_navigating"
+                android:padding="@dimen/m10dp"
+                android:text="Start navigating"
+                android:textSize="@dimen/TEXT_EXTRA_SMALL" />
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/txt_add_to_fav"
+                style="@style/MyCustomButton"
+                android:layout_width="@dimen/m0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/m5dp"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_favourite_default"
+                android:padding="@dimen/m10dp"
+                android:text="Add to favourite"
+                android:textSize="@dimen/TEXT_EXTRA_SMALL" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginBottom="@dimen/m5dp"
+            android:layout_marginTop="@dimen/m5dp"
+            android:background="#f2f2f2e7" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/m15dp"
+            android:layout_marginRight="@dimen/m10dp"
+            android:layout_marginTop="@dimen/m15dp">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/tv_fee_explore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/fees"
+                android:textColor="@color/mBlack"
+                android:textSize="@dimen/TEXT_MEDIUM" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/listView_fees"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/m10dp"
+            android:layout_marginLeft="@dimen/m15dp"
+            android:layout_marginRight="@dimen/m15dp"
+            android:orientation="vertical" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginBottom="@dimen/m5dp"
+            android:layout_marginTop="@dimen/m5dp"
+            android:background="#f2f2f2e7" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/m15dp"
+            android:layout_marginRight="@dimen/m15dp"
+            android:layout_marginTop="@dimen/m10dp">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/tv_about_place_explore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:textColor="@color/mBlack"
+                android:textSize="@dimen/TEXT_MEDIUM" />
+        </LinearLayout>
+
+
+        <com.ftl.tourisma.custom_views.NormalTextView
+            android:id="@+id/tv_discription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/m10dp"
+            android:layout_marginLeft="@dimen/m15dp"
+            android:layout_marginRight="@dimen/m15dp"
+            android:text=""
+            android:textSize="@dimen/TEXT_SMALL" />
+
+        <LinearLayout
+            android:id="@+id/ll_see_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_marginBottom="@dimen/m5dp"
+                android:layout_marginTop="@dimen/m5dp"
+                android:background="#f2f2f2e7" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/m15dp"
+                android:layout_marginRight="@dimen/m15dp"
+                android:layout_marginTop="@dimen/m10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/m10dp">
+
+                <LinearLayout
+                    android:layout_width="@dimen/m0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <com.ftl.tourisma.custom_views.NormalTextView
+                        android:id="@+id/tv_similar_explore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="@string/similar_places"
+                        android:textColor="@color/mBlack"
+                        android:textSize="@dimen/TEXT_MEDIUM" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="@dimen/m0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right|center">
+
+                    <com.ftl.tourisma.custom_views.NormalTextView
+                        android:id="@+id/tv_see_all_explore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="@string/view_all"
+                        android:textSize="@dimen/TEXT_SMALL" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/m10dp">
+
+                <com.ftl.tourisma.gallery1.Gallery
+                    android:id="@+id/gv_detail1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.ftl.tourisma.gallery1.Gallery>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

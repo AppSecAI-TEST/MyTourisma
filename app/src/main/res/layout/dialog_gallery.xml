@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="#ffffff"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.ftl.tourisma.custom_views.NormalTextView
+            android:id="@+id/gal"
+            style="@style/MyCustomButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/m10dp"
+            android:gravity="center"
+            android:padding="@dimen/m10dp"
+            android:text="Gallery" />
+
+        <com.ftl.tourisma.custom_views.NormalTextView
+            android:id="@+id/camera"
+            style="@style/MyCustomButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/m10dp"
+            android:gravity="center"
+            android:padding="@dimen/m10dp"
+            android:text="Camera" />
+
+        <com.ftl.tourisma.custom_views.NormalTextView
+            android:id="@+id/remove"
+            style="@style/MyCustomButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/m10dp"
+            android:gravity="center"
+            android:padding="@dimen/m10dp"
+            android:text="Remove" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/closebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/close_btn_popup_big1" />
+</RelativeLayout>

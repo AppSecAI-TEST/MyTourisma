@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0070cd</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">@color/mBlue</color>
+    <color name="mBlack">#000000</color>
+    <color name="mBlack1">#666666</color>
+    <color name="mBlue">#0070cd</color>
+    <color name="mBlueTran">#800070cd</color>
+    <color name="mWhite">#FFFFFF</color>
+    <color name="mTrans1">#88000000</color>
+    <color name="mTrans3">#d4000000</color>
+    <color name="mTrans2">#20000000</color>
+    <color name="mGray">#D2D2D2</color>
+    <color name="mGrayLight">#F0F0F0</color>
+    <color name="mGreen">#4EDB4E</color>
+    <color name="texthint">#4f5154</color>
+    <color name="textColor">#959697</color>
+</resources>

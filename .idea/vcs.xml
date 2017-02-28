@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/FlycoAnimation_Lib" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/FlycoDialog_Lib" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/app" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/audioVR" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/auto_slider_gallery" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/baseVR" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/circularimageview" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/commonVR" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/commonwidget" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/controllerVR" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/facebook_sdk" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/flotingbutton" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/library" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/library_pager_indicator" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/panowidget" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/rippleeffect" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/snackbar" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/topsnackbar" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/videowidgetVR" vcs="svn" />
+  </component>
+</project>

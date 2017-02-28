@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="m10dp">15dp</dimen>
+    <dimen name="m20dp">26dp</dimen>
+    <dimen name="m70dp">140dp</dimen>
+    <dimen name="m30dp">45dp</dimen>
+
+    <dimen name="m50dp">70dp</dimen>
+    <dimen name="m40dp">50dp</dimen>
+    <dimen name="m25dp">30dp</dimen>
+    <dimen name="m55dp">70dp</dimen>
+    <dimen name="m5dp">6dp</dimen>
+    <dimen name="m6dp">8dp</dimen>
+    <dimen name="m3dp">5dp</dimen>
+    <dimen name="m2dp">3dp</dimen>
+    <dimen name="m1dp">2dp</dimen>
+
+    <dimen name="TEXT_EXTRA_SMALL">18sp</dimen>
+    <dimen name="TEXT_SMALL_SKIP">16sp</dimen>
+    <dimen name="TEXT_SMALL">19sp</dimen>
+    <dimen name="TEXT_MEDIUM">22sp</dimen>
+    <dimen name="TEXT_NORMAL">21sp</dimen>
+    <dimen name="m150dp">170dp</dimen>
+    <dimen name="m80dp">150dp</dimen>
+    <dimen name="m300dp">400dp</dimen>
+    <dimen name="m4dp">4dp</dimen>
+    <dimen name="height_of_profile_top_view">320dp</dimen>
+    <dimen name="profile_height">150dp</dimen>
+    <dimen name="m8dp">12dp</dimen>
+    <dimen name="m110dp">150dp</dimen>
+    <dimen name="progressDailog">80dip</dimen>
+
+</resources>

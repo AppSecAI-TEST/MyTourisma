@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:float="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignWithParentIfMissing="true"
+    android:background="@color/mWhite"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mWhite"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <include
+            layout="@layout/header_tittle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/fb_login_button_"
+                    style="@style/SocialButton"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/m50dp"
+                    android:background="@drawable/ic_facebook1"
+                    android:gravity="center|left"
+                    android:paddingLeft="@dimen/m40dp" />
+
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/tv_google_plus"
+                    style="@style/SocialButton"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/m10dp"
+                    android:background="@drawable/ic_google1"
+                    android:gravity="center|left"
+                    android:paddingLeft="@dimen/m40dp"
+                    android:text="" />
+
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/sign_up_using_mail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/m50dp"
+                    android:gravity="center"
+                    android:text="@string/sign_up_using_mail_new"
+                    android:textAllCaps="false"
+                    android:textColor="@color/mBlack1"
+                    android:textSize="@dimen/TEXT_EXTRA_SMALL" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/m20dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                        android:id="@+id/flet_username_sign_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        float:fletPadding="5dp">
+
+                        <com.ftl.tourisma.custom_views.NormalEditText
+                            android:id="@+id/et_username_sign_up"
+                            style="@style/MyEditText"
+                            android:background="@null"
+                            android:hint="@string/name_hint"
+                            android:inputType="textPersonName"
+                            android:maxLength="40"
+                            android:paddingLeft="@dimen/m5dp"
+                            android:paddingRight="@dimen/m5dp" />
+                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/m1dp"
+                        android:layout_marginLeft="@dimen/m5dp"
+                        android:layout_marginRight="@dimen/m5dp"
+                        android:background="@color/mGray" />
+                    <!--<ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:paddingLeft="@dimen/m5dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/line_signup" />-->
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                        android:id="@+id/flet_email_sign_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        float:fletPadding="5dp">
+
+                        <com.ftl.tourisma.custom_views.NormalEditText
+                            android:id="@+id/et_email_sign_up"
+                            style="@style/MyEditText"
+                            android:background="@null"
+                            android:hint="@string/email_hint"
+                            android:inputType="textEmailAddress"
+                            android:maxLength="40"
+                            android:paddingLeft="@dimen/m5dp"
+                            android:paddingRight="@dimen/m5dp" />
+                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/m1dp"
+                        android:layout_marginLeft="@dimen/m5dp"
+                        android:layout_marginRight="@dimen/m5dp"
+                        android:background="@color/mGray" />
+                    <!--<ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:paddingLeft="@dimen/m5dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/line_signup" />-->
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                        android:id="@+id/flet_password_sign_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        float:fletPadding="5dp">
+
+                        <com.ftl.tourisma.custom_views.NormalEditText
+                            android:id="@+id/et_password_sign_up"
+                            style="@style/MyEditText"
+                            android:background="@null"
+                            android:hint="@string/password_hint"
+                            android:inputType="textPassword"
+                            android:maxLength="40"
+                            android:paddingLeft="@dimen/m5dp"
+                            android:paddingRight="@dimen/m5dp" />
+                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/m1dp"
+                        android:layout_marginLeft="@dimen/m5dp"
+                        android:layout_marginRight="@dimen/m5dp"
+                        android:background="@color/mGray" />
+                    <!--<ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:paddingLeft="@dimen/m5dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/line_signup" />-->
+                </LinearLayout>
+
+                <com.andexert.library.RippleView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/m70dp"
+                    ripple:rv_type="rectangle">
+
+                    <com.ftl.tourisma.custom_views.NormalTextView
+                        android:id="@+id/tv_signUp"
+                        style="@style/MyCustomButton"
+                        android:text="@string/sign_up_cap" />
+                </com.andexert.library.RippleView>
+
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/tv_forgot_sign_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/m10dp"
+                    android:gravity="center"
+                    android:padding="@dimen/m10dp"
+                    android:text="@string/forgot_password"
+                    android:textColor="@color/selector_gray_blue"
+                    android:textSize="@dimen/TEXT_EXTRA_SMALL" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</RelativeLayout>
+

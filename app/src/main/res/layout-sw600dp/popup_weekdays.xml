@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mTrans1"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_popup"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mBlue"
+            android:orientation="horizontal">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/txtTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/m10dp"
+                android:text="Timing"
+                android:textColor="@color/mWhite"
+                android:textSize="@dimen/TEXT_NORMAL" />
+
+            <com.andexert.library.RippleView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:ripple="http://schemas.android.com/apk/res-auto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                ripple:rv_type="rectangle">
+
+                <ImageView
+                    android:id="@+id/iv_menu_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|right"
+                    android:padding="@dimen/m10dp"
+                    android:src="@drawable/close_icon_signup" />
+            </com.andexert.library.RippleView>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/m1dp"
+            android:background="@color/mBlue">
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/listview_week"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/m10dp" />
+    </LinearLayout>
+</LinearLayout>

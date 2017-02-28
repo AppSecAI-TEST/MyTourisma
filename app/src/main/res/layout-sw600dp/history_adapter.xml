@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/m1dp"
+        android:layout_marginLeft="@dimen/m10dp"
+        android:layout_marginRight="@dimen/m10dp"
+        android:gravity="center|left"
+        android:orientation="horizontal"
+        android:padding="@dimen/m5dp">
+
+        <com.ftl.tourisma.custom_views.NormalTextView
+            android:id="@+id/tv_searched"
+            android:layout_width="@dimen/m0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="@dimen/m5dp"
+            android:textColor="@color/mBlack"
+            android:textSize="@dimen/TEXT_SMALL" />
+
+        <com.ftl.tourisma.custom_views.NormalTextView
+            android:id="@+id/tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/m5dp"
+            android:text="Type"
+            android:textSize="@dimen/TEXT_SMALL" />
+    </LinearLayout>
+</LinearLayout>

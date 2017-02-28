@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_splash2"
+    android:orientation="vertical"
+    tools:context=".SignUpLoginFragmentActivity">
+
+
+    <com.ftl.tourisma.custom_views.NormalTextView
+        android:id="@+id/tvSkipSignUpLogin"
+        style="@style/MyCustomButton"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right"
+        android:layout_margin="@dimen/m10dp"
+        android:paddingBottom="@dimen/m5dp"
+        android:paddingLeft="@dimen/m10dp"
+        android:paddingRight="@dimen/m10dp"
+        android:paddingTop="@dimen/m5dp"
+        android:text="Skip"
+        android:textAllCaps="true"
+        android:textSize="@dimen/TEXT_SMALL_SKIP" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/m50dp"
+        android:src="@drawable/ic_splash_logo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <com.andexert.library.RippleView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:ripple="http://schemas.android.com/apk/res-auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/m70dp"
+            ripple:rv_type="rectangle">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/btn_login1"
+                style="@style/MyCustomButton"
+                android:text="@string/login_cap" />
+        </com.andexert.library.RippleView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/btn_sign_up1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingBottom="@dimen/m10dp"
+                android:paddingLeft="@dimen/m10dp"
+                android:paddingTop="@dimen/m10dp"
+                android:text="@string/text_sign_up"
+                android:textColor="@color/mBlack"
+                android:textSize="@dimen/TEXT_EXTRA_SMALL" />
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/btn_sign_up12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="@dimen/m10dp"
+                android:text="Sign Up"
+                android:textColor="@color/selector_blue_black"
+                android:textSize="@dimen/TEXT_EXTRA_SMALL" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

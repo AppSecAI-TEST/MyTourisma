@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="choose_language_string_en">Please choose your language</string>
+    <string name="choose_language_string_ar">الرجاء اختيار اللغة</string>
+    <string name="choose_language_string_ru">Пожалуйста выберите язык</string>
+</resources>

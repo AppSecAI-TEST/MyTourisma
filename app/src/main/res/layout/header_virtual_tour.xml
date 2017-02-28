@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mBlue"
+        android:orientation="horizontal">
+
+        <com.ftl.tourisma.custom_views.NormalTextView
+            android:id="@+id/txtTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="Virtual Tour"
+            android:textAllCaps="true"
+            android:textColor="@color/mWhite"
+            android:textSize="@dimen/TEXT_MEDIUM" />
+
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/m18dp"
+            android:src="@drawable/ic_left_arrow" />
+
+
+        <com.ftl.tourisma.custom_views.NormalTextView
+            android:id="@+id/txtPrev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/txtNext"
+            android:drawableTop="@drawable/ic_white_triangle"
+            android:paddingBottom="@dimen/m18dp"
+            android:paddingLeft="@dimen/m10dp"
+            android:paddingRight="@dimen/m10dp"
+            android:paddingTop="@dimen/m18dp"
+            android:text="Previous"
+            android:textColor="@color/selector_white_blue"
+            android:textSize="@dimen/TEXT_SMALL_SKIP" />
+
+        <com.ftl.tourisma.custom_views.NormalTextView
+            android:id="@+id/txtNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawableTop="@drawable/ic_white_triangle_right"
+            android:paddingBottom="@dimen/m18dp"
+            android:paddingLeft="@dimen/m10dp"
+            android:paddingRight="@dimen/m10dp"
+            android:paddingTop="@dimen/m18dp"
+            android:text="Next"
+            android:textColor="@color/selector_white_blue"
+            android:textSize="@dimen/TEXT_SMALL_SKIP" />
+    </RelativeLayout>
+</LinearLayout>

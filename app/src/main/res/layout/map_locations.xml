@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <include
+            layout="@layout/header5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/m5dp"
+            android:visibility="gone">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/m15dp"
+                android:text="@string/search_result"
+                android:textSize="@dimen/m10dp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.ftl.tourisma.MapWrapperLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <fragment
+                    android:id="@+id/map_detail"
+                    android:name="com.google.android.gms.maps.MapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:layout="@layout/abc_screen_simple" />
+            </com.ftl.tourisma.MapWrapperLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:orientation="vertical">
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/fab_gps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/m20dp"
+                    android:background="@android:color/transparent"
+
+                    android:src="@drawable/gps_icon_map"
+                    fab:fab_colorNormal="#00000000"
+                    fab:fab_colorPressed="#00000000"
+                    fab:fab_colorRipple="#00000000" />
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/fab_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fab1"
+                    android:layout_marginBottom="@dimen/m15dp"
+                    android:layout_marginRight="@dimen/m20dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/list_view"
+                    fab:fab_colorNormal="#00000000"
+                    fab:fab_colorPressed="#00000000"
+                    fab:fab_colorRipple="#00000000" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_map_detail_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/mWhite"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/tv_close_map_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#8D8D8D"
+                    android:gravity="center"
+                    android:padding="@dimen/m6dp"
+                    android:text="@string/close"
+                    android:textColor="@color/mWhite"
+                    android:textSize="@dimen/TEXT_NORMAL" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/navigation_white"
+                    android:gravity="center|left"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:padding="@dimen/m10dp"
+                        android:src="@drawable/map_pin1" />
+
+                    <LinearLayout
+                        android:layout_width="@dimen/m0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:orientation="vertical">
+
+                        <com.ftl.tourisma.custom_views.NormalTextView
+                            android:id="@+id/tv_map_place_name_main"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="BTM NATIONAL PARK"
+                            android:textColor="@color/mBlack"
+                            android:textSize="@dimen/TEXT_SMALL" />
+
+                        <com.ftl.tourisma.custom_views.NormalTextView
+                            android:id="@+id/tv_map_place_location_main"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:text="Bangalore"
+                            android:textColor="@color/mBlack"
+                            android:textSize="@dimen/TEXT_EXTRA_SMALL" />
+                    </LinearLayout>
+
+
+                    <ImageView
+                        android:id="@+id/iv_map_direction_main"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/m10dp"
+                        android:src="@drawable/direction_icon_map_popup" />
+
+
+                    <ImageView
+                        android:id="@+id/iv_map_like_main"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/m10dp"
+                        android:src="@drawable/like_map_popup" />
+
+
+                    <ImageView
+                        android:id="@+id/tv_map_place_share_main"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/m10dp"
+                        android:src="@drawable/share_map_popup" />
+                </LinearLayout>
+
+
+                <!-- <com.ftl.tourisma.gallery1.Gallery
+                     android:id="@+id/gv_detail_map_main"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content">
+
+                 </com.ftl.tourisma.gallery1.Gallery>-->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:padding="@dimen/m5dp">
+
+                    <com.ftl.tourisma.custom_views.NormalTextView
+                        android:id="@+id/txtOpenNowVal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/m5dp"
+                        android:paddingRight="@dimen/m5dp"
+                        android:visibility="gone"
+                        android:paddingTop="@dimen/m5dp"
+                        android:text="10ap to 7pm (Mon)"
+                        android:textSize="@dimen/TEXT_SMALL" />
+
+                    <com.ftl.tourisma.custom_views.NormalTextView
+                        android:id="@+id/txtDailyWorkingHours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/m5dp"
+                        android:paddingRight="@dimen/m5dp"
+                        android:text="View Daily Working Hours"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/TEXT_EXTRA_SMALL"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/m10dp"
+                    android:visibility="gone"
+                    android:paddingLeft="@dimen/m10dp"
+                    android:paddingRight="@dimen/m10dp">
+
+                    <com.ftl.tourisma.custom_views.NormalTextView
+                        android:id="@+id/tv_detail_map_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:visibility="gone"
+                        android:maxLines="2"
+                        android:textColor="@color/mBlack"
+                        android:textSize="@dimen/m12dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llMapLocationToast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/mWhite"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <include
+            layout="@layout/login_signup_snackbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mTrans3"
+        android:alpha="0.95"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/m50dp"
+                android:layout_height="@dimen/m50dp"
+                android:layout_margin="@dimen/m10dp"
+                android:src="@drawable/appicon1" />
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/txt_snack_msg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/m10dp"
+                android:padding="@dimen/m10dp"
+                android:text="@string/sign_up_msg"
+                android:textColor="@color/mWhite"
+                android:textSize="@dimen/m12dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

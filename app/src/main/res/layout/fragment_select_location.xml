@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_bg_blur"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ic_bg_blur"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mWhite"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include
+                    layout="@layout/header_tittle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/m5dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/m10dp"
+                    android:src="@drawable/ic_black_search" />
+
+                <com.ftl.tourisma.custom_views.NormalEditText
+                    android:id="@+id/etSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:dropDownSelector="@color/wallet_holo_blue_light"
+                    android:dropDownWidth="match_parent"
+                    android:hint=""
+                    android:imeOptions="actionDone"
+                    android:padding="@dimen/m10dp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/TEXT_SMALL" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#2F3946"
+                android:padding="@dimen/m5dp">
+
+                <ImageView
+                    android:id="@+id/iv_auto_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/m10dp"
+                    android:src="@drawable/ic_gps_white" />
+
+                <LinearLayout
+                    android:layout_width="@dimen/m0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center|left">
+
+                    <com.ftl.tourisma.custom_views.NormalTextView
+                        android:id="@+id/tv_auto_detect"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="@dimen/m10dp"
+                        android:text="Auto "
+                        android:textColor="@color/mGray"
+                        android:textSize="@dimen/TEXT_MEDIUM" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/search_bg"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/m10dp"
+                        android:src="@drawable/search_icon_grey" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="@dimen/m0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <!--<com.ftl.tourisma.CustomAutoCompleteTextView-->
+                    <!--android:id="@+id/act_address"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:background="@null"-->
+                    <!--android:singleLine="true"-->
+                    <!--android:maxLines="50"-->
+                    <!--android:hint="@string/auto_detect_hint"-->
+                    <!--android:imeOptions="actionDone"-->
+                    <!--android:textSize="@dimen/m15dp" />-->
+
+                    <AutoCompleteTextView
+                        android:id="@+id/act_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:dropDownSelector="@color/wallet_holo_blue_light"
+                        android:dropDownWidth="match_parent"
+                        android:hint="fvfdvf"
+                        android:imeOptions="actionDone"
+                        android:padding="@dimen/m10dp"
+                        android:singleLine="true"
+                        android:textSize="@dimen/TEXT_SMALL" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/location_bg"
+                android:visibility="gone">
+
+            </LinearLayout>-->
+
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mTrans1" />
+
+    </LinearLayout>
+</RelativeLayout>
