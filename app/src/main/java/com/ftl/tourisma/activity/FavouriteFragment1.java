@@ -2,20 +2,20 @@ package com.ftl.tourisma.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -30,19 +30,15 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
-import com.daimajia.slider.library.Transformers.BaseTransformer;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.ftl.tourisma.FullPlaceImageViewActivity;
 import com.ftl.tourisma.MapDetailFragment;
-import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.OnInfoWindowElemTouchListener;
 import com.ftl.tourisma.R;
-import com.ftl.tourisma.SelectLocationFragmentActivity;
 import com.ftl.tourisma.ShareFragmentActivity;
 import com.ftl.tourisma.SimpleVrPanoramaActivity;
 import com.ftl.tourisma.adapters.TimingAdapter;
@@ -57,7 +53,6 @@ import com.ftl.tourisma.models.WeekDaysModel;
 import com.ftl.tourisma.postsync.post_sync;
 import com.ftl.tourisma.utils.CommonClass;
 import com.ftl.tourisma.utils.Constants;
-import com.ftl.tourisma.utils.CustomTypefaceSpan;
 import com.ftl.tourisma.utils.JSONObjConverter;
 import com.ftl.tourisma.utils.Preference;
 import com.ftl.tourisma.utils.TimingFunction;
@@ -75,6 +70,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.BitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -87,7 +83,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static com.ftl.tourisma.utils.Constants.PlaceClosed;
 import static com.ftl.tourisma.utils.Constants.PlaceOpenFor24Hours;
 import static com.ftl.tourisma.utils.Constants.PlaceOpenWithAnyTime;
@@ -98,7 +93,11 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
 
     private static final int PLACE_LIKE_FAV = 1002;
     private static final String TAG = "FavouriteFragment";
-
+    static int mCounter = -1;
+    MainActivity mainActivity;
+    GalleryAdapter2 galleryAdapter2;
+    //Broadcast Receiver page refreshing functionality
+    MyReceiver receiver;
     private FloatingActionButton fb_favorite;
     private RecyclerView rv_favorite;
     private MapFragmentInterface mapFragmentInterface;
@@ -113,11 +112,8 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
     private SimpleDateFormat _24HourSDF, _12HourSDF;
     private String _24HourTime, _24HourTime1;
     private Date _24HourDt, _24HourDt1;
-
     private LinearLayout dotLayout_detail_my_favorite3, llEmptyLayout, ll_see_all_my_favorite3, ll_my_favourite1, ll_my_favorite3;
-
     private int pos = 0;
-
     private OnInfoWindowElemTouchListener infoButtonListener;
     private ArrayList<Nearby> nearbies1 = new ArrayList();
     private NormalTextView tv_map_location, txtSuggest, tv_my_favorite_list, tv_your_location_header5, tv_about_place_favorite, txt_add_to_fav, tv_similar_favorite, tv_see_all_favorite, tv_total_favorite, txtDailyWorkingHours, txtOpenNowVal, tv_info_my_favorite3, tv_discription_my_favorite3, tv_distance1_my_favorite3, txtStartNavigating;
@@ -127,15 +123,10 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
     private String Category_Name, Category_Id;
     private int id;
     private ImageView[] mDotsText1;
-
     private ImageView iv_back5, iv_search_favorite, iv_back_favorite, iv_search_map;
-
-    MainActivity mainActivity;
     private Handler mHandler;
     private Runnable mRunnable;
     private Nearby mNearby = new Nearby();
-    static int mCounter = -1;
-    GalleryAdapter2 galleryAdapter2;
     private Nearby nearByDetails;
     private Dialog dialog;
     private ArrayList<HourDetails> hourDetailses;
@@ -185,7 +176,6 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
         return view;
     }
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -211,6 +201,7 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
 
         txtSuggest = (NormalTextView) view.findViewById(R.id.txtSuggest);
         txtSuggest.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Suggest Location"));
+        txtSuggest.setOnClickListener(this);
 
         tv_my_favorite_list = (NormalTextView) view.findViewById(R.id.tv_my_favorite_list);
         tv_my_favorite_list.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "myfavourittitle"));
@@ -299,7 +290,6 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
             String url = Constants.SERVER_URL + "json.php?action=GetFavorites";
             String json = "[{\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mPreferences.getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mPreferences.getString("longitude2", "") + "\",\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\"}]";
             new post_sync(getActivity(), "GetFavorites", FavouriteFragment1.this, true).execute(url, json);
-
         } else {
             SnackbarManager.show((Snackbar) Snackbar.with(getActivity()).color(Utils.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "NOINTERNET")));
         }
@@ -351,6 +341,25 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
 //            startActivity(mIntent);
         } else if (v == txtDailyWorkingHours) {
             openWeekDaysPopup();
+        } else if (v == txtSuggest) {
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+//                emailIntent.setAction(Intent.ACTION_SEND);
+            emailIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@mytourisma.com"});
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "myTourisma - Suggest new location");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Hello,\n" +
+                    "\n" +
+                    "\n" +
+                    "I would like to suggest a new location for myTourisma app\n" +
+                    "\n" +
+                    "Location name:\n" +
+                    "Location:\n" +
+                    "\n" +
+                    "\n" +
+                    "\n" +
+                    "Thank you");
+            emailIntent.setType("text/plain");
+            startActivity(Intent.createChooser(emailIntent, "myTourisma"));
         }
     }
 
@@ -424,7 +433,6 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
 
         return feesArrayList;
     }
-
 
     private void setFavList() {
 //        Log.d((String) "System out", (String) ("fb_favorite size " + nearbies.size()));
@@ -513,30 +521,6 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
             Intent intent = new Intent(getActivity(), NoInternet.class);
             startActivity(intent);
             //SnackbarManager.show((Snackbar) Snackbar.with(getActivity()).color(Utils.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "NOINTERNET")));
-        }
-    }
-
-    public void deleteFavoriteResponse(String resultString) {
-//        Log.d((String) "System out", (String) resultString);
-        if (resultString.length() > 2) {
-            try {
-                String str;
-                JSONArray jsonArray = new JSONArray(resultString);
-                JSONObject jsonObject = jsonArray.optJSONObject(0);
-                if (jsonObject.has("status") && (str = jsonObject.optString("status")).equalsIgnoreCase("true")) {
-                    if (mCounter == -1) {
-                        nearbies.get(mFlag).setFav_Id("0");
-                    }
-                    mCounter = -1;
-                    mFlag = 0;
-                    SnackbarManager.show((Snackbar) Snackbar.with(getActivity()).color(Utils.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Removefavorite")));
-                    Constants.mStaticFavCall = 0;
-                    Constants.mStaticNearCall = 0;
-                    update();
-                }
-            } catch (JSONException e) {
-                // empty catch block
-            }
         }
     }
 
@@ -771,6 +755,30 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
         return spannablecontent;
     }*/
 
+    public void deleteFavoriteResponse(String resultString) {
+//        Log.d((String) "System out", (String) resultString);
+        if (resultString.length() > 2) {
+            try {
+                String str;
+                JSONArray jsonArray = new JSONArray(resultString);
+                JSONObject jsonObject = jsonArray.optJSONObject(0);
+                if (jsonObject.has("status") && (str = jsonObject.optString("status")).equalsIgnoreCase("true")) {
+                    if (mCounter == -1) {
+                        nearbies.get(mFlag).setFav_Id("0");
+                    }
+                    mCounter = -1;
+                    mFlag = 0;
+                    SnackbarManager.show((Snackbar) Snackbar.with(getActivity()).color(Utils.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Removefavorite")));
+                    Constants.mStaticFavCall = 0;
+                    Constants.mStaticNearCall = 0;
+                    update();
+                }
+            } catch (JSONException e) {
+                // empty catch block
+            }
+        }
+    }
+
     private void searchCall(String Place_Id) {
         if (CommonClass.hasInternetConnection(getActivity())) {
             String url = Constants.SERVER_URL + "json.php?action=PlaceDetails";
@@ -843,6 +851,28 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
         return timingArrayList;
     }
 
+    public void refresh() {
+        //your code in refresh.
+        Log.i("Refresh", "YES");
+    }
+
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
+    }
+
+    public void onResume() {
+        super.onResume();
+        receiver = new MyReceiver();
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver,
+                new IntentFilter("TAG_REFRESH_FAVOURITE"));
+        try {
+            recyclerAdapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void openWeekDaysPopup() {
         try {
 
@@ -907,6 +937,21 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    //Local broadcast receiver to refresh the favourites page
+    private class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            FavouriteFragment1.this.refresh();
+            if (Prefs.getInt(Constants.user_id, 0) == 0) {
+                //((MainTabHostFragment)getActivity()).switchFragment(0);
+                Toast.makeText(getActivity().getApplicationContext(), "Please login", Toast.LENGTH_LONG).show();
+            } else {
+                getFavoriteCall();
+            }
+
+        }
     }
 
     private class GalleryAdapter2 extends BaseAdapter {
@@ -1092,8 +1137,8 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
     }*/
 
     class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-        private Activity activity;
         public ViewHolder viewHolder;
+        private Activity activity;
         private int lastPostion = -1;
 
         public RecyclerAdapter(Activity activity) {
@@ -1307,12 +1352,12 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
+            LinearLayout rl_fav, rl_navigator, rl_share;
+            ProgressBar progressBar;
             private ImageView iv_nearby_explorer, imgFav;
             private NormalTextView tv_ticket, txtCategory, txtFav, txtDistance, tv_near, txtShare, tv_timing;
             private LinearLayout llView;
             private View container;
-            LinearLayout rl_fav, rl_navigator, rl_share;
-            ProgressBar progressBar;
 
             public ViewHolder(View convertView) {
                 super(convertView);

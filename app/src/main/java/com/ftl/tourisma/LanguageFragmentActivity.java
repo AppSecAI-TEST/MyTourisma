@@ -1,17 +1,15 @@
 package com.ftl.tourisma;
 
-import android.animation.ValueAnimator;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
-//import android.util.Log;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
 import com.ftl.tourisma.activity.IntroScreens;
@@ -24,12 +22,14 @@ import com.ftl.tourisma.postsync.post_sync;
 import com.ftl.tourisma.utils.CommonClass;
 import com.ftl.tourisma.utils.Constants;
 import com.ftl.tourisma.utils.Utilities;
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
+import com.github.paolorotolo.appintro.util.AppConstants;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+//import android.util.Log;
 
 /**
  * Created by fipl11111 on 22-Feb-16.
@@ -37,6 +37,8 @@ import org.json.JSONObject;
 public class LanguageFragmentActivity extends FragmentActivity implements View.OnClickListener, post_sync.ResponseHandler {
 
     private static final String TAG = LanguageFragmentActivity.class.getSimpleName();
+    Animation animFadeIn, animFadeOut;
+    Handler handler = new Handler();
     private ImageView iv_arrow_language;
     private NormalTextView button_bt_english, button_bt_russian, button_bt_arabic;
     private SharedPreferences mPreferences;
@@ -44,17 +46,6 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
     private DBAdapter dbAdapter;
     private Language language;
     private NormalTextView txtChooseLanguage;
-    Animation animFadeIn, animFadeOut;
-
-    Handler handler = new Handler();
-    Runnable runnableIn = new Runnable() {
-        @Override
-        public void run() {
-            txtChooseLanguage.startAnimation(animFadeIn);
-            handler.removeCallbacks(runnableIn);
-            handler.postDelayed(runnableOut, 3000);
-        }
-    };
     Runnable runnableOut = new Runnable() {
         @Override
         public void run() {
@@ -63,17 +54,32 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
             handler.postDelayed(runnableIn, 200);
         }
     };
+    Runnable runnableIn = new Runnable() {
+        @Override
+        public void run() {
+            txtChooseLanguage.startAnimation(animFadeIn);
+            handler.removeCallbacks(runnableIn);
+            handler.postDelayed(runnableOut, 3000);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_language);
 
-        dbAdapter = new DBAdapter(this);
+        // Initialize the Prefs class
+        new Prefs.Builder()
+                .setContext(this)
+                .setMode(ContextWrapper.MODE_PRIVATE)
+                .setPrefsName(getPackageName())
+                .setUseDefaultSharedPreference(true)
+                .build();
 
+        dbAdapter = new DBAdapter(this);
         mPreferences = getSharedPreferences(Constants.mPref, 0);
         mEditor = mPreferences.edit();
+
         mEditor.putString("language", "6").commit();
         mEditor.putString("Lan_Id", "6").commit();
 
@@ -190,13 +196,14 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
     @Override
     public void onClick(View v) {
         if (v == iv_arrow_language) {
-
             languageCall();
             /*if (mPreferences.getString("language", "").equalsIgnoreCase("6")) {
             } else {
                 SnackbarManager.show(Snackbar.with(LanguageFragmentActivity.this).color(Utilities.getColor(this,R.color.mBlue)).text("Please select english for now"));
             }*/
         } else if (v == button_bt_arabic) {
+            AppConstants.language = "arabic";
+            Constants.language = "arabic";
             mEditor.putString("language", "8").commit();
             mEditor.putString("Lan_Id", "8").commit();
             Constants.mLanguage = 8;
@@ -209,6 +216,8 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
             button_bt_arabic.setTextColor(Utilities.getColor(this, R.color.selector_white_blue));
 
         } else if (v == button_bt_russian) {
+            AppConstants.language = "russian";
+            Constants.language = "russian";
             mEditor.putString("language", "7").commit();
             mEditor.putString("Lan_Id", "7").commit();
             Constants.mLanguage = 7;
@@ -221,6 +230,8 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
             button_bt_russian.setTextColor(Utilities.getColor(this, R.color.selector_white_blue));
             button_bt_arabic.setTextColor(Utilities.getColor(this, R.color.selector_black_white));
         } else if (v == button_bt_english) {
+            AppConstants.language = "english";
+            Constants.language = "english";
             mEditor.putString("language", "6").commit();
             mEditor.putString("Lan_Id", "6").commit();
             Constants.mLanguage = 6;
@@ -251,7 +262,7 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
             String json = "";
 
 //            Log.d("System out", "GetLanguages " + json);
-            new PostSync(LanguageFragmentActivity.this, "GetLanguages",LanguageFragmentActivity.this).execute(url, json);
+            new PostSync(LanguageFragmentActivity.this, "GetLanguages", LanguageFragmentActivity.this).execute(url, json);
         } else {
             Intent intent = new Intent(getApplicationContext(), NoInternet.class);
             startActivity(intent);
@@ -286,9 +297,16 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
                     }
                     dbAdapter.close();
 
-                    Intent mIntent = new Intent(LanguageFragmentActivity.this, IntroScreens.class);
-                    startActivity(mIntent);
-                    finish();
+                    if (Prefs.getString(Constants.tutorial, "").equals("second")) {
+                        Intent mIntent = new Intent(LanguageFragmentActivity.this, SignUpLoginFragmentActivity.class);
+                        startActivity(mIntent);
+                        finish();
+                    } else {
+                        Intent mIntent = new Intent(LanguageFragmentActivity.this, IntroScreens.class);
+                        Prefs.putString(Constants.tutorial, "second");
+                        startActivity(mIntent);
+                        finish();
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();

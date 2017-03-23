@@ -2,23 +2,15 @@ package com.ftl.tourisma.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Point;
-import android.location.Location;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -43,22 +35,15 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.daimajia.slider.library.Transformers.BaseTransformer;
-import com.ftl.tourisma.BeaconsActivity;
 import com.ftl.tourisma.FullPlaceImageViewActivity;
-import com.ftl.tourisma.LoginFragmentActivity;
 import com.ftl.tourisma.MapDetailFragment;
 import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
-import com.ftl.tourisma.SearchActivity;
-import com.ftl.tourisma.SearchResultPlaceDetailsActivity;
-import com.ftl.tourisma.SelectLocationFragmentActivity;
 import com.ftl.tourisma.ShareFragmentActivity;
-import com.ftl.tourisma.SignupFragmentActivity;
 import com.ftl.tourisma.SimpleVrPanoramaActivity;
 import com.ftl.tourisma.adapters.TimingAdapter;
 import com.ftl.tourisma.custom_views.NormalBoldTextView;
 import com.ftl.tourisma.custom_views.NormalTextView;
-import com.ftl.tourisma.database.FeesDetails;
 import com.ftl.tourisma.database.Nearby;
 import com.ftl.tourisma.models.HourDetails;
 import com.ftl.tourisma.models.WeekDaysModel;
@@ -93,20 +78,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_ENTERED;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_ENTRY_TEXT;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_EXITED;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_EXIT_TEXT;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_IS_CLOSE_PROMO;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_MESSAGE;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_NEAR_BY;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_NEAR_BY_TEXT;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BROADCAST_BEACON;
-import static com.ftl.tourisma.beacons.MyBeaconsService.PLACE_ID;
-import static com.ftl.tourisma.beacons.MyBeaconsService.PLACE_IMAGE;
 import static com.ftl.tourisma.utils.Constants.PlaceClosed;
 import static com.ftl.tourisma.utils.Constants.PlaceOpenFor24Hours;
 import static com.ftl.tourisma.utils.Constants.PlaceOpenWithAnyTime;
@@ -118,8 +91,11 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
 
     private static final int PLACE_LIKE_SEARCH = 1003;
     private static final String TAG = "SearchResultFragment";
-    private ImageView iv_back_search_result;
+    static int mCounter = -1;
     private static ArrayList<Nearby> nearbies = new ArrayList<>();
+    private static String search;
+    GalleryAdapter2 galleryAdapter2;
+    private ImageView iv_back_search_result;
     private ArrayList<Nearby> nearbies1 = new ArrayList<>();
     private DisplayImageOptions options, options2, optionsSimple;
     private ImageLoader imageLoader = ImageLoader.getInstance();
@@ -140,12 +116,10 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
     private String[] strImg1;
     private int id1;
     private LinearLayout ll_search_result, llEmptyLayout11, listView_fees, ll_search_result1, ll_search_result2;
-
     private FloatingActionButton fab_search_result;
     private Double latitude, longitude;
     private int pos = 0;
     private Marker marker;
-    private static String search;
     private NormalTextView tv_map_location;
     private int mFlag = 0;
     private ImageView iv_search_result, imgDownArrow, iv_search_map;
@@ -155,11 +129,8 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
     private ImageView[] mDotsText1;
     private Nearby mNearby = new Nearby();
     private int like;
-    static int mCounter = -1;
     private Dialog dialog;
     private ArrayList<HourDetails> hourDetailses;
-    GalleryAdapter2 galleryAdapter2;
-
     private NormalTextView tv_similar_explore, txtSuggestPlace, txtStartNavigating;
 
     private Nearby nearByDetails;
@@ -254,8 +225,8 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
             fab_search_result.setVisibility(View.VISIBLE);
         } else {
             rv_search_result.setVisibility(View.GONE);
-            llEmptyLayout11.setVisibility(View.VISIBLE);
-            SnackbarManager.show(Snackbar.with(getActivity()).color(getResources().getColor(R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "NORECORD")));
+//            llEmptyLayout11.setVisibility(View.VISIBLE);
+//            SnackbarManager.show(Snackbar.with(getActivity()).color(getResources().getColor(R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "NORECORD")));
         }
 
         return view;
@@ -456,7 +427,25 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
     }
 
     public void suggestPlace() {
-        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+//                emailIntent.setAction(Intent.ACTION_SEND);
+        emailIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@mytourisma.com"});
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "myTourisma - Suggest new location");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Hello,\n" +
+                "\n" +
+                "\n" +
+                "I would like to suggest a new location for myTourisma app\n" +
+                "\n" +
+                "Location name:\n" +
+                "Location:\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "Thank you");
+        emailIntent.setType("text/plain");
+        startActivity(Intent.createChooser(emailIntent, "myTourisma"));
+        /*Intent sendIntent = new Intent(Intent.ACTION_VIEW);
         sendIntent.setType("text/plain");
         sendIntent.setData(Uri.parse("info@mytourisma.com"));
 //        sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
@@ -482,7 +471,7 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
         if (best != null)
             sendIntent.setClassName(best.activityInfo.packageName, best.activityInfo.name);
 
-        startActivity(sendIntent);
+        startActivity(sendIntent);*/
     }
 
     @Override
@@ -499,225 +488,6 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
             }
         } catch (Exception e) {
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
-        }
-    }
-
-    class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-        private Activity activity;
-        public ViewHolder viewHolder;
-        private int lastPostion = -1;
-
-        public RecyclerAdapter(Activity activity) {
-            this.activity = activity;
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-            LayoutInflater inflater = activity.getLayoutInflater();
-            View view = inflater.inflate(R.layout.search_result_adapter, viewGroup, false);
-            viewHolder = new ViewHolder(view);
-            return viewHolder;
-        }
-
-        @Override
-        public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-            viewHolder.txtShare.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Share"));
-            viewHolder.txtFav.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Favourite"));
-            String imageURL = Constants.IMAGE_URL + nearbies.get(position).getPlace_MainImage() + "&w=" + (width - 30);
-//            Log.d("System out", imageURL);
-            viewHolder.iv_nearby_explorer.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (height * 60) / 100));
-//            imageLoader.displayImage(imageURL, viewHolder.iv_nearby_explorer, options);
-            Picasso.with(getActivity()).load(imageURL).
-                    resize(width, (height * 60) / 100)
-                    .into(viewHolder.iv_nearby_explorer);
-            viewHolder.tv_near.setText(nearbies.get(position).getPlace_Name());
-            viewHolder.txtCategory.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Category") + ": " + nearbies.get(position).getCategory_Name());
-
-            viewHolder.llView.setId(position);
-            viewHolder.llView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    id1 = v.getId();
-//
-                    if (mainActivity.mainTabHostFragment.vpFragment.getCurrentItem() == 1) {
-                        mainActivity.favouriteFragment.replacePlaceDetailsFragment(nearbies.get(id1).getPlace_Id(), tv_map_location.getText().toString());
-                    } else {
-                        mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(nearbies.get(id1).getPlace_Id(), tv_map_location.getText().toString());
-                    }
-                    mNearby = nearbies.get(v.getId());
-                }
-            });
-            viewHolder.iv_nearby_explorer.setId(position);
-            viewHolder.iv_nearby_explorer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    id1 = v.getId();
-
-                    if (mainActivity.mainTabHostFragment.vpFragment.getCurrentItem() == 1) {
-                        mainActivity.favouriteFragment.replacePlaceDetailsFragment(nearbies.get(id1).getPlace_Id(), tv_map_location.getText().toString());
-                    } else {
-                        mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(nearbies.get(id1).getPlace_Id(), tv_map_location.getText().toString());
-                    }
-                    mNearby = nearbies.get(v.getId());
-
-                }
-            });
-
-            if (nearbies.get(position).getFav_Id().equalsIgnoreCase("0")) {
-                viewHolder.iv_favorite.setActivated(false);
-            } else {
-                viewHolder.iv_favorite.setActivated(true);
-            }
-
-            viewHolder.rl_share.setId(position);
-            viewHolder.rl_share.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Intent mIntent = new Intent(getActivity(), ShareFragmentActivity.class);
-                    String share1 = Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "share1");
-                    String share2 = Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "share2");
-                    String share3 = Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "share3");
-
-                    mIntent.putExtra("myMsg", share1 + " \"" + mPreferences.getString("User_Name", "") + "\" " + share2 + " \"" + nearbies.get(v.getId()).getPlace_Name() + "\" " + share3);
-                    startActivity(mIntent);
-//                        Intent intent = new Intent(Intent.ACTION_SEND);
-//                        intent.setType("text/plain");
-//                        startActivity(Intent.createChooser(intent, "Share with"));
-                }
-            });
-
-            viewHolder.rl_navigator.setId(position);
-
-            //TOdo
-            viewHolder.rl_navigator.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f", Double.parseDouble(mPreferences.getString("latitude1", "")), Double.parseDouble(mPreferences.getString("longitude1", "")), Double.parseDouble(nearbies.get(position).getPlace_Latitude()), Double.parseDouble(nearbies.get(position).getPlace_Longi()));
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                    intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
-                    startActivity(intent);
-                    // Utilities.toast(SearchResultFragmentActivity.this, "In-Progress -> It will Navaigate on google map");
-                }
-            });
-            viewHolder.iv_favorite.setId(position);
-            viewHolder.iv_favorite.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mPreferences.getString("User_Id", "").equalsIgnoreCase("0")) {
-                        ((MainActivity) getActivity()).guestSnackToast();
-                    } else {
-                        for (int j = 0; j < nearbies.size(); j++) {
-                            if (v.getId() == j) {
-                                if (nearbies.get(j).getFav_Id().equalsIgnoreCase("0")) {
-                                    viewHolder.iv_favorite.setActivated(true);
-                                    addFavoriteCall(nearbies.get(j).getPlace_Id());
-                                    mFlag = j;
-                                } else {
-                                    viewHolder.iv_favorite.setActivated(false);
-                                    deleteFavoriteCall(nearbies.get(j).getFav_Id());
-                                    mFlag = j;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-
-            int dayFoundStatus = 0; //0 -> closed - 2-> open for 24 hours  1-> updated
-            boolean isTicketSet = false;
-            if (nearbies.get(position).getHourDetailsArrayList() != null && nearbies.get(position).getHourDetailsArrayList().size() > 0) {
-                for (HourDetails hourDetails : nearbies.get(position).getHourDetailsArrayList()) {
-                    if (hourDetails.getPOHKey().equals(Utils.getCurrentDay())) {
-                        if (hourDetails.getPOHIsOpen().equals(PlaceClosed)) {
-                            dayFoundStatus = 0;
-                        } else if (hourDetails.getPOHIsOpen().equals(PlaceOpenFor24Hours)) {
-                            dayFoundStatus = 2;
-                        } else if (hourDetails.getPOHIsOpen().equals(PlaceOpenWithAnyTime)) {
-                            _24HourTime = hourDetails.getPOHStartTime();
-                            _24HourTime1 = hourDetails.getPOHEndTime();
-                            _24HourDt = null;
-                            _24HourDt1 = null;
-                            if (_24HourTime != null && !_24HourTime.equalsIgnoreCase("NULL")) {
-                                try {
-                                    _24HourDt = _24HourSDF.parse(_24HourTime);
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            if (_24HourTime1 != null && !_24HourTime1.equalsIgnoreCase("NULL")) {
-                                try {
-                                    _24HourDt1 = _24HourSDF.parse(_24HourTime1);
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            if (_24HourDt != null && _24HourDt1 != null) {
-                                viewHolder.tv_timing.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Timing") + ": " + _24HourSDF.format(_24HourDt) + " " + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "TO") + " " + _24HourSDF.format(_24HourDt1));
-                            } else {
-                                viewHolder.tv_timing.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Timing") + ": -");
-                                dayFoundStatus = 1;
-                            }
-                        }
-
-                        if (hourDetails.getPOHCharges() != null && !hourDetails.getPOHCharges().equals("") && !hourDetails.getPOHCharges().equalsIgnoreCase("null")) {
-                            isTicketSet = true;
-                            viewHolder.tv_ticket.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tickets") + ": " + hourDetails.getPOHCharges());
-                        }
-                        break;
-                    } else {
-                        viewHolder.tv_timing.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Timing") + ": -");
-                        dayFoundStatus = 1;
-                    }
-                }
-            }
-            if (dayFoundStatus == 2) {
-                viewHolder.tv_timing.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Timing") + ": " + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Open Now"));
-
-                // txtOpenNowVal.setText("");
-            } else if (dayFoundStatus == 0) {
-                viewHolder.tv_timing.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Timing") + ": " + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Closed"));
-//                    txtOpenNowVal.setText("");
-            }
-            if (!isTicketSet) {
-                viewHolder.tv_ticket.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tickets") + ": -");
-            }
-
-            viewHolder.tv_distance.setText(nearbies.get(position).getDistance() + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return nearbies.size();
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-
-            private ImageView iv_nearby_explorer;
-            private ImageView iv_favorite;
-            private NormalTextView tv_ticket, tv_distance, txtCategory, txtFav, txtDistance, tv_near, txtShare, tv_timing;
-            private LinearLayout rl_share, rl_navigator, rl_fav;
-            private LinearLayout llView;
-            private View container;
-
-            public ViewHolder(View convertView) {
-                super(convertView);
-                iv_nearby_explorer = (ImageView) convertView.findViewById(R.id.iv_nearby_explorer);
-                iv_favorite = (ImageView) convertView.findViewById(R.id.imgFav);
-                tv_near = (NormalTextView) convertView.findViewById(R.id.tv_near);
-                txtCategory = (NormalTextView) convertView.findViewById(R.id.txtCategory);
-                tv_timing = (NormalTextView) convertView.findViewById(R.id.tv_timing);
-                tv_ticket = (NormalTextView) convertView.findViewById(R.id.tv_ticket);
-                tv_distance = (NormalTextView) convertView.findViewById(R.id.txtDistance);
-                llView = (LinearLayout) convertView.findViewById(R.id.llView);
-                rl_share = (LinearLayout) convertView.findViewById(R.id.rl_share);
-                rl_navigator = (LinearLayout) convertView.findViewById(R.id.rl_navigator);
-                rl_fav = (LinearLayout) convertView.findViewById(R.id.rl_fav);
-                txtShare = (NormalTextView) convertView.findViewById(R.id.txtShare);
-                txtFav = (NormalTextView) convertView.findViewById(R.id.txtFav);
-            }
         }
     }
 
@@ -911,7 +681,6 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
 
     }
 
-
     private SpannableStringBuilder getSpannableString(String s, boolean isBold) {
 //        Typeface font = Typeface.createFromAsset(getAssets(), "Akshar.ttf");
         SpannableStringBuilder spannablecontent = new SpannableStringBuilder(s);
@@ -923,7 +692,6 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
                     0, spannablecontent.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         return spannablecontent;
     }
-
 
     private void searchCall(String Place_Id) {
         if (CommonClass.hasInternetConnection(getActivity())) {
@@ -1060,80 +828,6 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
         return timingArrayList;
     }
 
-
-    private class GalleryAdapter2 extends BaseAdapter {
-        Context context;
-
-        public GalleryAdapter2(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        public int getCount() {
-            return nearbies1.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            LayoutInflater mLayoutInflater;
-            mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = mLayoutInflater.inflate(R.layout.detail_gallery, parent, false);
-            final ImageView iv_detail = (ImageView) convertView.findViewById(R.id.iv_detail);
-            final NormalTextView tv_name = (NormalTextView) convertView.findViewById(R.id.tv_name);
-            final NormalTextView tv_km = (NormalTextView) convertView.findViewById(R.id.tv_km);
-            final LinearLayout llView = (LinearLayout) convertView.findViewById(R.id.llView);
-            final RelativeLayout rlMain = (RelativeLayout) convertView.findViewById(R.id.rlMain);
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) rlMain.getLayoutParams();
-            int widthofImage = (width * 50) / 100;
-            layoutParams.width = widthofImage;
-            layoutParams.height = layoutParams.width;
-            rlMain.setLayoutParams(layoutParams);
-
-            tv_name.setText(nearbies1.get(position).getPlace_Name());
-            tv_km.setText(nearbies1.get(position).getDistance() + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
-
-           /* double d=Utilities.GetRoutDistane(Double.parseDouble(mPreferences.getString("latitude2", "")), Double.parseDouble(mPreferences.getString("longitude2", "")), Double.parseDouble(nearbies1.get(position).getPlace_Latitude()), Double.parseDouble(nearbies1.get(position).getPlace_Longi()),nearbies1.get(position).getDist());
-
-            if(d!=-1){
-                tv_km.setText(d + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
-
-            }*/
-            String imageUrl = Constants.IMAGE_URL + nearbies1.get(position).getPlace_MainImage() + "&w=" + (width - 30);
-
-            Picasso.with(getActivity()) //
-                    .load(imageUrl) //
-                    .resize(widthofImage, widthofImage)
-                    .into(iv_detail);
-
-            gv_detail1_search_result2.setOnItemClickListener(new com.ftl.tourisma.gallery1.AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(com.ftl.tourisma.gallery1.AdapterView<?> parent, View view, int position, long id) {
-                    id1 = position;
-                    if (mHandler != null) {
-                        mHandler.removeCallbacks(mRunnable);
-                    }
-                    setDetailInfo(nearbies1.get(position));
-                    mNearby = nearbies1.get(position);
-                }
-            });
-
-            Log.i("System out", imageUrl);
-            //  imageLoader2.displayImage(imageUrl, iv_detail, optionsSimple);
-
-            return convertView;
-        }
-    }
-
     private void addFavoriteCall(String Place_Id) {
         if (CommonClass.hasInternetConnection(getActivity())) {
             String url = Constants.SERVER_URL + "json.php?action=AddFavorite";
@@ -1213,5 +907,296 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
         }
     }
 
+    class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+        public ViewHolder viewHolder;
+        private Activity activity;
+        private int lastPostion = -1;
+
+        public RecyclerAdapter(Activity activity) {
+            this.activity = activity;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+            LayoutInflater inflater = activity.getLayoutInflater();
+            View view = inflater.inflate(R.layout.search_result_adapter, viewGroup, false);
+            viewHolder = new ViewHolder(view);
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
+            viewHolder.txtShare.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Share"));
+            viewHolder.txtFav.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Favourite"));
+            String imageURL = Constants.IMAGE_URL + nearbies.get(position).getPlace_MainImage() + "&w=" + (width - 30);
+//            Log.d("System out", imageURL);
+            viewHolder.iv_nearby_explorer.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (height * 60) / 100));
+//            imageLoader.displayImage(imageURL, viewHolder.iv_nearby_explorer, options);
+            Picasso.with(getActivity()).load(imageURL).
+                    resize(width, (height * 60) / 100)
+                    .into(viewHolder.iv_nearby_explorer);
+            viewHolder.tv_near.setText(nearbies.get(position).getPlace_Name());
+            viewHolder.txtCategory.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Category") + ": " + nearbies.get(position).getCategory_Name());
+
+            viewHolder.llView.setId(position);
+            viewHolder.llView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    id1 = v.getId();
+//
+                    if (mainActivity.mainTabHostFragment.vpFragment.getCurrentItem() == 1) {
+                        mainActivity.favouriteFragment.replacePlaceDetailsFragment(nearbies.get(id1).getPlace_Id(), tv_map_location.getText().toString());
+                    } else {
+                        mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(nearbies.get(id1).getPlace_Id(), tv_map_location.getText().toString());
+                    }
+                    mNearby = nearbies.get(v.getId());
+                }
+            });
+            viewHolder.iv_nearby_explorer.setId(position);
+            viewHolder.iv_nearby_explorer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    id1 = v.getId();
+
+                    if (mainActivity.mainTabHostFragment.vpFragment.getCurrentItem() == 1) {
+                        mainActivity.favouriteFragment.replacePlaceDetailsFragment(nearbies.get(id1).getPlace_Id(), tv_map_location.getText().toString());
+                    } else {
+                        mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(nearbies.get(id1).getPlace_Id(), tv_map_location.getText().toString());
+                    }
+                    mNearby = nearbies.get(v.getId());
+
+                }
+            });
+
+            if (nearbies.get(position).getFav_Id().equalsIgnoreCase("0")) {
+                viewHolder.iv_favorite.setActivated(false);
+            } else {
+                viewHolder.iv_favorite.setActivated(true);
+            }
+
+            viewHolder.rl_share.setId(position);
+            viewHolder.rl_share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent mIntent = new Intent(getActivity(), ShareFragmentActivity.class);
+                    String share1 = Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "share1");
+                    String share2 = Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "share2");
+                    String share3 = Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "share3");
+
+                    mIntent.putExtra("myMsg", share1 + " \"" + mPreferences.getString("User_Name", "") + "\" " + share2 + " \"" + nearbies.get(v.getId()).getPlace_Name() + "\" " + share3);
+                    startActivity(mIntent);
+//                        Intent intent = new Intent(Intent.ACTION_SEND);
+//                        intent.setType("text/plain");
+//                        startActivity(Intent.createChooser(intent, "Share with"));
+                }
+            });
+
+            viewHolder.rl_navigator.setId(position);
+
+            //TOdo
+            viewHolder.rl_navigator.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f", Double.parseDouble(mPreferences.getString("latitude1", "")), Double.parseDouble(mPreferences.getString("longitude1", "")), Double.parseDouble(nearbies.get(position).getPlace_Latitude()), Double.parseDouble(nearbies.get(position).getPlace_Longi()));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                    intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                    startActivity(intent);
+                    // Utilities.toast(SearchResultFragmentActivity.this, "In-Progress -> It will Navaigate on google map");
+                }
+            });
+            viewHolder.iv_favorite.setId(position);
+            viewHolder.iv_favorite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mPreferences.getString("User_Id", "").equalsIgnoreCase("0")) {
+                        ((MainActivity) getActivity()).guestSnackToast();
+                    } else {
+                        for (int j = 0; j < nearbies.size(); j++) {
+                            if (v.getId() == j) {
+                                if (nearbies.get(j).getFav_Id().equalsIgnoreCase("0")) {
+                                    viewHolder.iv_favorite.setActivated(true);
+                                    addFavoriteCall(nearbies.get(j).getPlace_Id());
+                                    mFlag = j;
+                                } else {
+                                    viewHolder.iv_favorite.setActivated(false);
+                                    deleteFavoriteCall(nearbies.get(j).getFav_Id());
+                                    mFlag = j;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+
+            int dayFoundStatus = 0; //0 -> closed - 2-> open for 24 hours  1-> updated
+            boolean isTicketSet = false;
+            if (nearbies.get(position).getHourDetailsArrayList() != null && nearbies.get(position).getHourDetailsArrayList().size() > 0) {
+                for (HourDetails hourDetails : nearbies.get(position).getHourDetailsArrayList()) {
+                    if (hourDetails.getPOHKey().equals(Utils.getCurrentDay())) {
+                        if (hourDetails.getPOHIsOpen().equals(PlaceClosed)) {
+                            dayFoundStatus = 0;
+                        } else if (hourDetails.getPOHIsOpen().equals(PlaceOpenFor24Hours)) {
+                            dayFoundStatus = 2;
+                        } else if (hourDetails.getPOHIsOpen().equals(PlaceOpenWithAnyTime)) {
+                            _24HourTime = hourDetails.getPOHStartTime();
+                            _24HourTime1 = hourDetails.getPOHEndTime();
+                            _24HourDt = null;
+                            _24HourDt1 = null;
+                            if (_24HourTime != null && !_24HourTime.equalsIgnoreCase("NULL")) {
+                                try {
+                                    _24HourDt = _24HourSDF.parse(_24HourTime);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (_24HourTime1 != null && !_24HourTime1.equalsIgnoreCase("NULL")) {
+                                try {
+                                    _24HourDt1 = _24HourSDF.parse(_24HourTime1);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (_24HourDt != null && _24HourDt1 != null) {
+                                viewHolder.tv_timing.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Timing") + ": " + _24HourSDF.format(_24HourDt) + " " + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "TO") + " " + _24HourSDF.format(_24HourDt1));
+                            } else {
+                                viewHolder.tv_timing.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Timing") + ": -");
+                                dayFoundStatus = 1;
+                            }
+                        }
+
+                        if (hourDetails.getPOHCharges() != null && !hourDetails.getPOHCharges().equals("") && !hourDetails.getPOHCharges().equalsIgnoreCase("null")) {
+                            isTicketSet = true;
+                            viewHolder.tv_ticket.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tickets") + ": " + hourDetails.getPOHCharges());
+                        }
+                        break;
+                    } else {
+                        viewHolder.tv_timing.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Timing") + ": -");
+                        dayFoundStatus = 1;
+                    }
+                }
+            }
+            if (dayFoundStatus == 2) {
+                viewHolder.tv_timing.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Timing") + ": " + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Open Now"));
+
+                // txtOpenNowVal.setText("");
+            } else if (dayFoundStatus == 0) {
+                viewHolder.tv_timing.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Timing") + ": " + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Closed"));
+//                    txtOpenNowVal.setText("");
+            }
+            if (!isTicketSet) {
+                viewHolder.tv_ticket.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tickets") + ": -");
+            }
+
+//            viewHolder.tv_distance.setText(nearbies.get(position).getDistance() + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
+            viewHolder.tv_distance.setText(Utilities.GetRoutDistane(Double.parseDouble(mPreferences.getString("latitude2", "")), Double.parseDouble(mPreferences.getString("longitude2", "")), Double.parseDouble(nearbies.get(position).getPlace_Latitude()), Double.parseDouble(nearbies.get(position).getPlace_Longi()), nearbies.get(position).getDist()) + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
+        }
+
+        @Override
+        public int getItemCount() {
+            return nearbies.size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+
+            private ImageView iv_nearby_explorer;
+            private ImageView iv_favorite;
+            private NormalTextView tv_ticket, tv_distance, txtCategory, txtFav, txtDistance, tv_near, txtShare, tv_timing;
+            private LinearLayout rl_share, rl_navigator, rl_fav;
+            private LinearLayout llView;
+            private View container;
+
+            public ViewHolder(View convertView) {
+                super(convertView);
+                iv_nearby_explorer = (ImageView) convertView.findViewById(R.id.iv_nearby_explorer);
+                iv_favorite = (ImageView) convertView.findViewById(R.id.imgFav);
+                tv_near = (NormalTextView) convertView.findViewById(R.id.tv_near);
+                txtCategory = (NormalTextView) convertView.findViewById(R.id.txtCategory);
+                tv_timing = (NormalTextView) convertView.findViewById(R.id.tv_timing);
+                tv_ticket = (NormalTextView) convertView.findViewById(R.id.tv_ticket);
+                tv_distance = (NormalTextView) convertView.findViewById(R.id.txtDistance);
+                llView = (LinearLayout) convertView.findViewById(R.id.llView);
+                rl_share = (LinearLayout) convertView.findViewById(R.id.rl_share);
+                rl_navigator = (LinearLayout) convertView.findViewById(R.id.rl_navigator);
+                rl_fav = (LinearLayout) convertView.findViewById(R.id.rl_fav);
+                txtShare = (NormalTextView) convertView.findViewById(R.id.txtShare);
+                txtFav = (NormalTextView) convertView.findViewById(R.id.txtFav);
+            }
+        }
+    }
+
+    private class GalleryAdapter2 extends BaseAdapter {
+        Context context;
+
+        public GalleryAdapter2(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return nearbies1.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            LayoutInflater mLayoutInflater;
+            mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = mLayoutInflater.inflate(R.layout.detail_gallery, parent, false);
+            final ImageView iv_detail = (ImageView) convertView.findViewById(R.id.iv_detail);
+            final NormalTextView tv_name = (NormalTextView) convertView.findViewById(R.id.tv_name);
+            final NormalTextView tv_km = (NormalTextView) convertView.findViewById(R.id.tv_km);
+            final LinearLayout llView = (LinearLayout) convertView.findViewById(R.id.llView);
+            final RelativeLayout rlMain = (RelativeLayout) convertView.findViewById(R.id.rlMain);
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) rlMain.getLayoutParams();
+            int widthofImage = (width * 50) / 100;
+            layoutParams.width = widthofImage;
+            layoutParams.height = layoutParams.width;
+            rlMain.setLayoutParams(layoutParams);
+
+            tv_name.setText(nearbies1.get(position).getPlace_Name());
+            tv_km.setText(nearbies1.get(position).getDistance() + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
+
+           /* double d=Utilities.GetRoutDistane(Double.parseDouble(mPreferences.getString("latitude2", "")), Double.parseDouble(mPreferences.getString("longitude2", "")), Double.parseDouble(nearbies1.get(position).getPlace_Latitude()), Double.parseDouble(nearbies1.get(position).getPlace_Longi()),nearbies1.get(position).getDist());
+
+            if(d!=-1){
+                tv_km.setText(d + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
+
+            }*/
+            String imageUrl = Constants.IMAGE_URL + nearbies1.get(position).getPlace_MainImage() + "&w=" + (width - 30);
+
+            Picasso.with(getActivity()) //
+                    .load(imageUrl) //
+                    .resize(widthofImage, widthofImage)
+                    .into(iv_detail);
+
+            gv_detail1_search_result2.setOnItemClickListener(new com.ftl.tourisma.gallery1.AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(com.ftl.tourisma.gallery1.AdapterView<?> parent, View view, int position, long id) {
+                    id1 = position;
+                    if (mHandler != null) {
+                        mHandler.removeCallbacks(mRunnable);
+                    }
+                    setDetailInfo(nearbies1.get(position));
+                    mNearby = nearbies1.get(position);
+                }
+            });
+
+            Log.i("System out", imageUrl);
+            //  imageLoader2.displayImage(imageUrl, iv_detail, optionsSimple);
+
+            return convertView;
+        }
+    }
 
 }

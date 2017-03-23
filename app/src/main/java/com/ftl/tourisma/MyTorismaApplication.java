@@ -18,6 +18,10 @@ public class MyTorismaApplication extends MultiDexApplication {
     public static Context context;
     public static MyTypeFace typeFace;
 
+    public static Context getContext() {
+        return context;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -25,10 +29,6 @@ public class MyTorismaApplication extends MultiDexApplication {
         typeFace = new MyTypeFace(context);
         Fabric.with(getApplicationContext(), new Crashlytics());
         startService(new Intent(this, MyBeaconsService.class));
-
     }
 
-    public static Context getContext() {
-        return context;
-    }
 }

@@ -19,16 +19,16 @@
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
         android:gravity="center"
-        android:text="Allow My Tourisma to access your GPS"
-        android:textColor="#000000"
-        android:textSize="16sp" />
+        android:text="We will use your location only to show you the nearest places on the map, for directions and nearby search results."
+        android:textColor="#ababab"
+        android:textSize="12sp" />
 
     <ImageView
         android:id="@+id/btm_img"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_alignParentBottom="true"
-        android:background="#0170CC"
+        android:background="#0070cd"
         android:scaleType="fitXY" />
 
     <ImageView
@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
-        android:background="#0170CC"
+        android:background="#0070cd"
         android:scaleType="fitXY" />
 
     <TextView
@@ -45,10 +45,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="Locations"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
+        android:text="YOUR LOCATION"
         android:textColor="#ffffff"
-        android:textSize="20sp" />
+        android:textSize="13sp" />
 
 </RelativeLayout>

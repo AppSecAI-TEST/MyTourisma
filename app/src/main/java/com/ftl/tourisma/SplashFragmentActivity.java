@@ -2,9 +2,6 @@ package com.ftl.tourisma;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -18,9 +15,6 @@ import android.widget.ScrollView;
 import com.ftl.tourisma.activity.MainActivity;
 import com.ftl.tourisma.utils.Constants;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 /**
  * Created by fipl11111 on 22-Feb-16.
  */
@@ -33,7 +27,6 @@ public class SplashFragmentActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
         setContentView(R.layout.activity_splash);
         final Bundle bundle = getIntent().getExtras();
         mPreferences = getSharedPreferences(Constants.mPref, 0);

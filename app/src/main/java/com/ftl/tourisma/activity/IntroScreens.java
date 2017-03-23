@@ -1,19 +1,23 @@
 package com.ftl.tourisma.activity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.ftl.tourisma.R;
 import com.ftl.tourisma.SignUpLoginFragmentActivity;
+import com.ftl.tourisma.utils.Constants;
 import com.github.paolorotolo.appintro.AppIntro;
 
 /**
@@ -59,6 +63,7 @@ public class IntroScreens extends AppIntro {
         return inSampleSize;
     }
 
+
     @Override
     public void init(Bundle savedInstanceState) {
         addSlide(new firstSlide());
@@ -71,9 +76,64 @@ public class IntroScreens extends AppIntro {
     @Override
     public void onSkipPressed() {
         if (noOfTimesCalled % 2 == 0) {
-            Intent in = new Intent(IntroScreens.this, SignUpLoginFragmentActivity.class);
-            startActivity(in);
-            finish();
+            if (Constants.language.equals("arabic")) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("إذا تخطيت قد تكون الأذونات أنه سوف يؤثر على نشاط التطبيق الخاص بك بعد أن كنت بحاجة إلى إذن نشاطا يدويا من إعداد الجهاز. لالاستمرار في السماح أذونات، انقر على متابعة أو لقريب زر إغلاق الصحف وصول إذن.")
+                        .setCancelable(false)
+                        .setPositiveButton("استمر", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton("قريب", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent in = new Intent(IntroScreens.this, SignUpLoginFragmentActivity.class);
+                                startActivity(in);
+                                finish();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.setTitle("هل ترغب بالتأكيد في تخطي للحصول على إذن؟");
+                alert.show();
+            } else if (Constants.language.equals("russian")) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Если пропустить permissons может быть, это будет влиять на вашу активность приложения afterthat необходимо активное разрешение вручную из устройства setting.For продолжают разрешать разрешения нажмите продолжить или для непосредственной печати доступа разрешение кнопка закрытия окна.")
+                        .setCancelable(false)
+                        .setPositiveButton("Продолжать", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton("Закрыть", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent in = new Intent(IntroScreens.this, SignUpLoginFragmentActivity.class);
+                                startActivity(in);
+                                finish();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.setTitle("Вы уверены, что хотите пропустить разрешения?");
+                alert.show();
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("If you skip the permissons may be it will effect your application activity after that you need to active permission manually from device setting. For continue to allow permissions click on continue or for close permission access press close button.")
+                        .setCancelable(false)
+                        .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent in = new Intent(IntroScreens.this, SignUpLoginFragmentActivity.class);
+                                startActivity(in);
+                                finish();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.setTitle("Are you sure wish to skip for permission?");
+                alert.show();
+            }
         }
         noOfTimesCalled++;
     }
@@ -112,14 +172,23 @@ public class IntroScreens extends AppIntro {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.intro_location, container, false);
+            TextView location_txt = (TextView) v.findViewById(R.id.location_txt);
+            TextView loc_txt = (TextView) v.findViewById(R.id.loc_txt);
+            if (Constants.language.equals("arabic")) {
+                location_txt.setText("مواقع");
+                loc_txt.setText(getResources().getString(R.string.tutorial_location_txt_arabic));
+            } else if (Constants.language.equals("russian")) {
+                location_txt.setText("Ваше местоположение");
+                loc_txt.setText(getResources().getString(R.string.tutorial_location_txt_russian));
+            }
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            BitmapFactory.decodeResource(getResources(), R.drawable.location_intro, options);
+            BitmapFactory.decodeResource(getResources(), R.drawable.location_new, options);
             int imageHeight = options.outHeight;
             int imageWidth = options.outWidth;
             String imageType = options.outMimeType;
             ImageView mImageView = (ImageView) v.findViewById(R.id.location_img);
-            Bitmap bitmap = decodeSampledBitmapFromResource(getResources(), R.drawable.location_intro, imageWidth, imageHeight);
+            Bitmap bitmap = decodeSampledBitmapFromResource(getResources(), R.drawable.location_new, imageWidth, imageHeight);
             mImageView.setImageBitmap(bitmap);
             return v;
         }
@@ -135,14 +204,23 @@ public class IntroScreens extends AppIntro {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.intro_notification, container, false);
+            TextView notify_txt = (TextView) v.findViewById(R.id.notify_txt);
+            TextView notification_txt = (TextView) v.findViewById(R.id.notification_txt);
+            if (Constants.language.equals("arabic")) {
+                notify_txt.setText("إخطارات");
+                notification_txt.setText(getResources().getString(R.string.tutorial_notification_txt_arabic));
+            } else if (Constants.language.equals("russian")) {
+                notify_txt.setText("Уведомления");
+                notification_txt.setText(getResources().getString(R.string.tutorial_notification_txt_russian));
+            }
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            BitmapFactory.decodeResource(getResources(), R.drawable.notification_intro, options);
+            BitmapFactory.decodeResource(getResources(), R.drawable.notifications_new, options);
             int imageHeight = options.outHeight;
             int imageWidth = options.outWidth;
             String imageType = options.outMimeType;
             ImageView mImageView = (ImageView) v.findViewById(R.id.notification_img);
-            Bitmap bitmap = decodeSampledBitmapFromResource(getResources(), R.drawable.notification_intro, imageWidth, imageHeight);
+            Bitmap bitmap = decodeSampledBitmapFromResource(getResources(), R.drawable.notifications_new, imageWidth, imageHeight);
             mImageView.setImageBitmap(bitmap);
             return v;
         }
@@ -158,14 +236,23 @@ public class IntroScreens extends AppIntro {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.intro_bluetooth, container, false);
+            TextView blue_txt = (TextView) v.findViewById(R.id.blue_txt);
+            TextView bluetooth_txt = (TextView) v.findViewById(R.id.bluetooth_txt);
+            if (Constants.language.equals("arabic")) {
+                blue_txt.setText("بلوتوث");
+                bluetooth_txt.setText(getResources().getString(R.string.tutorial_bluetooth_txt_arabic));
+            } else if (Constants.language.equals("russian")) {
+                blue_txt.setText("Bluetooth");
+                bluetooth_txt.setText(getResources().getString(R.string.tutorial_bluetooth_txt_russian));
+            }
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            BitmapFactory.decodeResource(getResources(), R.drawable.bluetooth_intro, options);
+            BitmapFactory.decodeResource(getResources(), R.drawable.bluetooth_new, options);
             int imageHeight = options.outHeight;
             int imageWidth = options.outWidth;
             String imageType = options.outMimeType;
             ImageView mImageView = (ImageView) v.findViewById(R.id.bluetooth_img);
-            Bitmap bitmap = decodeSampledBitmapFromResource(getResources(), R.drawable.bluetooth_intro, imageWidth, imageHeight);
+            Bitmap bitmap = decodeSampledBitmapFromResource(getResources(), R.drawable.bluetooth_new, imageWidth, imageHeight);
             mImageView.setImageBitmap(bitmap);
             return v;
         }

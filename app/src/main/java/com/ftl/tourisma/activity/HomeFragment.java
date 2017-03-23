@@ -1,37 +1,24 @@
 package com.ftl.tourisma.activity;
 
-import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
@@ -39,44 +26,28 @@ import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
-import com.daimajia.slider.library.Transformers.BaseTransformer;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
-import com.ftl.tourisma.FullPlaceImageViewActivity;
 import com.ftl.tourisma.MapDetailFragment;
-import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
 import com.ftl.tourisma.ShareFragmentActivity;
-import com.ftl.tourisma.SimpleVrPanoramaActivity;
-import com.ftl.tourisma.adapters.TimingAdapter;
 import com.ftl.tourisma.custom_views.NormalBoldTextView;
 import com.ftl.tourisma.custom_views.NormalTextView;
-import com.ftl.tourisma.custom_views.ScrollDisabledRecyclerView;
 import com.ftl.tourisma.database.AllCategories;
 import com.ftl.tourisma.database.Nearby;
 import com.ftl.tourisma.minterface.Updatable;
 import com.ftl.tourisma.models.HourDetails;
-import com.ftl.tourisma.models.WeekDaysModel;
 import com.ftl.tourisma.postsync.post_sync;
 import com.ftl.tourisma.utils.CommonClass;
 import com.ftl.tourisma.utils.Constants;
-import com.ftl.tourisma.utils.CustomTypefaceSpan;
 import com.ftl.tourisma.utils.ExpandableHeightGridView;
 import com.ftl.tourisma.utils.JSONObjConverter;
 import com.ftl.tourisma.utils.Preference;
-import com.ftl.tourisma.utils.TimingFunction;
 import com.ftl.tourisma.utils.Utilities;
 import com.ftl.tourisma.utils.Utils;
 import com.github.clans.fab.FloatingActionButton;
-import com.google.android.gms.maps.model.Marker;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -101,6 +72,10 @@ import static com.ftl.tourisma.utils.Constants.PlaceOpenWithAnyTime;
 public class HomeFragment extends Fragment implements View.OnClickListener, Updatable, ViewPagerEx.OnPageChangeListener, post_sync.ResponseHandler {
 
     private static final String TAG = "HomeFragment";
+    private static int mFrame = 0;
+    private static int mCounter = -1;
+    MainActivity mainActivity;
+    ArrayList<HourDetails> hourDetails;
     private ArrayList<AllCategories> allCategories = new ArrayList<>();
     private ArrayList<AllCategories> allCategories1 = new ArrayList<>();
     private AllCategories categories;
@@ -114,11 +89,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     private ExplorerAdapter explorerAdapter;
     private ExplorerAdapter1 explorerAdapter1;
     private NormalTextView tv_city, txt_recommended, txt_description, txt_categoty;
-
     private ImageView iv_back3, iv_search_header3, imgFav, mDotsText1[];
-
     private LinearLayout ll_cate1, ll_change_city, ll_explorer, ll_explorer1, ll_nearby_explorer, llEmptyLayout;
-
     private RelativeLayout rl_recommended;
     private SimpleDateFormat _24HourSDF, _12HourSDF;
     private String _24HourTime, _24HourTime1;
@@ -127,19 +99,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     private NormalBoldTextView tv_full_name;
     private NormalTextView txtShowMoreLess, txtSuggest, txtOk, txtMessage, txt_add_to_fav, tv_discription;
     private int id;
-    private static int mFrame = 0;
     private String Category_Name, Category_Id;
     private FloatingActionButton fb_category;
-
     private DisplayImageOptions options;
     private NormalTextView tv_your_location_header3, tv_explore, tv_your_mood, tv_nearby, tv_see_whats;
     private Nearby mNearby = new Nearby();
     private int like;
     private ImageView iv_explore;
-    private static int mCounter = -1;
     private ScrollView sv_explorer_location;
-    MainActivity mainActivity;
-    ArrayList<HourDetails> hourDetails;
     private boolean isShowLess;
     private View view;
     private String mPlaceId, mFav;
@@ -247,8 +214,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         gv_explorer.setAdapter(null);
         gv_explorer.setAdapter(explorerAdapter);
         gv_explorer.setExpanded(true);
-
-
     }
 
     @Override
@@ -607,125 +572,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         }
     }
 
-
-    private class ExplorerAdapter extends BaseAdapter {
-        Context context;
-
-        public ExplorerAdapter(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        public int getCount() {
-            return allCategories.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return allCategories.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.explore_adapter, parent, false);
-
-            final LinearLayout llCategory = (LinearLayout) convertView.findViewById(R.id.llCategory);
-            final NormalTextView tv_explore_grid = (NormalTextView) convertView.findViewById(R.id.tv_explore_grid);
-            final LinearLayout ll_right = (LinearLayout) convertView.findViewById(R.id.ll_right);
-
-
-            llCategory.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    isListOfCategoryVisible = true;
-
-                    Category_Id = allCategories.get(position).getCategory_Id();
-                    isCalledFromCat = true;
-                    searchCall1();
-                }
-            });
-            isShowLess = true;
-
-
-            ll_explorer.setBackgroundResource(R.drawable.ic_bg_category_);
-            tv_explore_grid.setText(allCategories.get(position).getCategory_Name());
-            if (position % 2 == 0) {
-                ll_right.setVisibility(View.INVISIBLE);
-            }
-
-            return convertView;
-        }
-    }
-
-    private class ExplorerAdapter1 extends BaseAdapter {
-        Context context;
-
-        public ExplorerAdapter1(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        public int getCount() {
-            return allCategories1.size();
-//            return isShowLess?10:allCategories1.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return allCategories1.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.explore_adapter, parent, false);
-            final LinearLayout llCategory = (LinearLayout) convertView.findViewById(R.id.llCategory);
-
-            final NormalTextView tv_explore_grid = (NormalTextView) convertView.findViewById(R.id.tv_explore_grid);
-            final LinearLayout ll_right = (LinearLayout) convertView.findViewById(R.id.ll_right);
-
-
-            isShowLess = false;
-            llCategory.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    isListOfCategoryVisible = true;
-                    Category_Id = allCategories1.get(position).getCategory_Id();
-                    isCalledFromCat = true;
-                    searchCall1();
-
-
-                }
-            });
-
-            ll_explorer.setBackgroundResource(R.drawable.ic_bg_category);
-
-            tv_explore_grid.setText(allCategories1.get(position).getCategory_Name());
-
-            if (position % 2 == 0) {
-                ll_right.setVisibility(View.INVISIBLE);
-            }
-
-            return convertView;
-        }
-    }
-
-
     public void setNearBy() {
 
         ll_nearby_explorer.removeAllViews();
@@ -932,10 +778,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
             else {
                 sv_explorer_location.setVisibility(View.GONE);
             }
-            SnackbarManager.show(Snackbar.with(getActivity()).color(Utilities.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "NORECORD")));
+//            SnackbarManager.show(Snackbar.with(getActivity()).color(Utilities.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "NORECORD")));
         }
     }
-
 
     public void suggestPlace() {
         try {
@@ -970,7 +815,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
             Utils.Log(TAG, "suggestPlace Exception: " + e.getLocalizedMessage());
         }
     }
-
 
     private void addFavoriteCall(String Place_Id) {
         if (CommonClass.hasInternetConnection(getActivity())) {
@@ -1081,7 +925,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         }
     }
 
-
     private void searchCall(String Place_Id) {
         if (CommonClass.hasInternetConnection(getActivity())) {
             String url = Constants.SERVER_URL + "json.php?action=PlaceDetails";
@@ -1115,6 +958,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                         if (!mNearby.getPlace_Id().equals(nearby.getPlace_Id())) {
                             nearby.setDistance(Utilities.GetRoutDistane(Double.parseDouble(mainActivity.getPreferences().getString("latitude2", "")), Double.parseDouble(mainActivity.getPreferences().getString("longitude2", "")), Double.parseDouble(nearby.getPlace_Latitude()), Double.parseDouble(nearby.getPlace_Longi()), nearby.getDist()));
                             nearbies1.add(nearby);
+                            for (int idx = 0; idx < nearbies1.size(); idx++) {
+                                System.out.println("nearby_arr " + nearbies1.get(idx));
+                            }
+
                         }
                     }
                 }
@@ -1135,7 +982,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
             e.printStackTrace();
         }
     }
-
 
     private void searchCall1() {
         if (CommonClass.hasInternetConnection(getActivity())) {
@@ -1188,5 +1034,122 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     public void onAttach(Context activity) {
         super.onAttach(activity);
         mainActivity = (MainActivity) getActivity();
+    }
+
+    private class ExplorerAdapter extends BaseAdapter {
+        Context context;
+
+        public ExplorerAdapter(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return allCategories.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return allCategories.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.explore_adapter, parent, false);
+
+            final LinearLayout llCategory = (LinearLayout) convertView.findViewById(R.id.llCategory);
+            final NormalTextView tv_explore_grid = (NormalTextView) convertView.findViewById(R.id.tv_explore_grid);
+            final LinearLayout ll_right = (LinearLayout) convertView.findViewById(R.id.ll_right);
+
+
+            llCategory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    isListOfCategoryVisible = true;
+
+                    Category_Id = allCategories.get(position).getCategory_Id();
+                    isCalledFromCat = true;
+                    searchCall1();
+                }
+            });
+            isShowLess = true;
+
+
+            ll_explorer.setBackgroundResource(R.drawable.ic_bg_category_);
+            tv_explore_grid.setText(allCategories.get(position).getCategory_Name());
+            if (position % 2 == 0) {
+                ll_right.setVisibility(View.INVISIBLE);
+            }
+
+            return convertView;
+        }
+    }
+
+    private class ExplorerAdapter1 extends BaseAdapter {
+        Context context;
+
+        public ExplorerAdapter1(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return allCategories1.size();
+//            return isShowLess?10:allCategories1.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return allCategories1.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.explore_adapter, parent, false);
+            final LinearLayout llCategory = (LinearLayout) convertView.findViewById(R.id.llCategory);
+
+            final NormalTextView tv_explore_grid = (NormalTextView) convertView.findViewById(R.id.tv_explore_grid);
+            final LinearLayout ll_right = (LinearLayout) convertView.findViewById(R.id.ll_right);
+
+
+            isShowLess = false;
+            llCategory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    isListOfCategoryVisible = true;
+                    Category_Id = allCategories1.get(position).getCategory_Id();
+                    isCalledFromCat = true;
+                    searchCall1();
+
+
+                }
+            });
+
+            ll_explorer.setBackgroundResource(R.drawable.ic_bg_category);
+
+            tv_explore_grid.setText(allCategories1.get(position).getCategory_Name());
+
+            if (position % 2 == 0) {
+                ll_right.setVisibility(View.INVISIBLE);
+            }
+
+            return convertView;
+        }
     }
 }

@@ -18,9 +18,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.github.paolorotolo.appintro.util.AppConstants;
 import com.github.paolorotolo.appintro.util.LogHelper;
 
 import java.util.ArrayList;
@@ -75,9 +77,7 @@ public abstract class AppIntroBase extends AppCompatActivity implements
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-
         setContentView(getLayoutId());
-
         gestureDetector = new GestureDetectorCompat(this, new WindowGestureListener());
 
         nextButton = findViewById(R.id.next);
@@ -87,6 +87,17 @@ public abstract class AppIntroBase extends AppCompatActivity implements
         mVibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments);
         pager = (AppIntroViewPager) findViewById(R.id.view_pager);
+
+        Button done = (Button) findViewById(R.id.done);
+        Button skip = (Button) findViewById(R.id.skip);
+
+        if (AppConstants.language.equals("arabic")) {
+            skip.setText("تخطى");
+            done.setText("فعله");
+        } else if (AppConstants.language.equals("russian")) {
+            skip.setText("пропустить");
+            done.setText("Применить");
+        }
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override

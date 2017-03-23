@@ -5,31 +5,20 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.le.BluetoothLeScanner;
-import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
-import android.bluetooth.le.ScanResult;
-import android.bluetooth.le.ScanSettings;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
-import android.os.ParcelUuid;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
-import com.estimote.sdk.Nearable;
 import com.estimote.sdk.Region;
-import com.estimote.sdk.SecureRegion;
-import com.estimote.sdk.service.BeaconService;
-import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
 import com.ftl.tourisma.SplashFragmentActivity;
 import com.ftl.tourisma.utils.Preference;
@@ -38,7 +27,6 @@ import com.ftl.tourisma.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -49,7 +37,6 @@ import java.util.UUID;
  */
 
 public class MyBeaconsService extends Service {
-    private static final String TAG = MyBeaconsService.class.getSimpleName();
     public static final String BROADCAST_BEACON = "beacon";
     public static final String BEACON_EXITED = "beacon_exited";
     public static final String BEACON_ENTERED = "beacon_entered";
@@ -69,6 +56,8 @@ public class MyBeaconsService extends Service {
     public static final String BEACON_NEAR_BY_TEXT = "nearby_text";
     public static final String BEACON_IS_CLOSE_PROMO = "is_close_promo";
     public static final String BEACON_UUDI = "beacon_uuid";
+    private static final String TAG = MyBeaconsService.class.getSimpleName();
+    private static final int TYPE_ENTER = 0, TYPE_EIXT = 1, TYPE_RANGE = 3;
     public BeaconManager beaconManager;
     List<ScanFilter> filters = new ArrayList<ScanFilter>();
     private UUID mMyUuid = UUID.fromString("32769A6A-E884-4CCE-8D86-9A979E1B5ED5");
@@ -76,7 +65,20 @@ public class MyBeaconsService extends Service {
     private boolean isServiceRunning;
     private int intentId = 0;
     private PendingIntent pendingIntent;
-    private static final int TYPE_ENTER = 0, TYPE_EIXT = 1, TYPE_RANGE = 3;
+
+    protected static double calculateDistance(int txPower, double rssi) {
+        if (rssi == 0) {
+            return -1.0; // if we cannot determine distance, return -1.
+        }
+
+        double ratio = rssi * 1.0 / txPower;
+        if (ratio < 1.0) {
+            return Math.pow(ratio, 10);
+        } else {
+            double accuracy = (0.89976) * Math.pow(ratio, 7.7095) + 0.111;
+            return accuracy;
+        }
+    }
 
     public boolean isServiceRunning() {
         return isServiceRunning;
@@ -98,7 +100,7 @@ public class MyBeaconsService extends Service {
             @Override
             public void onExitedRegion(Region region) {
                 Log.e(TAG, "onExitedRegion " + region.getProximityUUID());
-                getBeaconNotification(TYPE_EIXT,region,0);
+                getBeaconNotification(TYPE_EIXT, region, 0);
             }
         });
 
@@ -164,9 +166,7 @@ public class MyBeaconsService extends Service {
                                          }
 
         );
-        beaconManager.connect(new BeaconManager.ServiceReadyCallback()
-
-                              {
+        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
                                   @Override
                                   public void onServiceReady() {
                                       //  showNotification("Beacon Region", "onServiceReady");
@@ -202,7 +202,7 @@ public class MyBeaconsService extends Service {
                         try {
 
                             if (jsonObject.getString(BEACON_TYPE).equalsIgnoreCase("1")) {
-                               // Preference.setBooleanPrefs(region.getIdentifier() + "nearby", getApplicationContext(), true);
+                                // Preference.setBooleanPrefs(region.getIdentifier() + "nearby", getApplicationContext(), true);
                             } else {
 
 //                                Utils.showToast(getApplicationContext(), "Entered in beacon range.\n UUID: " + region.getProximityUUID());
@@ -229,7 +229,7 @@ public class MyBeaconsService extends Service {
                                 }
 
                             } else {
-                               // Preference.setBooleanPrefs(region.getIdentifier() + "nearby", getApplicationContext(), false);
+                                // Preference.setBooleanPrefs(region.getIdentifier() + "nearby", getApplicationContext(), false);
 
                                 // Preference.remove(region.getIdentifier() + "nearby", getApplicationContext());
 
@@ -246,7 +246,6 @@ public class MyBeaconsService extends Service {
             Utils.Log(TAG, " getBeaconNotification Exception : " + e.getLocalizedMessage());
         }
     }
-
 
     private JSONObject checkRegionFound(Region region) {
         Set<String> stringSet = Preference.getStringSetPrefs("keyBeacons", getApplicationContext());
@@ -280,7 +279,6 @@ public class MyBeaconsService extends Service {
         return 1;
     }
 
-
     double getDistance(int rssi, int txPower) {
     /*
      * RSSI = TxPower - 10 * n * lg(d)
@@ -290,20 +288,6 @@ public class MyBeaconsService extends Service {
      */
 
         return Math.pow(10d, ((double) txPower - rssi) / (10 * 2));
-    }
-
-    protected static double calculateDistance(int txPower, double rssi) {
-        if (rssi == 0) {
-            return -1.0; // if we cannot determine distance, return -1.
-        }
-
-        double ratio = rssi * 1.0 / txPower;
-        if (ratio < 1.0) {
-            return Math.pow(ratio, 10);
-        } else {
-            double accuracy = (0.89976) * Math.pow(ratio, 7.7095) + 0.111;
-            return accuracy;
-        }
     }
 
     private String getExitedRegionMessage(Region region) {
@@ -444,8 +428,7 @@ public class MyBeaconsService extends Service {
             notifyIntent.putExtra(BEACON_IS_CLOSE_PROMO, is_close_promo);
             notifyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            pendingIntent = PendingIntent.getActivity(this, nid++,
-                    notifyIntent, 0);
+            pendingIntent = PendingIntent.getActivity(this, nid++, notifyIntent, 0);
             Notification notification = new Notification.Builder(this)
                     .setSmallIcon(R.drawable.appicon1)
                     .setContentTitle(title)
@@ -454,8 +437,7 @@ public class MyBeaconsService extends Service {
                     .setContentIntent(pendingIntent)
                     .build();
             notification.defaults |= Notification.DEFAULT_SOUND;
-            NotificationManager notificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(nid, notification);
             Preference.setIntPrefs("NOTIFICATION_ID", this, nid);
         } else {

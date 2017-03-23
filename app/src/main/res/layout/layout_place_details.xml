@@ -41,7 +41,6 @@
                         android:layout_marginBottom="@dimen/m10dp"
                         android:layout_marginLeft="@dimen/m10dp"
                         android:layout_marginRight="@dimen/m10dp"
-
                         android:gravity="top|center_horizontal">
 
                         <com.daimajia.slider.library.Indicators.PagerIndicator
@@ -56,9 +55,9 @@
                         android:id="@+id/rlVirtualTour"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/m70dp"
-                        android:visibility="gone"
                         android:background="@color/mBlueTran"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <com.ftl.tourisma.custom_views.NormalBoldTextView
                             android:id="@+id/txtViewAVirtalTour"

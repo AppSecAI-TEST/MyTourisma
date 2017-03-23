@@ -2,10 +2,13 @@ package com.ftl.tourisma.activity;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,17 +23,20 @@ import com.ftl.tourisma.R;
  */
 public class MainTabHostFragment extends Fragment implements View.OnClickListener {
 
-
     ViewPager vpFragment;
-    private FragmentManager fragmentManager;
     MainScreenPagerAdapter adapterViewPager;
-
+    private FragmentManager fragmentManager;
     private MainActivity mainActivity;
-    private ImageView ll_favorite_footer1,ll_home_footer1,ll_profile_footer1;
-    private View viewHome,viewFav,viewProfile;
+    private ImageView ll_favorite_footer1, ll_home_footer1, ll_profile_footer1;
+    private View viewHome, viewFav, viewProfile;
 
     public MainTabHostFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -53,10 +59,6 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
         vpFragment.setOffscreenPageLimit(2);
     }
 
-
-
-
-
     @Override
     public void onClick(View v) {
 /*
@@ -77,6 +79,10 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
         }
     }
 
+    public void switchFragment(int target) {
+        vpFragment.setCurrentItem(target);
+    }
+
 
     private void setPagerListener() {
 
@@ -90,12 +96,23 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
             public void onPageSelected(int position) {
                 mainActivity.setActiviateIcon(position);
 
-                /*if (position == 2) {
-                    if (mainActivity.matchedUserFragment != null)
-                        mainActivity.matchedUserFragment.update();
+                if (position == 0) {
+                    LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+                    Intent intent = new Intent("TAG_REFRESH_EXPLORE");
+                    localBroadcastManager.sendBroadcast(intent);
+                }
+                if (position == 1) {
+                    LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+                    Intent intent = new Intent("TAG_REFRESH_FAVOURITE");
+                    localBroadcastManager.sendBroadcast(intent);
+                }
+
+               /* if (position == 0) {
+                    if (mainActivity.exploreNearbyFragment != null)
+                        mainActivity.exploreNearbyFragment.update();
                 } else if (position == 1) {
-                    if (mainActivity.swipeCardNearestPeopleFragment != null)
-                        mainActivity.swipeCardNearestPeopleFragment.setRefreshView(true);
+                    if (mainActivity.favouriteFragment != null)
+                        mainActivity.favouriteFragment.setRefreshView(true);
                 }*/
             }
 
@@ -119,16 +136,16 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
-                    ExploreNearbyFragment exploreNearbyFragment=new ExploreNearbyFragment();
-                    mainActivity.exploreNearbyFragment= exploreNearbyFragment;
+                    ExploreNearbyFragment exploreNearbyFragment = new ExploreNearbyFragment();
+                    mainActivity.exploreNearbyFragment = exploreNearbyFragment;
                     return mainActivity.exploreNearbyFragment;
                 case 1: // Fragment # 0 - This will show FirstFragment different title
-                    FavouriteMainFragment favouriteFragment=new FavouriteMainFragment();
-                    mainActivity.favouriteFragment= favouriteFragment;
+                    FavouriteMainFragment favouriteFragment = new FavouriteMainFragment();
+                    mainActivity.favouriteFragment = favouriteFragment;
                     return mainActivity.favouriteFragment;
                 case 2: // Fragment # 0 - This will show FirstFragment different title
-                    MyProfileFragment1 myProfileFragment=new MyProfileFragment1();
-                    mainActivity.myProfileFragment= myProfileFragment;
+                    MyProfileFragment1 myProfileFragment = new MyProfileFragment1();
+                    mainActivity.myProfileFragment = myProfileFragment;
                     return mainActivity.myProfileFragment;
                 default:
                     return null;

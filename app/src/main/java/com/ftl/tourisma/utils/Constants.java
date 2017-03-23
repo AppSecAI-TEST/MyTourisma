@@ -3,13 +3,8 @@ package com.ftl.tourisma.utils;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
-import com.ftl.tourisma.R;
 import com.ftl.tourisma.database.DBAdapter;
 
 import java.util.List;
@@ -23,14 +18,16 @@ import java.util.regex.Pattern;
 public class Constants {
 
 
-    public static String mPref = "My_Pref";
+    //    Custom progress dialog
+    public static final int LOADER_HEIGHT = 60;
 
 //    public static String SERVER_URL = "http://betaapplication.com/tourisma/";
 //    public static String IMG_URL = "http://betaapplication.com/tourisma/json.php";
 //    public static String IMAGE_URL = "http://betaapplication.com/tourisma/timthumb.php?src=/uploads/place/";
 //    public static String IMAGE_URL1 = "http://betaapplication.com/tourisma/uploads/user/";
 //    public static String IMAGE_URL2 = "http://betaapplication.com/tourisma/timthumb.php?src=/uploads/category/";
-
+public static final int LOADER_WIDTH = 60;
+    public static String mPref = "My_Pref";
     public static String SERVER_URL = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/";
     public static String IMG_URL = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/json.php";
     public static String BEACON_IMAGE_URL = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/timthumb.php?src=/uploads/beacons/";
@@ -39,7 +36,6 @@ public class Constants {
     public static String IMAGE_URL2 = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/timthumb.php?src=/uploads/category/";
     public static String VR_IMAGE = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/uploads/vrplace/";
     public static Dialog dialog;
-
     //    public static String latitude = "23.0342871";
 //    public static String longitude = "72.5068045";
 //    public static String latitude1 = "";
@@ -51,15 +47,15 @@ public class Constants {
     public static int mStaticFavCall = 0;
     public static int mStaticNearCall = 0;
     public static int mLanguage = 6;
-
-
-    //    Custom progress dialog
-    public static final int LOADER_HEIGHT = 60;
-    public static final int LOADER_WIDTH = 60;
+    public static String user_id = "user_id";
+    public static String language = "language";
+    public static String tutorial = "tutorial";
     public static boolean Dev_mode = true;
     public static String PlaceOpenFor24Hours = "1";
     public static String PlaceClosed = "0";
     public static String PlaceOpenWithAnyTime = "2";
+
+
 
     /*public final static boolean isValidEmail(CharSequence target) {
         if (target == null) {

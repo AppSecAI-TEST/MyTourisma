@@ -336,13 +336,13 @@
 //            // Constants.mStaticFavCall = 0;
 //            update();
 //        } else if (v == iv_search_favorite || v == iv_search_map) {
-//            mainActivity.replaceSearchFragment();
+//            mainActivity.favouriteFragment.replaceSearchFragment();
 //
 //        } else if (v == iv_back_favorite) {
 //            //TODO
 ////            mainActivity.setFragment(0);
 //        } else if (v == ll_see_all_my_favorite3) {
-//            mainActivity.replaceSearchResultFragment(nearbies1, "Similar Places");
+//            mainActivity.favouriteFragment.replaceSearchResultFragment(nearbies1, "Similar Places");
 ////            Intent mIntent = new Intent(getActivity(), SearchResultFragmentActivity.class);
 ////            mIntent.putExtra("nearbies", nearbies1);
 ////            mIntent.putExtra("search", "Similar Places");
@@ -350,7 +350,7 @@
 //        } else if (v == ll_header5_location) {
 //          /*  Intent mIntent = new Intent(getActivity(), SelectLocationFragmentActivity.class);
 //            startActivity(mIntent);*/
-//            mainActivity.replaceLocationFragment();
+//            mainActivity.favouriteFragment.replaceLocationFragment();
 //
 //            // getActivity().finish();
 //        } else if (v == txtDailyWorkingHours) {

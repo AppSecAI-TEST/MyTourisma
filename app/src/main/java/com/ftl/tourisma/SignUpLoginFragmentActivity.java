@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
+import com.estimote.sdk.SystemRequirementsChecker;
 import com.ftl.tourisma.activity.MainActivity;
 import com.ftl.tourisma.custom_views.NormalTextView;
 import com.ftl.tourisma.utils.Constants;
@@ -18,7 +19,7 @@ import com.ftl.tourisma.utils.Constants;
  */
 public class SignUpLoginFragmentActivity extends FragmentActivity implements View.OnClickListener {
 
-    private NormalTextView btn_sign_up1, btn_sign_up2,btn_login1;
+    private NormalTextView btn_sign_up1, btn_sign_up2, btn_login1;
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
     private NormalTextView tv_started, txtSkipSignUpLogin;
@@ -34,18 +35,30 @@ public class SignUpLoginFragmentActivity extends FragmentActivity implements Vie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
         setContentView(R.layout.activity_signup_login);
-
         mPreferences = getSharedPreferences(Constants.mPref, 0);
         mEditor = mPreferences.edit();
-
         initialisation();
-
         btn_login1.setOnClickListener(this);
         btn_sign_up2.setOnClickListener(this);
         txtSkipSignUpLogin.setOnClickListener(this);
 
+        /*//getting country code
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        String countryCode = telephonyManager.getSimCountryIso();
+        String countryCodeValue = telephonyManager.getNetworkCountryIso();
+        String locale = Locale.getDefault().getISO3Country();
+        System.out.println("country_code " + countryCode);
+        System.out.println("countryCodeValue " + countryCodeValue);
+        System.out.println("locale " + locale);
+
+        if (!(countryCodeValue.equals("ae") || countryCodeValue.equals("AE"))) {
+            Intent intent = new Intent(SignUpLoginFragmentActivity.this, CountrySpecific.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }*/
     }
 
     private void initialisation() {
@@ -53,7 +66,7 @@ public class SignUpLoginFragmentActivity extends FragmentActivity implements Vie
         btn_login1.setText(Constants.showMessage(SignUpLoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "Login"));
         btn_sign_up1 = (NormalTextView) findViewById(R.id.btn_sign_up1);
         btn_sign_up2 = (NormalTextView) findViewById(R.id.btn_sign_up12);
-        btn_sign_up1.setText(Constants.showMessage(SignUpLoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "donthaveanaccount") );
+        btn_sign_up1.setText(Constants.showMessage(SignUpLoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "donthaveanaccount"));
         btn_sign_up2.setText(Constants.showMessage(SignUpLoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "SignUp"));
 
 //      TODO enable this line  btn_sign_up1.setText(Constants.showMessage(SignUpLoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "SignUp"));
@@ -62,80 +75,79 @@ public class SignUpLoginFragmentActivity extends FragmentActivity implements Vie
         txtSkipSignUpLogin = (NormalTextView) findViewById(R.id.tvSkipSignUpLogin);
         txtSkipSignUpLogin.setText(Constants.showMessage(SignUpLoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "Skip"));
 
-        getLocationPermission();
+//        getLocationPermission();
     }
 
-    public void givePhoneStatePermission() {
-        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE);
-//        Log.d("System out", "permission check " + permissionCheck);
-        if (permissionCheck == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-            getLocationPermission();
-//            Log.i("System out", "phone state permission granted..");
-        } else {
-            ActivityCompat.requestPermissions(SignUpLoginFragmentActivity.this, new String[]{android.Manifest.permission.READ_PHONE_STATE}, 123);
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SystemRequirementsChecker.checkWithDefaultDialogs(this);
     }
 
     public void getLocationPermission() {
         int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
-//        Log.d("System out", "permission check " + permissionCheck);
         if (permissionCheck == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-            getWriteStoragePermission();
-//            Log.i("System out", "location permission granted..");
+            getReadStoragePermission();
         } else {
             ActivityCompat.requestPermissions(SignUpLoginFragmentActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 123);
         }
     }
 
-    public void getWriteStoragePermission() {
-        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//        Log.d("System out", "permission check " + permissionCheck);
-        if (permissionCheck == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-            getReadStoragePermission();
-//            Log.i("System out", "write storage permission granted..");
-        } else {
-            ActivityCompat.requestPermissions(SignUpLoginFragmentActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
-        }
-    }
-
     public void getReadStoragePermission() {
         int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE);
-//        Log.d("System out", "permission check " + permissionCheck);
         if (permissionCheck == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-           // getContactPermission();
-//            Log.i("System out", "contact permission granted..");
         } else {
             ActivityCompat.requestPermissions(SignUpLoginFragmentActivity.this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 123);
         }
     }
 
-    public void getContactPermission() {
-        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS);
-//        Log.d("System out", "permission check " + permissionCheck);
-        if (permissionCheck == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-            getAccountPermission();
-//            Log.i("System out", "contact permission granted..");
+    public void giveBluetoothPermission() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_ADMIN);
+        int permissionCheck1 = ContextCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH);
+        if (permissionCheck == android.content.pm.PackageManager.PERMISSION_GRANTED && permissionCheck1 == android.content.pm.PackageManager.PERMISSION_GRANTED) {
         } else {
-            ActivityCompat.requestPermissions(SignUpLoginFragmentActivity.this, new String[]{android.Manifest.permission.READ_CONTACTS}, 123);
+            ActivityCompat.requestPermissions(SignUpLoginFragmentActivity.this, new String[]{android.Manifest.permission.BLUETOOTH_ADMIN}, 123);
+            ActivityCompat.requestPermissions(SignUpLoginFragmentActivity.this, new String[]{android.Manifest.permission.BLUETOOTH}, 123);
+        }
+    }
+
+    public void getWriteStoragePermission() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+        } else {
+            ActivityCompat.requestPermissions(SignUpLoginFragmentActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
+        }
+    }
+
+    public void givePhoneStatePermission() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE);
+        if (permissionCheck == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            giveBluetoothPermission();
+        } else {
+            ActivityCompat.requestPermissions(SignUpLoginFragmentActivity.this, new String[]{android.Manifest.permission.READ_PHONE_STATE}, 123);
         }
     }
 
     public void getAccountPermission() {
         int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.GET_ACCOUNTS);
-//        Log.d("System out", "permission check " + permissionCheck);
         if (permissionCheck == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-            getCameraPermission();
-//            Log.i("System out", "account permission granted..");
+            giveBluetoothPermission();
         } else {
             ActivityCompat.requestPermissions(SignUpLoginFragmentActivity.this, new String[]{android.Manifest.permission.GET_ACCOUNTS}, 123);
         }
     }
 
+    public void getContactPermission() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS);
+        if (permissionCheck == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+        } else {
+            ActivityCompat.requestPermissions(SignUpLoginFragmentActivity.this, new String[]{android.Manifest.permission.READ_CONTACTS}, 123);
+        }
+    }
+
     public void getCameraPermission() {
         int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA);
-//        Log.d("System out", "permission check " + permissionCheck);
         if (permissionCheck == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-//            Log.i("System out", "camera permission granted..");
         } else {
             ActivityCompat.requestPermissions(SignUpLoginFragmentActivity.this, new String[]{android.Manifest.permission.CAMERA}, 123);
         }
@@ -228,7 +240,6 @@ public class SignUpLoginFragmentActivity extends FragmentActivity implements Vie
             finish();
         } else if (v == txtSkipSignUpLogin) {
             Constants.mFromSelectLocation = 0;
-
             Intent mIntent = new Intent(SignUpLoginFragmentActivity.this, MainActivity.class);
 //            Intent mIntent = new Intent(SignUpLoginFragmentActivity.this, SelectLocationFragmentActivity.class);
             startActivity(mIntent);

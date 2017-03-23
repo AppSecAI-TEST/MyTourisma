@@ -20,6 +20,7 @@
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <uses-feature
         android:name="android.hardware.bluetooth"
@@ -86,8 +87,13 @@
             android:name=".activity.NoInternet"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.IntroScreens"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.IntroScreens"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.CountrySpecific"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.MainActivity"
@@ -196,6 +202,16 @@
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
             </intent-filter>
         </receiver>
+
+        <receiver
+            android:name=".utils.NetworkChangeBroadcastReceiver"
+            android:label="NetworkChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"

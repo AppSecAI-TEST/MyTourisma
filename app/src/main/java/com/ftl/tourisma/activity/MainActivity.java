@@ -41,11 +41,9 @@ import com.ftl.tourisma.utils.Utilities;
 import com.ftl.tourisma.utils.Utils;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 
@@ -61,7 +59,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.cert.PKIXCertPathChecker;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -86,8 +83,15 @@ import static com.ftl.tourisma.beacons.MyBeaconsService.PLACE_IMAGE;
 public class MainActivity extends FragmentActivity implements OnClickListener, MyInterface, post_sync.ResponseHandler {
 
     private static final String TAG = "YourLocationFragmentA_";
-    private Object object;
+    public MainTabHostFragment mainTabHostFragment;
+    public MyProfileFragment1 myProfileFragment;
+    public int height;
+    public int width;
     boolean doubleBackToExitPressedOnce = false;
+    ExploreNearbyFragment exploreNearbyFragment;
+    FavouriteMainFragment favouriteFragment;
+    MyProfileFragment1 profileFragment;
+    private Object object;
     private SharedPreferences mPreferences;
     private LinearLayout llYourLocationToast, llBeaconToast;
     private Handler handler = new Handler();
@@ -97,7 +101,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
     private LinearLayout ll_login_snack, ll_sign_up_snack;
     private SharedPreferences.Editor mEditor;
     private GPSTracker gpsTracker;
-
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -118,14 +121,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
         }
     };
     private SearchResultPlaceDetailsFragment searchResultPlaceDetailsFragment;
-    public MainTabHostFragment mainTabHostFragment;
     private FragmentManager fragmentManager;
-    public MyProfileFragment1 myProfileFragment;
-    public int height;
-    public int width;
     private ImageLoader imageLoader;
     private DisplayImageOptions options;
     private DisplayImageOptions optionsSimple;
+    private Bundle bundle;
+    private Bundle bundleBeaconFromNotification;
+    private View viewFav, viewHome, viewProfile;
+    private ImageView ll_favorite_footer1, ll_home_footer1, ll_profile_footer1;
 
     private void beaconsToast(final String msg, final String msgBeacon, final String img, final String placeId, final int isCloseApproach, final String isClosePromo) {
         if (msg != null && !msg.equals("")) {
@@ -145,8 +148,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
                         intent.putExtra("placeId", placeId);
                         startActivity(intent);
                     }
-
-
                 }
             });
 
@@ -161,11 +162,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
             handlerBeaconToast.postDelayed(runnable, 4000);
         }
     }
-
-    private Bundle bundle;
-    private Bundle bundleBeaconFromNotification;
-    private View viewFav, viewHome, viewProfile;
-    private ImageView ll_favorite_footer1, ll_home_footer1, ll_profile_footer1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -338,7 +334,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
         }
     }
 
-
     public void getLocationOfAddress() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -510,7 +505,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
         }
     }
 
-
     @Override
     public void backToHome(Object object) {
 //        this.object = object;
@@ -590,12 +584,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
         }
     }
 
-    ExploreNearbyFragment exploreNearbyFragment;
-    FavouriteMainFragment favouriteFragment;
-    MyProfileFragment1 profileFragment;
-
     /*
-    Managing response of Bracon api
+    Managing response of Beacon api
      */
     public void getBeaconsResponse(String resultString) {
         if (resultString != null && resultString.length() > 2) {
@@ -660,58 +650,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
             transaction.replace(R.id.frame_container, fragment, backStateName);
             transaction.commit();
         }
-    }
-
-
-    public class PagerAdapter extends FragmentPagerAdapter {
-
-        private List<Fragment> fragments;
-
-        public PagerAdapter(FragmentManager fm, List<Fragment> fragments) {
-            super(fm);
-            this.fragments = fragments;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    //if (exploreNearbyFragment == null)
-                    exploreNearbyFragment = new ExploreNearbyFragment();
-                    // else
-                    return exploreNearbyFragment;
-                //  break;
-                case 1:
-                    // if (favouriteFragment == null)
-                    favouriteFragment = new FavouriteMainFragment();
-                    //else
-                    return favouriteFragment;
-                //  break;
-                case 2:
-                    //if (profileFragment == null)
-                    profileFragment = new MyProfileFragment1();
-                    //else
-                    return profileFragment;
-                // break;
-            }
-            return this.fragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return this.fragments.size();
-        }
-
-      /*  @Override
-        public int getItemPosition(Object object) {
-//            if (object instanceof FavouriteFragment) {
-//                ((FavouriteFragment) object).update();
-//            } else if (object instanceof ExploreNearbyFragment) {
-//                ((ExploreNearbyFragment) object).update();
-//            }
-            //don't return POSITION_NONE, avoid fragment recreation.
-            return super.getItemPosition(object);
-        }*/
     }
 
     @Override
@@ -836,5 +774,56 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
             llBeaconToast.setVisibility(View.VISIBLE);
             handlerBeaconToast.postDelayed(runnable, 5000);
         }
+    }
+
+    public class PagerAdapter extends FragmentPagerAdapter {
+
+        private List<Fragment> fragments;
+
+        public PagerAdapter(FragmentManager fm, List<Fragment> fragments) {
+            super(fm);
+            this.fragments = fragments;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    //if (exploreNearbyFragment == null)
+                    exploreNearbyFragment = new ExploreNearbyFragment();
+                    // else
+                    return exploreNearbyFragment;
+                //  break;
+                case 1:
+                    // if (favouriteFragment == null)
+                    favouriteFragment = new FavouriteMainFragment();
+                    //else
+                    return favouriteFragment;
+                //  break;
+                case 2:
+                    //if (profileFragment == null)
+                    profileFragment = new MyProfileFragment1();
+                    //else
+                    return profileFragment;
+                // break;
+            }
+            return this.fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return this.fragments.size();
+        }
+
+      /*  @Override
+        public int getItemPosition(Object object) {
+//            if (object instanceof FavouriteFragment) {
+//                ((FavouriteFragment) object).update();
+//            } else if (object instanceof ExploreNearbyFragment) {
+//                ((ExploreNearbyFragment) object).update();
+//            }
+            //don't return POSITION_NONE, avoid fragment recreation.
+            return super.getItemPosition(object);
+        }*/
     }
 }

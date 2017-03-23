@@ -4,6 +4,7 @@ buildscript {
     repositories {
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
+        maven { url "http://dl.bintray.com/pixplicity/maven" }
     }
     dependencies {
         classpath 'io.fabric.tools:gradle:1.+'
@@ -25,8 +26,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 24
         multiDexEnabled true
-        versionCode 6
-        versionName "1.8"
+        versionCode 9
+        versionName '1.10'
     }
     dexOptions {
         javaMaxHeapSize "4g"
@@ -36,6 +37,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    productFlavors {
     }
 }
 android {
@@ -54,6 +57,7 @@ android {
 //other build tags
 }
 dependencies {
+
     //    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile fileTree(dir: 'libs')
     compile 'com.google.android.gms:play-services:8.3.0'
@@ -90,4 +94,5 @@ dependencies {
     compile 'hanks.xyz:htextview-library:0.1.5'
     compile 'app.num.numandroidpagecurleffect:numandroidpagecurleffect:1.0'
     compile 'com.estimote:sdk:0.9.4@aar'
+    compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
 }

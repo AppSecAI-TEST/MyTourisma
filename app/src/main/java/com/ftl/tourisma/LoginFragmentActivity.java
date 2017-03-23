@@ -42,6 +42,7 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
 import org.json.JSONArray;
@@ -58,11 +59,14 @@ import java.util.List;
  */
 public class LoginFragmentActivity extends FragmentActivity implements OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, post_sync.ResponseHandler {
 
+    protected static final int RC_SIGN_IN = 0;
     private static final String TAG = "LoginFragmentActivity";
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    public GoogleApiClient mGoogleApiClient;
+    protected boolean mIntentInProgress;
+    protected boolean mSignInClicked;
     private ImageView iv_close_header1;
-
     private NormalTextView tv_forgot_login, tv_sign_up, tv_login, tv_login_fb, tv_login_g, login_using_mail;
-
     private NormalEditText et_email_login, et_password_login;
     private FloatLabeledEditText flet_email_login, flet_password_login;
     private SharedPreferences mPreferences;
@@ -71,13 +75,8 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
     private CallbackManager callbackManager;
     private String accessTokenNew;
     private TextView tv_google_plus, fb_login_button_;
-    protected boolean mIntentInProgress;
     private ConnectionResult mConnectionResult;
-    protected boolean mSignInClicked;
-    protected static final int RC_SIGN_IN = 0;
-    public GoogleApiClient mGoogleApiClient;
     private DBAdapter dbAdapter;
-    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -362,6 +361,7 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
                 if (jsonObject.has("User_Id")) {
 //                    String str = jsonObject.optString("status");
 //                    if (str.equalsIgnoreCase("true")) {
+                    Prefs.putInt(Constants.user_id, Integer.parseInt(jsonObject.optString("User_Id")));
                     mEditor.putString("User_Id", jsonObject.optString("User_Id")).commit();
                     mEditor.putString("User_Email", jsonObject.optString("User_Email")).commit();
                     mEditor.putString("User_Password", jsonObject.optString("User_Password")).commit();

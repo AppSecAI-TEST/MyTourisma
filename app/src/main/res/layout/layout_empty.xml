@@ -3,7 +3,7 @@
     android:id="@+id/llEmptyLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_bg_blur"
+    android:background="#ffffff"
     android:orientation="vertical"
     android:visibility="gone">
 
@@ -15,35 +15,33 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/mTrans2">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/imgIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="100dp"
+            android:layout_above="@+id/txtMessage"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/m40dp"
-            android:src="@drawable/ic_black_place_holder" />
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/not_available" />
 
         <com.ftl.tourisma.custom_views.NormalTextView
             android:id="@+id/txtMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imgIcon"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/m60dp"
+            android:layout_centerInParent="true"
             android:gravity="center"
             android:text="No records available for this place"
-            android:textColor="@color/texthint"
-            android:textSize="@dimen/TEXT_MEDIUM" />
+            android:textColor="#ababab"
+            android:textSize="12sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/txtMessage"
             android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/m20dp"
+            android:layout_marginTop="63dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -66,7 +64,9 @@
                 android:maxLines="1"
                 android:padding="@dimen/m10dp"
                 android:text="Suggest Location" />
+
         </LinearLayout>
 
     </RelativeLayout>
+
 </LinearLayout>

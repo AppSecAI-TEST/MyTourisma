@@ -19,9 +19,9 @@
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
         android:gravity="center"
-        android:text="Allow My Tourisma to access bluetooth"
-        android:textColor="#000000"
-        android:textSize="16sp" />
+        android:text=" We will use your Bluetooth to find the nearest beacons around you. As soon as you enter beacon’s range you will get notifications with interesting facts and information about that place."
+        android:textColor="#ababab"
+        android:textSize="12sp" />
 
     <ImageView
         android:id="@+id/btm_img"
@@ -45,10 +45,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="Bluetooth"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
+        android:text="BLUETOOTH"
         android:textColor="#ffffff"
-        android:textSize="20sp" />
+        android:textSize="13sp" />
 
 </RelativeLayout>

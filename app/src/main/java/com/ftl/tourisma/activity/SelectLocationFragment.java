@@ -1,23 +1,17 @@
 package com.ftl.tourisma.activity;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.Fade;
@@ -31,18 +25,12 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ftl.tourisma.BeaconsActivity;
 import com.ftl.tourisma.R;
-import com.ftl.tourisma.SearchResultPlaceDetailsActivity;
 import com.ftl.tourisma.custom_views.NormalEditText;
 import com.ftl.tourisma.custom_views.NormalTextView;
 import com.ftl.tourisma.postsync.PostSync;
@@ -52,15 +40,12 @@ import com.ftl.tourisma.utils.Constants;
 import com.ftl.tourisma.utils.GPSTracker;
 import com.ftl.tourisma.utils.Preference;
 import com.ftl.tourisma.utils.Utils;
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,19 +61,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Timer;
-
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_ENTERED;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_ENTRY_TEXT;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_EXITED;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_EXIT_TEXT;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_IS_CLOSE_PROMO;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_MESSAGE;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_NEAR_BY;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_NEAR_BY_TEXT;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BROADCAST_BEACON;
-import static com.ftl.tourisma.beacons.MyBeaconsService.PLACE_ID;
-import static com.ftl.tourisma.beacons.MyBeaconsService.PLACE_IMAGE;
 
 /**
  * Created by fipl11111 on 25-Feb-16.
@@ -101,6 +73,7 @@ public class SelectLocationFragment extends Fragment implements View.OnClickList
     //------------ make your specific key ------------
     private static final String API_KEY = "AIzaSyARcU53tPS4oPd6GFnIfNXrog0NtLMOwpI";
     private static final String TAG = SelectLocationFragment.class.getSimpleName();
+    static int mflag = 0;
     //    private static final String API_KEY = "AIzaSyDG7V34oHpHL5OtuXRcvd-TBg4cyg8rWgc";
     private static int flag = -1;
     Handler handler = new Handler();
@@ -116,7 +89,6 @@ public class SelectLocationFragment extends Fragment implements View.OnClickList
     private JSONObject mJsonObject;
     private ListView listview;
     private NormalTextView tv_select, tv_auto_detect;
-    static int mflag = 0;
     private PlacesAdapter adapter;
     private ArrayList<String> resultList = new ArrayList<>();
     private FetchLocations fetchLocations;
@@ -131,7 +103,7 @@ public class SelectLocationFragment extends Fragment implements View.OnClickList
         try {
             StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
             sb.append("?key=" + API_KEY);
-            sb.append("&components=");
+            sb.append("&components=country:AE");
             sb.append("&input=" + URLEncoder.encode(input, "utf8"));
 
             URL url = new URL(sb.toString());
@@ -404,52 +376,6 @@ public class SelectLocationFragment extends Fragment implements View.OnClickList
         }
     }
 
-    class FetchLocations extends AsyncTask<String, Void, Object> {
-
-        @Override
-        protected Object doInBackground(String... strings) {
-            resultList = autocomplete(strings[0]);
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            adapter.notifyDataSetChanged();
-        }
-    }
-//    private void hideKeyBoard(View view) {
-//        InputMethodManager inputManager = (InputMethodManager) SelectLocationFragmentActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-//        inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
-//    }
-
-    class PlacesAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return resultList == null ? 0 : resultList.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return resultList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view = getActivity().getLayoutInflater().inflate(R.layout.list_item, parent, false);
-            TextView textView = (TextView) view.findViewById(R.id.textView);
-            textView.setText(resultList.get(position));
-            return view;
-        }
-    }
-
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         String str = (String) adapterView.getItemAtPosition(position);
         Log.d("System out", str);
@@ -529,6 +455,10 @@ public class SelectLocationFragment extends Fragment implements View.OnClickList
             }
         }
     }
+//    private void hideKeyBoard(View view) {
+//        InputMethodManager inputManager = (InputMethodManager) SelectLocationFragmentActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+//        inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+//    }
 
     @Override
     public void onClick(View v) {
@@ -671,7 +601,6 @@ public class SelectLocationFragment extends Fragment implements View.OnClickList
         }
     }
 
-
     public void addressResponse(String resultString) {
 //        Log.d("System out", resultString);
 
@@ -750,6 +679,48 @@ public class SelectLocationFragment extends Fragment implements View.OnClickList
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    class FetchLocations extends AsyncTask<String, Void, Object> {
+
+        @Override
+        protected Object doInBackground(String... strings) {
+            resultList = autocomplete(strings[0]);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    class PlacesAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return resultList == null ? 0 : resultList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return resultList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = getActivity().getLayoutInflater().inflate(R.layout.list_item, parent, false);
+            TextView textView = (TextView) view.findViewById(R.id.textView);
+            textView.setText(resultList.get(position));
+            return view;
         }
     }
 

@@ -48,7 +48,21 @@
     <string name="ok">Ok</string>
     <string name="new_line">\n</string>
 
-    <string name="network_error">No internet connection. You need to be connected to the internet</string>
+    <string name="network_error">No internet connection. Please, check your settings and try again.</string>
+
+    <string name="privacy">This application related to tourist places in the UAE locations. App will use  your current locations and bluetooth for improving places details around you.
+        We make you sure will not disclosed your any personal informations with anyone. The main part of the application is the location and
+        Bluetooth low energy use then it will connect to nearest the Beacons and get the proper details of that particular place. </string>
+    <string name="privacy_arabic">هذا التطبيق المتعلقة الأماكن السياحية في المواقع الإمارات العربية المتحدة. والتطبيق استخدام المواقع الحالية وبلوتوث لتحسين تفاصيل الأماكن حول يو. وي جعل أنت متأكد سوف يتم الكشف الخاص أي معلومات شخصية مع أحد. الجزء الرئيسي من التطبيق هو انخفاض استهلاك الطاقة الموقع وبلوتوث، فسيتم الاتصال إلى أقرب منارات والحصول على التفاصيل الصحيحة من هذا المكان بالذات.</string>
+    <string name="privacy_russian">Это приложение, связанное с туристических мест в местах ОАЭ. App будет использовать ваши текущие местоположения и Bluetooth система для улучшения мест детали вокруг you.We, чтобы вы уверены, что не будут раскрыты ваши персональные информацию с кем-либо. Основная часть приложения является расположение и Bluetooth использование низкой энергии, то оно будет подключаться к ближайшему маяков и получить соответствующие детали этого конкретного места.</string>
+
+    <string name="country_change">Currently myTourisma has places from UAE only. More countries to be added soon. Check for updates.</string>
+    <string name="tutorial_notification_txt_russian">мы будем уведомлять Вас только о контенте, который является интересным и актуальным для Вас. Получите все выгоды от уведомлений.</string>
+    <string name="tutorial_notification_txt_arabic">سوف يتم تنبيهك فقط عند العثور على ما هو يهمك ويثير اهتمامك، للإستمتاع بهذه المميزات الرجاء الضغط على”موافق”</string>
+    <string name="tutorial_location_txt_russian">Мы будем использовать ваше местоположение только, чтобы показать вам самые близкие места на карте, для навигации и ближайших результатов поиска.</string>
+    <string name="tutorial_location_txt_arabic">سوف يتم إستخدام موقعك للمساعدتة بإيجاد ما هو بالقرب منك والتمكن من الحصول على الطرق عند البحث</string>
+    <string name="tutorial_bluetooth_txt_russian">Мы будем использовать ваш Bluetooth, чтобы найти ближайшие устройства вокруг вас. Как только вы войдёте в их диапазон, вы получите уведомления с интересными фактами и информацией об этом месте.</string>
+    <string name="tutorial_bluetooth_txt_arabic">سيتم استخدام خاصية البلوتوث للعثور على المستقبلات الرقمية بالقرب منك، عند الدخول في مجال احدى المستقبلات سوف يتم تنبيهك بماهو مثير للاهتمام في المنطقة التي قمت بزيارتها</string>
 
 
 </resources>

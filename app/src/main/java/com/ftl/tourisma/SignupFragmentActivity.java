@@ -1,5 +1,6 @@
 package com.ftl.tourisma;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -8,8 +9,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -51,38 +57,32 @@ import java.util.List;
  */
 public class SignupFragmentActivity extends FragmentActivity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, post_sync.ResponseHandler {
 
-    private static final String TAG = "SignupFragmentActivity";
-    private ImageView iv_close_header1;
-
-    private NormalEditText et_username_sign_up, et_password_sign_up, et_email_sign_up;
-
-    private FloatLabeledEditText flet_username_sign_up, flet_password_sign_up, flet_email_sign_up;
-
-    private SharedPreferences mPreferences;
-
-    private SharedPreferences.Editor mEditor;
-
-    private GPSTracker gpsTracker;
-
-    private String lat, lon;
-
-    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
-
-    private CallbackManager callbackManager;
-
-    private String accessTokenNew;
-
-    protected static GoogleApiClient mGoogleApiClient;
-
-    protected boolean mIntentInProgress;
-
-    private ConnectionResult mConnectionResult;
-
-    protected boolean mSignInClicked;
-
     protected static final int RC_SIGN_IN = 0;
+    private static final String TAG = "SignupFragmentActivity";
+    protected static GoogleApiClient mGoogleApiClient;
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    protected boolean mIntentInProgress;
+    protected boolean mSignInClicked;
+    PopupWindow popupWindow;
+    private ImageView iv_close_header1, privacy_policy_img;
+    private NormalEditText et_username_sign_up, et_password_sign_up, et_email_sign_up;
+    private FloatLabeledEditText flet_username_sign_up, flet_password_sign_up, flet_email_sign_up;
+    private SharedPreferences mPreferences;
+    private SharedPreferences.Editor mEditor;
+    private GPSTracker gpsTracker;
+    private String lat, lon;
+    private CallbackManager callbackManager;
+    private String accessTokenNew;
+    private ConnectionResult mConnectionResult;
+    private NormalTextView sign_up_using_mail, tv_sign_up, tv_forgot_sign_up, tv_signUp, tv_google_plus, fb_login_button_, privacy_policy_txt;
 
-    private NormalTextView sign_up_using_mail, tv_sign_up, tv_forgot_sign_up, tv_signUp, tv_google_plus, fb_login_button_;
+    public static void signOutFromGplus() {
+        if (mGoogleApiClient.isConnected()) {
+            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+            mGoogleApiClient.disconnect();
+            mGoogleApiClient.connect();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +104,13 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
         tv_google_plus.setOnClickListener(this);
         fb_login_button_.setOnClickListener(this);
 
+        privacy_policy_txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPrivacyPolicyPopupDialog();
+            }
+        });
+
     }
 
     private void initialisation() {
@@ -115,6 +122,7 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
         FacebookSdk.setApplicationId(getResources().getString(R.string.facebook_app_id));
         callbackManager = CallbackManager.Factory.create();
         FacebookLogin();
+        privacy_policy_txt = (NormalTextView) findViewById(R.id.privacy_policy_txt);
         iv_close_header1 = (ImageView) findViewById(R.id.img_close);
         tv_forgot_sign_up = (NormalTextView) findViewById(R.id.tv_forgot_sign_up);
         tv_forgot_sign_up.setText(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "forgotpassword"));
@@ -344,13 +352,13 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
             finish();
         } else if (v == tv_signUp) {
             if (et_username_sign_up.getText().toString().length() == 0) {
-                SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this,R.color.mBlue)).text(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "NAME")));
+                SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "NAME")));
             } else if (et_email_sign_up.getText().toString().length() == 0) {
-                SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this,R.color.mBlue)).text(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "EMAIL")));
+                SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "EMAIL")));
             } else if (!Constants.isValidEmail(et_email_sign_up.getText().toString())) {
-                SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this,R.color.mBlue)).text(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "VALIDEMAIL")));
+                SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "VALIDEMAIL")));
             } else if (et_password_sign_up.getText().toString().length() == 0) {
-                SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this,R.color.mBlue)).text(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "PASSWORD")));
+                SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "PASSWORD")));
             } else {
                 if (mPreferences.getString("latitude2", "").equalsIgnoreCase("0") || mPreferences.getString("longitude2", "").equalsIgnoreCase("0")) {
                 } else {
@@ -390,7 +398,7 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
             String json = "[{\"User_Email\":\"" + et_email_sign_up.getText().toString() + "\",\"User_Password\":\"" + et_password_sign_up.getText().toString() + "\",\"User_Name\":\"" + et_username_sign_up.getText().toString() + "\",\"User_ProfilePic\":\"" + mPreferences.getString("User_ProfilePic", "") + "\",\"User_Address\":\"" + "" + "\",\"User_Latitude\":\"" + mPreferences.getString("latitude2", "") + "\",\"User_Longi\":\"" + mPreferences.getString("longitude2", "") + "\",\"Lan_Id\":\"" + mPreferences.getString("language", "") + "\",\"User_Facebook_ID\":\"" + mPreferences.getString("fb_id", "") + "\",\"User_GPlus_Id\":\"" + mPreferences.getString("gpluse_id", "") + "\",\"User_About\":\"" + "" + "\"}]";
 //            Log.d("System out", "SignUp " + json);
 //            new PostSync(SignupFragmentActivity.this, "SignUp").execute(url, json);
-            new PostSync(SignupFragmentActivity.this, "SignUp",SignupFragmentActivity.this).execute(url, json);
+            new PostSync(SignupFragmentActivity.this, "SignUp", SignupFragmentActivity.this).execute(url, json);
         } else {
             Intent intent = new Intent(getApplicationContext(), NoInternet.class);
             startActivity(intent);
@@ -434,10 +442,10 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
                         startActivity(mIntent);
                         finish();
                     } else {
-                        SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this,R.color.mBlue)).text(jsonObject.optString("status")));
+                        SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(jsonObject.optString("status")));
                     }
                 } else {
-                    SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this,R.color.mBlue)).text(jsonObject.optString("status")));
+                    SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(jsonObject.optString("status")));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -558,16 +566,6 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
         }
     }
 
-
-    public static void signOutFromGplus() {
-        if (mGoogleApiClient.isConnected()) {
-            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-            mGoogleApiClient.disconnect();
-            mGoogleApiClient.connect();
-        }
-    }
-
-
     public GoogleApiClient getGoogleApiClient() {
         return mGoogleApiClient;
     }
@@ -602,5 +600,37 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
         } catch (Exception e) {
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
         }
+    }
+
+    public void showPrivacyPolicyPopupDialog() {
+        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View popupView = layoutInflater.inflate(R.layout.privacy_policy, null);
+        popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+        popupWindow.setTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+
+        TextView ok = (TextView) popupView.findViewById(R.id.ok);
+        TextView desc_txt = (TextView) popupView.findViewById(R.id.desc_txt);
+        TextView privacy_txt = (TextView) popupView.findViewById(R.id.titel);
+
+        //setting desc text based on user selected language
+        if (Constants.language.equals("arabic")) {
+            desc_txt.setText(getResources().getString(R.string.privacy_arabic));
+            ok.setText("حسنا");
+            privacy_txt.setText("سياسة الخصوصية");
+        } else if (Constants.language.equals("russian")) {
+            desc_txt.setText(getResources().getString(R.string.privacy_russian));
+            ok.setText("ОК");
+            privacy_txt.setText("политика конфиденциальности");
+        }
+
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
     }
 }
