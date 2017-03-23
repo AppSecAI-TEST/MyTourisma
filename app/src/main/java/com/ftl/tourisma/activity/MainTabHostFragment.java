@@ -83,13 +83,20 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
         vpFragment.setCurrentItem(target);
     }
 
-
     private void setPagerListener() {
 
         vpFragment.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                /*if (Prefs.getInt(Constants.user_id, 0) == 0) {
+                    if (position == 1) {
+                        vpFragment.setCurrentItem(2);
+                    }
 
+                    if (position == 1){
+                        vpFragment.setCurrentItem(0);
+                    }
+                }*/
             }
 
             @Override

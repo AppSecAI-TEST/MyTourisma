@@ -127,6 +127,22 @@
                 </android.support.v7.widget.RecyclerView>
 
                 <include layout="@layout/layout_empty" />
+
+                <LinearLayout
+                    android:id="@+id/llYourLocationToast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/mWhite"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <include
+                        layout="@layout/login_signup_snackbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <com.github.clans.fab.FloatingActionButton
@@ -160,5 +176,6 @@
             <include layout="@layout/layout_place_details" />
         </ScrollView>
     </LinearLayout>
+
 
 </LinearLayout>

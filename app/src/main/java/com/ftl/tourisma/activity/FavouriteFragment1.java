@@ -94,10 +94,12 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
     private static final int PLACE_LIKE_FAV = 1002;
     private static final String TAG = "FavouriteFragment";
     static int mCounter = -1;
+    public MainTabHostFragment mainTabHostFragment;
     MainActivity mainActivity;
     GalleryAdapter2 galleryAdapter2;
     //Broadcast Receiver page refreshing functionality
     MyReceiver receiver;
+    private LinearLayout llYourLocationToast;
     private FloatingActionButton fb_favorite;
     private RecyclerView rv_favorite;
     private MapFragmentInterface mapFragmentInterface;
