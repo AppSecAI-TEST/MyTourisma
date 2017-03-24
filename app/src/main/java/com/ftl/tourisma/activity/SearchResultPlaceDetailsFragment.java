@@ -636,6 +636,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
                 mNearby.setOtherimages(jsonObject.optString("otherimages"));
                 mNearby.setDist(jsonObject.optString("dist"));
                 mNearby.setFav_Id(jsonObject.optString("Fav_Id"));
+                mNearby.setPlaceVRMainImage(jsonObject.optString("Place_VRMainImage"));
 
                 JSONArray operation1 = jsonObject.getJSONArray("HourDetails");
                 ArrayList<HourDetails> detailsArrayList = new ArrayList<>();

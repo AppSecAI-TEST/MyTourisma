@@ -947,7 +947,6 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
         public void onReceive(Context context, Intent intent) {
             FavouriteFragment1.this.refresh();
             if (Prefs.getInt(Constants.user_id, 0) == 0) {
-                //((MainTabHostFragment)getActivity()).switchFragment(0);
                 Toast.makeText(getActivity().getApplicationContext(), "Please login", Toast.LENGTH_LONG).show();
             } else {
                 getFavoriteCall();

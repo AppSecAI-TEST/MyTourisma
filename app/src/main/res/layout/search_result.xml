@@ -183,10 +183,11 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ic_bg_blur"
                     android:orientation="vertical"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
 
                     <RelativeLayout
+                        android:id="@+id/noplace_found_relative"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#ffffff">

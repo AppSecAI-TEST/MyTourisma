@@ -80,7 +80,7 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
     }
 
     public void switchFragment(int target) {
-        vpFragment.setCurrentItem(target);
+        vpFragment.setCurrentItem(0);
     }
 
     private void setPagerListener() {
@@ -91,10 +91,6 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
                 /*if (Prefs.getInt(Constants.user_id, 0) == 0) {
                     if (position == 1) {
                         vpFragment.setCurrentItem(2);
-                    }
-
-                    if (position == 1){
-                        vpFragment.setCurrentItem(0);
                     }
                 }*/
             }
@@ -146,14 +142,17 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
                     ExploreNearbyFragment exploreNearbyFragment = new ExploreNearbyFragment();
                     mainActivity.exploreNearbyFragment = exploreNearbyFragment;
                     return mainActivity.exploreNearbyFragment;
+
                 case 1: // Fragment # 0 - This will show FirstFragment different title
                     FavouriteMainFragment favouriteFragment = new FavouriteMainFragment();
                     mainActivity.favouriteFragment = favouriteFragment;
                     return mainActivity.favouriteFragment;
+
                 case 2: // Fragment # 0 - This will show FirstFragment different title
                     MyProfileFragment1 myProfileFragment = new MyProfileFragment1();
                     mainActivity.myProfileFragment = myProfileFragment;
                     return mainActivity.myProfileFragment;
+
                 default:
                     return null;
             }

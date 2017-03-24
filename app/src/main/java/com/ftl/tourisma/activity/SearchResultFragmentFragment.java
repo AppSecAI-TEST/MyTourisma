@@ -225,7 +225,7 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
             fab_search_result.setVisibility(View.VISIBLE);
         } else {
             rv_search_result.setVisibility(View.GONE);
-//            llEmptyLayout11.setVisibility(View.VISIBLE);
+            llEmptyLayout11.setVisibility(View.VISIBLE);
 //            SnackbarManager.show(Snackbar.with(getActivity()).color(getResources().getColor(R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "NORECORD")));
         }
 
