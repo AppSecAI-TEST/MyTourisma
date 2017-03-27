@@ -1,6 +1,5 @@
 package com.ftl.tourisma;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,8 +8,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -29,8 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,8 +43,6 @@ import com.ftl.tourisma.custom_views.NormalBoldTextView;
 import com.ftl.tourisma.custom_views.NormalTextView;
 import com.ftl.tourisma.database.FeesDetails;
 import com.ftl.tourisma.database.Nearby;
-import com.ftl.tourisma.gallery.AdapterView;
-import com.ftl.tourisma.gallery.Gallery;
 import com.ftl.tourisma.models.HourDetails;
 import com.ftl.tourisma.models.WeekDaysModel;
 import com.ftl.tourisma.postsync.PostSync;
@@ -65,30 +58,19 @@ import com.ftl.tourisma.utils.Utils;
 import com.google.android.gms.maps.model.Marker;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -118,6 +100,8 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
 
     private static final int PLACE_LIKE_SEARCH = 1003;
     private static final String TAG = "SearchResultFragment";
+    static int mCounter = -1;
+    GalleryAdapter2 galleryAdapter2;
     private ArrayList<Nearby> nearbies1 = new ArrayList<>();
     private Intent mIntent;
     //    private ImageLoader imageLoader = ImageLoader.getInstance();
@@ -135,7 +119,6 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
     private String[] strImg1;
     private int id1;
     private LinearLayout listView_fees, ll_search_result2, ll_see_all;
-
     private Double latitude, longitude;
     private int pos = 0;
     private Marker marker;
@@ -153,15 +136,12 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
     private NormalTextView tv_see_all_search_result;
     private Nearby mNearby = new Nearby();
     private int like;
-    static int mCounter = -1;
     private Dialog dialog;
     private ArrayList<HourDetails> hourDetailses;
     private SliderLayout sliderPlaceImages;
     private PagerIndicator custom_indicator1;
     private ImageView imgSharePlace;
     private RelativeLayout rlVirtualTour;
-    GalleryAdapter2 galleryAdapter2;
-
     private Handler handler = new Handler();
 
     private Handler handlerBeaconToast = new Handler();
@@ -196,6 +176,7 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
         }
     };
     private String locationName;
+    private boolean isForSimilarPlaces = false;
 
     private void beaconsToast(final String msg, final String msgBeacon, final String img, final String placeId, final int isCloseApproach, final String isClosePromo) {
         if (msg != null && !msg.equals("")) {
@@ -231,9 +212,6 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
             handlerBeaconToast.postDelayed(runnable, 4000);
         }
     }
-
-    private boolean isForSimilarPlaces = false;
-
 
     private void beaconsToast(final String msg, final String msgBeacon, final String img, final String placeId, boolean isClickable, final int isCloseApproach) {
         if (msg != null && !msg.equals("")) {
@@ -992,6 +970,8 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
                 mNearby.setOtherimages(jsonObject.optString("otherimages"));
                 mNearby.setDist(jsonObject.optString("dist"));
                 mNearby.setFav_Id(jsonObject.optString("Fav_Id"));
+                mNearby.setPlaceVRMainImage(jsonObject.optString("Place_VRMainImage"));
+                mNearby.setVrimages(jsonObject.optString("vrimages"));
 
                 JSONArray operation1 = jsonObject.getJSONArray("HourDetails");
                 ArrayList<HourDetails> detailsArrayList = new ArrayList<>();
@@ -1126,76 +1106,6 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
         return feesArrayList;
     }
 
-
-    private class GalleryAdapter2 extends BaseAdapter {
-        Context context;
-
-        public GalleryAdapter2(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        public int getCount() {
-            return nearbies1.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            LayoutInflater mLayoutInflater;
-            mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = mLayoutInflater.inflate(R.layout.detail_gallery, parent, false);
-            final ImageView iv_detail = (ImageView) convertView.findViewById(R.id.iv_detail);
-            final NormalTextView tv_name = (NormalTextView) convertView.findViewById(R.id.tv_name);
-            final NormalTextView tv_km = (NormalTextView) convertView.findViewById(R.id.tv_km);
-            final LinearLayout llView = (LinearLayout) convertView.findViewById(R.id.llView);
-            final RelativeLayout rlMain = (RelativeLayout) convertView.findViewById(R.id.rlMain);
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) rlMain.getLayoutParams();
-            layoutParams.width = (width * 50) / 100;
-            layoutParams.height = (width * 50) / 100;
-
-
-            rlMain.setLayoutParams(layoutParams);
-
-            tv_name.setText(nearbies1.get(position).getPlace_Name());
-            tv_km.setText(nearbies1.get(position).getDist() + Constants.showMessage(SearchResultPlaceDetailsActivity.this, mPreferences.getString("Lan_Id", ""), "KM"));
-            GetRoutDistane(tv_km, Double.parseDouble(mPreferences.getString("latitude2", "")), Double.parseDouble(mPreferences.getString("longitude2", "")), Double.parseDouble(nearbies1.get(position).getPlace_Latitude()), Double.parseDouble(nearbies1.get(position).getPlace_Longi()), nearbies1.get(position).getDist());
-            String imageUrl = Constants.IMAGE_URL + nearbies1.get(position).getPlace_MainImage() + "&w=" + (width);
-
-            Picasso.with(SearchResultPlaceDetailsActivity.this) //
-                    .load(imageUrl) //
-                    .resize(width, width)
-                    .into(iv_detail);
-
-            gv_detail1_search_result2.setOnItemClickListener(new com.ftl.tourisma.gallery1.AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(com.ftl.tourisma.gallery1.AdapterView<?> parent, View view, int position, long id) {
-                    id1 = position;
-                    if (mHandler != null) {
-                        mHandler.removeCallbacks(mRunnable);
-                    }
-                    isForSimilarPlaces = true;
-                    setDetailInfo(nearbies1.get(position));
-                    mNearby = nearbies1.get(position);
-                }
-            });
-
-            Log.i("System out", imageUrl);
-            //  imageLoader2.displayImage(imageUrl, iv_detail, optionsSimple);
-
-            return convertView;
-        }
-    }
-
     public String GetRoutDistane(NormalTextView txtDistance, double startLat, double startLong, double endLat, double endLong, String distApi) {
         String Distance = "error";
         String Status = "error";
@@ -1223,50 +1133,6 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
         return Distance;
 
 
-    }
-
-    class DistanceAsync extends AsyncTask<String, JSONObject, JSONObject> {
-        private NormalTextView txtDistance;
-        String Distance = "error";
-        String Status = "error";
-        String distApi;
-
-        public DistanceAsync(NormalTextView txtDistance, String distApi) {
-            this.txtDistance = txtDistance;
-            this.distApi = distApi;
-        }
-
-
-        @Override
-        protected JSONObject doInBackground(String... strings) {
-            JSONObject jsonObj = Utilities.getJSONfromURL(strings[0]);
-            return jsonObj;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject jsonObject) {
-            super.onPostExecute(jsonObject);
-            try {
-
-                Status = jsonObject.getString("status");
-                if (Status.equalsIgnoreCase("OK")) {
-                    JSONArray routes = jsonObject.getJSONArray("routes");
-                    JSONObject zero = routes.getJSONObject(0);
-                    JSONArray legs = zero.getJSONArray("legs");
-                    JSONObject zero2 = legs.getJSONObject(0);
-                    JSONObject dist = zero2.getJSONObject("distance");
-                    Distance = dist.getString("text").replace("km", "").replace(" ", "");
-                } else {
-                    Distance = distApi;
-                }
-                txtDistance.setText(Distance + Constants.showMessage(SearchResultPlaceDetailsActivity.this, mPreferences.getString("Lan_Id", ""), "KM"));
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-
-        }
     }
 
     private void addFavoriteCall(String Place_Id) {
@@ -1349,7 +1215,6 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
         }
     }
 
-
     private void guestSnackToast() {
 
         tv_login_snack.setText(Constants.showMessage(SearchResultPlaceDetailsActivity.this, mPreferences.getString("Lan_Id", ""), "Login"));
@@ -1364,6 +1229,119 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
         };
         llSearchResultToast.setVisibility(View.VISIBLE);
         handler.postDelayed(runnable, 4000);
+    }
+
+    private class GalleryAdapter2 extends BaseAdapter {
+        Context context;
+
+        public GalleryAdapter2(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return nearbies1.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            LayoutInflater mLayoutInflater;
+            mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = mLayoutInflater.inflate(R.layout.detail_gallery, parent, false);
+            final ImageView iv_detail = (ImageView) convertView.findViewById(R.id.iv_detail);
+            final NormalTextView tv_name = (NormalTextView) convertView.findViewById(R.id.tv_name);
+            final NormalTextView tv_km = (NormalTextView) convertView.findViewById(R.id.tv_km);
+            final LinearLayout llView = (LinearLayout) convertView.findViewById(R.id.llView);
+            final RelativeLayout rlMain = (RelativeLayout) convertView.findViewById(R.id.rlMain);
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) rlMain.getLayoutParams();
+            layoutParams.width = (width * 50) / 100;
+            layoutParams.height = (width * 50) / 100;
+
+
+            rlMain.setLayoutParams(layoutParams);
+
+            tv_name.setText(nearbies1.get(position).getPlace_Name());
+            tv_km.setText(nearbies1.get(position).getDist() + Constants.showMessage(SearchResultPlaceDetailsActivity.this, mPreferences.getString("Lan_Id", ""), "KM"));
+            GetRoutDistane(tv_km, Double.parseDouble(mPreferences.getString("latitude2", "")), Double.parseDouble(mPreferences.getString("longitude2", "")), Double.parseDouble(nearbies1.get(position).getPlace_Latitude()), Double.parseDouble(nearbies1.get(position).getPlace_Longi()), nearbies1.get(position).getDist());
+            String imageUrl = Constants.IMAGE_URL + nearbies1.get(position).getPlace_MainImage() + "&w=" + (width);
+
+            Picasso.with(SearchResultPlaceDetailsActivity.this) //
+                    .load(imageUrl) //
+                    .resize(width, width)
+                    .into(iv_detail);
+
+            gv_detail1_search_result2.setOnItemClickListener(new com.ftl.tourisma.gallery1.AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(com.ftl.tourisma.gallery1.AdapterView<?> parent, View view, int position, long id) {
+                    id1 = position;
+                    if (mHandler != null) {
+                        mHandler.removeCallbacks(mRunnable);
+                    }
+                    isForSimilarPlaces = true;
+                    setDetailInfo(nearbies1.get(position));
+                    mNearby = nearbies1.get(position);
+                }
+            });
+
+            Log.i("System out", imageUrl);
+            //  imageLoader2.displayImage(imageUrl, iv_detail, optionsSimple);
+
+            return convertView;
+        }
+    }
+
+    class DistanceAsync extends AsyncTask<String, JSONObject, JSONObject> {
+        String Distance = "error";
+        String Status = "error";
+        String distApi;
+        private NormalTextView txtDistance;
+
+        public DistanceAsync(NormalTextView txtDistance, String distApi) {
+            this.txtDistance = txtDistance;
+            this.distApi = distApi;
+        }
+
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            JSONObject jsonObj = Utilities.getJSONfromURL(strings[0]);
+            return jsonObj;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            super.onPostExecute(jsonObject);
+            try {
+
+                Status = jsonObject.getString("status");
+                if (Status.equalsIgnoreCase("OK")) {
+                    JSONArray routes = jsonObject.getJSONArray("routes");
+                    JSONObject zero = routes.getJSONObject(0);
+                    JSONArray legs = zero.getJSONArray("legs");
+                    JSONObject zero2 = legs.getJSONObject(0);
+                    JSONObject dist = zero2.getJSONObject("distance");
+                    Distance = dist.getString("text").replace("km", "").replace(" ", "");
+                } else {
+                    Distance = distApi;
+                }
+                txtDistance.setText(Distance + Constants.showMessage(SearchResultPlaceDetailsActivity.this, mPreferences.getString("Lan_Id", ""), "KM"));
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+
+        }
     }
 
 }

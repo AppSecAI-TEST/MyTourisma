@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -177,6 +178,11 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        //LocalBroadcastManager to refresh home page
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        Intent intent = new Intent("TAG_REFRESH_HOMEPAGE");
+        localBroadcastManager.sendBroadcast(intent);
+
         view = inflater.inflate(R.layout.search_result, container, false);
 //        nearbies = (ArrayList<Nearby>) mIntent.getSerializableExtra("nearbies");
 //        search = mIntent.getStringExtra("search");
@@ -228,10 +234,8 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
             llEmptyLayout11.setVisibility(View.VISIBLE);
 //            SnackbarManager.show(Snackbar.with(getActivity()).color(getResources().getColor(R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "NORECORD")));
         }
-
         return view;
     }
-
 
     private void initialisation() {
         imgSharePlace = (ImageView) view.findViewById(R.id.imgSharePlace);
