@@ -31,6 +31,11 @@ public class CommonClass {
     public static String fb_id_s = null;
 
     //=========================================================
+    // email pattern
+    private static Pattern email_pattern = Pattern
+            .compile("[a-zA-Z0-9+._%-+]{1,256}" + "@"
+                    + "[a-zA-Z0-9][a-zA-Z0-9-]{0,64}" + "(" + "."
+                    + "[a-zA-Z0-9][a-zA-Z0-9-]{0,25}" + ")+");
 
     public static boolean hasInternetConnection(final Context context) {
         ConnectivityManager conMgr = (ConnectivityManager) context
@@ -90,13 +95,6 @@ public class CommonClass {
         return sb.toString();
     }
 
-    // email pattern
-    private static Pattern email_pattern = Pattern
-            .compile("[a-zA-Z0-9+._%-+]{1,256}" + "@"
-                    + "[a-zA-Z0-9][a-zA-Z0-9-]{0,64}" + "(" + "."
-                    + "[a-zA-Z0-9][a-zA-Z0-9-]{0,25}" + ")+");
-
-
     public static Bitmap getCircleBitmap(Bitmap bitmap) {
         final Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -126,7 +124,7 @@ public class CommonClass {
 
 
 	/*try{
-		Intent intent = new Intent(Intent.ACTION_SEND);
+        Intent intent = new Intent(Intent.ACTION_SEND);
 	    intent.putExtra(Intent.EXTRA_TEXT, message);
 	    intent.setType("text/plain");
 	    final PackageManager pm = context.getPackageManager();

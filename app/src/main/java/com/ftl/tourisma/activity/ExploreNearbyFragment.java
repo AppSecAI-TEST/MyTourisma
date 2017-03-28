@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,8 +74,13 @@ ExploreNearbyFragment extends Fragment implements View.OnClickListener {
     }
 
     public void replaceFragment() {
-
-        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, new HomeFragment()).commit();
+        Fragment fragment = new HomeFragment();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fram1, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+//        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, new HomeFragment()).commit();
     }
 
     public void replacePlaceDetailsFragment(String placeId, String location) {
@@ -91,7 +98,13 @@ ExploreNearbyFragment extends Fragment implements View.OnClickListener {
     }
 
     public void replaceLocationFragment() {
-        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, new SelectLocationFragment()).addToBackStack(SelectLocationFragment.class.getSimpleName()).commit();
+        Fragment fragment = new SelectLocationFragment();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fram1, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        //getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, new SelectLocationFragment()).addToBackStack(SelectLocationFragment.class.getSimpleName()).commit();
     }
 
     public void replaceSearchResultFragment(ArrayList<Nearby> nearbies1, String search, boolean isForCategory) {

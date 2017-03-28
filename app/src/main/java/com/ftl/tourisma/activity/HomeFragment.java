@@ -1,10 +1,8 @@
 package com.ftl.tourisma.activity;
 
 import android.app.Dialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -12,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,7 +76,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     private static int mCounter = -1;
     MainActivity mainActivity;
     ArrayList<HourDetails> hourDetails;
-    MyReceiver receiver;
+    //MyReceiver receiver;
     private ArrayList<AllCategories> allCategories = new ArrayList<>();
     private ArrayList<AllCategories> allCategories1 = new ArrayList<>();
     private AllCategories categories;
@@ -243,7 +240,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     }
 
 
-    //LocalBroadcastManager to refresh home page starts here
+    /*//LocalBroadcastManager to refresh home page starts here
     public void refresh() {
         //your code in refresh.
         Log.i("Refresh", "YES");
@@ -259,12 +256,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         receiver = new MyReceiver();
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver,
                 new IntentFilter("TAG_REFRESH_HOMEPAGE"));
-        try {
+       *//* try {
             explorerAdapter.notifyDataSetChanged();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*//*
     }
+
+    //Local broadcast receiver to refresh the home page
+    private class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            HomeFragment.this.refresh();
+        }
+    }*/
 
     private void homePageDataCall() {
         isCalledFromCat = false;
@@ -287,8 +292,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
-
                 recommendeds.clear();
                 JSONObjConverter jonObjConverter = new JSONObjConverter();
                 Log.d("Explore", "result string get all categories " + resultString);
@@ -1058,17 +1061,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     public void onAttach(Context activity) {
         super.onAttach(activity);
         mainActivity = (MainActivity) getActivity();
-    }
-
-    //Local broadcast receiver to refresh the home page
-    private class MyReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            HomeFragment.this.refresh();
-            homePageDataCall();
-            setCreateView(isCalledFromCat);
-            setNearBy();
-        }
     }
 
     private class ExplorerAdapter extends BaseAdapter {
