@@ -19,12 +19,12 @@ repositories {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "25.0.2"
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.ftl.tourisma"
         minSdkVersion 19
-        targetSdkVersion 24
+        targetSdkVersion 25
         multiDexEnabled true
         versionCode 9
         versionName '1.10'
