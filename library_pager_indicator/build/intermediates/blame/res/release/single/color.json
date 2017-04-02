@@ -1,5 +1,13 @@
 [
     {
+        "merged": "C:\\Users\\Vinay\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\build\\intermediates\\res\\merged\\release\\color\\vpi__dark_theme.xml",
+        "source": "C:\\Users\\Vinay\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\src\\main\\res\\color\\vpi__dark_theme.xml"
+    },
+    {
+        "merged": "C:\\Users\\Vinay\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\build\\intermediates\\res\\merged\\release\\color\\vpi__light_theme.xml",
+        "source": "C:\\Users\\Vinay\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\src\\main\\res\\color\\vpi__light_theme.xml"
+    },
+    {
         "merged": "C:\\Users\\VirtualDusk\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\build\\intermediates\\res\\merged\\release\\color\\vpi__dark_theme.xml",
         "source": "C:\\Users\\VirtualDusk\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\src\\main\\res\\color\\vpi__dark_theme.xml"
     },

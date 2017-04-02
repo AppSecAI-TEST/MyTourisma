@@ -23,6 +23,7 @@ import com.ftl.tourisma.R;
  */
 public class MainTabHostFragment extends Fragment implements View.OnClickListener {
 
+    public static int lastPage = 0;
     ViewPager vpFragment;
     MainScreenPagerAdapter adapterViewPager;
     private FragmentManager fragmentManager;
@@ -90,8 +91,16 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 /*if (Prefs.getInt(Constants.user_id, 0) == 0) {
                     if (position == 1) {
+
+                        System.out.println(" 123123 c "+position);
+                        System.out.println(" 123123 l "+lastPage);
+                       if( lastPage==0)
                         vpFragment.setCurrentItem(2);
+                        else
+                           vpFragment.setCurrentItem(0);
                     }
+
+
                 }*/
             }
 

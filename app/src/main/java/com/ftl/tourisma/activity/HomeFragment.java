@@ -83,6 +83,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     private ArrayList<Nearby> recommendeds = new ArrayList<>();
     private Nearby recommended;
     private ArrayList<Nearby> nearbies = new ArrayList<>();
+    private ArrayList<Nearby> nearbies_category = new ArrayList<>();
     private ArrayList<Nearby> nearbies1 = new ArrayList<>();
     private Nearby nearby;
     private ExpandableHeightGridView gv_explorer;
@@ -188,6 +189,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
 
         ll_explorer1 = (LinearLayout) view.findViewById(R.id.ll_explorer1);
         llEmptyLayout = (LinearLayout) view.findViewById(R.id.llEmptyLayout);
+        llEmptyLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         iv_search_header3 = (ImageView) view.findViewById(R.id.iv_search_header3);
         iv_search_header3.setOnClickListener(this);
@@ -256,11 +263,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         receiver = new MyReceiver();
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver,
                 new IntentFilter("TAG_REFRESH_HOMEPAGE"));
-       *//* try {
+        try {
             explorerAdapter.notifyDataSetChanged();
         } catch (Exception e) {
             e.printStackTrace();
-        }*//*
+        }
     }
 
     //Local broadcast receiver to refresh the home page
@@ -268,9 +275,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         @Override
         public void onReceive(Context context, Intent intent) {
             HomeFragment.this.refresh();
+            getAllCategoriesCall();
         }
-    }*/
-
+    }
+*/
     private void homePageDataCall() {
         isCalledFromCat = false;
 
@@ -1040,16 +1048,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                 }
 
                 if (jsonObject.has("category")) {
-                    nearbies.clear();
+                    nearbies_category.clear();
                     JSONArray jsonArray1 = jsonObject.optJSONArray("category");
 
                     for (int i = 0; i < jsonArray1.length(); i++) {
                         nearby = jonObjConverter.convertJsonToNearByObj(jsonArray1.optJSONObject(i));
-                        nearbies.add(nearby);
+                        nearbies_category.add(nearby);
                     }
                     Constants.mStaticNearCall = 1;
 
-                    mainActivity.exploreNearbyFragment.replaceSearchResultFragment(nearbies, tv_city.getText().toString(), true);
+                    mainActivity.exploreNearbyFragment.replaceSearchResultFragment(nearbies_category, tv_city.getText().toString(), true);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

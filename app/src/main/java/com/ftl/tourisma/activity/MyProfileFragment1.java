@@ -83,6 +83,22 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
 
     private static final int PIC_CROP = 3;
     private static final String TAG = "MyProfileFragment_New";
+    private static int TAKE_PICTURE = 1, SELECT_PICTURE = 0;
+    public String selectedImagePath = "", path, imgName = "";
+    long timeForImgname;
+    String[] languages = {
+            "English",
+            "Русский",
+            "العربية",
+    };
+    MainActivity yourLocationFragmentActivity;
+    Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            //  imgSun.setRotation();
+        }
+    };
     private NormalTextView tv_profile_name, tv_profile_address, tv_profile_email, tv_profile_language, tv_address, tv_profile_email1;
     private Spinner tv_profile_language1;
     private SharedPreferences mPreferences;
@@ -91,9 +107,6 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
     private FloatingActionButton fb_edit, fb_edit1;
     private NormalEditText edt_profile_name1, edt_address1;
     private FloatLabeledEditText fledt_profile_name1, fledt_address1;
-    private static int TAKE_PICTURE = 1, SELECT_PICTURE = 0;
-    long timeForImgname;
-    public String selectedImagePath = "", path, imgName = "";
     private File f;
     //    private Bitmap bm;
     private Dialog dialog;
@@ -105,14 +118,7 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
     private NormalTextView txt_email, tv_sign_up;
     private NormalTextView tv_profile_address1, floatableAddress, tv_about, button_save_changes, tv_logout;
     private boolean image = false;
-    String[] languages = {
-            "English",
-            "Русский",
-            "العربية",
-    };
-
     private int lan_id;
-    MainActivity yourLocationFragmentActivity;
     private ImageView imgSun1, imgSun;
     private int mCurrRotation;
     private Animation rotation;
@@ -121,17 +127,10 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        MainTabHostFragment.lastPage = 2;
         mPreferences = getActivity().getSharedPreferences(Constants.mPref, 0);
         mEditor = mPreferences.edit();
     }
-
-    Handler handler = new Handler();
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            //  imgSun.setRotation();
-        }
-    };
 
     @Nullable
     @Override
@@ -459,118 +458,6 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
         }
     }
 
-    class RetrieveFeedTask extends AsyncTask<String, String, String> {
-
-        private Exception exception;
-
-        protected void onPreExecute() {
-//            Log.d("System out", "in image upload....");
-
-            dialog = new Dialog(getActivity(), android.R.style.Theme_Translucent_NoTitleBar);
-
-            progressbar = new ProgressBar(getActivity());
-            progressbar.setBackgroundResource(R.drawable.progress_background);
-            dialog.addContentView(progressbar, new LinearLayout.LayoutParams(40, 40));
-            Window window = dialog.getWindow();
-            window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            window.setGravity(Gravity.CENTER);
-
-            dialog.show();
-
-        }
-
-        protected String doInBackground(String... urls) {
-            try {
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                Log.i("System out", "selectedImagePath : " + selectedImagePath);
-
-                /*String split123[] = selectedImagePath.split("\\.");
-                if (split123[1].equals("jpg") || split123[1].equals("jpeg")) {
-                    bm.compress(Bitmap.CompressFormat.JPEG, 75, bos);
-                } else {
-                    bm.compress(Bitmap.CompressFormat.PNG, 75, bos);
-                }*/
-
-                timeForImgname = System.currentTimeMillis();
-                imgName = /* myPref.optString("path", "") */"img"
-                        + timeForImgname + ".jpg";
-//                Log.d("System out", "imgName " + imgName);
-
-//                bm.compress(Bitmap.CompressFormat.JPEG, 75, bos);
-
-                byte[] data = bos.toByteArray();
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpPost postRequest = new HttpPost(Constants.IMG_URL + "?");
-                String[] split;
-
-                ByteArrayBody bab = new ByteArrayBody(data, imgName);
-                MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-                Log.i("System out", "2");
-                reqEntity.addPart("action", new StringBody("imageUpload"));
-                reqEntity.addPart("imagePath", new StringBody("user"));
-                reqEntity.addPart("imageField", bab);
-
-                postRequest.setEntity(reqEntity);
-                HttpResponse response = httpClient.execute(postRequest);
-                Log.i("System out", "5" + response);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
-                String sResponse;
-                StringBuilder s = new StringBuilder();
-//                Log.d("System out", "string builder ");
-                while ((sResponse = reader.readLine()) != null) {
-                    s = s.append(sResponse);
-                }
-
-                String ResponseString = s.toString();
-
-//                Log.d("System out", "image upload response: " + s.toString());
-
-                //[{"fileName":"abc.jpg","Status":true}]
-                try {
-                    JSONArray jarray = new JSONArray(s.toString());
-                    JSONObject jobj = jarray.getJSONObject(0);
-                    selectedImagePath = jobj.getString("fileName");
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-               /* while ((sResponse = reader.readLine()) != null) {
-                    Log.i("System out", "under reader...1" + sResponse);
-                    s = s.append(sResponse);
-                    //10-19 12:29:16.578: I/System out(8843): under reader...1[{"fileName":"unnamed.gif","Status":true}]
-                    try {
-                        JSONArray jarray=new JSONArray(sResponse);
-                        JSONObject jobj=jarray.getJSONObject(0);
-                        title=jobj.getString("fileName");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-                ResponseString = s.toString();
-//                Log.d("System out", "image upload response: " + s.toString());*/
-
-
-            } catch (OutOfMemoryError e) {
-                e.printStackTrace();
-//                Toast.makeText(EditProfileActivity.this, "Could not post image due to insufficient storage memory", Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-                e.printStackTrace();
-                // handler.sendEmptyMessage(0);
-            }
-            return null;
-
-        }
-
-        protected void onPostExecute(String result) {
-
-            dialog.dismiss();
-//            callDialog();
-        }
-    }
-
     public void dialog() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -816,15 +703,6 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
         }
     }
 
-    private class MyWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return true;
-        }
-
-    }
-
     private void pageInfo() {
         wb_about_us.getSettings().setLoadWithOverviewMode(true);
 //        wb_about_us.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
@@ -862,5 +740,126 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
         super.onAttach(activity);
 
         yourLocationFragmentActivity = (MainActivity) getActivity();
+    }
+
+    class RetrieveFeedTask extends AsyncTask<String, String, String> {
+
+        private Exception exception;
+
+        protected void onPreExecute() {
+//            Log.d("System out", "in image upload....");
+
+            dialog = new Dialog(getActivity(), android.R.style.Theme_Translucent_NoTitleBar);
+
+            progressbar = new ProgressBar(getActivity());
+            progressbar.setBackgroundResource(R.drawable.progress_background);
+            dialog.addContentView(progressbar, new LinearLayout.LayoutParams(40, 40));
+            Window window = dialog.getWindow();
+            window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            window.setGravity(Gravity.CENTER);
+
+            dialog.show();
+
+        }
+
+        protected String doInBackground(String... urls) {
+            try {
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                Log.i("System out", "selectedImagePath : " + selectedImagePath);
+
+                /*String split123[] = selectedImagePath.split("\\.");
+                if (split123[1].equals("jpg") || split123[1].equals("jpeg")) {
+                    bm.compress(Bitmap.CompressFormat.JPEG, 75, bos);
+                } else {
+                    bm.compress(Bitmap.CompressFormat.PNG, 75, bos);
+                }*/
+
+                timeForImgname = System.currentTimeMillis();
+                imgName = /* myPref.optString("path", "") */"img"
+                        + timeForImgname + ".jpg";
+//                Log.d("System out", "imgName " + imgName);
+
+//                bm.compress(Bitmap.CompressFormat.JPEG, 75, bos);
+
+                byte[] data = bos.toByteArray();
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost postRequest = new HttpPost(Constants.IMG_URL + "?");
+                String[] split;
+
+                ByteArrayBody bab = new ByteArrayBody(data, imgName);
+                MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+                Log.i("System out", "2");
+                reqEntity.addPart("action", new StringBody("imageUpload"));
+                reqEntity.addPart("imagePath", new StringBody("user"));
+                reqEntity.addPart("imageField", bab);
+
+                postRequest.setEntity(reqEntity);
+                HttpResponse response = httpClient.execute(postRequest);
+                Log.i("System out", "5" + response);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
+                String sResponse;
+                StringBuilder s = new StringBuilder();
+//                Log.d("System out", "string builder ");
+                while ((sResponse = reader.readLine()) != null) {
+                    s = s.append(sResponse);
+                }
+
+                String ResponseString = s.toString();
+
+//                Log.d("System out", "image upload response: " + s.toString());
+
+                //[{"fileName":"abc.jpg","Status":true}]
+                try {
+                    JSONArray jarray = new JSONArray(s.toString());
+                    JSONObject jobj = jarray.getJSONObject(0);
+                    selectedImagePath = jobj.getString("fileName");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+               /* while ((sResponse = reader.readLine()) != null) {
+                    Log.i("System out", "under reader...1" + sResponse);
+                    s = s.append(sResponse);
+                    //10-19 12:29:16.578: I/System out(8843): under reader...1[{"fileName":"unnamed.gif","Status":true}]
+                    try {
+                        JSONArray jarray=new JSONArray(sResponse);
+                        JSONObject jobj=jarray.getJSONObject(0);
+                        title=jobj.getString("fileName");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                ResponseString = s.toString();
+//                Log.d("System out", "image upload response: " + s.toString());*/
+
+
+            } catch (OutOfMemoryError e) {
+                e.printStackTrace();
+//                Toast.makeText(EditProfileActivity.this, "Could not post image due to insufficient storage memory", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+                // handler.sendEmptyMessage(0);
+            }
+            return null;
+
+        }
+
+        protected void onPostExecute(String result) {
+
+            dialog.dismiss();
+//            callDialog();
+        }
+    }
+
+    private class MyWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
+
     }
 }

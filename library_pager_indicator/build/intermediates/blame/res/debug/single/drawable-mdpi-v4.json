@@ -4,16 +4,36 @@
         "source": "C:\\Users\\VirtualDusk\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\src\\main\\res\\drawable-mdpi\\vpi__tab_unselected_focused_holo.9.png"
     },
     {
+        "merged": "C:\\Users\\Vinay\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\vpi__tab_unselected_pressed_holo.9.png",
+        "source": "C:\\Users\\Vinay\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\src\\main\\res\\drawable-mdpi\\vpi__tab_unselected_pressed_holo.9.png"
+    },
+    {
+        "merged": "C:\\Users\\Vinay\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\vpi__tab_selected_holo.9.png",
+        "source": "C:\\Users\\Vinay\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\src\\main\\res\\drawable-mdpi\\vpi__tab_selected_holo.9.png"
+    },
+    {
         "merged": "C:\\Users\\VirtualDusk\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\vpi__tab_selected_focused_holo.9.png",
         "source": "C:\\Users\\VirtualDusk\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\src\\main\\res\\drawable-mdpi\\vpi__tab_selected_focused_holo.9.png"
+    },
+    {
+        "merged": "C:\\Users\\Vinay\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\vpi__tab_selected_focused_holo.9.png",
+        "source": "C:\\Users\\Vinay\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\src\\main\\res\\drawable-mdpi\\vpi__tab_selected_focused_holo.9.png"
     },
     {
         "merged": "C:\\Users\\VirtualDusk\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\vpi__tab_unselected_holo.9.png",
         "source": "C:\\Users\\VirtualDusk\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\src\\main\\res\\drawable-mdpi\\vpi__tab_unselected_holo.9.png"
     },
     {
+        "merged": "C:\\Users\\Vinay\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\vpi__tab_unselected_focused_holo.9.png",
+        "source": "C:\\Users\\Vinay\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\src\\main\\res\\drawable-mdpi\\vpi__tab_unselected_focused_holo.9.png"
+    },
+    {
         "merged": "C:\\Users\\VirtualDusk\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\vpi__tab_unselected_pressed_holo.9.png",
         "source": "C:\\Users\\VirtualDusk\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\src\\main\\res\\drawable-mdpi\\vpi__tab_unselected_pressed_holo.9.png"
+    },
+    {
+        "merged": "C:\\Users\\Vinay\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\vpi__tab_selected_pressed_holo.9.png",
+        "source": "C:\\Users\\Vinay\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\src\\main\\res\\drawable-mdpi\\vpi__tab_selected_pressed_holo.9.png"
     },
     {
         "merged": "C:\\Users\\VirtualDusk\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\vpi__tab_selected_holo.9.png",
@@ -22,5 +42,9 @@
     {
         "merged": "C:\\Users\\VirtualDusk\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\vpi__tab_selected_pressed_holo.9.png",
         "source": "C:\\Users\\VirtualDusk\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\src\\main\\res\\drawable-mdpi\\vpi__tab_selected_pressed_holo.9.png"
+    },
+    {
+        "merged": "C:\\Users\\Vinay\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\vpi__tab_unselected_holo.9.png",
+        "source": "C:\\Users\\Vinay\\AndroidStudioProjects\\MyTourisma\\library_pager_indicator\\src\\main\\res\\drawable-mdpi\\vpi__tab_unselected_holo.9.png"
     }
 ]

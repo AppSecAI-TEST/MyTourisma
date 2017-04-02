@@ -28,7 +28,7 @@ ExploreNearbyFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        MainTabHostFragment.lastPage = 0;
         replaceFragment();
     }
 
@@ -102,7 +102,7 @@ ExploreNearbyFragment extends Fragment implements View.OnClickListener {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fram1, fragment);
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.addToBackStack(SelectLocationFragment.class.getSimpleName());
         fragmentTransaction.commit();
         //getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, new SelectLocationFragment()).addToBackStack(SelectLocationFragment.class.getSimpleName()).commit();
     }

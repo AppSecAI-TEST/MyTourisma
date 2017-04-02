@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
@@ -80,6 +81,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
     private static final int PLACE_LIKE_SEARCH = 1003;
     private static final String TAG = "SearchResultPlace";
     static int mCounter = -1;
+    ScrollView similar_scroll;
     GalleryAdapter2 galleryAdapter2;
     View view;
     private ArrayList<Nearby> nearbies1 = new ArrayList<>();
@@ -161,6 +163,8 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
 
         imgSharePlace = (ImageView) view.findViewById(R.id.imgSharePlace);
         imgSharePlace.setOnClickListener(this);
+
+        similar_scroll = (ScrollView) view.findViewById(R.id.similar_scroll);
 
         rlVirtualTour = (RelativeLayout) view.findViewById(R.id.rlVirtualTour);
         rlVirtualTour.setOnClickListener(this);
@@ -501,6 +505,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
                 startActivity(intent);
             }
         });
+        similar_scroll.scrollTo(0, 0);
 
     }
 
