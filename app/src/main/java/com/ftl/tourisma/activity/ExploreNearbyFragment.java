@@ -104,7 +104,7 @@ ExploreNearbyFragment extends Fragment implements View.OnClickListener {
         fragmentTransaction.replace(R.id.fram1, fragment);
         fragmentTransaction.addToBackStack(SelectLocationFragment.class.getSimpleName());
         fragmentTransaction.commit();
-        //getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, new SelectLocationFragment()).addToBackStack(SelectLocationFragment.class.getSimpleName()).commit();
+//        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, new SelectLocationFragment()).addToBackStack(SelectLocationFragment.class.getSimpleName()).commit();
     }
 
     public void replaceSearchResultFragment(ArrayList<Nearby> nearbies1, String search, boolean isForCategory) {

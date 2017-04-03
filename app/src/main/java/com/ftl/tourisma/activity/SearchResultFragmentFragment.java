@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
@@ -79,6 +81,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import static com.ftl.tourisma.utils.Constants.PlaceClosed;
@@ -431,51 +434,37 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
     }
 
     public void suggestPlace() {
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-//                emailIntent.setAction(Intent.ACTION_SEND);
-        emailIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@mytourisma.com"});
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "myTourisma - Suggest new location");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Hello,\n" +
-                "\n" +
-                "\n" +
-                "I would like to suggest a new location for myTourisma app\n" +
-                "\n" +
-                "Location name:\n" +
-                "Location:\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "Thank you");
-        emailIntent.setType("text/plain");
-        startActivity(Intent.createChooser(emailIntent, "myTourisma"));
-        /*Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-        sendIntent.setType("text/plain");
-        sendIntent.setData(Uri.parse("info@mytourisma.com"));
-//        sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-        sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@mytourisma.com"});
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "myTourisma - Suggest new location");
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "Hello,\n" +
-                "\n" +
-                "\n" +
-                "I would like to suggest a new location for myTourisma app\n" +
-                "\n" +
-                "Location name:\n" +
-                "Location:\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "Thank you");
-        final PackageManager pm = getActivity().getPackageManager();
-        final List<ResolveInfo> matches = pm.queryIntentActivities(sendIntent, 0);
-        ResolveInfo best = null;
-        for (final ResolveInfo info : matches)
-            if (info.activityInfo.packageName.endsWith(".gm") || info.activityInfo.name.toLowerCase().contains("gmail"))
-                best = info;
-        if (best != null)
-            sendIntent.setClassName(best.activityInfo.packageName, best.activityInfo.name);
+        try {
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            emailIntent.setData(Uri.parse("info@mytourisma.com"));
+//            sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@mytourisma.com"});
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "myTourisma - Suggest new location");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Hello,\n" +
+                    "\n" +
+                    "\n" +
+                    "I would like to suggest a new location for myTourisma app\n" +
+                    "\n" +
+                    "Location name:\n" +
+                    "Location:\n" +
+                    "\n" +
+                    "\n" +
+                    "\n" +
+                    "Thank you");
+            emailIntent.setType("text/plain");
+            final PackageManager pm = getActivity().getPackageManager();
+            final List<ResolveInfo> matches = pm.queryIntentActivities(emailIntent, 0);
+            ResolveInfo best = null;
+            for (final ResolveInfo info : matches)
+                if (info.activityInfo.packageName.endsWith(".gm") || info.activityInfo.name.toLowerCase().contains("gmail"))
+                    best = info;
+            if (best != null)
+                emailIntent.setClassName(best.activityInfo.packageName, best.activityInfo.name);
 
-        startActivity(sendIntent);*/
+            getActivity().startActivity(emailIntent);
+        } catch (Exception e) {
+            Utils.Log(TAG, "suggestPlace Exception: " + e.getLocalizedMessage());
+        }
     }
 
     @Override

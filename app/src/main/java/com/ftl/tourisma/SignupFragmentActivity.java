@@ -123,6 +123,7 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
         callbackManager = CallbackManager.Factory.create();
         FacebookLogin();
         privacy_policy_txt = (NormalTextView) findViewById(R.id.privacy_policy_txt);
+        privacy_policy_txt.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "PrivacyPolicyTitle"));
         iv_close_header1 = (ImageView) findViewById(R.id.img_close);
         tv_forgot_sign_up = (NormalTextView) findViewById(R.id.tv_forgot_sign_up);
         tv_forgot_sign_up.setText(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "forgotpassword"));
@@ -615,7 +616,10 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
         TextView privacy_txt = (TextView) popupView.findViewById(R.id.titel);
 
         //setting desc text based on user selected language
-        if (Constants.language.equals("arabic")) {
+        privacy_txt.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "PrivacyPolicyTitle"));
+        desc_txt.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "privacyPolicy"));
+        ok.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "okButtonPrivacyPolicy"));
+        /*if (Constants.language.equals("arabic")) {
             desc_txt.setText(getResources().getString(R.string.privacy_arabic));
             ok.setText("حسنا");
             privacy_txt.setText("سياسة الخصوصية");
@@ -623,7 +627,7 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
             desc_txt.setText(getResources().getString(R.string.privacy_russian));
             ok.setText("ОК");
             privacy_txt.setText("политика конфиденциальности");
-        }
+        }*/
 
 
         ok.setOnClickListener(new View.OnClickListener() {

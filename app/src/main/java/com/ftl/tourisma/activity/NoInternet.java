@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,9 +22,11 @@ import com.ftl.tourisma.utils.Constants;
 
 public class NoInternet extends Activity {
 
+    private static SharedPreferences mPreferences;
     ImageView no_internet;
     Button try_btn;
     TextView internet_fail_txt, net_fail_txt;
+    private SharedPreferences.Editor mEditor;
     private BroadcastReceiver _closeActivityReceiver = new CloseActivityReceiver();
 
     @Override
@@ -32,9 +35,13 @@ public class NoInternet extends Activity {
         setContentView(R.layout.no_internet);
         dcl_layout_variables();
         onClickListners();
+        mPreferences = getSharedPreferences(Constants.mPref, 0);
+        mEditor = mPreferences.edit();
 
         //setting text in arabic and russian languages
-        if (Constants.language.equals("arabic")) {
+        internet_fail_txt.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "nonetworktitle"));
+        net_fail_txt.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "nonetworkmessage"));
+        /*if (Constants.language.equals("arabic")) {
             try_btn.setText("حاول ثانية");
             internet_fail_txt.setText("للأسف !");
             net_fail_txt.setText("جهازك غير متصل بشبكة الإنترنت، الرجاء مراجعة الإعدادات و المحاولة مرة أخرى");
@@ -42,7 +49,7 @@ public class NoInternet extends Activity {
             try_btn.setText("ПОПРОБУЙТЕ СНОВА");
             internet_fail_txt.setText(" Ой!!");
             net_fail_txt.setText("Нет соединения с Интернетом. Пожалуйста проверьте свои настройки и попробуйте снова.");
-        }
+        }*/
 
         //registering receiver for broadcast receiver
         IntentFilter filter = new IntentFilter("closeNoInternetActivity");

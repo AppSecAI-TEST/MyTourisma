@@ -3,10 +3,12 @@ package com.ftl.tourisma.activity;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -26,7 +28,9 @@ import com.github.paolorotolo.appintro.AppIntro;
 
 public class IntroScreens extends AppIntro {
 
+    private static SharedPreferences mPreferences;
     int noOfTimesCalled = 0;
+    private SharedPreferences.Editor mEditor;
 
     public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId, int reqWidth, int reqHeight) {
 
@@ -63,6 +67,12 @@ public class IntroScreens extends AppIntro {
         return inSampleSize;
     }
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mPreferences = getSharedPreferences(Constants.mPref, 0);
+        mEditor = mPreferences.edit();
+    }
 
     @Override
     public void init(Bundle savedInstanceState) {
@@ -76,64 +86,24 @@ public class IntroScreens extends AppIntro {
     @Override
     public void onSkipPressed() {
         if (noOfTimesCalled % 2 == 0) {
-            if (Constants.language.equals("arabic")) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("إذا تخطيت قد تكون الأذونات أنه سوف يؤثر على نشاط التطبيق الخاص بك بعد أن كنت بحاجة إلى إذن نشاطا يدويا من إعداد الجهاز. لالاستمرار في السماح أذونات، انقر على متابعة أو لقريب زر إغلاق الصحف وصول إذن.")
-                        .setCancelable(false)
-                        .setPositiveButton("استمر", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        })
-                        .setNegativeButton("قريب", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent in = new Intent(IntroScreens.this, SignUpLoginFragmentActivity.class);
-                                startActivity(in);
-                                finish();
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.setTitle("هل ترغب بالتأكيد في تخطي للحصول على إذن؟");
-                alert.show();
-            } else if (Constants.language.equals("russian")) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("Если пропустить permissons может быть, это будет влиять на вашу активность приложения afterthat необходимо активное разрешение вручную из устройства setting.For продолжают разрешать разрешения нажмите продолжить или для непосредственной печати доступа разрешение кнопка закрытия окна.")
-                        .setCancelable(false)
-                        .setPositiveButton("Продолжать", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        })
-                        .setNegativeButton("Закрыть", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent in = new Intent(IntroScreens.this, SignUpLoginFragmentActivity.class);
-                                startActivity(in);
-                                finish();
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.setTitle("Вы уверены, что хотите пропустить разрешения?");
-                alert.show();
-            } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("If you skip the permissons may be it will effect your application activity after that you need to active permission manually from device setting. For continue to allow permissions click on continue or for close permission access press close button.")
-                        .setCancelable(false)
-                        .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        })
-                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent in = new Intent(IntroScreens.this, SignUpLoginFragmentActivity.class);
-                                startActivity(in);
-                                finish();
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.setTitle("Are you sure wish to skip for permission?");
-                alert.show();
-            }
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "Tutorial End message"))
+                    .setCancelable(false)
+                    .setPositiveButton(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "Tutorial End Continue"), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    })
+                    .setNegativeButton(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "Tutorial End Cancel"), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent in = new Intent(IntroScreens.this, SignUpLoginFragmentActivity.class);
+                            startActivity(in);
+                            finish();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.setTitle(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "Tutorial End Title"));
+            alert.show();
         }
         noOfTimesCalled++;
     }
@@ -174,12 +144,13 @@ public class IntroScreens extends AppIntro {
             View v = inflater.inflate(R.layout.intro_location, container, false);
             TextView location_txt = (TextView) v.findViewById(R.id.location_txt);
             TextView loc_txt = (TextView) v.findViewById(R.id.loc_txt);
+            loc_txt.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tutorial message-2"));
             if (Constants.language.equals("arabic")) {
                 location_txt.setText("مواقع");
-                loc_txt.setText(getResources().getString(R.string.tutorial_location_txt_arabic));
+//                loc_txt.setText(getResources().getString(R.string.tutorial_location_txt_arabic));
             } else if (Constants.language.equals("russian")) {
                 location_txt.setText("Ваше местоположение");
-                loc_txt.setText(getResources().getString(R.string.tutorial_location_txt_russian));
+//                loc_txt.setText(getResources().getString(R.string.tutorial_location_txt_russian));
             }
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
@@ -206,12 +177,13 @@ public class IntroScreens extends AppIntro {
             View v = inflater.inflate(R.layout.intro_notification, container, false);
             TextView notify_txt = (TextView) v.findViewById(R.id.notify_txt);
             TextView notification_txt = (TextView) v.findViewById(R.id.notification_txt);
+            notification_txt.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tutorial Message-1"));
             if (Constants.language.equals("arabic")) {
                 notify_txt.setText("إخطارات");
-                notification_txt.setText(getResources().getString(R.string.tutorial_notification_txt_arabic));
+//                notification_txt.setText(getResources().getString(R.string.tutorial_notification_txt_arabic));
             } else if (Constants.language.equals("russian")) {
                 notify_txt.setText("Уведомления");
-                notification_txt.setText(getResources().getString(R.string.tutorial_notification_txt_russian));
+//                notification_txt.setText(getResources().getString(R.string.tutorial_notification_txt_russian));
             }
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
@@ -238,12 +210,13 @@ public class IntroScreens extends AppIntro {
             View v = inflater.inflate(R.layout.intro_bluetooth, container, false);
             TextView blue_txt = (TextView) v.findViewById(R.id.blue_txt);
             TextView bluetooth_txt = (TextView) v.findViewById(R.id.bluetooth_txt);
+            bluetooth_txt.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tutorial message-3"));
             if (Constants.language.equals("arabic")) {
                 blue_txt.setText("بلوتوث");
-                bluetooth_txt.setText(getResources().getString(R.string.tutorial_bluetooth_txt_arabic));
+//                bluetooth_txt.setText(getResources().getString(R.string.tutorial_bluetooth_txt_arabic));
             } else if (Constants.language.equals("russian")) {
                 blue_txt.setText("Bluetooth");
-                bluetooth_txt.setText(getResources().getString(R.string.tutorial_bluetooth_txt_russian));
+//                bluetooth_txt.setText(getResources().getString(R.string.tutorial_bluetooth_txt_russian));
             }
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
