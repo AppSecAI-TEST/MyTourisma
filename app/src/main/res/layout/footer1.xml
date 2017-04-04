@@ -21,7 +21,7 @@
         <ImageView
             android:id="@+id/ll_home_footer1"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="47dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:padding="@dimen/m10dp"
@@ -36,7 +36,7 @@
         <ImageView
             android:id="@+id/ll_favorite_footer1"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="47dp"
             android:padding="@dimen/m10dp"
             android:src="@drawable/ic_bottom_like" />
 
@@ -57,7 +57,7 @@
         <ImageView
             android:id="@+id/ll_profile_footer1"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="47dp"
             android:padding="@dimen/m10dp"
             android:src="@drawable/ic_bottom_profile" />
 

@@ -55,6 +55,7 @@ import com.ftl.tourisma.utils.Utils;
 import com.github.clans.fab.FloatingActionButton;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.squareup.picasso.Picasso;
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
@@ -336,7 +337,7 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
             } else {
                 Constants.mStatic = 0;
                 mEditor.clear().commit();
-
+                Prefs.putInt(Constants.user_id, 0);
                 Intent mIntent = new Intent(getActivity(), LanguageFragmentActivity.class);
                 mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(mIntent);

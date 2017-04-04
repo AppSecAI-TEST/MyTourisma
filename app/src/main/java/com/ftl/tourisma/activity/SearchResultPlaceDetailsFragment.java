@@ -899,6 +899,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
 */
 
             String imageUrl = Constants.IMAGE_URL + nearbies1.get(position).getPlace_MainImage() + "&w=" + (width);
+            System.out.println("images_url" + imageUrl);
 
             Picasso.with(getActivity()) //
                     .load(imageUrl) //

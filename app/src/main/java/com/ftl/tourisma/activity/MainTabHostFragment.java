@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.ftl.tourisma.R;
+import com.ftl.tourisma.utils.Constants;
+import com.pixplicity.easyprefs.library.Prefs;
 
 
 /**
@@ -50,7 +52,6 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
 
 
     private void initViews(View view) {
-
         fragmentManager = getChildFragmentManager();
         vpFragment = (ViewPager) view.findViewById(R.id.vp_your_location);
         adapterViewPager = new MainScreenPagerAdapter(fragmentManager);
@@ -89,19 +90,14 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
         vpFragment.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                /*if (Prefs.getInt(Constants.user_id, 0) == 0) {
+                if (Prefs.getInt(Constants.user_id, 0) == 0) {
                     if (position == 1) {
-
-                        System.out.println(" 123123 c "+position);
-                        System.out.println(" 123123 l "+lastPage);
-                       if( lastPage==0)
-                        vpFragment.setCurrentItem(2);
-                        else
-                           vpFragment.setCurrentItem(0);
+                        if (Constants.homepage.equals("homepage")) {
+                            Constants.homepage = "profile";
+                            vpFragment.setCurrentItem(2);
+                        }
                     }
-
-
-                }*/
+                }
             }
 
             @Override
@@ -114,9 +110,24 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
                     localBroadcastManager.sendBroadcast(intent);
                 }
                 if (position == 1) {
-                    LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
-                    Intent intent = new Intent("TAG_REFRESH_FAVOURITE");
-                    localBroadcastManager.sendBroadcast(intent);
+                    if (Prefs.getInt(Constants.user_id, 0) == 0) {
+                        if (Constants.homepage.equals("profile")) {
+                            Constants.homepage = "homepage";
+                            vpFragment.setCurrentItem(0);
+                        }
+                    } else {
+                        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+                        Intent intent = new Intent("TAG_REFRESH_FAVOURITE");
+                        localBroadcastManager.sendBroadcast(intent);
+                    }
+                }
+                if (position == 2) {
+                    if (Prefs.getInt(Constants.user_id, 0) == 0) {
+                        if (Constants.homepage.equals("profile")) {
+                            Constants.homepage = "homepage";
+                            vpFragment.setCurrentItem(0);
+                        }
+                    }
                 }
 
                /* if (position == 0) {

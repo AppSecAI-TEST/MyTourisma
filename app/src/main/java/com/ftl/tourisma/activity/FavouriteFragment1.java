@@ -30,7 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
@@ -948,7 +947,7 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
             FavouriteFragment1.this.refresh();
             if (Prefs.getInt(Constants.user_id, 0) == 0) {
                 //((MainTabHostFragment)getParentFragment()).switchFragment(0);
-                Toast.makeText(getActivity().getApplicationContext(), "Please login", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity().getApplicationContext(), "Please login", Toast.LENGTH_LONG).show();
             } else {
                 getFavoriteCall();
             }

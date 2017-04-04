@@ -54,6 +54,7 @@ public static final int LOADER_WIDTH = 60;
     public static String PlaceOpenFor24Hours = "1";
     public static String PlaceClosed = "0";
     public static String PlaceOpenWithAnyTime = "2";
+    public static String homepage = "homepage";
 
 
 

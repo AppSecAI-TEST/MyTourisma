@@ -84,7 +84,6 @@ ExploreNearbyFragment extends Fragment implements View.OnClickListener {
     }
 
     public void replacePlaceDetailsFragment(String placeId, String location) {
-//        if()
         Bundle bundle = new Bundle();
         bundle.putString("placeId", placeId);
         bundle.putString("location", location);
@@ -94,7 +93,13 @@ ExploreNearbyFragment extends Fragment implements View.OnClickListener {
     }
 
     public void replaceSearchFragment() {
-        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, new SearchFragment()).addToBackStack(SearchFragment.class.getSimpleName()).commit();
+        Fragment fragment = new SearchFragment();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fram1, fragment);
+        fragmentTransaction.addToBackStack(SearchFragment.class.getSimpleName());
+        fragmentTransaction.commit();
+//        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, new SearchFragment()).addToBackStack(SearchFragment.class.getSimpleName()).commit();
     }
 
     public void replaceLocationFragment() {

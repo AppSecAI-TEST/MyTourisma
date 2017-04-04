@@ -789,16 +789,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    //if (exploreNearbyFragment == null)
                     exploreNearbyFragment = new ExploreNearbyFragment();
-                    // else
                     return exploreNearbyFragment;
-                //  break;
+
                 case 1:
                     // if (favouriteFragment == null)
+
                     favouriteFragment = new FavouriteMainFragment();
-                    //else
                     return favouriteFragment;
+                    //else
+
                 //  break;
                 case 2:
                     //if (profileFragment == null)
