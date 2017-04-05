@@ -1,20 +1,15 @@
 package com.ftl.tourisma.activity;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -28,16 +23,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ftl.tourisma.BeaconsActivity;
-import com.ftl.tourisma.LoginFragmentActivity;
 import com.ftl.tourisma.R;
-import com.ftl.tourisma.SearchResultFragmentActivity;
 import com.ftl.tourisma.SearchResultPlaceDetailsActivity;
-import com.ftl.tourisma.SignupFragmentActivity;
 import com.ftl.tourisma.custom_views.NormalEditText;
 import com.ftl.tourisma.custom_views.NormalTextView;
 import com.ftl.tourisma.database.FeesDetails;
@@ -53,8 +43,6 @@ import com.ftl.tourisma.utils.Preference;
 import com.ftl.tourisma.utils.Utilities;
 import com.ftl.tourisma.utils.Utils;
 import com.google.android.gms.maps.model.LatLng;
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
 import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
@@ -78,39 +66,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_ENTERED;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_ENTRY_TEXT;
 import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_EXITED;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_EXIT_TEXT;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_IS_CLOSE_PROMO;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_MESSAGE;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_NEAR_BY;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_NEAR_BY_TEXT;
-import static com.ftl.tourisma.beacons.MyBeaconsService.BROADCAST_BEACON;
 import static com.ftl.tourisma.beacons.MyBeaconsService.PLACE_ID;
-import static com.ftl.tourisma.beacons.MyBeaconsService.PLACE_IMAGE;
 
 /**
  * Created by fipl11111 on 25-Feb-16.
  */
 public class SearchFragment extends Fragment implements OnClickListener, post_sync.ResponseHandler {
 
-    private static final String TAG = "SearchFragment";
     public static final int PLACE_DETAILS_FRAGMENT = 10;
-    private SharedPreferences mPreferences;
-    private NormalTextView txtEmptyView, txtCancel, txtSearch, txt_snack_msg;
-    private SharedPreferences.Editor mEditor;
-    private GPSTracker gpsTracker;
+    private static final String TAG = "SearchFragment";
     private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
     private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
     private static final String OUT_JSON = "/json";
     //------------ make your specific key ------------
     private static final String API_KEY = "AIzaSyARcU53tPS4oPd6GFnIfNXrog0NtLMOwpI";
-
+    ArrayList<SearchPlaces> searchPlacesNew = new ArrayList<>();
+    ArrayList<SearchPlaces> searchPlaces = new ArrayList<>();
+    private SharedPreferences mPreferences;
+    private NormalTextView txtEmptyView, txtCancel, txtSearch, txt_snack_msg;
+    private SharedPreferences.Editor mEditor;
+    private GPSTracker gpsTracker;
     private boolean isLocationChanged;
     private FetchLocations fetchLocations;
     private post_sync postSync;
-
     private Bundle bundle;
     private Bundle bundleBeaconFromNotification;
     private ListView listview;
@@ -122,9 +101,62 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
     private boolean isGpsClicked = false;
     private boolean isSearchResult;
     private String lastSearchedPlace = "";
-    ArrayList<SearchPlaces> searchPlacesNew = new ArrayList<>();
     private MainActivity mainActivity;
     private View view;
+
+    public static ArrayList<String> autocomplete(String input) {
+        ArrayList<String> resultList = null;
+
+        HttpURLConnection conn = null;
+        StringBuilder jsonResults = new StringBuilder();
+        try {
+            StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
+            sb.append("?key=" + API_KEY);
+            sb.append("&components=");
+            sb.append("&input=" + URLEncoder.encode(input, "utf8"));
+
+            URL url = new URL(sb.toString());
+
+            System.out.println("URL: " + url);
+            conn = (HttpURLConnection) url.openConnection();
+            InputStreamReader in = new InputStreamReader(conn.getInputStream());
+
+            int read;
+            char[] buff = new char[1024];
+            while ((read = in.read(buff)) != -1) {
+                jsonResults.append(buff, 0, read);
+            }
+        } catch (MalformedURLException e) {
+//            Log.e(LOG_TAG, "Error processing Places API URL", e);
+            return resultList;
+        } catch (IOException e) {
+//            Log.e(LOG_TAG, "Error connecting to Places API", e);
+            return resultList;
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+
+        try {
+            // Create a JSON object hierarchy from the results
+            JSONObject jsonObj = new JSONObject(jsonResults.toString());
+            JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
+
+            // Extract the Place descriptions from the results
+            resultList = new ArrayList<String>(predsJsonArray.length());
+            for (int i = 0; i < predsJsonArray.length(); i++) {
+                System.out.println(predsJsonArray.getJSONObject(i).getString("description"));
+                System.out.println("============================================================");
+                resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
+            }
+
+        } catch (JSONException e) {
+//            Log.e(LOG_TAG, "Cannot process JSON results", e);
+        }
+
+        return resultList;
+    }
 
     @Nullable
     @Override
@@ -136,6 +168,9 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
         mEditor = mPreferences.edit();
 
         initialisation();
+
+        // disabling search button
+        txtSearch.setEnabled(false);
 
         latitude = mPreferences.getString("latitude1", "");
         longitude = mPreferences.getString("longitude1", "");
@@ -233,39 +268,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
         return view;
     }
 
-
-    class FetchLocations extends AsyncTask<String, Void, Object> {
-
-        @Override
-        protected Object doInBackground(String... strings) {
-            resultList = autocomplete(strings[0]);
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            placesAdapter.notifyDataSetChanged();
-        }
-    }
-
-    class FetchPlaces extends AsyncTask<String, Void, Object> {
-
-        @Override
-        protected Object doInBackground(String... strings) {
-            resultList = autocomplete(strings[0]);
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            placesAdapter.notifyDataSetChanged();
-        }
-    }
-
     private void searchplace() {
         if (CommonClass.hasInternetConnection(getActivity())) {
             String url = Constants.SERVER_URL + "json.php?action=SearchPlacesOTG";
@@ -327,8 +329,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
         }
     }
 
-    ArrayList<SearchPlaces> searchPlaces = new ArrayList<>();
-
     public void searchPlacesOTG(String resultString) {
 //        Log.d("System searchResponse", resultString);
 
@@ -362,61 +362,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
             e.printStackTrace();
         }
     }
-
-    public static ArrayList<String> autocomplete(String input) {
-        ArrayList<String> resultList = null;
-
-        HttpURLConnection conn = null;
-        StringBuilder jsonResults = new StringBuilder();
-        try {
-            StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
-            sb.append("?key=" + API_KEY);
-            sb.append("&components=");
-            sb.append("&input=" + URLEncoder.encode(input, "utf8"));
-
-            URL url = new URL(sb.toString());
-
-            System.out.println("URL: " + url);
-            conn = (HttpURLConnection) url.openConnection();
-            InputStreamReader in = new InputStreamReader(conn.getInputStream());
-
-            int read;
-            char[] buff = new char[1024];
-            while ((read = in.read(buff)) != -1) {
-                jsonResults.append(buff, 0, read);
-            }
-        } catch (MalformedURLException e) {
-//            Log.e(LOG_TAG, "Error processing Places API URL", e);
-            return resultList;
-        } catch (IOException e) {
-//            Log.e(LOG_TAG, "Error connecting to Places API", e);
-            return resultList;
-        } finally {
-            if (conn != null) {
-                conn.disconnect();
-            }
-        }
-
-        try {
-            // Create a JSON object hierarchy from the results
-            JSONObject jsonObj = new JSONObject(jsonResults.toString());
-            JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
-
-            // Extract the Place descriptions from the results
-            resultList = new ArrayList<String>(predsJsonArray.length());
-            for (int i = 0; i < predsJsonArray.length(); i++) {
-                System.out.println(predsJsonArray.getJSONObject(i).getString("description"));
-                System.out.println("============================================================");
-                resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
-            }
-
-        } catch (JSONException e) {
-//            Log.e(LOG_TAG, "Cannot process JSON results", e);
-        }
-
-        return resultList;
-    }
-
 
     private void hideKeyBoard(View view) {
         InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -548,67 +493,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
             }
         } catch (Exception e) {
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
-        }
-    }
-
-    class PlacesAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            if (isSearchResult) {
-                return searchPlaces == null ? 0 : searchPlaces.size();
-            } else {
-                return resultList == null ? 0 : resultList.size();
-            }
-        }
-
-        @Override
-        public Object getItem(int position) {
-            if (isSearchResult) {
-                return searchPlaces.get(position);
-            } else {
-                return resultList.get(position);
-            }
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.row_item_search_place, parent, false);
-            TextView txtPlaceName = (TextView) view.findViewById(R.id.txtPlaceName);
-            ImageView imageView = (ImageView) view.findViewById(R.id.imgPlace);
-            if (isSearchResult) {
-                txtPlaceName.setText(searchPlaces.get(position).getPlaceName());
-                String imageUrl = Constants.IMAGE_URL + searchPlaces.get(position).getPlaceMainImage() + "&w=" + (imageView.getWidth());
-                Picasso.with(getActivity()).load(imageUrl).resize(100, 100).into(imageView);
-                imageView.setVisibility(View.VISIBLE);
-            } else {
-                txtPlaceName.setText(resultList.get(position));
-                imageView.setVisibility(View.GONE);
-
-            }
-            txtPlaceName.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Utils.hideKeyboard(getActivity());
-                    if (isSearchResult) {
-                        Intent intent = new Intent(getActivity(), SearchResultPlaceDetailsActivity.class);
-                        intent.putExtra("placeId", searchPlaces.get(position).getPlaceId());
-                        intent.putExtra("location", etAutoDetect.getText().toString().trim());
-                        startActivity(intent);
-                    } else {
-
-                        getLocationFromAddress(getActivity(), resultList.get(position));
-                        etAutoDetect.setText(strAddress);
-                        // onItemClick(resultList.get(position));
-                    }
-                }
-            });
-            return view;
         }
     }
 
@@ -804,7 +688,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
         }
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -825,9 +708,14 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
 
             case R.id.txtSearch:
                 Utils.hideKeyboard(getActivity());
+
+                //enabling search button if search edittext length is > 0.
+                if (etSearchPlace.length() > 0) {
+                    txtSearch.setEnabled(true);
+                }
+
                 searchCall();
                 break;
-
         }
     }
 
@@ -903,6 +791,99 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                 e.printStackTrace();
             }
 
+        }
+    }
+
+    class FetchLocations extends AsyncTask<String, Void, Object> {
+
+        @Override
+        protected Object doInBackground(String... strings) {
+            resultList = autocomplete(strings[0]);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            placesAdapter.notifyDataSetChanged();
+        }
+    }
+
+    class FetchPlaces extends AsyncTask<String, Void, Object> {
+
+        @Override
+        protected Object doInBackground(String... strings) {
+            resultList = autocomplete(strings[0]);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            placesAdapter.notifyDataSetChanged();
+        }
+    }
+
+    class PlacesAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            if (isSearchResult) {
+                return searchPlaces == null ? 0 : searchPlaces.size();
+            } else {
+                return resultList == null ? 0 : resultList.size();
+            }
+        }
+
+        @Override
+        public Object getItem(int position) {
+            if (isSearchResult) {
+                return searchPlaces.get(position);
+            } else {
+                return resultList.get(position);
+            }
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.row_item_search_place, parent, false);
+            TextView txtPlaceName = (TextView) view.findViewById(R.id.txtPlaceName);
+            ImageView imageView = (ImageView) view.findViewById(R.id.imgPlace);
+            if (isSearchResult) {
+                txtPlaceName.setText(searchPlaces.get(position).getPlaceName());
+                String imageUrl = Constants.IMAGE_URL + searchPlaces.get(position).getPlaceMainImage() + "&w=" + (imageView.getWidth());
+                Picasso.with(getActivity()).load(imageUrl).resize(100, 100).into(imageView);
+                imageView.setVisibility(View.VISIBLE);
+            } else {
+                txtPlaceName.setText(resultList.get(position));
+                imageView.setVisibility(View.GONE);
+
+            }
+            txtPlaceName.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Utils.hideKeyboard(getActivity());
+                    if (isSearchResult) {
+                        Intent intent = new Intent(getActivity(), SearchResultPlaceDetailsActivity.class);
+                        intent.putExtra("placeId", searchPlaces.get(position).getPlaceId());
+                        intent.putExtra("location", etAutoDetect.getText().toString().trim());
+                        startActivity(intent);
+                    } else {
+
+                        getLocationFromAddress(getActivity(), resultList.get(position));
+                        etAutoDetect.setText(strAddress);
+                        // onItemClick(resultList.get(position));
+                    }
+                }
+            });
+            return view;
         }
     }
 

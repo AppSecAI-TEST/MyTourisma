@@ -23,7 +23,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.estimote.sdk.SystemRequirementsChecker;
 import com.ftl.tourisma.BeaconsActivity;
 import com.ftl.tourisma.LoginFragmentActivity;
 import com.ftl.tourisma.R;
@@ -168,6 +167,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         setContentView(R.layout.activity_home);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                broadcastReceiver,
+                new IntentFilter(BROADCAST_BEACON));
 
         bundle = getIntent().getBundleExtra("beaconView");
         bundleBeaconFromNotification = getIntent().getBundleExtra("beacon");
@@ -440,17 +443,27 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
     @Override
     protected void onResume() {
         super.onResume();
-        SystemRequirementsChecker.checkWithDefaultDialogs(this);
-        LocalBroadcastManager.getInstance(this).registerReceiver(
+//        SystemRequirementsChecker.checkWithDefaultDialogs(this);
+        /*LocalBroadcastManager.getInstance(this).registerReceiver(
                 broadcastReceiver,
-                new IntentFilter(BROADCAST_BEACON));
+                new IntentFilter(BROADCAST_BEACON));*/
 //        ServiceProxy.bindService(this, mConnection);
 //        ServiceProxy.stopMonitoringForRegion(this, mMyUuid);
     }
 
-    @Override
+ /*   @Override
     protected void onPause() {
         super.onPause();
+        try {
+            unregisterReceiver(broadcastReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         try {
             unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {
