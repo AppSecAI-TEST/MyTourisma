@@ -482,8 +482,7 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent intent = new Intent(Intent.ACTION_PICK,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //
                 intent.setType("image/*");
                 /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -614,18 +613,10 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-//        Log.d("System out", "result code" + resultCode + "    " + requestCode);
-
         if (resultCode == getActivity().RESULT_OK) {
-//            Log.d("System out", "result code" + resultCode + "    " + requestCode);
-
             if (requestCode == TAKE_PICTURE) {
-
-//                Log.d("System out", "File of data..." + f);
                 Uri pictureUri = Uri.fromFile(f);
                 selectedImagePath = getPath1(pictureUri);
-//                Log.d("System out", selectedImagePath);
                 try {
 //                    bm = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), pictureUri);
 //                    // bm = ImageCompression(bm);

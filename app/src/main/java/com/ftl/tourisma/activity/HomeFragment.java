@@ -286,8 +286,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
 
             String url = Constants.SERVER_URL + "json.php?action=HomePageData";
             String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"keyword\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\"}]";
+            System.out.println("homepagedata_json " + json);
             new post_sync(getActivity(), "HomePageData", HomeFragment.this, true).execute(url, json);
-
         } else {
             Intent intent = new Intent(getActivity(), NoInternet.class);
             startActivity(intent);

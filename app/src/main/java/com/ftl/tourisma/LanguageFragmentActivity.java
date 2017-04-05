@@ -1,6 +1,5 @@
 package com.ftl.tourisma;
 
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -46,14 +45,6 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
     private DBAdapter dbAdapter;
     private Language language;
     private NormalTextView txtChooseLanguage;
-    Runnable runnableOut = new Runnable() {
-        @Override
-        public void run() {
-            txtChooseLanguage.startAnimation(animFadeOut);
-            handler.removeCallbacks(runnableOut);
-            handler.postDelayed(runnableIn, 200);
-        }
-    };
     Runnable runnableIn = new Runnable() {
         @Override
         public void run() {
@@ -62,19 +53,21 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
             handler.postDelayed(runnableOut, 3000);
         }
     };
+    Runnable runnableOut = new Runnable() {
+        @Override
+        public void run() {
+            txtChooseLanguage.startAnimation(animFadeOut);
+            handler.removeCallbacks(runnableOut);
+            handler.postDelayed(runnableIn, 200);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language);
         Constants.homepage = "homepage";
-        // Initialize the Prefs class
-        new Prefs.Builder()
-                .setContext(this)
-                .setMode(ContextWrapper.MODE_PRIVATE)
-                .setPrefsName(getPackageName())
-                .setUseDefaultSharedPreference(true)
-                .build();
+
 
         dbAdapter = new DBAdapter(this);
         mPreferences = getSharedPreferences(Constants.mPref, 0);

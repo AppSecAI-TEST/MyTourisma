@@ -63,7 +63,6 @@
                             android:layout_below="@+id/imgSun"
                             android:layout_marginLeft="@dimen/m20dp"
                             android:adjustViewBounds="true"
-
                             android:src="@drawable/ic_profile_app_name" />
 
                         <com.ftl.tourisma.utils.CircleImageView
@@ -74,7 +73,9 @@
                             android:layout_centerHorizontal="true"
                             android:layout_gravity="center|bottom"
                             android:src="@drawable/profile_pic" />
+
                     </RelativeLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -93,6 +94,7 @@
                         android:text="John Smith"
                         android:textColor="@color/mBlue"
                         android:textSize="@dimen/TEXT_MEDIUM" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -368,7 +370,6 @@
                         android:layout_below="@+id/imgSun1"
                         android:layout_marginLeft="@dimen/m20dp"
                         android:adjustViewBounds="true"
-
                         android:src="@drawable/ic_profile_app_name" />
 
                     <com.ftl.tourisma.utils.CircleImageView
