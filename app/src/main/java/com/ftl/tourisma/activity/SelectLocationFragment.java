@@ -471,7 +471,6 @@ public class SelectLocationFragment extends Fragment implements View.OnClickList
             //  if (etSearch.getText().toString().length() == 0) {
             mEditor.putString("mAddress", addressmaps).commit();
             new Handler().postDelayed(new Runnable() {
-
                 @Override
                 public void run() {
                     getLocationOfAddress(true);

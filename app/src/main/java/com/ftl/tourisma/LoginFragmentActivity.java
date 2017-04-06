@@ -388,7 +388,8 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
 //                    } else {
 //                    }
                 } else {
-                    SnackbarManager.show(Snackbar.with(LoginFragmentActivity.this).color(Utils.getColor(this,R.color.mBlue)).text(jsonObject.optString("status")));
+                    SnackbarManager.show(Snackbar.with(LoginFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(LoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "INVALID")));
+//                    SnackbarManager.show(Snackbar.with(LoginFragmentActivity.this).color(Utils.getColor(this,R.color.mBlue)).text(jsonObject.optString("status")));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

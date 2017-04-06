@@ -10,6 +10,8 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -106,7 +108,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
     private NormalTextView tv_map_location;
     private int mFlag = 0;
     private ImageView iv_search_map;
-    private LinearLayout  ll_change_city;
+    private LinearLayout ll_change_city;
     private NormalTextView tv_fee_search_result;
     private NormalTextView tv_about_place_search_result;
     private NormalTextView tv_similar_search;
@@ -158,7 +160,6 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
     }
 
 
-
     private void initialisation(View view) {
 
         imgSharePlace = (ImageView) view.findViewById(R.id.imgSharePlace);
@@ -191,7 +192,8 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
         ll_change_city = (LinearLayout) view.findViewById(R.id.ll_change_city);
 
         iv_search_map = (ImageView) view.findViewById(R.id.iv_search_map);
-        iv_search_map.setVisibility(View.GONE);
+        iv_search_map.setVisibility(View.VISIBLE);
+        iv_search_map.setOnClickListener(this);
 
         ll_change_city.setOnClickListener(this);
 
@@ -253,23 +255,18 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
 //            ll_search_result1.setVisibility(View.VISIBLE);
             /*finish();*/
         } else if (v == iv_search_map) {
-//            mainActivity.replaceSearchFragment();
-            if (mainActivity.mainTabHostFragment.vpFragment.getCurrentItem() == 1) {
-
-                mainActivity.favouriteFragment.replaceSearchFragment();
-            } else {
-                mainActivity.exploreNearbyFragment.replaceSearchFragment();
-
-            }
-//            Intent mIntent = new Intent(getActivity(), SearchActivity.class);
-//            startActivity(mIntent);
-            //finish();
+            Fragment fragment = new SearchFragment();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fram1, fragment);
+            fragmentTransaction.addToBackStack(SearchFragment.class.getSimpleName());
+            fragmentTransaction.commit();
         } else if (v == tv_see_all_search_result) {
             if (mainActivity.mainTabHostFragment.vpFragment.getCurrentItem() == 1) {
 
                 mainActivity.favouriteFragment.replaceSearchResultFragment(nearbies1, "Similar Places");
             } else {
-                mainActivity.exploreNearbyFragment.replaceSearchResultFragment(nearbies1, "Similar Places",false);
+                mainActivity.exploreNearbyFragment.replaceSearchResultFragment(nearbies1, "Similar Places", false);
 
             }
         } else if (v == txtSuggestPlace) {

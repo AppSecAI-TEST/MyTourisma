@@ -279,6 +279,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         }
     }
 */
+
     private void homePageDataCall() {
         isCalledFromCat = false;
 
@@ -1070,6 +1071,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         super.onAttach(activity);
         mainActivity = (MainActivity) getActivity();
     }
+
 
     private class ExplorerAdapter extends BaseAdapter {
         Context context;

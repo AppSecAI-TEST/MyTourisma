@@ -443,10 +443,12 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
                         startActivity(mIntent);
                         finish();
                     } else {
-                        SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(jsonObject.optString("status")));
+                        SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "userExists")));
+//                        SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(jsonObject.optString("status")));
                     }
                 } else {
-                    SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(jsonObject.optString("status")));
+                    SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "userExists")));
+//                    SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(jsonObject.optString("status")));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -74,13 +74,7 @@ ExploreNearbyFragment extends Fragment implements View.OnClickListener {
     }
 
     public void replaceFragment() {
-        Fragment fragment = new HomeFragment();
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fram1, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-//        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, new HomeFragment()).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, new HomeFragment()).commit();
     }
 
     public void replacePlaceDetailsFragment(String placeId, String location) {

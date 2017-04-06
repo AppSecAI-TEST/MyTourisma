@@ -7,6 +7,8 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
@@ -75,6 +77,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.List;
 
 
 /**
@@ -163,6 +166,7 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
         tv_address = (NormalTextView) view.findViewById(R.id.tv_address);
         tv_address.setText(mPreferences.getString("mAddress", ""));
         tv_address.setText(mPreferences.getString("User_Address", ""));
+        tv_address.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "addrestost"));
         tv_profile_address.setText(mPreferences.getString("User_Address", ""));
         tv_profile_email = (NormalTextView) view.findViewById(R.id.tv_profile_email);
         tv_profile_email.setText(mPreferences.getString("User_Email", ""));
@@ -707,6 +711,28 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
         wb_about_us.getSettings().setDefaultFontSize(23);
 //        wb_about_us.getSettings().setTextZoom();
 //        wb_about_us.getSettings().setDefaultZoom(WebSettings.ZoomDensity.FAR);
+
+        wb_about_us.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (url.startsWith("Email:")) {
+                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                    emailIntent.setData(Uri.parse("info@mytourisma.com"));
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@mytourisma.com"});
+                    emailIntent.setType("text/plain");
+                    final PackageManager pm = getActivity().getPackageManager();
+                    final List<ResolveInfo> matches = pm.queryIntentActivities(emailIntent, 0);
+                    ResolveInfo best = null;
+                    for (final ResolveInfo info : matches)
+                        if (info.activityInfo.packageName.endsWith(".gm") || info.activityInfo.name.toLowerCase().contains("gmail"))
+                            best = info;
+                    if (best != null)
+                        emailIntent.setClassName(best.activityInfo.packageName, best.activityInfo.name);
+                    getActivity().startActivity(emailIntent);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override

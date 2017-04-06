@@ -22,6 +22,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -83,6 +84,7 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
     private static final String API_KEY = "AIzaSyARcU53tPS4oPd6GFnIfNXrog0NtLMOwpI";
     ArrayList<SearchPlaces> searchPlacesNew = new ArrayList<>();
     ArrayList<SearchPlaces> searchPlaces = new ArrayList<>();
+    EditText etSearchPlace;
     private SharedPreferences mPreferences;
     private NormalTextView txtEmptyView, txtCancel, txtSearch, txt_snack_msg;
     private SharedPreferences.Editor mEditor;
@@ -93,7 +95,7 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
     private Bundle bundle;
     private Bundle bundleBeaconFromNotification;
     private ListView listview;
-    private NormalEditText etSearchPlace, etAutoDetect;
+    private NormalEditText etAutoDetect;
     private ImageView imgAutoDetect;
     private PlacesAdapter placesAdapter;
     private ArrayList<String> resultList = new ArrayList<>();
@@ -168,9 +170,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
         mEditor = mPreferences.edit();
 
         initialisation();
-
-        // disabling search button
-        txtSearch.setEnabled(false);
 
         latitude = mPreferences.getString("latitude1", "");
         longitude = mPreferences.getString("longitude1", "");
@@ -671,7 +670,7 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
         txtCancel.setOnClickListener(this);
 
         etAutoDetect = (NormalEditText) view.findViewById(R.id.etAutoDetect);
-        etSearchPlace = (NormalEditText) view.findViewById(R.id.etSearchPlace);
+        etSearchPlace = (EditText) view.findViewById(R.id.etSearchPlace);
 
         imgAutoDetect = (ImageView) view.findViewById(R.id.imgAutoDetect);
         imgAutoDetect.setOnClickListener(this);
@@ -708,13 +707,12 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
 
             case R.id.txtSearch:
                 Utils.hideKeyboard(getActivity());
+                if (etSearchPlace.getText().toString().trim().length() == 0) {
 
-                //enabling search button if search edittext length is > 0.
-                if (etSearchPlace.length() > 0) {
-                    txtSearch.setEnabled(true);
+                } else {
+                    searchCall();
                 }
 
-                searchCall();
                 break;
         }
     }
