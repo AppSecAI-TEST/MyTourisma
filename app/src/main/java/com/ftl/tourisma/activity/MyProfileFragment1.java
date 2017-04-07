@@ -4,13 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -42,6 +42,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ftl.tourisma.LanguageFragmentActivity;
 import com.ftl.tourisma.LoginFragmentActivity;
@@ -79,6 +80,8 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 
 /**
  * Created by fipl11111 on 25-Feb-16.
@@ -88,6 +91,7 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
     private static final int PIC_CROP = 3;
     private static final String TAG = "MyProfileFragment_New";
     private static int TAKE_PICTURE = 1, SELECT_PICTURE = 0;
+    private static int RESULT_LOAD = 1;
     public String selectedImagePath = "", path, imgName = "";
     long timeForImgname;
     String[] languages = {
@@ -103,6 +107,7 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
             //  imgSun.setRotation();
         }
     };
+    String img_Decodable_Str;
     private NormalTextView tv_profile_name, tv_profile_address, tv_profile_email, tv_profile_language, tv_address, tv_profile_email1;
     private Spinner tv_profile_language1;
     private SharedPreferences mPreferences;
@@ -472,6 +477,8 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
         NormalTextView gal = (NormalTextView) dialog.findViewById(R.id.gal);
         NormalTextView camera = (NormalTextView) dialog.findViewById(R.id.camera);
         NormalTextView remove = (NormalTextView) dialog.findViewById(R.id.remove);
+        remove.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "remove"));
+        gal.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "gallery"));
 
         ImageView closebtn = (ImageView) dialog.findViewById(R.id.closebtn);
         closebtn.setOnClickListener(new View.OnClickListener() {
@@ -486,15 +493,11 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//
-                intent.setType("image/*");
-                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-                } else {
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                }*/
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent, RESULT_LOAD);
+//                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                intent.setType("image/*");
+//                startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
             }
         });
 
@@ -615,7 +618,43 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
 //        }
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            // When an Image is picked
+            if (requestCode == RESULT_LOAD && resultCode == RESULT_OK && null != data) {
+                // Get the Image from data
+
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                // Get the cursor
+                Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                // Move to first row
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                img_Decodable_Str = cursor.getString(columnIndex);
+                cursor.close();
+               /* ImageView imgView = (ImageView) findViewById(R.id.imgView1);
+                // Set the Image in ImageView after decoding the String
+                imgView.setImageBitmap(BitmapFactory
+                        .decodeFile(img_Decodable_Str));*/
+                cv_my_profile1.setImageBitmap(BitmapFactory.decodeFile(img_Decodable_Str));
+                cv_my_profile.setImageBitmap(BitmapFactory.decodeFile(img_Decodable_Str));
+
+            } else {
+                Toast.makeText(getActivity(), "Hey pick your image first", Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), "Something went embrassing", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+
+   /* public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == getActivity().RESULT_OK) {
             if (requestCode == TAKE_PICTURE) {
@@ -634,10 +673,10 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
 
 
             } else if (requestCode == SELECT_PICTURE) {
-
                 Uri selectedImage = data.getData();
-//                performCrop(selectedImage);
-//                selectedImagePath = getPath(selectedImage);
+
+                performCrop(selectedImage);
+                selectedImagePath = getPath(selectedImage);
                 Log.d("System out", selectedImagePath);
                 getActivity().getContentResolver().notifyChange(selectedImage, null);
                 ContentResolver cr = getActivity().getContentResolver();
@@ -669,7 +708,7 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
                 }
             }
         }
-    }
+    }*/
 
     private void performCrop(Uri picUri) {
         try {
@@ -695,7 +734,6 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
         catch (ActivityNotFoundException anfe) {
             // display an error message
             String errorMessage = "Whoops - your device doesn't support the crop action!";
-            // showSnackBar(errorMessage);
         }
     }
 

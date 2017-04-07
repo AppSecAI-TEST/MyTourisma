@@ -168,10 +168,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         setContentView(R.layout.activity_home);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-                broadcastReceiver,
-                new IntentFilter(BROADCAST_BEACON));
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter(BROADCAST_BEACON));
         bundle = getIntent().getBundleExtra("beaconView");
         bundleBeaconFromNotification = getIntent().getBundleExtra("beacon");
 

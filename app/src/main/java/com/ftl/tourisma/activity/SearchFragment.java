@@ -663,10 +663,12 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
         listview = (ListView) view.findViewById(R.id.listview);
 
         txtSearch = (NormalTextView) view.findViewById(R.id.txtSearch);
+        txtSearch.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Search"));
         txtSearch.setOnClickListener(this);
 
         txtEmptyView = (NormalTextView) view.findViewById(R.id.txtEmptyView);
         txtCancel = (NormalTextView) view.findViewById(R.id.txtCancel);
+        txtCancel.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Cancel"));
         txtCancel.setOnClickListener(this);
 
         etAutoDetect = (NormalEditText) view.findViewById(R.id.etAutoDetect);

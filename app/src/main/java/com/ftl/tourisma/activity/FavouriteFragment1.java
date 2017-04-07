@@ -868,7 +868,7 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver,
                 new IntentFilter("TAG_REFRESH_FAVOURITE"));
         try {
-            recyclerAdapter.notifyDataSetChanged();
+//            recyclerAdapter.notifyDataSetChanged();
         } catch (Exception e) {
             e.printStackTrace();
         }
