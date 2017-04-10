@@ -65,7 +65,8 @@
                         android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_marginTop="47dp"
-                        android:background="@drawable/help" />
+                        android:background="@drawable/help"
+                        android:visibility="invisible" />
 
                     <com.ftl.tourisma.custom_views.NormalTextView
                         android:id="@+id/sign_up_using_mail"
@@ -205,7 +206,7 @@
                     android:layout_marginTop="@dimen/m70dp"
                     android:gravity="center"
                     android:padding="@dimen/m10dp"
-                    android:text="Privacy policy"
+                    android:text=""
                     android:textColor="@color/selector_gray_blue"
                     android:textSize="@dimen/TEXT_EXTRA_SMALL" />
 

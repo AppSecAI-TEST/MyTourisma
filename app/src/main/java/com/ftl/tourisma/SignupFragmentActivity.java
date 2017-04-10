@@ -360,6 +360,10 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
                 SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "VALIDEMAIL")));
             } else if (et_password_sign_up.getText().toString().length() == 0) {
                 SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "PASSWORD")));
+            } else if (et_username_sign_up.getText().toString().contains(" ")) {
+                SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "space_validation")));
+            } else if (et_password_sign_up.getText().toString().contains(" ")) {
+                SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "space_validation")));
             } else {
                 if (mPreferences.getString("latitude2", "").equalsIgnoreCase("0") || mPreferences.getString("longitude2", "").equalsIgnoreCase("0")) {
                 } else {

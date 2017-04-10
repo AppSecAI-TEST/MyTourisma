@@ -373,6 +373,8 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
                 SnackbarManager.show(Snackbar.with(getActivity()).color(Utils.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "NAME")));
             } else if (edt_address1.getText().toString().length() == 0) {
                 SnackbarManager.show(Snackbar.with(getActivity()).color(Utils.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "ADDRESS")));
+            } else if (edt_address1.getText().toString().contains("  ")) {
+                SnackbarManager.show(Snackbar.with(getActivity()).color(Utils.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "space_validation")));
             } else {
                /* if (bm != null) {
                     new RetrieveFeedTask().execute();

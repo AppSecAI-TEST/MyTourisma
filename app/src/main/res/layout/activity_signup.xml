@@ -203,7 +203,7 @@
                     android:layout_marginTop="@dimen/m70dp"
                     android:gravity="center"
                     android:padding="@dimen/m10dp"
-                    android:text="Privacy policy"
+                    android:text=""
                     android:textColor="@color/selector_gray_blue"
                     android:textSize="@dimen/TEXT_EXTRA_SMALL" />
 

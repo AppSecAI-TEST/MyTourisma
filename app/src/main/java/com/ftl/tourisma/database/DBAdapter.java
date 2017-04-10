@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.ftl.tourisma.utils.Utils;
 
@@ -15,29 +14,20 @@ import java.util.ArrayList;
 public class DBAdapter {
 
     private static final String TAG = DBAdapter.class.getSimpleName();
-    private SQLiteDatabase sqlDB;
-    private final Context context;
-    private DatabaseHelper DBHelper;
-
     // TOURISMA DATABASE
     private static final String DATABASE_NAME = "TOURISMA.db";
     private static final int DATABASE_VERSION = 1;
-
     // SEARCH TABLE
     private static final String TABLE_SEARCH = "SEARCH";// course
     private static final String KEY_SEARCH_ID = "_id";
-
     // SEARCH FIELD
     private static final String KEY_SEARCH_STR = "SEARCH_STR";
-
     // CREATE TABLE LANGUAGE
     private static final String TABLE_CREATE_SEARCH = "Create table IF NOT EXISTS " + TABLE_SEARCH + "( " + KEY_SEARCH_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + KEY_SEARCH_STR + " TEXT );";
-
     // LANGUAGE TABLE
     private static final String TABLE_LANGUAGES = "LANGUAGES";// course
     private static final String KEY_LAN_ID = "_id";
-
     // LANGUAGE FIELD
     private static final String KEY_Lan_ID = "Lan_ID";
     private static final String KEY_Lan_name = "Lan_name";
@@ -47,7 +37,6 @@ public class DBAdapter {
     private static final String KEY_Msg_Constant = "Msg_Constant";
     private static final String KEY_Msg_Statement = "Msg_Statement";
     private static final String KEY_Msg_Status = "Msg_Status";
-
     // CREATE TABLE LANGUAGE
     private static final String TABLE_CREATE_LANGUAGE = "Create table IF NOT EXISTS " + TABLE_LANGUAGES + "( " + KEY_LAN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + KEY_Lan_ID + " TEXT, "
@@ -58,11 +47,9 @@ public class DBAdapter {
             + KEY_Msg_Constant + " TEXT, "
             + KEY_Msg_Statement + " TEXT, "
             + KEY_Msg_Status + " TEXT );";
-
     // NEARBY TABLE
     private static final String TABLE_NEARBY = "NEARBY";// course
     private static final String KEY_NB_ID = "_id";
-
     // NEARBY FIELD
     private static final String KEY_Place_Id = "Place_Id";
     private static final String KEY_Category_Name = "Category_Name";
@@ -77,7 +64,6 @@ public class DBAdapter {
     private static final String KEY_otherimages = "otherimages";
     private static final String KEY_dist = "dist";
     private static final String KEY_Fav_Id = "Fav_Id";
-
     // CREATE TABLE NEARBY
     private static final String TABLE_CREATE_NEARBY = "Create table IF NOT EXISTS " + TABLE_NEARBY + "( " + KEY_NB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + KEY_Place_Id + " TEXT, "
@@ -93,11 +79,9 @@ public class DBAdapter {
             + KEY_otherimages + " TEXT, "
             + KEY_dist + " TEXT, "
             + KEY_Fav_Id + " TEXT );";
-
     // HoursOfOperation TABLE
     private static final String TABLE_HoursOfOperation = "HoursOfOperation";// course
     private static final String KEY_HO_ID = "_id";
-
     // HoursOfOperation FIELD
     private static final String KEY_POH_Id = "POH_Id";
     //    private static final String KEY_Place_Id = "Place_Id";
@@ -106,7 +90,6 @@ public class DBAdapter {
     private static final String KEY_POH_Start_Time = "POH_Start_Time";
     private static final String KEY_POH_End_Time = "POH_End_Time";
     private static final String KEY_POH_Charges = "POH_Charges";
-
     // CREATE TABLE HoursOfOperation
     private static final String TABLE_CREATE_HoursOfOperation = "Create table IF NOT EXISTS " + TABLE_HoursOfOperation + "( " + KEY_HO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + KEY_POH_Id + " TEXT, "
@@ -116,33 +99,14 @@ public class DBAdapter {
             + KEY_POH_Start_Time + " TEXT, "
             + KEY_POH_End_Time + " TEXT, "
             + KEY_POH_Charges + " TEXT );";
+    private final Context context;
+    public Cursor cursor;
+    private SQLiteDatabase sqlDB;
+    private DatabaseHelper DBHelper;
 
     public DBAdapter(Context ctx) {
         this.context = ctx;
         DBHelper = new DatabaseHelper(context);
-    }
-
-    private static class DatabaseHelper extends SQLiteOpenHelper {
-        DatabaseHelper(Context context) {
-            super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        }
-
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-            db.execSQL(TABLE_CREATE_LANGUAGE);
-            Utils.Log(TAG, "TABLE_CREATE_LANGUAGE");
-            db.execSQL(TABLE_CREATE_SEARCH);
-            Utils.Log(TAG, "TABLE_CREATE_SEARCH");
-//            db.execSQL(TABLE_CREATE_NEARBY);
-//            Log.d("System out", "TABLE_CREATE_NEARBY");
-//            db.execSQL(TABLE_CREATE_HoursOfOperation);
-//            Log.d("System out", "TABLE_CREATE_HoursOfOperation");
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-        }
     }
 
     // To open SQLiteDatabase object; either in read or write mode.
@@ -159,8 +123,6 @@ public class DBAdapter {
         Utils.Log(TAG, "In del all..." + tablename);
         return sqlDB.delete(tablename, null, null) > 0;
     }
-
-    public Cursor cursor;
 
     public long insertSearchString(String searchStr) {
         long returnVal = 0;
@@ -214,8 +176,8 @@ public class DBAdapter {
     public String getLanguageMsg(String Lan_ID, String Msg_Constant) {
         String msg = new String();
         Cursor cr = sqlDB.rawQuery("select * from " + TABLE_LANGUAGES + " where Lan_ID = \"" + Lan_ID + "\" and " + "Msg_Constant = \"" + Msg_Constant + "\"", null);
-        if (cr != null) {
-            cr.moveToFirst();
+        if (cr != null && cr.moveToFirst()) {
+//            cr.moveToFirst();
             msg = cr.getString(cr.getColumnIndex(KEY_Msg_Statement));
             //Log.d("System out", "Msg_Constant Inside if" + msg);
         } else {
@@ -393,5 +355,28 @@ public class DBAdapter {
             cr.moveToNext();
         }
         return hoursOfOperationArrayList;
+    }
+
+    private static class DatabaseHelper extends SQLiteOpenHelper {
+        DatabaseHelper(Context context) {
+            super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            db.execSQL(TABLE_CREATE_LANGUAGE);
+            Utils.Log(TAG, "TABLE_CREATE_LANGUAGE");
+            db.execSQL(TABLE_CREATE_SEARCH);
+            Utils.Log(TAG, "TABLE_CREATE_SEARCH");
+//            db.execSQL(TABLE_CREATE_NEARBY);
+//            Log.d("System out", "TABLE_CREATE_NEARBY");
+//            db.execSQL(TABLE_CREATE_HoursOfOperation);
+//            Log.d("System out", "TABLE_CREATE_HoursOfOperation");
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        }
     }
 }
