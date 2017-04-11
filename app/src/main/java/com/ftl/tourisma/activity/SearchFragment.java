@@ -709,11 +709,11 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
 
             case R.id.txtSearch:
                 Utils.hideKeyboard(getActivity());
-                if (etSearchPlace.getText().toString().trim().length() == 0) {
+               /* if (etSearchPlace.getText().toString().trim().length() == 0) {
 
-                } else {
+                } else {*/
                     searchCall();
-                }
+//                }
 
                 break;
         }

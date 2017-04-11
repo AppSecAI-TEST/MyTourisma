@@ -4,12 +4,15 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -49,6 +52,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -84,6 +89,21 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
         super.onCreate(savedInstanceState);
 //        FacebookSdk.sdkInitialize(getApplicationContext());
 //        callbackManager = CallbackManager.Factory.create();
+        // Add code to print out the key hash
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.facebook.samples.hellofacebook",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
         setContentView(R.layout.activity_login);
 
         mPreferences = getSharedPreferences(Constants.mPref, 0);
@@ -314,6 +334,7 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
             Intent mIntent = new Intent(LoginFragmentActivity.this, ForgotPasswordFragmentActivity.class);
             startActivity(mIntent);
         } else if (v == tv_login_g) {
+            Prefs.putInt(Constants.user_id, 1);
             mGoogleApiClient = new GoogleApiClient.Builder(LoginFragmentActivity.this)
                     .addConnectionCallbacks(LoginFragmentActivity.this)
                     .addOnConnectionFailedListener(LoginFragmentActivity.this).addApi(Plus.API)
@@ -326,6 +347,8 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
     }
 
     public void onClickFacebookLogin() {
+
+        Prefs.putInt(Constants.user_id, 1);
 
         LoginManager.getInstance().logInWithReadPermissions(
                 this,
