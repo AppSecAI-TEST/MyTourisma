@@ -475,6 +475,7 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_gallery);
+        dialog.setCancelable(false);
 
         NormalTextView gal = (NormalTextView) dialog.findViewById(R.id.gal);
         NormalTextView camera = (NormalTextView) dialog.findViewById(R.id.camera);
