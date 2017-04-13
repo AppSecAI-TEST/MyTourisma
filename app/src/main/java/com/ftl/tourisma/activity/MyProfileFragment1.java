@@ -2,15 +2,16 @@ package com.ftl.tourisma.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -47,8 +48,10 @@ import android.widget.Toast;
 import com.ftl.tourisma.LanguageFragmentActivity;
 import com.ftl.tourisma.LoginFragmentActivity;
 import com.ftl.tourisma.R;
+import com.ftl.tourisma.adapters.CropOptionAdapter;
 import com.ftl.tourisma.custom_views.NormalEditText;
 import com.ftl.tourisma.custom_views.NormalTextView;
+import com.ftl.tourisma.models.CropOption;
 import com.ftl.tourisma.postsync.post_sync;
 import com.ftl.tourisma.utils.CircleImageView;
 import com.ftl.tourisma.utils.CommonClass;
@@ -78,9 +81,8 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
-
-import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -90,6 +92,7 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
 
     private static final int PIC_CROP = 3;
     private static final String TAG = "MyProfileFragment_New";
+    private static final int CROP_FROM_CAMERA = 2;
     private static int TAKE_PICTURE = 1, SELECT_PICTURE = 0;
     private static int RESULT_LOAD = 1;
     public String selectedImagePath = "", path, imgName = "";
@@ -108,6 +111,9 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
         }
     };
     String img_Decodable_Str;
+    //Images things
+    Bitmap photo = null;
+    Uri currImageURI;
     private NormalTextView tv_profile_name, tv_profile_address, tv_profile_email, tv_profile_language, tv_address, tv_profile_email1;
     private Spinner tv_profile_language1;
     private SharedPreferences mPreferences;
@@ -396,7 +402,7 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
 
         if (image == true) {
             mEditor.putString("User_ProfilePic", "").commit();
-            cv_my_profile.setImageResource(R.drawable.profile_pic);
+//            cv_my_profile.setImageResource(R.drawable.profile_pic);
             imgName = "";
         }
 
@@ -496,11 +502,13 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(galleryIntent, RESULT_LOAD);
-//                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                intent.setType("image/*");
-//                startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+//                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(galleryIntent, RESULT_LOAD);
+                // To open up a gallery browser
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
             }
         });
 
@@ -523,6 +531,94 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
         });
         dialog.show();
     }
+
+
+    //Newly added code for image setting starts here
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == getActivity().RESULT_OK) {
+
+            if (requestCode == 1) {
+                // currImageURI is the global variable I?m using to hold the content:
+                currImageURI = data.getData();
+                doCrop();
+                //  image_path.setText(getRealPathFromURI(currImageURI));
+
+            } else if (requestCode == CROP_FROM_CAMERA) {
+                currImageURI = data.getData();
+                Bundle extras = data.getExtras();
+
+                if (extras != null) {
+                    photo = extras.getParcelable("data");
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    photo.compress(Bitmap.CompressFormat.JPEG, 75, stream);
+
+                }
+                cv_my_profile1.setImageBitmap(photo);
+                cv_my_profile.setImageBitmap(photo);
+            }
+        }
+    }
+
+    private void doCrop() {
+        final ArrayList<CropOption> cropOptions = new ArrayList<CropOption>();
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setType("image/*");
+
+        List<ResolveInfo> list = getActivity().getPackageManager().queryIntentActivities(intent, 0);
+        int size = list.size();
+
+        if (size == 0) {
+            Toast.makeText(getActivity(), "Can not find image crop app", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            intent.setData(currImageURI);
+            intent.putExtra("outputX", 200);
+            intent.putExtra("outputY", 200);
+            intent.putExtra("aspectX", 1);
+            intent.putExtra("aspectY", 1);
+            intent.putExtra("scale", true);
+            intent.putExtra("return-data", true);
+
+            if (size == 1) {
+                Intent i = new Intent(intent);
+                ResolveInfo res = list.get(0);
+                i.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+                startActivityForResult(i, CROP_FROM_CAMERA);
+            } else {
+                for (ResolveInfo res : list) {
+                    final CropOption co = new CropOption();
+                    co.title = getActivity().getPackageManager().getApplicationLabel(res.activityInfo.applicationInfo);
+                    co.icon = getActivity().getPackageManager().getApplicationIcon(res.activityInfo.applicationInfo);
+                    co.appIntent = new Intent(intent);
+                    co.appIntent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+                    cropOptions.add(co);
+                }
+
+                CropOptionAdapter adapter = new CropOptionAdapter(getActivity(), cropOptions);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Choose Crop App");
+                builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        startActivityForResult(cropOptions.get(item).appIntent, CROP_FROM_CAMERA);
+                    }
+                });
+
+                builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        if (currImageURI != null) {
+                            getActivity().getContentResolver().delete(currImageURI, null, null);
+                            currImageURI = null;
+                        }
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        }
+    }
+//Newly added code for image setting ends here
 
     private void dispatchTakePictureIntent(int actionCode) {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -621,7 +717,7 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
 //        }
     }
 
-    @Override
+    /*@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         try {
@@ -640,10 +736,10 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 img_Decodable_Str = cursor.getString(columnIndex);
                 cursor.close();
-               /* ImageView imgView = (ImageView) findViewById(R.id.imgView1);
+               *//* ImageView imgView = (ImageView) findViewById(R.id.imgView1);
                 // Set the Image in ImageView after decoding the String
                 imgView.setImageBitmap(BitmapFactory
-                        .decodeFile(img_Decodable_Str));*/
+                        .decodeFile(img_Decodable_Str));*//*
                 cv_my_profile1.setImageBitmap(BitmapFactory.decodeFile(img_Decodable_Str));
                 cv_my_profile.setImageBitmap(BitmapFactory.decodeFile(img_Decodable_Str));
 
@@ -654,7 +750,7 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
             Toast.makeText(getActivity(), "Something went embrassing", Toast.LENGTH_LONG).show();
         }
 
-    }
+    }*/
 
 
    /* public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -712,33 +808,6 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
             }
         }
     }*/
-
-    private void performCrop(Uri picUri) {
-        try {
-
-            Intent cropIntent = new Intent("com.android.camera.action.CROP");
-            // indicate image type and Uri
-            cropIntent.setDataAndType(picUri, "image/*");
-            // set crop properties
-            cropIntent.putExtra("crop", "true");
-            // indicate aspect of desired crop
-            cropIntent.putExtra("aspectX", 1);
-            cropIntent.putExtra("aspectY", 1);
-            // indicate output X and Y
-            cropIntent.putExtra("outputX", 128);
-            cropIntent.putExtra("outputY", 128);
-            // retrieve data on return
-            cropIntent.putExtra("return-data", true);
-            // start the activity - we handle returning in onActivityResult
-            startActivityForResult(cropIntent, PIC_CROP);
-
-        }
-        // respond to users whose devices do not support the crop action
-        catch (ActivityNotFoundException anfe) {
-            // display an error message
-            String errorMessage = "Whoops - your device doesn't support the crop action!";
-        }
-    }
 
     private void pageInfo() {
         wb_about_us.getSettings().setLoadWithOverviewMode(true);

@@ -5,38 +5,38 @@
     android:background="@color/mBlack"
     android:orientation="horizontal">
 
-
     <RelativeLayout
         android:layout_width="@dimen/m0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:layout_weight="1">
 
         <View
             android:id="@+id/viewHome"
             android:layout_width="match_parent"
             android:layout_height="@dimen/m2dp"
-            android:layout_alignBottom="@+id/ll_home_footer1"
+            android:layout_alignParentBottom="true"
             android:background="@color/mBlue" />
 
         <ImageView
             android:id="@+id/ll_home_footer1"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_height="80dp"
+            android:layout_centerVertical="true"
             android:padding="@dimen/m10dp"
             android:src="@drawable/ic_bottom_home" />
+
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="@dimen/m0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:layout_weight="1">
 
         <ImageView
             android:id="@+id/ll_favorite_footer1"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
+            android:layout_height="80dp"
+            android:layout_centerVertical="true"
             android:padding="@dimen/m10dp"
             android:src="@drawable/ic_bottom_like" />
 
@@ -44,20 +44,22 @@
             android:id="@+id/viewFav"
             android:layout_width="match_parent"
             android:layout_height="@dimen/m2dp"
-            android:layout_alignBottom="@+id/ll_favorite_footer1"
+            android:layout_alignParentBottom="true"
             android:background="@color/mBlue"
             android:visibility="gone" />
+
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="@dimen/m0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:layout_weight="1">
 
         <ImageView
             android:id="@+id/ll_profile_footer1"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
+            android:layout_height="80dp"
+            android:layout_centerVertical="true"
             android:padding="@dimen/m10dp"
             android:src="@drawable/ic_bottom_profile" />
 
@@ -65,8 +67,10 @@
             android:id="@+id/viewProfile"
             android:layout_width="match_parent"
             android:layout_height="@dimen/m2dp"
-            android:layout_alignBottom="@+id/ll_profile_footer1"
+            android:layout_alignParentBottom="true"
             android:background="@color/mBlue"
             android:visibility="gone" />
+
     </RelativeLayout>
+
 </LinearLayout>
