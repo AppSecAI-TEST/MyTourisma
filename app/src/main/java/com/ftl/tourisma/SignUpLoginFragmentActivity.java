@@ -74,8 +74,7 @@ public class SignUpLoginFragmentActivity extends FragmentActivity implements Vie
 //        tv_started.setText(Constants.showMessage(SignUpLoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "GetStarted"));
         txtSkipSignUpLogin = (NormalTextView) findViewById(R.id.tvSkipSignUpLogin);
         txtSkipSignUpLogin.setText(Constants.showMessage(SignUpLoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "Skip"));
-
-//        getLocationPermission();
+        getAccountPermission();
     }
 
     @Override
@@ -131,7 +130,6 @@ public class SignUpLoginFragmentActivity extends FragmentActivity implements Vie
     public void getAccountPermission() {
         int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.GET_ACCOUNTS);
         if (permissionCheck == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-            giveBluetoothPermission();
         } else {
             ActivityCompat.requestPermissions(SignUpLoginFragmentActivity.this, new String[]{android.Manifest.permission.GET_ACCOUNTS}, 123);
         }
@@ -160,7 +158,7 @@ public class SignUpLoginFragmentActivity extends FragmentActivity implements Vie
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    getLocationPermission();
+                    getAccountPermission();
                 } else {
                     this.finish();
 //                    getLocationPermission();

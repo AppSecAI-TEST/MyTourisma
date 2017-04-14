@@ -20,7 +20,7 @@
         <ImageView
             android:id="@+id/ll_home_footer1"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:layout_centerVertical="true"
             android:padding="@dimen/m10dp"
             android:src="@drawable/ic_bottom_home" />
@@ -35,7 +35,7 @@
         <ImageView
             android:id="@+id/ll_favorite_footer1"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:layout_centerVertical="true"
             android:padding="@dimen/m10dp"
             android:src="@drawable/ic_bottom_like" />
@@ -58,7 +58,7 @@
         <ImageView
             android:id="@+id/ll_profile_footer1"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:layout_centerVertical="true"
             android:padding="@dimen/m10dp"
             android:src="@drawable/ic_bottom_profile" />

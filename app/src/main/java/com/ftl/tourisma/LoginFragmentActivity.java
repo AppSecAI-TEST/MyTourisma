@@ -87,6 +87,7 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 //        FacebookSdk.sdkInitialize(getApplicationContext());
 //        callbackManager = CallbackManager.Factory.create();
         // Add code to print out the key hash
@@ -104,7 +105,6 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
         } catch (NoSuchAlgorithmException e) {
 
         }
-        setContentView(R.layout.activity_login);
 
         mPreferences = getSharedPreferences(Constants.mPref, 0);
         mEditor = mPreferences.edit();
@@ -424,10 +424,9 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
     @Override
     public void onConnected(Bundle bundle) {
         int permissionCheck1 = ContextCompat.checkSelfPermission(this, android.Manifest.permission.GET_ACCOUNTS);
-//        Log.d("System out", "GET_ACCOUNTS " + permissionCheck1);
         if (permissionCheck1 == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-//            Log.d("System out", "account name" + Plus.AccountApi.getAccountName(mGoogleApiClient));
-            mEditor.putString("umEmail", Plus.AccountApi.getAccountName(mGoogleApiClient)).commit();
+            Log.d("System out", "account name" + Plus.AccountApi.getAccountName(mGoogleApiClient));
+            mEditor.putString("um[Email", Plus.AccountApi.getAccountName(mGoogleApiClient)).commit();
 //        et_email_sign_up.setText(Plus.AccountApi.getAccountName(mGoogleApiClient));
 
 //            Log.d("System out", "apis" + Plus.API.toString());
@@ -439,10 +438,6 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
                 String personName = currentPerson.getDisplayName();
                 String personPhoto = String.valueOf(currentPerson.getImage());
                 String personGooglePlusProfile = currentPerson.getUrl();
-//                Log.d("System out", "personName-->" + personName);
-//                Log.d("System out", "personPhoto-->" + personPhoto);
-//                Log.d("System out", "personGooglePlusProfile-->" + personGooglePlusProfile);
-
                 try {
                     JSONObject obj = new JSONObject(personPhoto.toString());
                     mPreferences.edit().putString("User_ProfilePic", obj.optString("url")).commit();
