@@ -55,6 +55,8 @@ public static final int LOADER_WIDTH = 60;
     public static String PlaceClosed = "0";
     public static String PlaceOpenWithAnyTime = "2";
     public static String homepage = "homepage";
+    public static String beacons_guestuser_session = "beacons_guestuser_session";
+    public static String from_login = "from_login";
 
 
 

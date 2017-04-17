@@ -71,7 +71,7 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
     protected boolean mIntentInProgress;
     protected boolean mSignInClicked;
     private ImageView iv_close_header1;
-    private NormalTextView tv_forgot_login, tv_sign_up, tv_login, tv_login_fb, tv_login_g, login_using_mail;
+    private NormalTextView tv_forgot_login, tv_sign_up, tv_login, tv_login_fb, tv_login_g, login_using_mail, btn_sign_up1, btn_sign_up12;
     private NormalEditText et_email_login, et_password_login;
     private FloatLabeledEditText flet_email_login, flet_password_login;
     private SharedPreferences mPreferences;
@@ -120,6 +120,7 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
         tv_forgot_login.setOnClickListener(this);
         tv_login_fb.setOnClickListener(this);
         tv_login_g.setOnClickListener(this);
+        btn_sign_up12.setOnClickListener(this);
     }
 
     private void initialisation() {
@@ -205,6 +206,11 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
             }
         });
 */
+        btn_sign_up1 = (NormalTextView) findViewById(R.id.btn_sign_up1);
+        btn_sign_up12 = (NormalTextView) findViewById(R.id.btn_sign_up12);
+        btn_sign_up1.setText(Constants.showMessage(LoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "donthaveanaccount"));
+        btn_sign_up12.setText(Constants.showMessage(LoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "SignUp"));
+
         tv_login_g = (NormalTextView) findViewById(R.id.tv_login_g);
         login_using_mail = (NormalTextView) findViewById(R.id.login_using_mail);
         login_using_mail.setText(Constants.showMessage(LoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "loginscreentitle"));
@@ -318,11 +324,11 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
     public void onClick(View v) {
         if (v == tv_login) {
             if (et_email_login.getText().toString().length() == 0) {
-                SnackbarManager.show(Snackbar.with(LoginFragmentActivity.this).color(Utils.getColor(this,R.color.mBlue)).text(Constants.showMessage(LoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "EMAIL")));
+                SnackbarManager.show(Snackbar.with(LoginFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(LoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "EMAIL")));
             } else if (!Constants.isValidEmail(et_email_login.getText().toString())) {
-                SnackbarManager.show(Snackbar.with(LoginFragmentActivity.this).color(Utils.getColor(this,R.color.mBlue)).text(Constants.showMessage(LoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "VALIDEMAIL")));
+                SnackbarManager.show(Snackbar.with(LoginFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(LoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "VALIDEMAIL")));
             } else if (et_password_login.getText().toString().length() == 0) {
-                SnackbarManager.show(Snackbar.with(LoginFragmentActivity.this).color(Utils.getColor(this,R.color.mBlue)).text(Constants.showMessage(LoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "PASSWORD")));
+                SnackbarManager.show(Snackbar.with(LoginFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(LoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "PASSWORD")));
             } else {
                 loginCall();
             }
@@ -343,6 +349,10 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
         } else if (v == tv_login_fb) {
 //            fb_login_btn.performClick();
             onClickFacebookLogin();
+        } else if (v == btn_sign_up12) {
+            Intent mIntent = new Intent(LoginFragmentActivity.this, SignupFragmentActivity.class);
+            startActivity(mIntent);
+            finish();
         }
     }
 
@@ -366,7 +376,7 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
             String json = "[{\"User_Email\":\"" + et_email_login.getText().toString() + "\",\"User_Password\":\"" + et_password_login.getText().toString() + "\"}]";
 //            Log.d("System out", "Login " + json);
 //            new PostSync(LoginFragmentActivity.this, "Login").execute(url, json);
-            new PostSync(LoginFragmentActivity.this, "Login",LoginFragmentActivity.this).execute(url, json);
+            new PostSync(LoginFragmentActivity.this, "Login", LoginFragmentActivity.this).execute(url, json);
         } else {
             Intent intent = new Intent(getApplicationContext(), NoInternet.class);
             startActivity(intent);
@@ -560,7 +570,7 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
             String json = "[{\"User_Email\":\"" + mPreferences.getString("User_Email", "") + "\",\"User_Password\":\"" + "" + "\",\"User_Name\":\"" + mPreferences.getString("User_Name", "") + "\",\"User_ProfilePic\":\"" + "" + "\",\"User_Address\":\"" + "" + "\",\"User_Latitude\":\"" + mPreferences.getString("latitude2", "") + "\",\"User_Longi\":\"" + mPreferences.getString("longitude2", "") + "\",\"Lan_Id\":\"" + mPreferences.getString("language", "") + "\",\"User_Facebook_ID\":\"" + mPreferences.getString("fb_id", "") + "\",\"User_GPlus_Id\":\"" + mPreferences.getString("gpluse_id", "") + "\",\"User_About\":\"" + "" + "\"}]";
 //            Log.d("System out", "FBConnect " + json);
 //            new PostSync(LoginFragmentActivity.this, "FBConnect").execute(url, json);
-            new PostSync(LoginFragmentActivity.this, "FBConnect",LoginFragmentActivity.this).execute(url, json);
+            new PostSync(LoginFragmentActivity.this, "FBConnect", LoginFragmentActivity.this).execute(url, json);
         } else {
             Intent intent = new Intent(getApplicationContext(), NoInternet.class);
             startActivity(intent);
@@ -611,7 +621,7 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
                         startActivity(mIntent);
                         finish();
                     } else {
-                        SnackbarManager.show(Snackbar.with(LoginFragmentActivity.this).color(Utils.getColor(this,R.color.mBlue)).text(jsonObject.optString("status")));
+                        SnackbarManager.show(Snackbar.with(LoginFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(jsonObject.optString("status")));
                     }
                 } else {
                     Constants.mFromSelectLocation = 0;
@@ -632,7 +642,7 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
             String json = "[{\"User_Email\":\"" + mPreferences.getString("umEmail", "") + "\",\"User_Password\":\"" + "" + "\",\"User_Name\":\"" + mPreferences.getString("User_Name", "") + "\",\"User_ProfilePic\":\"" + "" + "\",\"User_Address\":\"" + "" + "\",\"User_Latitude\":\"" + mPreferences.getString("latitude2", "") + "\",\"User_Longi\":\"" + mPreferences.getString("longitude2", "") + "\",\"Lan_Id\":\"" + mPreferences.getString("language", "") + "\",\"User_Facebook_ID\":\"" + mPreferences.getString("fb_id", "") + "\",\"User_GPlus_Id\":\"" + mPreferences.getString("gpluse_id", "") + "\",\"User_About\":\"" + "" + "\"}]";
 //            Log.d("System out", "GPConnect " + json);
 //            new PostSync(LoginFragmentActivity.this, "GPConnect").execute(url, json);
-            new PostSync(LoginFragmentActivity.this, "GPConnect",LoginFragmentActivity.this).execute(url, json);
+            new PostSync(LoginFragmentActivity.this, "GPConnect", LoginFragmentActivity.this).execute(url, json);
         } else {
             Intent intent = new Intent(getApplicationContext(), NoInternet.class);
             startActivity(intent);
@@ -681,7 +691,7 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
                         startActivity(mIntent);
                         finish();
                     } else {
-                        SnackbarManager.show(Snackbar.with(LoginFragmentActivity.this).color(Utils.getColor(this,R.color.mBlue)).text(jsonObject.optString("status")));
+                        SnackbarManager.show(Snackbar.with(LoginFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(jsonObject.optString("status")));
                     }
                 } else {
                     Constants.mFromSelectLocation = 0;
@@ -741,9 +751,9 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
         try {
             if (action.equalsIgnoreCase("Login")) {
                 loginResponse(response);
-            }else if (action.equalsIgnoreCase("FBConnect")) {
+            } else if (action.equalsIgnoreCase("FBConnect")) {
                 fbConnectResponse(response);
-            }else if (action.equalsIgnoreCase("GPConnect")) {
+            } else if (action.equalsIgnoreCase("GPConnect")) {
                 gPlusResponse(response);
             }
         } catch (Exception e) {

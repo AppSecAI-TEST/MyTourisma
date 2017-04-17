@@ -13,6 +13,7 @@ import com.estimote.sdk.SystemRequirementsChecker;
 import com.ftl.tourisma.activity.MainActivity;
 import com.ftl.tourisma.custom_views.NormalTextView;
 import com.ftl.tourisma.utils.Constants;
+import com.pixplicity.easyprefs.library.Prefs;
 
 /**
  * Created by fipl11111 on 22-Feb-16.
@@ -233,11 +234,13 @@ public class SignUpLoginFragmentActivity extends FragmentActivity implements Vie
             startActivity(mIntent);
             finish();
         } else if (v == btn_sign_up2) {
+            Prefs.putString(Constants.from_login, "login");
             Intent mIntent = new Intent(SignUpLoginFragmentActivity.this, SignupFragmentActivity.class);
             startActivity(mIntent);
             finish();
         } else if (v == txtSkipSignUpLogin) {
             Constants.mFromSelectLocation = 0;
+            Prefs.putString(Constants.beacons_guestuser_session, "start");
             Intent mIntent = new Intent(SignUpLoginFragmentActivity.this, MainActivity.class);
 //            Intent mIntent = new Intent(SignUpLoginFragmentActivity.this, SelectLocationFragmentActivity.class);
             startActivity(mIntent);

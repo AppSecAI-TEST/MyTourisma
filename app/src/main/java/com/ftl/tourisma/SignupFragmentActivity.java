@@ -42,6 +42,7 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
 import org.json.JSONArray;
@@ -348,9 +349,17 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
     @Override
     public void onClick(View v) {
         if (v == iv_close_header1) {
-            Intent mIntent = new Intent(SignupFragmentActivity.this, SignUpLoginFragmentActivity.class);
-            startActivity(mIntent);
-            finish();
+            if (Prefs.getString(Constants.from_login, "").equals("login")) {
+                Prefs.putString(Constants.from_login, "logout");
+                Intent mIntent = new Intent(SignupFragmentActivity.this, SignUpLoginFragmentActivity.class);
+                startActivity(mIntent);
+                finish();
+            } else {
+                Intent mIntent = new Intent(SignupFragmentActivity.this, MainActivity.class);
+                startActivity(mIntent);
+                finish();
+                mEditor.putString("User_Id", "0").commit();
+            }
         } else if (v == tv_signUp) {
             if (et_username_sign_up.getText().toString().length() == 0) {
                 SnackbarManager.show(Snackbar.with(SignupFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "NAME")));

@@ -38,7 +38,11 @@ public class MyTorismaApplication extends MultiDexApplication {
 
         this.context = getApplicationContext();
         typeFace = new MyTypeFace(context);
+
+        // Initializing the crashlytics
         Fabric.with(getApplicationContext(), new Crashlytics());
+
+        // Starting the Beacons service
         startService(new Intent(this, MyBeaconsService.class));
     }
 

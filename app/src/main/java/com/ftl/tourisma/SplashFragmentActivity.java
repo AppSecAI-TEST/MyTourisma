@@ -14,6 +14,7 @@ import android.widget.ScrollView;
 
 import com.ftl.tourisma.activity.MainActivity;
 import com.ftl.tourisma.utils.Constants;
+import com.pixplicity.easyprefs.library.Prefs;
 
 /**
  * Created by fipl11111 on 22-Feb-16.
@@ -126,9 +127,8 @@ public class SplashFragmentActivity extends FragmentActivity {
                         public void run() {
                             try {
                                 Thread.sleep(3000);
-                                if (mPreferences.getString("User_Id", "").length() != 0 && mPreferences.getString("User_Email", "").length() != 0) {
+                                if (mPreferences.getString("User_Id", "").length() != 0 && mPreferences.getString("User_Email", "").length() != 0 || Prefs.getString(Constants.beacons_guestuser_session, "").equals("start")) {
                                     Constants.mFromSelectLocation = 0;
-
                                     Intent mIntent = new Intent(SplashFragmentActivity.this, MainActivity.class);
 //                                    Intent mIntent = new Intent(SplashFragmentActivity.this, SelectLocationFragmentActivity.class);
                                     mIntent.putExtra("beacon", bundle);
