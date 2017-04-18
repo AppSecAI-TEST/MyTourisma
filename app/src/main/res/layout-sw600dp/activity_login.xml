@@ -168,6 +168,38 @@
                     android:text="@string/forgot_password"
                     android:textColor="@color/selector_gray_blue"
                     android:textSize="@dimen/TEXT_EXTRA_SMALL" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.ftl.tourisma.custom_views.NormalTextView
+                        android:id="@+id/btn_sign_up1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/m10dp"
+                        android:paddingLeft="@dimen/m10dp"
+                        android:paddingTop="@dimen/m10dp"
+                        android:text="@string/text_sign_up"
+                        android:textColor="@color/mBlack"
+                        android:textSize="@dimen/TEXT_EXTRA_SMALL" />
+
+                    <com.ftl.tourisma.custom_views.NormalTextView
+                        android:id="@+id/btn_sign_up12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="@dimen/m10dp"
+                        android:text="Sign Up"
+                        android:textColor="@color/selector_blue_black"
+                        android:textSize="@dimen/TEXT_EXTRA_SMALL" />
+                </LinearLayout>
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

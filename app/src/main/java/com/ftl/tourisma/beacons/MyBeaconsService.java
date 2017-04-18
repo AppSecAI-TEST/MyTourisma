@@ -107,7 +107,6 @@ public class MyBeaconsService extends Service {
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
                                              @Override
                                              public void onBeaconsDiscovered(Region region, List<Beacon> list) {
-
                                                  if (list != null) {
                                                      if (list.size() > 0) {
                                                          for (Beacon beacon : list) {
@@ -160,6 +159,9 @@ public class MyBeaconsService extends Service {
                                                          }
                                                      }
                                                  }
+//                                                 if (list != null) {
+//                                                     list.clear();
+//                                                 }
 
                                              }
 
