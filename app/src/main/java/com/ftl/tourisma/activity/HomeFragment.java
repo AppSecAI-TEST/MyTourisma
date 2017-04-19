@@ -285,9 +285,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
 
         if (CommonClass.hasInternetConnection(getActivity())) {
 
-            String url = Constants.SERVER_URL + "json.php?action=HomePageData";
-            String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"keyword\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\"}]";
+//            String url = Constants.SERVER_URL + "json.php?action=HomePageData";
+//            String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"keyword\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\"}]";
+            String url = "http://35.154.205.155/mytourisma/json.php?action=HomePageData";
+            String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"keyword\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\",\"secondary_text\":\"" + mainActivity.getPreferences().getString(Preference.Pref_Country, "") + "\"}]";
             System.out.println("homepagedata_json " + json);
+            System.out.println("homepagedata_url " + url);
             new post_sync(getActivity(), "HomePageData", HomeFragment.this, true).execute(url, json);
         } else {
             Intent intent = new Intent(getActivity(), NoInternet.class);

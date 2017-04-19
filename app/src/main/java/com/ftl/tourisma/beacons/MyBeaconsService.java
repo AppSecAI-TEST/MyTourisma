@@ -390,6 +390,9 @@ public class MyBeaconsService extends Service {
             for (String str : stringSet) {
                 try {
                     jsonObject = new JSONObject(str);
+//                    ArrayList<String> beacons_id = new ArrayList<>();
+//                    for (int idx =  0; idx)
+                    if (beacon.equals(jsonObject.get("beacon_id")))
                     if (beacon.equals(jsonObject.getString("uuid") + ":" + jsonObject.getInt("major") + ":" + jsonObject.getInt("minor"))) {
 //                        if (type.equals(BEACON_ENTERED) || type.equals(BEACON_EXITED)) {
 //                            if (jsonObject.getString("is_close_approach").equals("1"))
