@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.estimote.sdk.repackaged.gson_v2_3_1.com.google.gson.Gson;
-import com.ftl.tourisma.models.Beacons;
 
 import java.util.Set;
 
@@ -18,6 +17,7 @@ public class Preference {
     public static String Pref_City="mCity";
     public static String Pref_Country="mCountry";
     public static String Pref_State="mState";
+    public static String Pref_Country_code = "mCountryCode";
 
     public static void setBooleanPrefs(String prefKey, Context context, boolean value) {
         SharedPreferences.Editor editor = context.getSharedPreferences(PREFS, 0).edit();

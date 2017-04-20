@@ -45,14 +45,6 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
     private DBAdapter dbAdapter;
     private Language language;
     private NormalTextView txtChooseLanguage;
-    Runnable runnableOut = new Runnable() {
-        @Override
-        public void run() {
-            txtChooseLanguage.startAnimation(animFadeOut);
-            handler.removeCallbacks(runnableOut);
-            handler.postDelayed(runnableIn, 200);
-        }
-    };
     Runnable runnableIn = new Runnable() {
         @Override
         public void run() {
@@ -61,13 +53,20 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
             handler.postDelayed(runnableOut, 3000);
         }
     };
+    Runnable runnableOut = new Runnable() {
+        @Override
+        public void run() {
+            txtChooseLanguage.startAnimation(animFadeOut);
+            handler.removeCallbacks(runnableOut);
+            handler.postDelayed(runnableIn, 200);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language);
         Constants.homepage = "homepage";
-
 
         dbAdapter = new DBAdapter(this);
         mPreferences = getSharedPreferences(Constants.mPref, 0);

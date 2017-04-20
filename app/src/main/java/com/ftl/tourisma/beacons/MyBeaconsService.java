@@ -390,9 +390,6 @@ public class MyBeaconsService extends Service {
             for (String str : stringSet) {
                 try {
                     jsonObject = new JSONObject(str);
-//                    ArrayList<String> beacons_id = new ArrayList<>();
-//                    for (int idx =  0; idx)
-                    if (beacon.equals(jsonObject.get("beacon_id")))
                     if (beacon.equals(jsonObject.getString("uuid") + ":" + jsonObject.getInt("major") + ":" + jsonObject.getInt("minor"))) {
 //                        if (type.equals(BEACON_ENTERED) || type.equals(BEACON_EXITED)) {
 //                            if (jsonObject.getString("is_close_approach").equals("1"))
@@ -433,7 +430,8 @@ public class MyBeaconsService extends Service {
             notifyIntent.putExtra(BEACON_IS_CLOSE_PROMO, is_close_promo);
             notifyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            pendingIntent = PendingIntent.getActivity(this, nid++, notifyIntent, 0);
+//            pendingIntent = PendingIntent.getActivity(this, nid++, notifyIntent, 0);
+            PendingIntent pendingIntent = PendingIntent.getActivities(this, 0, new Intent[]{notifyIntent}, PendingIntent.FLAG_UPDATE_CURRENT);
             Notification notification = new Notification.Builder(this)
                     .setSmallIcon(R.drawable.appicon1)
                     .setContentTitle(title)
@@ -443,7 +441,8 @@ public class MyBeaconsService extends Service {
                     .build();
             notification.defaults |= Notification.DEFAULT_SOUND;
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(nid, notification);
+//            notificationManager.notify(nid, notification);
+            notificationManager.notify(1, notification);
             Preference.setIntPrefs("NOTIFICATION_ID", this, nid);
         } else {
             //Utils.toast(message);

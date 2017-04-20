@@ -230,16 +230,19 @@ public class SignUpLoginFragmentActivity extends FragmentActivity implements Vie
     @Override
     public void onClick(View v) {
         if (v == btn_login1) {
+            Prefs.putString(Constants.first_time, "first");
             Intent mIntent = new Intent(SignUpLoginFragmentActivity.this, LoginFragmentActivity.class);
             startActivity(mIntent);
             finish();
         } else if (v == btn_sign_up2) {
             Prefs.putString(Constants.from_login, "login");
+            Prefs.putString(Constants.first_time, "first");
             Intent mIntent = new Intent(SignUpLoginFragmentActivity.this, SignupFragmentActivity.class);
             startActivity(mIntent);
             finish();
         } else if (v == txtSkipSignUpLogin) {
             Constants.mFromSelectLocation = 0;
+            Prefs.putString(Constants.first_time, "first");
             Prefs.putString(Constants.beacons_guestuser_session, "start");
             Intent mIntent = new Intent(SignUpLoginFragmentActivity.this, MainActivity.class);
 //            Intent mIntent = new Intent(SignUpLoginFragmentActivity.this, SelectLocationFragmentActivity.class);

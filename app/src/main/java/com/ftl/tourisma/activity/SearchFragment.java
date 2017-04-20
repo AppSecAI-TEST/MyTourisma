@@ -114,7 +114,7 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
         try {
             StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
             sb.append("?key=" + API_KEY);
-            sb.append("&components=");
+            sb.append("&components=country:AE");
             sb.append("&input=" + URLEncoder.encode(input, "utf8"));
 
             URL url = new URL(sb.toString());
@@ -276,7 +276,7 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
             if (etSearchPlace.getText().toString().length() <= 1 || isLocationChanged) {
                 isLocationChanged = false;
                 getLocationFromAddress(getActivity(), etAutoDetect.getText().toString().trim());
-                String json = "[{\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\",\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mPreferences.getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mPreferences.getString("longitude2", "") + "\",\"keywords\":\"" + etSearchPlace.getText().toString().trim() + "\",\"keyword\":\"" + strAddress + "\"}]";
+                String json = "[{\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\",\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mPreferences.getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mPreferences.getString("longitude2", "") + "\",\"keywords\":\"" + etSearchPlace.getText().toString().trim() + "\",\"keyword\":\"" + strAddress + "\",\"secondary_text\":\"" + mainActivity.getPreferences().getString(Preference.Pref_Country, "") + "\"}]";
                 if (postSync != null && postSync.getStatus().equals(AsyncTask.Status.RUNNING)) {
                     postSync.cancel(true);
                 }
@@ -585,7 +585,9 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                 }
             }
             String url = Constants.SERVER_URL + "json.php?action=SearchPlaces";
-            String json = "[{\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\",\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + latitude + "\",\"Current_Longitude\":\"" + longitude + "\",\"keywords\":\"" + etSearchPlace.getText().toString() + "\",\"Category_Id\":\"" + "" + "\",\"keyword\":\"" + strAddress + "\"}]";
+            String json = "[{\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\",\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + latitude + "\",\"Current_Longitude\":\"" + longitude + "\",\"keywords\":\"" + etSearchPlace.getText().toString() + "\",\"Category_Id\":\"" + "" + "\",\"keyword\":\"" + strAddress + "\",\"secondary_text\":\"" + mainActivity.getPreferences().getString(Preference.Pref_Country, "") + "\"}]";
+            System.out.println("search_url" + url);
+            System.out.println("search_json" + json);
 //            Log.d("System out", "SearchPlaces " + json);
             new PostSync(getActivity(), "SearchPlaces", SearchFragment.this).execute(url, json);
         } else {

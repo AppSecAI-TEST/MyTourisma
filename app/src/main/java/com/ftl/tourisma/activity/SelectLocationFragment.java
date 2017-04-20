@@ -340,7 +340,7 @@ public class SelectLocationFragment extends Fragment implements View.OnClickList
                     if (etSearch.getText().toString().length() != 0) {
                         if (CommonClass.hasInternetConnection(getActivity())) {
                             mflag = 0;
-                            String url = "http://maps.google.com/maps/api/geocode/json?address=" + etSearch.getText().toString() + "&sensor=false";
+                            String url = "http://maps.google.com/maps/api/geocode/json?sensor=false&language=en&address=" + etSearch.getText().toString();
                             new PostSync(getActivity(), "Address", SelectLocationFragment.this).execute(url);
                         } else {
                             Intent intent = new Intent(getActivity(), NoInternet.class);
@@ -639,12 +639,18 @@ public class SelectLocationFragment extends Fragment implements View.OnClickList
                         .getString("long_name");
                 ;
                 mEditor.putString(Preference.Pref_City, mCity).commit();
+
+                String mCountryCode = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
+                        .getJSONArray("address_components").getJSONObject(2)
+                        .getString("short_name");
+                mEditor.putString(Preference.Pref_Country_code, mCountryCode).commit();
+
                 if (((JSONArray) jsonObject.get("results")).getJSONObject(0)
                         .getJSONArray("address_components").length() > 1) {
                     String mState = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
                             .getJSONArray("address_components").getJSONObject(1)
                             .getString("long_name");
-                    ;
+
                     mEditor.putString(Preference.Pref_State, mState).commit();
                 }
                 if (((JSONArray) jsonObject.get("results")).getJSONObject(0)

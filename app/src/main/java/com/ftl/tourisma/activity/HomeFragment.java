@@ -76,6 +76,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     private static int mCounter = -1;
     MainActivity mainActivity;
     ArrayList<HourDetails> hourDetails;
+    String group_id;
     //MyReceiver receiver;
     private ArrayList<AllCategories> allCategories = new ArrayList<>();
     private ArrayList<AllCategories> allCategories1 = new ArrayList<>();
@@ -285,9 +286,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
 
         if (CommonClass.hasInternetConnection(getActivity())) {
 
-//            String url = Constants.SERVER_URL + "json.php?action=HomePageData";
+            String url = Constants.SERVER_URL + "json.php?action=HomePageData";
 //            String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"keyword\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\"}]";
-            String url = "http://35.154.205.155/mytourisma/json.php?action=HomePageData";
+//            String url = "http://35.154.205.155/mytourisma/json.php?action=HomePageData";
             String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"keyword\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\",\"secondary_text\":\"" + mainActivity.getPreferences().getString(Preference.Pref_Country, "") + "\"}]";
             System.out.println("homepagedata_json " + json);
             System.out.println("homepagedata_url " + url);
