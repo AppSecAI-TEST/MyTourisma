@@ -112,7 +112,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     private ScrollView sv_explorer_location;
     private boolean isShowLess;
     private View view;
-    private String mPlaceId, mFav;
+    private String mGroupId, mPlaceId, mFav;
     private Nearby nearByDetails;
     private SliderLayout slider;
     private PagerIndicator custom_indicator;
@@ -570,7 +570,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                             imgFav.setActivated(!imgFav.isActivated());
                             if (imgFav.isActivated()) {
                                 mFlag = position;
-                                addFavoriteCall(recommendeds.get(position).getPlace_Id());
+                                addFavoriteCall(recommendeds.get(position).getPlace_Id(), recommendeds.get(position).getGroup_Id());
                             } else {
                                 mFlag = position;
                                 deleteFavoriteCall(recommendeds.get(position).getFav_Id());
@@ -759,7 +759,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                                 if (v.getId() == j) {
                                     if (nearbies.get(j).getFav_Id().equalsIgnoreCase("0")) {
                                         imgFav.setActivated(true);
-                                        addFavoriteCall(nearbies.get(j).getPlace_Id());
+                                        addFavoriteCall(nearbies.get(j).getPlace_Id(), nearbies.get(j).getGroup_Id());
                                         mFlag = j;
                                     } else {
                                         imgFav.setActivated(false);
@@ -856,13 +856,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         }
     }
 
-    private void addFavoriteCall(String Place_Id) {
+    private void addFavoriteCall(String Place_Id, String group_id) {
         if (CommonClass.hasInternetConnection(getActivity())) {
             String url = Constants.SERVER_URL + "json.php?action=AddFavorite";
             mPlaceId = Place_Id;
-            String json = "[{\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Place_Id\":\"" + Place_Id + "\"}]";
+            mGroupId = group_id;
+            String groupId = mNearby.getGroup_Id();
+            String json = "[{\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Place_Id\":\"" + Place_Id + "\",\"Group_Id\":\"" + groupId + "\"}]";
             new post_sync(getActivity(), "AddFavorite", HomeFragment.this, true).execute(url, json);
-
+            System.out.println("addfav_json" + json);
         } else {
             SnackbarManager.show(Snackbar.with(getActivity()).color(Utilities.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "NOINTERNET")));
         }

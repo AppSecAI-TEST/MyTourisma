@@ -26,7 +26,20 @@ public class Nearby implements Serializable {
     String Fav_Id;
     String placeVRMainImage;
     String vrimages;
+    String Group_Id;
     ArrayList<HourDetails> hourDetailsArrayList;
+    String Category_Id;
+    String Place_Close_Note;
+    String Category_Map_Icon;
+    ArrayList<HoursOfOperation> hoursOfOperations = new ArrayList<>();
+
+    public String getGroup_Id() {
+        return Group_Id;
+    }
+
+    public void setGroup_Id(String group_Id) {
+        Group_Id = group_Id;
+    }
 
     public double getDistance() {
         return distance;
@@ -76,8 +89,6 @@ public class Nearby implements Serializable {
         Category_Id = category_Id;
     }
 
-    String Category_Id;
-
     public String getPlace_Close_Note() {
         return Place_Close_Note;
     }
@@ -86,8 +97,6 @@ public class Nearby implements Serializable {
         Place_Close_Note = place_Close_Note;
     }
 
-    String Place_Close_Note;
-
     public String getCategory_Map_Icon() {
         return Category_Map_Icon;
     }
@@ -95,9 +104,6 @@ public class Nearby implements Serializable {
     public void setCategory_Map_Icon(String category_Map_Icon) {
         Category_Map_Icon = category_Map_Icon;
     }
-
-    String Category_Map_Icon;
-    ArrayList<HoursOfOperation> hoursOfOperations = new ArrayList<>();
 
     public ArrayList<HoursOfOperation> getHoursOfOperations() {
         return hoursOfOperations;
