@@ -162,9 +162,9 @@ public class ShareFragmentActivity extends FragmentActivity implements View.OnCl
 //            db.open();
             if (ShareDialog.canShow(ShareLinkContent.class)) {
                 ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                        .setContentTitle("")
+                        .setContentTitle("MyTourisma")
                         .setContentDescription(msg)
-                        .setContentUrl(Uri.parse("http://facebook.com"))
+                        .setContentUrl(Uri.parse("www.mytourisma.com"))
                         .build();
                 shareDialog.show(linkContent);
 //                db.close();

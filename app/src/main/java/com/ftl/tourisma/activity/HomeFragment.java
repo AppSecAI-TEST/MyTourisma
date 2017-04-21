@@ -661,12 +661,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                 //imageLoader.displayImage(imageURL, iv_nearby_explorer, optionsSimple);
 //
                 tv_near.setText(nearbies.get(i).getPlace_Name());
-                tv_ticket.setText(nearbies.get(i).getFree_entry());
-/*                if (nearbies.get(i).getFree_entry().equals("0")) {
-                    tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + "Check details");
+                if (nearbies.get(i).getFree_entry().equals("0")) {
+                    tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Check Details"));
                 } else if (nearbies.get(i).getFree_entry().equals("1")){
-                    tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + "Free entry");
-                }*/
+                    tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Free Entry"));
+                }
                 txtCategory.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Category") + ": " + nearbies.get(i).getCategory_Name());
                 txtShare.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Share"));
                 txtFav.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Favourite"));
@@ -682,7 +681,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                         String share2 = Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "share2");
                         String share3 = Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "share3");
 
-                        mIntent.putExtra("myMsg", share1 + "\" " + share2 + " \"" + nearbies.get(v.getId()).getPlace_Name() + "\" " + share3);
+                        mIntent.putExtra("myMsg", share1 + share2 + " \"" + nearbies.get(v.getId()).getPlace_Name() + "\" " + share3);
                         startActivity(mIntent);
 //
                     }

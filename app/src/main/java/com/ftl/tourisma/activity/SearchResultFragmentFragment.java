@@ -929,7 +929,11 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
                     resize(width, (height * 60) / 100)
                     .into(viewHolder.iv_nearby_explorer);
             viewHolder.tv_near.setText(nearbies.get(position).getPlace_Name());
-            viewHolder.tv_ticket.setText(nearbies.get(position).getFree_entry());
+            if (nearbies.get(position).getFree_entry().equals("0")) {
+                viewHolder.tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Check Details"));
+            } else if (nearbies.get(position).getFree_entry().equals("1")) {
+                viewHolder.tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Free Entry"));
+            }
             viewHolder.txtCategory.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Category") + ": " + nearbies.get(position).getCategory_Name());
 
             viewHolder.llView.setId(position);
@@ -978,7 +982,7 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
                     String share2 = Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "share2");
                     String share3 = Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "share3");
 
-                    mIntent.putExtra("myMsg", share1 + " \"" + mPreferences.getString("User_Name", "") + "\" " + share2 + " \"" + nearbies.get(v.getId()).getPlace_Name() + "\" " + share3);
+                    mIntent.putExtra("myMsg", share1 + share2 + " \"" + nearbies.get(v.getId()).getPlace_Name() + "\" " + share3);
                     startActivity(mIntent);
 //                        Intent intent = new Intent(Intent.ACTION_SEND);
 //                        intent.setType("text/plain");

@@ -340,7 +340,7 @@ public class SelectLocationFragment extends Fragment implements View.OnClickList
                     if (etSearch.getText().toString().length() != 0) {
                         if (CommonClass.hasInternetConnection(getActivity())) {
                             mflag = 0;
-                            String url = "http://maps.google.com/maps/api/geocode/json?address=" + etSearch.getText().toString() + "&sensor=false";
+                            String url = "http://maps.google.com/maps/api/geocode/json?sensor=false&language=en&components=country:AE&address=" + etSearch.getText().toString();
                             new PostSync(getActivity(), "Address", SelectLocationFragment.this).execute(url);
                         } else {
                             Intent intent = new Intent(getActivity(), NoInternet.class);

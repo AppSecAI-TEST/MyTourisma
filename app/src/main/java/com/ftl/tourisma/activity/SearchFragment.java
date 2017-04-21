@@ -195,7 +195,7 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                 isLocationChanged = true;
                 if (etAutoDetect.getText().toString().length() != 0) {
                     if (CommonClass.hasInternetConnection(mainActivity)) {
-                        String url = "http://maps.google.com/maps/api/geocode/json?address=" + etAutoDetect.getText().toString() + "&sensor=false";
+                        String url = "http://maps.google.com/maps/api/geocode/json?sensor=false&language=en&components=country:AE&address=" + etAutoDetect.getText().toString();
                         new PostSync(getActivity(), "Address", SearchFragment.this).execute(url);
                     } else {
                         Intent intent = new Intent(getActivity(), NoInternet.class);

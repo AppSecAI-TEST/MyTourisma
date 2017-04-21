@@ -1,7 +1,5 @@
 package com.ftl.tourisma.utils;
 
-import android.location.Location;
-
 import com.ftl.tourisma.database.FeesDetails;
 import com.ftl.tourisma.database.Nearby;
 import com.ftl.tourisma.models.HourDetails;
@@ -107,6 +105,7 @@ public class JSONObjConverter {
 
             recommended.setDist(jsonObject1.optString("dist"));
             recommended.setFav_Id(jsonObject1.optString("Fav_Id"));
+            recommended.setFree_entry(jsonObject1.optString("free_entry"));
 
 
             JSONArray operation1 = jsonObject1.getJSONArray("HourDetails");
