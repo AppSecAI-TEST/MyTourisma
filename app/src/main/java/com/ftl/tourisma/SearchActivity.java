@@ -42,11 +42,8 @@ import com.ftl.tourisma.utils.CommonClass;
 import com.ftl.tourisma.utils.Constants;
 import com.ftl.tourisma.utils.GPSTracker;
 import com.ftl.tourisma.utils.Preference;
-import com.ftl.tourisma.utils.Utilities;
 import com.ftl.tourisma.utils.Utils;
 import com.google.android.gms.maps.model.LatLng;
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
 import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
@@ -87,8 +84,15 @@ import static com.ftl.tourisma.beacons.MyBeaconsService.PLACE_IMAGE;
  */
 public class SearchActivity extends FragmentActivity implements OnClickListener, post_sync.ResponseHandler {
 
-    private static final String TAG = "YourLocationFragmentA_";
     public static final int PLACE_DETAILS_FRAGMENT = 10;
+    private static final String TAG = "YourLocationFragmentA_";
+    private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
+    private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
+    private static final String OUT_JSON = "/json";
+    //------------ make your specific key ------------
+    private static final String API_KEY = "AIzaSyARcU53tPS4oPd6GFnIfNXrog0NtLMOwpI";
+    ArrayList<SearchPlaces> searchPlacesNew = new ArrayList<>();
+    ArrayList<SearchPlaces> searchPlaces = new ArrayList<>();
     private SharedPreferences mPreferences;
     private LinearLayout llBeaconToast;
     private Handler handlerBeaconToast = new Handler();
@@ -96,11 +100,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
     private NormalTextView txtEmptyView, txtCancel, txtSearch, txt_snack_msg;
     private SharedPreferences.Editor mEditor;
     private GPSTracker gpsTracker;
-    private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
-    private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
-    private static final String OUT_JSON = "/json";
-    //------------ make your specific key ------------
-    private static final String API_KEY = "AIzaSyARcU53tPS4oPd6GFnIfNXrog0NtLMOwpI";
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -120,6 +119,90 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
             }
         }
     };
+    private boolean isLocationChanged;
+    private FetchLocations fetchLocations;
+
+    /* private void beaconsToast(Bundle bundle) {
+         String type = bundle.getString("type");
+
+         if (type.equals(BEACON_ENTERED)) {
+             beaconsToast(bundle.getString(BEACON_ENTRY_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), true, 0);
+
+         } else if (type.equals(BEACON_EXITED)) {
+             beaconsToast(bundle.getString(BEACON_EXIT_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), false, 0);
+
+         } else if (type.equals(BEACON_NEAR_BY)) {
+ //                    SnackbarManager.show(Snackbar.with(YourLocationFragmentActivity.this).color(getResources().getColor(R.color.mTrans2)).text(bundle.getString(BEACON_NEAR_BY_TEXT)));
+             beaconsToast(bundle.getString(BEACON_NEAR_BY_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), true, 1);
+
+         }
+     }*/
+    private post_sync postSync;
+    private Bundle bundle;
+    private Bundle bundleBeaconFromNotification;
+    private ListView listview;
+    private NormalEditText etSearchPlace, etAutoDetect;
+    private ImageView imgAutoDetect;
+    private PlacesAdapter placesAdapter;
+    private ArrayList<String> resultList = new ArrayList<>();
+    private String latitude, longitude, strAddress;
+    private boolean isGpsClicked = false;
+    private boolean isSearchResult;
+    private String lastSearchedPlace = "";
+
+    public static ArrayList<String> autocomplete(String input) {
+        ArrayList<String> resultList = null;
+
+        HttpURLConnection conn = null;
+        StringBuilder jsonResults = new StringBuilder();
+        try {
+            StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
+            sb.append("?key=" + API_KEY);
+            sb.append("&components=");
+            sb.append("&input=" + URLEncoder.encode(input, "utf8"));
+
+            URL url = new URL(sb.toString());
+
+            System.out.println("URL: " + url);
+            conn = (HttpURLConnection) url.openConnection();
+            InputStreamReader in = new InputStreamReader(conn.getInputStream());
+
+            int read;
+            char[] buff = new char[1024];
+            while ((read = in.read(buff)) != -1) {
+                jsonResults.append(buff, 0, read);
+            }
+        } catch (MalformedURLException e) {
+//            Log.e(LOG_TAG, "Error processing Places API URL", e);
+            return resultList;
+        } catch (IOException e) {
+//            Log.e(LOG_TAG, "Error connecting to Places API", e);
+            return resultList;
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+
+        try {
+            // Create a JSON object hierarchy from the results
+            JSONObject jsonObj = new JSONObject(jsonResults.toString());
+            JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
+
+            // Extract the Place descriptions from the results
+            resultList = new ArrayList<String>(predsJsonArray.length());
+            for (int i = 0; i < predsJsonArray.length(); i++) {
+                System.out.println(predsJsonArray.getJSONObject(i).getString("description"));
+                System.out.println("============================================================");
+                resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
+            }
+
+        } catch (JSONException e) {
+//            Log.e(LOG_TAG, "Cannot process JSON results", e);
+        }
+
+        return resultList;
+    }
 
     private void beaconsToast(final String msg, final String msgBeacon, final String img, final String placeId, final int isCloseApproach, final String isClosePromo) {
         if (msg != null && !msg.equals("")) {
@@ -155,40 +238,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
             handlerBeaconToast.postDelayed(runnable, 4000);
         }
     }
-
-    private boolean isLocationChanged;
-    private FetchLocations fetchLocations;
-    private post_sync postSync;
-
-   /* private void beaconsToast(Bundle bundle) {
-        String type = bundle.getString("type");
-
-        if (type.equals(BEACON_ENTERED)) {
-            beaconsToast(bundle.getString(BEACON_ENTRY_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), true, 0);
-
-        } else if (type.equals(BEACON_EXITED)) {
-            beaconsToast(bundle.getString(BEACON_EXIT_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), false, 0);
-
-        } else if (type.equals(BEACON_NEAR_BY)) {
-//                    SnackbarManager.show(Snackbar.with(YourLocationFragmentActivity.this).color(getResources().getColor(R.color.mTrans2)).text(bundle.getString(BEACON_NEAR_BY_TEXT)));
-            beaconsToast(bundle.getString(BEACON_NEAR_BY_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), true, 1);
-
-        }
-    }*/
-
-    private Bundle bundle;
-    private Bundle bundleBeaconFromNotification;
-    private ListView listview;
-    private NormalEditText etSearchPlace, etAutoDetect;
-    private ImageView imgAutoDetect;
-    private PlacesAdapter placesAdapter;
-    private ArrayList<String> resultList = new ArrayList<>();
-    private String latitude, longitude, strAddress;
-    private boolean isGpsClicked = false;
-    private boolean isSearchResult;
-    private String lastSearchedPlace = "";
-    ArrayList<SearchPlaces> searchPlacesNew = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -345,38 +394,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
 
     }
 
-    class FetchLocations extends AsyncTask<String, Void, Object> {
-
-        @Override
-        protected Object doInBackground(String... strings) {
-            resultList = autocomplete(strings[0]);
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            placesAdapter.notifyDataSetChanged();
-        }
-    }
-
-    class FetchPlaces extends AsyncTask<String, Void, Object> {
-
-        @Override
-        protected Object doInBackground(String... strings) {
-            resultList = autocomplete(strings[0]);
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            placesAdapter.notifyDataSetChanged();
-        }
-    }
-
     private void searchplace() {
         if (CommonClass.hasInternetConnection(this)) {
             String url = Constants.SERVER_URL + "json.php?action=SearchPlacesOTG";
@@ -460,8 +477,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
         }
     }
 
-    ArrayList<SearchPlaces> searchPlaces = new ArrayList<>();
-
     public void searchPlacesOTG(String resultString) {
 //        Log.d("System searchResponse", resultString);
 
@@ -495,61 +510,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
             e.printStackTrace();
         }
     }
-
-    public static ArrayList<String> autocomplete(String input) {
-        ArrayList<String> resultList = null;
-
-        HttpURLConnection conn = null;
-        StringBuilder jsonResults = new StringBuilder();
-        try {
-            StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
-            sb.append("?key=" + API_KEY);
-            sb.append("&components=");
-            sb.append("&input=" + URLEncoder.encode(input, "utf8"));
-
-            URL url = new URL(sb.toString());
-
-            System.out.println("URL: " + url);
-            conn = (HttpURLConnection) url.openConnection();
-            InputStreamReader in = new InputStreamReader(conn.getInputStream());
-
-            int read;
-            char[] buff = new char[1024];
-            while ((read = in.read(buff)) != -1) {
-                jsonResults.append(buff, 0, read);
-            }
-        } catch (MalformedURLException e) {
-//            Log.e(LOG_TAG, "Error processing Places API URL", e);
-            return resultList;
-        } catch (IOException e) {
-//            Log.e(LOG_TAG, "Error connecting to Places API", e);
-            return resultList;
-        } finally {
-            if (conn != null) {
-                conn.disconnect();
-            }
-        }
-
-        try {
-            // Create a JSON object hierarchy from the results
-            JSONObject jsonObj = new JSONObject(jsonResults.toString());
-            JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
-
-            // Extract the Place descriptions from the results
-            resultList = new ArrayList<String>(predsJsonArray.length());
-            for (int i = 0; i < predsJsonArray.length(); i++) {
-                System.out.println(predsJsonArray.getJSONObject(i).getString("description"));
-                System.out.println("============================================================");
-                resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
-            }
-
-        } catch (JSONException e) {
-//            Log.e(LOG_TAG, "Cannot process JSON results", e);
-        }
-
-        return resultList;
-    }
-
 
     private void hideKeyBoard(View view) {
         InputMethodManager inputManager = (InputMethodManager) SearchActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -604,6 +564,7 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
                 nearby.setOtherimages(jsonObject.optString("otherimages"));
                 nearby.setDist(jsonObject.optString("dist"));
                 nearby.setFav_Id(jsonObject.optString("Fav_Id"));
+                nearby.setFree_entry(jsonObject.optString("free_entry"));
 
                 JSONArray operation1 = jsonObject.getJSONArray("HourDetails");
                 ArrayList<HourDetails> detailsArrayList = new ArrayList<>();
@@ -673,67 +634,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
             }
         } catch (Exception e) {
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
-        }
-    }
-
-    class PlacesAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            if (isSearchResult) {
-                return searchPlaces == null ? 0 : searchPlaces.size();
-            } else {
-                return resultList == null ? 0 : resultList.size();
-            }
-        }
-
-        @Override
-        public Object getItem(int position) {
-            if (isSearchResult) {
-                return searchPlaces.get(position);
-            } else {
-                return resultList.get(position);
-            }
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            View view = getLayoutInflater().inflate(R.layout.row_item_search_place, parent, false);
-            TextView txtPlaceName = (TextView) view.findViewById(R.id.txtPlaceName);
-            ImageView imageView = (ImageView) view.findViewById(R.id.imgPlace);
-            if (isSearchResult) {
-                txtPlaceName.setText(searchPlaces.get(position).getPlaceName());
-                String imageUrl = Constants.IMAGE_URL + searchPlaces.get(position).getPlaceMainImage() + "&w=" + (imageView.getWidth());
-                Picasso.with(SearchActivity.this).load(imageUrl).resize(100, 100).into(imageView);
-                imageView.setVisibility(View.VISIBLE);
-            } else {
-                txtPlaceName.setText(resultList.get(position));
-                imageView.setVisibility(View.GONE);
-
-            }
-            txtPlaceName.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Utils.hideKeyboard(SearchActivity.this);
-                    if (isSearchResult) {
-                        Intent intent = new Intent(SearchActivity.this, SearchResultPlaceDetailsActivity.class);
-                        intent.putExtra("placeId", searchPlaces.get(position).getPlaceId());
-                        intent.putExtra("location", etAutoDetect.getText().toString().trim());
-                        startActivity(intent);
-                    } else {
-
-                        getLocationFromAddress(SearchActivity.this, resultList.get(position));
-                        etAutoDetect.setText(strAddress);
-                        // onItemClick(resultList.get(position));
-                    }
-                }
-            });
-            return view;
         }
     }
 
@@ -932,7 +832,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
         }
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -989,7 +888,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
                 break;
         }
     }
-
 
     public void getGeoLocation() {
         try {
@@ -1060,10 +958,102 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
         }
     }
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    class FetchLocations extends AsyncTask<String, Void, Object> {
+
+        @Override
+        protected Object doInBackground(String... strings) {
+            resultList = autocomplete(strings[0]);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            placesAdapter.notifyDataSetChanged();
+        }
+    }
+
+    class FetchPlaces extends AsyncTask<String, Void, Object> {
+
+        @Override
+        protected Object doInBackground(String... strings) {
+            resultList = autocomplete(strings[0]);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            placesAdapter.notifyDataSetChanged();
+        }
+    }
+
+    class PlacesAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            if (isSearchResult) {
+                return searchPlaces == null ? 0 : searchPlaces.size();
+            } else {
+                return resultList == null ? 0 : resultList.size();
+            }
+        }
+
+        @Override
+        public Object getItem(int position) {
+            if (isSearchResult) {
+                return searchPlaces.get(position);
+            } else {
+                return resultList.get(position);
+            }
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            View view = getLayoutInflater().inflate(R.layout.row_item_search_place, parent, false);
+            TextView txtPlaceName = (TextView) view.findViewById(R.id.txtPlaceName);
+            ImageView imageView = (ImageView) view.findViewById(R.id.imgPlace);
+            if (isSearchResult) {
+                txtPlaceName.setText(searchPlaces.get(position).getPlaceName());
+                String imageUrl = Constants.IMAGE_URL + searchPlaces.get(position).getPlaceMainImage() + "&w=" + (imageView.getWidth());
+                Picasso.with(SearchActivity.this).load(imageUrl).resize(100, 100).into(imageView);
+                imageView.setVisibility(View.VISIBLE);
+            } else {
+                txtPlaceName.setText(resultList.get(position));
+                imageView.setVisibility(View.GONE);
+
+            }
+            txtPlaceName.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Utils.hideKeyboard(SearchActivity.this);
+                    if (isSearchResult) {
+                        Intent intent = new Intent(SearchActivity.this, SearchResultPlaceDetailsActivity.class);
+                        intent.putExtra("placeId", searchPlaces.get(position).getPlaceId());
+                        intent.putExtra("location", etAutoDetect.getText().toString().trim());
+                        startActivity(intent);
+                    } else {
+
+                        getLocationFromAddress(SearchActivity.this, resultList.get(position));
+                        etAutoDetect.setText(strAddress);
+                        // onItemClick(resultList.get(position));
+                    }
+                }
+            });
+            return view;
+        }
     }
 
 

@@ -21,15 +21,15 @@ public class Constants {
     //    Custom progress dialog
     public static final int LOADER_HEIGHT = 60;
 
-//    public static String SERVER_URL = "http://betaapplication.com/tourisma/";
+    //    public static String SERVER_URL = "http://betaapplication.com/tourisma/";
 //    public static String IMG_URL = "http://betaapplication.com/tourisma/json.php";
 //    public static String IMAGE_URL = "http://betaapplication.com/tourisma/timthumb.php?src=/uploads/place/";
 //    public static String IMAGE_URL1 = "http://betaapplication.com/tourisma/uploads/user/";
 //    public static String IMAGE_URL2 = "http://betaapplication.com/tourisma/timthumb.php?src=/uploads/category/";
-public static final int LOADER_WIDTH = 60;
+    public static final int LOADER_WIDTH = 60;
     public static String mPref = "My_Pref";
-    public static String SERVER_URL = "http://35.154.205.155/mytourisma/";
-    //    public static String SERVER_URL = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/";
+    //    public static String SERVER_URL = "http://35.154.205.155/mytourisma/";
+    public static String SERVER_URL = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/";
     public static String IMG_URL = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/json.php";
     public static String BEACON_IMAGE_URL = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/timthumb.php?src=/uploads/beacons/";
     public static String IMAGE_URL = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/timthumb.php?src=/uploads/place/";

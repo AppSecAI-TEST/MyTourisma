@@ -415,6 +415,7 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                 nearby.setOtherimages(jsonObject.optString("otherimages"));
                 nearby.setDist(jsonObject.optString("dist"));
                 nearby.setFav_Id(jsonObject.optString("Fav_Id"));
+                nearby.setFree_entry(jsonObject.optString("free_entry"));
 
                 JSONArray operation1 = jsonObject.getJSONArray("HourDetails");
                 ArrayList<HourDetails> detailsArrayList = new ArrayList<>();

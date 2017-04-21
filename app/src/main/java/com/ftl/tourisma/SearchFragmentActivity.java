@@ -2,17 +2,14 @@ package com.ftl.tourisma;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,7 +19,6 @@ import com.ftl.tourisma.custom_views.NormalEditText;
 import com.ftl.tourisma.custom_views.NormalTextView;
 import com.ftl.tourisma.database.DBAdapter;
 import com.ftl.tourisma.database.FeesDetails;
-import com.ftl.tourisma.database.HoursOfOperation;
 import com.ftl.tourisma.database.Nearby;
 import com.ftl.tourisma.models.HourDetails;
 import com.ftl.tourisma.postsync.PostSync;
@@ -40,8 +36,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import static com.ftl.tourisma.beacons.MyBeaconsService.BROADCAST_BEACON;
 
 /**
  * Created by fipl11111 on 02-Mar-16.
@@ -252,6 +246,7 @@ public class SearchFragmentActivity extends FragmentActivity implements View.OnC
                 nearby.setOtherimages(jsonObject.optString("otherimages"));
                 nearby.setDist(jsonObject.optString("dist"));
                 nearby.setFav_Id(jsonObject.optString("Fav_Id"));
+                nearby.setFree_entry(jsonObject.optString("free_entry"));
 
                 JSONArray operation1 = jsonObject.getJSONArray("HourDetails");
                 ArrayList<HourDetails> detailsArrayList = new ArrayList<>();

@@ -123,14 +123,16 @@
                         android:layout_marginRight="@dimen/m1dp"
                         android:layout_weight="13"
                         android:background="@color/mBlue"
-                        android:weightSum="3"
                         android:gravity="center_horizontal"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:weightSum="3">
+
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:src="@drawable/ic_share_" />
+
                         <com.ftl.tourisma.custom_views.NormalTextView
                             android:id="@+id/txtShare"
                             android:layout_width="wrap_content"
@@ -138,9 +140,9 @@
                             android:layout_gravity="center"
                             android:layout_marginLeft="@dimen/m5dp"
                             android:layout_marginRight="@dimen/m5dp"
-                            android:text="Share"
                             android:layout_weight="1"
                             android:gravity="center"
+                            android:text="Share"
                             android:textColor="@color/mWhite"
                             android:textSize="@dimen/TEXT_SMALL_SKIP" />
 
@@ -151,9 +153,9 @@
                         android:id="@+id/rl_fav"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_gravity="center"
                         android:layout_marginRight="@dimen/m1dp"
                         android:layout_weight="14"
-                        android:layout_gravity="center"
                         android:background="@color/mBlue"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
@@ -170,10 +172,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:gravity="center"
                             android:layout_marginLeft="@dimen/m2dp"
                             android:layout_marginRight="@dimen/m2dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
                             android:text="Favourite"
                             android:textColor="@color/mWhite"
                             android:textSize="@dimen/TEXT_SMALL_SKIP" />
@@ -183,10 +185,10 @@
                         android:id="@+id/rl_navigator"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_gravity="center"
                         android:layout_weight="13"
                         android:background="@color/mBlue"
                         android:gravity="center_horizontal"
-                        android:layout_gravity="center"
                         android:orientation="vertical">
 
                         <ImageView
@@ -200,9 +202,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_weight="1"
                             android:layout_marginLeft="@dimen/m5dp"
                             android:layout_marginRight="@dimen/m5dp"
+                            android:layout_weight="1"
                             android:gravity="center"
                             android:text="2.5kmvttt"
                             android:textColor="@color/mWhite"

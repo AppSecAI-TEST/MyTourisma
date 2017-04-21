@@ -661,6 +661,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                 //imageLoader.displayImage(imageURL, iv_nearby_explorer, optionsSimple);
 //
                 tv_near.setText(nearbies.get(i).getPlace_Name());
+                tv_ticket.setText(nearbies.get(i).getFree_entry());
+/*                if (nearbies.get(i).getFree_entry().equals("0")) {
+                    tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + "Check details");
+                } else if (nearbies.get(i).getFree_entry().equals("1")){
+                    tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + "Free entry");
+                }*/
                 txtCategory.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Category") + ": " + nearbies.get(i).getCategory_Name());
                 txtShare.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Share"));
                 txtFav.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Favourite"));
@@ -676,7 +682,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                         String share2 = Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "share2");
                         String share3 = Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "share3");
 
-                        mIntent.putExtra("myMsg", share1 + " \"" + mainActivity.getPreferences().getString("User_Name", "") + "\" " + share2 + " \"" + nearbies.get(v.getId()).getPlace_Name() + "\" " + share3);
+                        mIntent.putExtra("myMsg", share1 + "\" " + share2 + " \"" + nearbies.get(v.getId()).getPlace_Name() + "\" " + share3);
                         startActivity(mIntent);
 //
                     }
@@ -721,8 +727,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
 
                             if (hourDetails.getPOHCharges() != null && !hourDetails.getPOHCharges().equals("") && !hourDetails.getPOHCharges().equalsIgnoreCase("null")) {
                                 isTicketSet = true;
-                                tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + hourDetails.getPOHCharges());
+//                                tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + hourDetails.getPOHCharges());
                             }
+                          /*  if (nearbies.get(i).getFree_entry().equals("0")) {
+                                tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + "Check details");
+                            } else if (nearbies.get(i).getFree_entry().equals("1")){
+                                tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + "Free entry");
+                            }*/
                             break;
                         } else {
                             tv_timing.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Timing") + ": -");
@@ -738,7 +749,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                     tv_timing.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Timing") + ": " + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Closed"));
                 }
                 if (!isTicketSet) {
-                    tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": -");
+//                    tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": -");
                 }
                 if (nearbies.get(i).getFav_Id().equalsIgnoreCase("0")) {
                     imgFav.setActivated(false);

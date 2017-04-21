@@ -929,6 +929,7 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
                     resize(width, (height * 60) / 100)
                     .into(viewHolder.iv_nearby_explorer);
             viewHolder.tv_near.setText(nearbies.get(position).getPlace_Name());
+            viewHolder.tv_ticket.setText(nearbies.get(position).getFree_entry());
             viewHolder.txtCategory.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Category") + ": " + nearbies.get(position).getCategory_Name());
 
             viewHolder.llView.setId(position);
@@ -1061,7 +1062,7 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
 
                         if (hourDetails.getPOHCharges() != null && !hourDetails.getPOHCharges().equals("") && !hourDetails.getPOHCharges().equalsIgnoreCase("null")) {
                             isTicketSet = true;
-                            viewHolder.tv_ticket.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tickets") + ": " + hourDetails.getPOHCharges());
+//                            viewHolder.tv_ticket.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tickets") + ": " + hourDetails.getPOHCharges());
                         }
                         break;
                     } else {
@@ -1079,7 +1080,7 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
 //                    txtOpenNowVal.setText("");
             }
             if (!isTicketSet) {
-                viewHolder.tv_ticket.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tickets") + ": -");
+//                viewHolder.tv_ticket.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tickets") + ": -");
             }
 
 //            viewHolder.tv_distance.setText(nearbies.get(position).getDistance() + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));

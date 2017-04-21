@@ -29,7 +29,6 @@ import com.ftl.tourisma.custom_views.NormalTextView;
 import com.ftl.tourisma.utils.Constants;
 import com.ftl.tourisma.utils.IsNetworkConnection;
 import com.ftl.tourisma.utils.Utils;
-import com.google.android.gms.plus.PlusShare;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 
@@ -41,11 +40,9 @@ import java.util.Arrays;
  */
 public class ShareFragmentActivity extends FragmentActivity implements View.OnClickListener {
 
+    public static final String PLAY_STORE = "https://play.google.com/store/apps/details?id=";
     private static final String TAG = ShareFragmentActivity.class.getSimpleName();
     ImageView facebook_share, sms_share, google_share, twitter_share, iv_menu_close;
-    private ShareDialog shareDialog;
-    private boolean canPresentShareDialog;
-    private CallbackManager callbackManager;
     String sharetext;
     Boolean searchflag = true;
     int check = 0;
@@ -55,6 +52,9 @@ public class ShareFragmentActivity extends FragmentActivity implements View.OnCl
     TextView tv_main_invite;
     Intent mIntent;
     String msg;
+    private ShareDialog shareDialog;
+    private boolean canPresentShareDialog;
+    private CallbackManager callbackManager;
     private SharedPreferences mPreferences;
     private NormalTextView tv_sms, tv_google, tv_facebook, tv_twitter;
 
@@ -164,7 +164,7 @@ public class ShareFragmentActivity extends FragmentActivity implements View.OnCl
                 ShareLinkContent linkContent = new ShareLinkContent.Builder()
                         .setContentTitle("")
                         .setContentDescription(msg)
-                        .setContentUrl(Uri.parse("https://developers.facebook.com"))
+                        .setContentUrl(Uri.parse("http://facebook.com"))
                         .build();
                 shareDialog.show(linkContent);
 //                db.close();
@@ -181,8 +181,6 @@ public class ShareFragmentActivity extends FragmentActivity implements View.OnCl
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-
-    public static final String PLAY_STORE = "https://play.google.com/store/apps/details?id=";
 
     @Override
     public void onClick(View v) {
