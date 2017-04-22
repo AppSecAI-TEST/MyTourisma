@@ -55,6 +55,7 @@ import com.ftl.tourisma.postsync.post_sync;
 import com.ftl.tourisma.utils.CommonClass;
 import com.ftl.tourisma.utils.Constants;
 import com.ftl.tourisma.utils.CustomTypefaceSpan;
+import com.ftl.tourisma.utils.GPSTracker;
 import com.ftl.tourisma.utils.JSONObjConverter;
 import com.ftl.tourisma.utils.Preference;
 import com.ftl.tourisma.utils.TimingFunction;
@@ -996,10 +997,17 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
             viewHolder.rl_navigator.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f", Double.parseDouble(mPreferences.getString("latitude1", "")), Double.parseDouble(mPreferences.getString("longitude1", "")), Double.parseDouble(nearbies.get(position).getPlace_Latitude()), Double.parseDouble(nearbies.get(position).getPlace_Longi()));
+                    GPSTracker gpsTracker = new GPSTracker(getActivity());
+                    if (!gpsTracker.canGetLocation())
+                        gpsTracker.showSettingsAlert();
+                    else {
+                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?q=loc:" + gpsTracker.getLatitude() + "," + gpsTracker.getLongitude() + "&daddr=" + Double.parseDouble(nearbies.get(position).getPlace_Latitude()) + "," + Double.parseDouble(nearbies.get(position).getPlace_Longi())));
+                        startActivity(intent);
+                    }
+                    /*String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f", Double.parseDouble(mPreferences.getString("latitude1", "")), Double.parseDouble(mPreferences.getString("longitude1", "")), Double.parseDouble(nearbies.get(position).getPlace_Latitude()), Double.parseDouble(nearbies.get(position).getPlace_Longi()));
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                     intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
-                    startActivity(intent);
+                    startActivity(intent);*/
                     // Utilities.toast(SearchResultFragmentActivity.this, "In-Progress -> It will Navaigate on google map");
                 }
             });

@@ -42,8 +42,8 @@
         android:id="@+id/ll_search_result1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/ll_search_result2"
         android:orientation="vertical"
         android:visibility="visible">
 

@@ -45,7 +45,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -341,14 +340,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
 
         gpsTracker = new GPSTracker(this, true);
         if (CommonClass.hasInternetConnection(this)) {
-            if (Prefs.getString(Constants.first_time, "").equals("first")) {
+     /*       if (Prefs.getString(Constants.first_time, "").equals("first")) {
                 mEditor.putString("latitude1", "23.424076").commit();
                 mEditor.putString("longitude1", "53.847818").commit();
                 mEditor.putString("latitude2", "23.424076").commit();
                 mEditor.putString("longitude2", "53.847818").commit();
                 mPreferences.edit().putString(Preference.Pref_City, "United Arab Emirates").apply();
                 Prefs.putString(Constants.first_time, "second");
-            } else {
+            } else {*/
                 if (gpsTracker.getLatitude() == 0 || gpsTracker.getLongitude() == 0) {
                     mEditor.putString("latitude1", "23.424076").commit();
                     mEditor.putString("longitude1", "53.847818").commit();
@@ -371,7 +370,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
                     Log.d("System out", "Constant.longitude1 " + mPreferences.getString("longitude1", ""));
 
                 }
-            }
+//            }
         } else {
             Intent intent = new Intent(getApplicationContext(), NoInternet.class);
             startActivity(intent);

@@ -865,8 +865,13 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                 Picasso.with(getActivity()).load(imageUrl).resize(100, 100).into(imageView);
                 imageView.setVisibility(View.VISIBLE);
             } else {
-                txtPlaceName.setText(resultList.get(position));
-                imageView.setVisibility(View.GONE);
+                try {
+                    txtPlaceName.setText(resultList.get(position));
+                    imageView.setVisibility(View.GONE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
 
             }
             txtPlaceName.setOnClickListener(new OnClickListener() {
@@ -879,10 +884,13 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                         intent.putExtra("location", etAutoDetect.getText().toString().trim());
                         startActivity(intent);
                     } else {
-
-                        getLocationFromAddress(getActivity(), resultList.get(position));
-                        etAutoDetect.setText(strAddress);
-                        // onItemClick(resultList.get(position));
+                        try {
+                            getLocationFromAddress(getActivity(), resultList.get(position));
+                            etAutoDetect.setText(strAddress);
+                            // onItemClick(resultList.get(position));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
