@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -84,6 +85,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
     private static final String TAG = "SearchResultPlace";
     static int mCounter = -1;
     ScrollView similar_scroll;
+    Button buy_tickets;
     GalleryAdapter2 galleryAdapter2;
     View view;
     private ArrayList<Nearby> nearbies1 = new ArrayList<>();
@@ -166,7 +168,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
         imgSharePlace.setOnClickListener(this);
 
         similar_scroll = (ScrollView) view.findViewById(R.id.similar_scroll);
-
+        buy_tickets = (Button) view.findViewById(R.id.buy_tickets);
         rlVirtualTour = (RelativeLayout) view.findViewById(R.id.rlVirtualTour);
         rlVirtualTour.setOnClickListener(this);
         custom_indicator1 = (PagerIndicator) view.findViewById(R.id.custom_indicator1);

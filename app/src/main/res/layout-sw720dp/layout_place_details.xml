@@ -25,7 +25,8 @@
             <com.daimajia.slider.library.SliderLayout
                 android:id="@+id/sliderPlaceImages"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -56,9 +57,9 @@
                         android:id="@+id/rlVirtualTour"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/m70dp"
-                        android:visibility="gone"
                         android:background="@color/mBlueTran"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <com.ftl.tourisma.custom_views.NormalBoldTextView
                             android:id="@+id/txtViewAVirtalTour"
@@ -292,6 +293,20 @@
             android:layout_marginLeft="@dimen/m15dp"
             android:layout_marginRight="@dimen/m15dp"
             android:orientation="vertical" />
+
+        <Button
+            android:id="@+id/buy_tickets"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/tickets_btn_bg"
+            android:drawableLeft="@drawable/ticket"
+            android:drawablePadding="10dp"
+            android:padding="10dp"
+            android:text="Buy Tickets"
+            android:textColor="@color/mBlue"
+            android:textSize="@dimen/TEXT_EXTRA_SMALL" />
 
         <View
             android:layout_width="match_parent"
