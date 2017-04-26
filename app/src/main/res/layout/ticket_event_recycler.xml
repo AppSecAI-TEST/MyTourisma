@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/events_recycler"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
+    android:orientation="vertical">
+
+    <view
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentTop="true"
+        android:background="#666666" />
+
+    <TextView
+        android:id="@+id/place_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view2"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="25dp"
+        android:ems="7"
+        android:text="At the top sky burg khalifa level" />
+
+    <ImageView
+        android:id="@+id/proceed_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/place_txt"
+        app:srcCompat="@drawable/black_arrow" />
+
+    <TextView
+        android:id="@+id/amt_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/proceed_txt"
+        android:layout_marginRight="10dp"
+        android:layout_toStartOf="@+id/proceed_txt"
+        android:text="AED 350" />
+
+    <view
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/place_txt"
+        android:background="#666666" />
+
+</RelativeLayout>

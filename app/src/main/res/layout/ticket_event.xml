@@ -39,12 +39,15 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="50dp"
         android:orientation="horizontal">
-
 
         <ImageView
             android:id="@+id/cal_img"
@@ -56,9 +59,47 @@
             android:id="@+id/date_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="" />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/cal_img"
+            android:text="Sunday 24th arpril 2017" />
 
+        <ImageView
+            android:id="@+id/edit_date_img"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/edit" />
 
-    </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/select_options_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:text="Select Options" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/select_options_txt"
+        android:layout_marginTop="20dp"
+        android:scrollbars="vertical" />
+
+    <com.ftl.tourisma.custom_views.NormalTextView
+        android:id="@+id/continue_btn"
+        style="@style/MyCustomButton"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:padding="@dimen/m10dp"
+        android:text="CONTINUE"
+        android:textSize="@dimen/TEXT_EXTRA_SMALL" />
 
 </RelativeLayout>
