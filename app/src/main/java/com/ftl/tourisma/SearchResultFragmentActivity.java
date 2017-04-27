@@ -272,6 +272,8 @@ public class SearchResultFragmentActivity extends FragmentActivity implements Vi
         try {
             unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -295,6 +297,8 @@ public class SearchResultFragmentActivity extends FragmentActivity implements Vi
             height = displaymetrics.heightPixels;
             width = displaymetrics.widthPixels;
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -602,6 +606,8 @@ public class SearchResultFragmentActivity extends FragmentActivity implements Vi
                 deleteFavoriteResponse(response);
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
         }
     }
@@ -627,6 +633,8 @@ public class SearchResultFragmentActivity extends FragmentActivity implements Vi
                 Distance = distApi;
             }*/
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -970,6 +978,8 @@ public class SearchResultFragmentActivity extends FragmentActivity implements Vi
             }
 
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
     }
@@ -1020,6 +1030,8 @@ public class SearchResultFragmentActivity extends FragmentActivity implements Vi
 
 
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Utils.Log(TAG, "openWeekDaysPopup Exception: " + e.getLocalizedMessage());
         }
 
@@ -1066,6 +1078,8 @@ public class SearchResultFragmentActivity extends FragmentActivity implements Vi
             }
             // hoursOfOperation.setFeesDetailses(feesArrayList);
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -1109,6 +1123,8 @@ public class SearchResultFragmentActivity extends FragmentActivity implements Vi
                 } else {
                 }
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
         }
@@ -1146,7 +1162,9 @@ public class SearchResultFragmentActivity extends FragmentActivity implements Vi
                     }
                 }
             } catch (JSONException e) {
-
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
+                e.printStackTrace();
             }
         }
     }
@@ -1319,6 +1337,8 @@ public class SearchResultFragmentActivity extends FragmentActivity implements Vi
                                 try {
                                     _24HourDt = _24HourSDF.parse(_24HourTime);
                                 } catch (ParseException e) {
+                                    // Tracking exception
+                                    MyTorismaApplication.getInstance().trackException(e);
                                     e.printStackTrace();
                                 }
                             }
@@ -1326,6 +1346,8 @@ public class SearchResultFragmentActivity extends FragmentActivity implements Vi
                                 try {
                                     _24HourDt1 = _24HourSDF.parse(_24HourTime1);
                                 } catch (ParseException e) {
+                                    // Tracking exception
+                                    MyTorismaApplication.getInstance().trackException(e);
                                     e.printStackTrace();
                                 }
                             }
@@ -1445,6 +1467,8 @@ public class SearchResultFragmentActivity extends FragmentActivity implements Vi
                 }
                 txtDistance.setText(Distance + Constants.showMessage(SearchResultFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "KM"));
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }

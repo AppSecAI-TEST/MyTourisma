@@ -118,6 +118,8 @@ public class MapDetailFragment extends FragmentActivity implements View.OnClickL
             height = displaymetrics.heightPixels;
             width = displaymetrics.widthPixels;
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -338,6 +340,8 @@ public class MapDetailFragment extends FragmentActivity implements View.OnClickL
                     b.include(marker.getPosition());
 
                 } catch (Exception e) {
+                    // Tracking exception
+                    MyTorismaApplication.getInstance().trackException(e);
                     Log.e("System out", e.getMessage());
                 }
             }
@@ -345,6 +349,8 @@ public class MapDetailFragment extends FragmentActivity implements View.OnClickL
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 150, 150, 5);
             map_detail.animateCamera(cu);
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e("System out", "IllegalStateException " + e.getMessage());
         }
     }
@@ -363,6 +369,8 @@ public class MapDetailFragment extends FragmentActivity implements View.OnClickL
                     longitude = Double.parseDouble(nearbies.get(i).getPlace_Longi());
 
                 } catch (NumberFormatException e) {
+                    // Tracking exception
+                    MyTorismaApplication.getInstance().trackException(e);
                     Log.e("System out", e.getMessage());
                 }
                 try {
@@ -392,6 +400,8 @@ public class MapDetailFragment extends FragmentActivity implements View.OnClickL
                     b.include(marker.getPosition());
 
                 } catch (Exception e) {
+                    // Tracking exception
+                    MyTorismaApplication.getInstance().trackException(e);
                     Log.e("System out", e.getMessage());
                 }
             }
@@ -407,6 +417,8 @@ public class MapDetailFragment extends FragmentActivity implements View.OnClickL
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 150, 150, 5);
             map_detail.animateCamera(cu);
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e("System out", "IllegalStateException " + e.getMessage());
         }
     }
@@ -606,6 +618,8 @@ public class MapDetailFragment extends FragmentActivity implements View.OnClickL
 
 
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Utils.Log(TAG, "openWeekDaysPopup Exception: " + e.getLocalizedMessage());
         }
 
@@ -683,6 +697,8 @@ public class MapDetailFragment extends FragmentActivity implements View.OnClickL
                 }
 
             } catch (ParseException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
         }
@@ -704,110 +720,10 @@ public class MapDetailFragment extends FragmentActivity implements View.OnClickL
                 addFavoriteResponse(response);
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
         }
-    }
-
-    private class PlacesImagesAdapter extends RecyclerView.Adapter<PlacesImagesAdapter.ViewHolder> {
-
-        class ViewHolder extends RecyclerView.ViewHolder {
-
-            private LinearLayout transparentlayout;
-            private NormalTextView tv_name, tv_km;
-            private ImageView iv_detail;
-
-            public ViewHolder(View itemView) {
-                super(itemView);
-                iv_detail = (ImageView) itemView.findViewById(R.id.iv_detail);
-                tv_name = (NormalTextView) itemView.findViewById(R.id.tv_name);
-                tv_km = (NormalTextView) itemView.findViewById(R.id.tv_km);
-                transparentlayout = (LinearLayout) itemView.findViewById(R.id.transparentlayout);
-
-                transparentlayout.setVisibility(View.GONE);
-                tv_name.setVisibility(View.GONE);
-                tv_km.setVisibility(View.GONE);
-            }
-        }
-
-        Context context;
-
-        public PlacesImagesAdapter(Context context) {
-            this.context = context;
-        }
-
-//        @Override
-//        public int getCount() {
-//            return strImg1.length;
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return null;
-//        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(context).inflate(R.layout.detail_gallery, parent, false);
-            ViewHolder viewHolder = new ViewHolder(view);
-
-            return viewHolder;
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            String imageUrl = Constants.IMAGE_URL + strImg1[position] + "&w=" + (width);
-            imageLoader.displayImage(imageUrl, holder.iv_detail, options);
-            holder.iv_detail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MapDetailFragment.this, SearchResultPlaceDetailsActivity.class);
-                    intent.putExtra("placeId", nearbies.get(mId).getPlace_Id());
-                    startActivity(intent);
-                }
-            });
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public int getItemCount() {
-            return strImg1.length;
-        }
-
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            LayoutInflater mLayoutInflater;
-//            mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            convertView = mLayoutInflater.inflate(R.layout.detail_gallery, null);
-//            final ImageView iv_detail = (ImageView) convertView.findViewById(R.id.iv_detail);
-//            final NormalTextView tv_name = (NormalTextView) convertView.findViewById(R.id.tv_name);
-//            final NormalTextView tv_km = (NormalTextView) convertView.findViewById(R.id.tv_km);
-//            final LinearLayout transparentlayout = (LinearLayout) convertView.findViewById(R.id.transparentlayout);
-//
-//            transparentlayout.setVisibility(View.GONE);
-//            tv_name.setVisibility(View.GONE);
-//            tv_km.setVisibility(View.GONE);
-//            String imageUrl = Constants.IMAGE_URL + strImg1[position] + "&w=" + (width);
-////            Picasso.with(this) //
-////                    .load(imageUrl) //
-////                    .into(iv_detail);
-//
-////            mRecyclerView.seto(new com.ftl.tourisma.gallery1.AdapterView.OnItemClickListener() {
-////                @Override
-////                public void onItemClick(com.ftl.tourisma.gallery1.AdapterView<?> parent, View view, int position, long id) {
-////                    id = position;
-//////                    setDetailInfo1(position);
-////                }
-////            });
-//
-//            Log.i("System out", imageUrl);
-//            imageLoader.displayImage(imageUrl, iv_detail, options);
-//
-//            return convertView;
-//        }
     }
 
     // Convert a view to bitmap
@@ -869,6 +785,8 @@ public class MapDetailFragment extends FragmentActivity implements View.OnClickL
                 } else {
                 }
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
         }
@@ -911,7 +829,8 @@ public class MapDetailFragment extends FragmentActivity implements View.OnClickL
                     }
                 }
             } catch (JSONException e) {
-
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
             }
         }
     }
@@ -930,6 +849,108 @@ public class MapDetailFragment extends FragmentActivity implements View.OnClickL
         };
         llMapLocationToast.setVisibility(View.VISIBLE);
         handler.postDelayed(runnable, 4000);
+    }
+
+    private class PlacesImagesAdapter extends RecyclerView.Adapter<PlacesImagesAdapter.ViewHolder> {
+
+        Context context;
+
+        public PlacesImagesAdapter(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(context).inflate(R.layout.detail_gallery, parent, false);
+            ViewHolder viewHolder = new ViewHolder(view);
+
+            return viewHolder;
+        }
+
+//        @Override
+//        public int getCount() {
+//            return strImg1.length;
+//        }
+//
+//        @Override
+//        public Object getItem(int position) {
+//            return null;
+//        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            String imageUrl = Constants.IMAGE_URL + strImg1[position] + "&w=" + (width);
+            imageLoader.displayImage(imageUrl, holder.iv_detail, options);
+            holder.iv_detail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MapDetailFragment.this, SearchResultPlaceDetailsActivity.class);
+                    intent.putExtra("placeId", nearbies.get(mId).getPlace_Id());
+                    startActivity(intent);
+                }
+            });
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public int getItemCount() {
+            return strImg1.length;
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+
+            private LinearLayout transparentlayout;
+            private NormalTextView tv_name, tv_km;
+            private ImageView iv_detail;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                iv_detail = (ImageView) itemView.findViewById(R.id.iv_detail);
+                tv_name = (NormalTextView) itemView.findViewById(R.id.tv_name);
+                tv_km = (NormalTextView) itemView.findViewById(R.id.tv_km);
+                transparentlayout = (LinearLayout) itemView.findViewById(R.id.transparentlayout);
+
+                transparentlayout.setVisibility(View.GONE);
+                tv_name.setVisibility(View.GONE);
+                tv_km.setVisibility(View.GONE);
+            }
+        }
+
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            LayoutInflater mLayoutInflater;
+//            mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            convertView = mLayoutInflater.inflate(R.layout.detail_gallery, null);
+//            final ImageView iv_detail = (ImageView) convertView.findViewById(R.id.iv_detail);
+//            final NormalTextView tv_name = (NormalTextView) convertView.findViewById(R.id.tv_name);
+//            final NormalTextView tv_km = (NormalTextView) convertView.findViewById(R.id.tv_km);
+//            final LinearLayout transparentlayout = (LinearLayout) convertView.findViewById(R.id.transparentlayout);
+//
+//            transparentlayout.setVisibility(View.GONE);
+//            tv_name.setVisibility(View.GONE);
+//            tv_km.setVisibility(View.GONE);
+//            String imageUrl = Constants.IMAGE_URL + strImg1[position] + "&w=" + (width);
+////            Picasso.with(this) //
+////                    .load(imageUrl) //
+////                    .into(iv_detail);
+//
+////            mRecyclerView.seto(new com.ftl.tourisma.gallery1.AdapterView.OnItemClickListener() {
+////                @Override
+////                public void onItemClick(com.ftl.tourisma.gallery1.AdapterView<?> parent, View view, int position, long id) {
+////                    id = position;
+//////                    setDetailInfo1(position);
+////                }
+////            });
+//
+//            Log.i("System out", imageUrl);
+//            imageLoader.displayImage(imageUrl, iv_detail, options);
+//
+//            return convertView;
+//        }
     }
 
 }

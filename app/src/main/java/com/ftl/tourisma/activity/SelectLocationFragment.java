@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
 import com.ftl.tourisma.custom_views.NormalEditText;
 import com.ftl.tourisma.custom_views.NormalTextView;
@@ -143,6 +144,8 @@ public class SelectLocationFragment extends Fragment implements View.OnClickList
                 resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
             }
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
 //            Log.e(LOG_TAG, "Cannot process JSON results", e);
         }
 
@@ -372,6 +375,8 @@ public class SelectLocationFragment extends Fragment implements View.OnClickList
                 addressResponse(response);
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
         }
     }
@@ -529,6 +534,8 @@ public class SelectLocationFragment extends Fragment implements View.OnClickList
                     }
 
                 } catch (Exception e) {
+                    // Tracking exception
+                    MyTorismaApplication.getInstance().trackException(e);
                     e.printStackTrace();
 
                     String address = "";
@@ -680,9 +687,13 @@ public class SelectLocationFragment extends Fragment implements View.OnClickList
                 startActivity(mIntent);
                 getActivity().finish();
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
     }

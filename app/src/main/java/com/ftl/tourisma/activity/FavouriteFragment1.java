@@ -36,6 +36,7 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.ftl.tourisma.FullPlaceImageViewActivity;
 import com.ftl.tourisma.MapDetailFragment;
+import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.OnInfoWindowElemTouchListener;
 import com.ftl.tourisma.R;
 import com.ftl.tourisma.ShareFragmentActivity;
@@ -154,7 +155,9 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
             height = displaymetrics.heightPixels;
             width = displaymetrics.widthPixels;
-        } catch (Exception e) {
+        } catch (Exception e) {// Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
+
             e.printStackTrace();
         }
 
@@ -310,6 +313,8 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
                 deleteFavoriteResponse(response);
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
         }
     }
@@ -404,6 +409,8 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
                     nearbies.add(nearby);
                 }
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
             nearbies = Utilities.sortLocations(nearbies);
@@ -430,6 +437,8 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
             }
             // hoursOfOperation.setFeesDetailses(feesArrayList);
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -506,6 +515,8 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
                 } else {
                 }
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
         }
@@ -776,6 +787,8 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
                     update();
                 }
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 // empty catch block
             }
         }
@@ -826,6 +839,8 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
             }
 
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
     }
@@ -871,6 +886,8 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
         try {
 //            recyclerAdapter.notifyDataSetChanged();
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
     }
@@ -921,6 +938,8 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
 
 
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Utils.Log(TAG, "openWeekDaysPopup Exception: " + e.getLocalizedMessage());
         }
 
@@ -1306,6 +1325,8 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
                                 try {
                                     _24HourDt = _24HourSDF.parse(_24HourTime);
                                 } catch (ParseException e) {
+                                    // Tracking exception
+                                    MyTorismaApplication.getInstance().trackException(e);
                                     e.printStackTrace();
                                 }
                             }
@@ -1313,6 +1334,8 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
                                 try {
                                     _24HourDt1 = _24HourSDF.parse(_24HourTime1);
                                 } catch (ParseException e) {
+                                    // Tracking exception
+                                    MyTorismaApplication.getInstance().trackException(e);
                                     e.printStackTrace();
                                 }
                             }

@@ -39,7 +39,6 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -52,6 +51,7 @@ import java.util.List;
  */
 public class MapLocationFragment extends FragmentActivity implements View.OnClickListener {
 
+    List<LatLng> pontos = null;
     private TextView tv_map_location;
     private GoogleMap map_direction1;
     private String latitude, longitude;
@@ -60,7 +60,6 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
     private ImageView iv_close_header1;
     private TextView tv_cate_name;
     private String placeName, dist;
-    List<LatLng> pontos = null;
     private FloatingActionButton fab1_single, fab2_single;
     private String direction;
     private GPSTracker gpsTracker;
@@ -181,6 +180,8 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
                 longitude1 = Double.parseDouble(longitude);
 
             } catch (NumberFormatException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 Log.e("System out", e.getMessage());
             }
             try {
@@ -216,12 +217,16 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
                 b.include(new LatLng(latitude1, longitude1));
 
             } catch (Exception e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 Log.e("System out", e.getMessage());
             }
             LatLngBounds bounds = b.build();
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 150, 150, 3);
             map_direction1.animateCamera(cu);
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e("System out", "IllegalStateException " + e.getMessage());
         }
     }
@@ -245,6 +250,8 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
 //                        + "Long" + longitude);
 
             } catch (NumberFormatException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 Log.e("System out", e.getMessage());
             }
             try {
@@ -284,12 +291,16 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
                 b.include(marker.getPosition());
 
             } catch (Exception e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 Log.e("System out", e.getMessage());
             }
             LatLngBounds bounds = b.build();
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 400, 400, 3);
             map_direction1.animateCamera(cu);
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e("System out", "IllegalStateException " + e.getMessage());
         }
     }
@@ -312,6 +323,40 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
         view.draw(canvas);
 
         return bitmap;
+    }
+
+    private List<LatLng> decodePoly(String encoded) {
+
+        List<LatLng> poly = new ArrayList<LatLng>();
+        int index = 0, len = encoded.length();
+        int lat = 0, lng = 0;
+
+        while (index < len) {
+            int b, shift = 0, result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lat += dlat;
+
+            shift = 0;
+            result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lng += dlng;
+
+            LatLng p = new LatLng((((double) lat / 1E5)),
+                    (((double) lng / 1E5)));
+            poly.add(p);
+        }
+
+        return poly;
     }
 
     // This Map Direction.
@@ -378,6 +423,8 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
                 }
 
             } catch (Exception e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 Log.e("System out", e.getMessage());
             }
 
@@ -407,6 +454,8 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
 //                        getJobByJobIdApi1();
 
                     } catch (NullPointerException e) {
+                        // Tracking exception
+                        MyTorismaApplication.getInstance().trackException(e);
                         Log.e("System out", "NullPointerException onPostExecute: "
                                 + e.toString());
                     } catch (Exception e2) {
@@ -450,39 +499,5 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
             }
 
         }
-    }
-
-    private List<LatLng> decodePoly(String encoded) {
-
-        List<LatLng> poly = new ArrayList<LatLng>();
-        int index = 0, len = encoded.length();
-        int lat = 0, lng = 0;
-
-        while (index < len) {
-            int b, shift = 0, result = 0;
-            do {
-                b = encoded.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lat += dlat;
-
-            shift = 0;
-            result = 0;
-            do {
-                b = encoded.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lng += dlng;
-
-            LatLng p = new LatLng((((double) lat / 1E5)),
-                    (((double) lng / 1E5)));
-            poly.add(p);
-        }
-
-        return poly;
     }
 }

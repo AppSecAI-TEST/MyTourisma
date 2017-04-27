@@ -302,6 +302,8 @@ public class SearchFragmentActivity extends FragmentActivity implements View.OnC
                 nearbies.add(nearby);
             }
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -330,6 +332,8 @@ public class SearchFragmentActivity extends FragmentActivity implements View.OnC
             }
             // hoursOfOperation.setFeesDetailses(feesArrayList);
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -343,6 +347,8 @@ public class SearchFragmentActivity extends FragmentActivity implements View.OnC
                 searchResponse(response);
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
         }
     }

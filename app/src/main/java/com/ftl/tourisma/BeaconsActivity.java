@@ -9,13 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.ftl.tourisma.custom_views.NormalTextView;
 import com.ftl.tourisma.utils.Constants;
 import com.ftl.tourisma.utils.Preference;
-import com.ftl.tourisma.utils.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -55,6 +52,8 @@ public class BeaconsActivity extends Activity {
             height = displaymetrics.heightPixels;
             width = displaymetrics.widthPixels;
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 

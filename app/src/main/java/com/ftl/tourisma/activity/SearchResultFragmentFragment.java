@@ -199,6 +199,8 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
             height = displaymetrics.heightPixels;
             width = displaymetrics.widthPixels;
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -464,6 +466,8 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
 
             getActivity().startActivity(emailIntent);
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Utils.Log(TAG, "suggestPlace Exception: " + e.getLocalizedMessage());
         }
     }
@@ -481,6 +485,8 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
                 deleteFavoriteResponse(response);
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
         }
     }
@@ -761,6 +767,8 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
             }
 
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
     }
@@ -802,6 +810,8 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
 
 
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Utils.Log(TAG, "openWeekDaysPopup Exception: " + e.getLocalizedMessage());
         }
 
@@ -859,6 +869,8 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
                 } else {
                 }
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
         }
@@ -896,6 +908,8 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
                     }
                 }
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
         }
@@ -1054,6 +1068,8 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
                                 try {
                                     _24HourDt = _24HourSDF.parse(_24HourTime);
                                 } catch (ParseException e) {
+                                    // Tracking exception
+                                    MyTorismaApplication.getInstance().trackException(e);
                                     e.printStackTrace();
                                 }
                             }
@@ -1061,6 +1077,8 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
                                 try {
                                     _24HourDt1 = _24HourSDF.parse(_24HourTime1);
                                 } catch (ParseException e) {
+                                    // Tracking exception
+                                    MyTorismaApplication.getInstance().trackException(e);
                                     e.printStackTrace();
                                 }
                             }

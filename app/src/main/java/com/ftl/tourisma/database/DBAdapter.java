@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.utils.Utils;
 
 import java.util.ArrayList;
@@ -133,6 +134,8 @@ public class DBAdapter {
             returnVal = sqlDB.insert(TABLE_SEARCH, null, contentValues);
             Utils.Log(TAG, "inserted search string " + searchStr);
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
         return returnVal;
@@ -168,6 +171,8 @@ public class DBAdapter {
             returnVal = sqlDB.insert(TABLE_LANGUAGES, null, cv);
 //            Utils.Log(TAG, " insertLanguage Msg_Statement " + Msg_Statement);
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Utils.Log(TAG, e.getMessage());
         }
         return returnVal;
@@ -231,6 +236,8 @@ public class DBAdapter {
             returnVal = sqlDB.insert(TABLE_NEARBY, null, cv);
             Utils.Log(TAG, "inserted place id " + Place_Id);
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Utils.Log(TAG, e.getMessage());
         }
         return returnVal;
@@ -310,6 +317,8 @@ public class DBAdapter {
             returnVal = sqlDB.insert(TABLE_HoursOfOperation, null, cv);
             Utils.Log(TAG, "inserted poh id " + POH_Id);
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Utils.Log(TAG, e.getMessage());
         }
         return returnVal;

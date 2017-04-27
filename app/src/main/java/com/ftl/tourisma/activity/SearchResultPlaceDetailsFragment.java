@@ -148,6 +148,8 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
             height = displaymetrics.heightPixels;
             width = displaymetrics.widthPixels;
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -580,6 +582,8 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
                 searchResponse(response);
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
         }
     }
@@ -693,6 +697,8 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
                 }
             }
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
     }
@@ -734,6 +740,8 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
 
 
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Utils.Log(TAG, "openWeekDaysPopup Exception: " + e.getLocalizedMessage());
         }
 
@@ -772,6 +780,8 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
             }
             // hoursOfOperation.setFeesDetailses(feesArrayList);
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -815,6 +825,8 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
                 } else {
                 }
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
         }
@@ -853,7 +865,9 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
                     }
                 }
             } catch (JSONException e) {
-
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
+                e.printStackTrace();
             }
         }
     }

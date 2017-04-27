@@ -9,6 +9,7 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
 import com.ftl.tourisma.utils.Utils;
 
@@ -34,14 +35,15 @@ import java.util.List;
  * Created by fipl11111 on 01-Mar-16.
  */
 public class post_sync extends AsyncTask<String, Integer, String> {
+    static String resultString = "";
+    Dialog dialog;
+    String activity = "", action = "";
+    ProgressBar progressbar;
     private Context context;
     //    private SearchActivity searchActivity;
     private boolean isShowProgress, isInProgress;
-    Dialog dialog;
-    String activity = "", action = "";
-    static String resultString = "";
-    ProgressBar progressbar;
 //    MyProfileFragment myProfileFragment;
+private ResponseHandler responseHandler;
 
 
     public post_sync(Context context, String action, ResponseHandler responseHandler, boolean isShowProgress) {
@@ -53,64 +55,6 @@ public class post_sync extends AsyncTask<String, Integer, String> {
         progressbar.setBackgroundColor(Utils.getColor(context, android.R.color.transparent));
         progressbar.setProgressDrawable(Utils.getDrawable(context, R.drawable.progress_background));
         this.isShowProgress = isShowProgress;
-
-    }
-
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-//            dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
-//            progressbar.setBackgroundResource(R.drawable.progress_background);
-
-        try {
-            if (isShowProgress) {
-                if (dialog != null && dialog.isShowing()) {
-                    dialog.dismiss();
-                }
-                dialog.setContentView(progressbar);
-                dialog.setCancelable(false);
-                Window window = dialog.getWindow();
-                window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                window.setGravity(Gravity.CENTER);
-                dialog.show();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected String doInBackground(String... params) {
-        invoke1(params[0], params[1]);
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-        if (dialog != null) {
-            dialog.dismiss();
-        }
-        sendResult();
-    }
-
-    private void sendResult() {
-        if (responseHandler != null) {
-            String str = "";
-            if (responseHandler != null) {
-                if (resultString != null) {
-                    //str = resultString.replaceAll("\r", " ");
-//                    str = resultString.replaceAll("\\r|\\n", "");
-                    str = resultString.replace("\\\\", "\\");
-                    if (str.contains("\\\\")) {
-                        str = str.replace("\\\\", "\\");
-                    }
-
-                }
-                responseHandler.onResponse(str, action);
-            }
-        }
 
     }
 
@@ -157,6 +101,8 @@ public class post_sync extends AsyncTask<String, Integer, String> {
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
         httppost = null;
@@ -164,13 +110,70 @@ public class post_sync extends AsyncTask<String, Integer, String> {
         return resultString;
     }
 
-    public interface ResponseHandler {
-        public void onResponse(String response, String action);
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+//            dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+//            progressbar.setBackgroundResource(R.drawable.progress_background);
+
+        try {
+            if (isShowProgress) {
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+                dialog.setContentView(progressbar);
+                dialog.setCancelable(false);
+                Window window = dialog.getWindow();
+                window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                window.setGravity(Gravity.CENTER);
+                dialog.show();
+            }
+        } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
+            e.printStackTrace();
+        }
     }
 
-    private ResponseHandler responseHandler;
+    @Override
+    protected String doInBackground(String... params) {
+        invoke1(params[0], params[1]);
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+        sendResult();
+    }
+
+    private void sendResult() {
+        if (responseHandler != null) {
+            String str = "";
+            if (responseHandler != null) {
+                if (resultString != null) {
+                    //str = resultString.replaceAll("\r", " ");
+//                    str = resultString.replaceAll("\\r|\\n", "");
+                    str = resultString.replace("\\\\", "\\");
+                    if (str.contains("\\\\")) {
+                        str = str.replace("\\\\", "\\");
+                    }
+
+                }
+                responseHandler.onResponse(str, action);
+            }
+        }
+
+    }
 
     public void setResponseHandler(ResponseHandler responseHandler) {
         this.responseHandler = responseHandler;
+    }
+
+    public interface ResponseHandler {
+        public void onResponse(String response, String action);
     }
 }

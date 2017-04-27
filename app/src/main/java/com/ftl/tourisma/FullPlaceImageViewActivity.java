@@ -160,6 +160,8 @@ public class FullPlaceImageViewActivity extends Activity implements post_sync.Re
             height = displaymetrics.heightPixels;
             width = displaymetrics.widthPixels;
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -216,6 +218,8 @@ public class FullPlaceImageViewActivity extends Activity implements post_sync.Re
         try {
             unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -318,7 +322,8 @@ public class FullPlaceImageViewActivity extends Activity implements post_sync.Re
 //            }
 //        });
         } catch (Exception e) {
-
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Utilities.Log(TAG, "ViewImageVideoPopUp", e);
         }
 
@@ -358,6 +363,8 @@ public class FullPlaceImageViewActivity extends Activity implements post_sync.Re
                 } else {
                 }
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
         }
@@ -394,7 +401,8 @@ public class FullPlaceImageViewActivity extends Activity implements post_sync.Re
                     }
                 }
             } catch (JSONException e) {
-
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
             }
         }
     }
@@ -408,8 +416,26 @@ public class FullPlaceImageViewActivity extends Activity implements post_sync.Re
                 deleteFavoriteResponse(response);
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
         }
+    }
+
+    private void guestSnackToast() {
+
+        tv_login_snack.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "Login"));
+        tv_sign_up_snack.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "SignUp"));
+        tv_snack_msg.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "GetStarted"));
+
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                llYourLocationToast.setVisibility(View.GONE);
+            }
+        };
+        llYourLocationToast.setVisibility(View.VISIBLE);
+        handler.postDelayed(runnable, 4000);
     }
 
     class PlaceImagesAdapter extends PagerAdapter {
@@ -482,21 +508,5 @@ public class FullPlaceImageViewActivity extends Activity implements post_sync.Re
             container.removeView((RelativeLayout) object);
         }
 
-    }
-
-    private void guestSnackToast() {
-
-        tv_login_snack.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "Login"));
-        tv_sign_up_snack.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "SignUp"));
-        tv_snack_msg.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "GetStarted"));
-
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                llYourLocationToast.setVisibility(View.GONE);
-            }
-        };
-        llYourLocationToast.setVisibility(View.VISIBLE);
-        handler.postDelayed(runnable, 4000);
     }
 }

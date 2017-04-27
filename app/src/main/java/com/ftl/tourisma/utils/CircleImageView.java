@@ -3,6 +3,7 @@ package com.ftl.tourisma.utils;
 /**
  * Created by fipl on 09/03/2016.
  */
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -24,8 +25,8 @@ import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
-import com.pkmmte.view.CircularImageView;
 
 public class CircleImageView extends ImageView {
 
@@ -263,6 +264,8 @@ public class CircleImageView extends ImageView {
             drawable.draw(canvas);
             return bitmap;
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
             return null;
         }

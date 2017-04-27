@@ -1,5 +1,7 @@
 package com.ftl.tourisma.postsync;
 
+import com.ftl.tourisma.MyTorismaApplication;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +25,8 @@ public class PlaceJSONParser {
             /** Retrieves all the elements in the 'places' array */
             jPlaces = jObject.getJSONArray("predictions");
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
         /** Invoking getPlaces with the array of json object
@@ -44,6 +48,8 @@ public class PlaceJSONParser {
                 placesList.add(place);
 
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
         }
@@ -73,6 +79,8 @@ public class PlaceJSONParser {
             place.put("reference", reference);
 
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
         return place;

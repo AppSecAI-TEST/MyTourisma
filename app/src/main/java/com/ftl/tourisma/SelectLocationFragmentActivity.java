@@ -22,7 +22,6 @@ import android.transition.Fade;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -50,8 +48,6 @@ import com.ftl.tourisma.utils.Constants;
 import com.ftl.tourisma.utils.GPSTracker;
 import com.ftl.tourisma.utils.Preference;
 import com.ftl.tourisma.utils.Utils;
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -74,9 +70,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_ENTERED;
 import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_ENTRY_TEXT;
@@ -102,6 +96,7 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
     //------------ make your specific key ------------
     private static final String API_KEY = "AIzaSyARcU53tPS4oPd6GFnIfNXrog0NtLMOwpI";
     private static final String TAG = SelectLocationFragmentActivity.class.getSimpleName();
+    static int mflag = 0;
     //    private static final String API_KEY = "AIzaSyDG7V34oHpHL5OtuXRcvd-TBg4cyg8rWgc";
     private static int flag = -1;
     Handler handler = new Handler();
@@ -117,7 +112,6 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
     private JSONObject mJsonObject;
     private ListView listview;
     private NormalTextView tv_select, tv_auto_detect;
-    static int mflag = 0;
     private PlacesAdapter adapter;
     private ArrayList<String> resultList = new ArrayList<>();
     private Timer timer;
@@ -126,6 +120,25 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
     private NormalTextView txt_snack_msg;
     private Runnable runnable;
     private Handler handlerBeaconToast = new Handler();
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null) {
+                Bundle bundle = intent.getExtras();
+                String type = bundle.getString("type");
+                if (type.equals(BEACON_ENTERED)) {
+                    beaconsToast(bundle.getString(BEACON_ENTRY_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), 0, bundle.getString(BEACON_IS_CLOSE_PROMO));
+
+                } else if (type.equals(BEACON_EXITED)) {
+                    beaconsToast(bundle.getString(BEACON_EXIT_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), 0, bundle.getString(BEACON_IS_CLOSE_PROMO));
+
+                } else if (type.equals(BEACON_NEAR_BY)) {
+                    beaconsToast(bundle.getString(BEACON_NEAR_BY_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), 1, bundle.getString(BEACON_IS_CLOSE_PROMO));
+
+                }
+            }
+        }
+    };
 
     public static ArrayList<String> autocomplete(String input) {
         ArrayList<String> resultList = null;
@@ -193,26 +206,6 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
         }
     }
 
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent != null) {
-                Bundle bundle = intent.getExtras();
-                String type = bundle.getString("type");
-                if (type.equals(BEACON_ENTERED)) {
-                    beaconsToast(bundle.getString(BEACON_ENTRY_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), 0, bundle.getString(BEACON_IS_CLOSE_PROMO));
-
-                } else if (type.equals(BEACON_EXITED)) {
-                    beaconsToast(bundle.getString(BEACON_EXIT_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), 0, bundle.getString(BEACON_IS_CLOSE_PROMO));
-
-                } else if (type.equals(BEACON_NEAR_BY)) {
-                    beaconsToast(bundle.getString(BEACON_NEAR_BY_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), 1, bundle.getString(BEACON_IS_CLOSE_PROMO));
-
-                }
-            }
-        }
-    };
-
     private void beaconsToast(final String msg, final String msgBeacon, final String img, final String placeId, final int isCloseApproach, final String isClosePromo) {
         if (msg != null && !msg.equals("")) {
 
@@ -262,6 +255,8 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
         try {
             unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -479,53 +474,9 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
                 addressResponse(response);
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
-        }
-    }
-
-    class FetchLocations extends AsyncTask<String, Void, Object> {
-
-        @Override
-        protected Object doInBackground(String... strings) {
-            resultList = autocomplete(strings[0]);
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            adapter.notifyDataSetChanged();
-        }
-    }
-//    private void hideKeyBoard(View view) {
-//        InputMethodManager inputManager = (InputMethodManager) SelectLocationFragmentActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-//        inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
-//    }
-
-    class PlacesAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return resultList == null ? 0 : resultList.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return resultList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view = getLayoutInflater().inflate(R.layout.list_item, parent, false);
-            TextView textView = (TextView) view.findViewById(R.id.textView);
-            textView.setText(resultList.get(position));
-            return view;
         }
     }
 
@@ -608,6 +559,10 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
             }
         }
     }
+//    private void hideKeyBoard(View view) {
+//        InputMethodManager inputManager = (InputMethodManager) SelectLocationFragmentActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+//        inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+//    }
 
     @Override
     public void onClick(View v) {
@@ -683,6 +638,8 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
                     }
 
                 } catch (Exception e) {
+                    // Tracking exception
+                    MyTorismaApplication.getInstance().trackException(e);
                     e.printStackTrace();
 
                     String address = "";
@@ -829,9 +786,13 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
                 startActivity(mIntent);
                 finish();
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
     }
@@ -873,6 +834,8 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
             jsonObject = new JSONObject(stringBuilder.toString());
             getLatLong(jsonObject);
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -923,11 +886,79 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
             finish();
 
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             return false;
 
         }
 
         return true;
+    }
+
+    private void turnGPSOn() {
+        String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+
+        if (!provider.contains("gps")) { //if gps is disabled
+            final Intent poke = new Intent();
+            poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
+            poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
+            poke.setData(Uri.parse("3"));
+            sendBroadcast(poke);
+        }
+    }
+
+    private void turnGPSOff() {
+        String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+
+        if (provider.contains("gps")) { //if gps is enabled
+            final Intent poke = new Intent();
+            poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
+            poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
+            poke.setData(Uri.parse("3"));
+            sendBroadcast(poke);
+        }
+    }
+
+    class FetchLocations extends AsyncTask<String, Void, Object> {
+
+        @Override
+        protected Object doInBackground(String... strings) {
+            resultList = autocomplete(strings[0]);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    class PlacesAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return resultList == null ? 0 : resultList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return resultList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = getLayoutInflater().inflate(R.layout.list_item, parent, false);
+            TextView textView = (TextView) view.findViewById(R.id.textView);
+            textView.setText(resultList.get(position));
+            return view;
+        }
     }
 
     class GooglePlacesAutocompleteAdapter extends ArrayAdapter<String> implements Filterable {
@@ -991,29 +1022,5 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
             return null;
         }
 
-    }
-
-    private void turnGPSOn() {
-        String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-
-        if (!provider.contains("gps")) { //if gps is disabled
-            final Intent poke = new Intent();
-            poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
-            poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
-            poke.setData(Uri.parse("3"));
-            sendBroadcast(poke);
-        }
-    }
-
-    private void turnGPSOff() {
-        String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-
-        if (provider.contains("gps")) { //if gps is enabled
-            final Intent poke = new Intent();
-            poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
-            poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
-            poke.setData(Uri.parse("3"));
-            sendBroadcast(poke);
-        }
     }
 }

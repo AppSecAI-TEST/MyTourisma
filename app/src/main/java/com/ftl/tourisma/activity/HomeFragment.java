@@ -28,6 +28,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.ftl.tourisma.MapDetailFragment;
+import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
 import com.ftl.tourisma.ShareFragmentActivity;
 import com.ftl.tourisma.custom_views.NormalBoldTextView;
@@ -331,6 +332,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                             Constants.mStaticNearCall = 1;
                         }
                     } catch (JSONException e) {
+                        // Tracking exception
+                        MyTorismaApplication.getInstance().trackException(e);
                         e.printStackTrace();
                     }
                 }
@@ -406,6 +409,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                     }
 
                 } catch (JSONException e) {
+                    // Tracking exception
+                    MyTorismaApplication.getInstance().trackException(e);
                     e.printStackTrace();
                 }
             }
@@ -532,6 +537,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                 }
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.d(TAG, "setUserVisibleHint " + e.getLocalizedMessage());
         }
     }
@@ -581,6 +588,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                 });
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e(TAG, "onPageSelected Exception " + e.getLocalizedMessage());
         }
     }
@@ -608,6 +617,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                 deleteFavoriteResponse(response);
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
         }
     }
@@ -706,6 +717,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                                     try {
                                         _24HourDt = _24HourSDF.parse(_24HourTime);
                                     } catch (ParseException e) {
+                                        // Tracking exception
+                                        MyTorismaApplication.getInstance().trackException(e);
                                         e.printStackTrace();
                                     }
                                 }
@@ -713,6 +726,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                                     try {
                                         _24HourDt1 = _24HourSDF.parse(_24HourTime1);
                                     } catch (ParseException e) {
+                                        // Tracking exception
+                                        MyTorismaApplication.getInstance().trackException(e);
                                         e.printStackTrace();
                                     }
                                 }
@@ -868,6 +883,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
 
             getActivity().startActivity(emailIntent);
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Utils.Log(TAG, "suggestPlace Exception: " + e.getLocalizedMessage());
         }
     }
@@ -922,6 +939,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                     }
                 }
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
         }
@@ -978,7 +997,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                     }
                 }
             } catch (JSONException e) {
-
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
             }
         }
     }
@@ -1038,6 +1058,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
 
         } catch (JSONException e) {
             e.printStackTrace();
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
         }
     }
 
@@ -1083,6 +1105,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                     mainActivity.exploreNearbyFragment.replaceSearchResultFragment(nearbies_category, tv_city.getText().toString(), true);
                 }
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
         }
@@ -1131,7 +1155,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
             llCategory.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     isListOfCategoryVisible = true;
 
                     Category_Id = allCategories.get(position).getCategory_Id();

@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
-//import android.util.Log;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +28,8 @@ import org.json.JSONObject;
 
 import static com.ftl.tourisma.constants.WSConstants.STATUS;
 import static com.ftl.tourisma.constants.WSConstants.TRUE;
+
+//import android.util.Log;
 
 /**
  * Created by fipl11111 on 29-Feb-16.
@@ -140,6 +141,8 @@ public class ForgotPasswordFragmentActivity extends FragmentActivity implements 
                 SnackbarManager.show(Snackbar.with(ForgotPasswordFragmentActivity.this).color(Utilities.getColor(this, R.color.mBlue)).text(jsonObject.optString("status")));
             }
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             // TODO Auto-generated catch block
 //            Log.e("System out", e.getMessage());
         }
@@ -162,6 +165,8 @@ public class ForgotPasswordFragmentActivity extends FragmentActivity implements 
                 forgotPasswordResponse(response);
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
         }
     }

@@ -17,7 +17,6 @@
 package com.ftl.tourisma;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,8 +25,6 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.PointF;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,17 +37,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
 import android.util.SparseArray;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -68,7 +60,6 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -139,36 +130,25 @@ public class SimpleVrPanoramaActivity extends Activity {
     private Handler handler = new Handler();
     private LinearLayout llBeaconToast;
     private NormalTextView txt_snack_msg;
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null) {
+                Bundle bundle = intent.getExtras();
+                String type = bundle.getString("type");
+                if (type.equals(BEACON_ENTERED)) {
+                    beaconsToast(bundle.getString(BEACON_ENTRY_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), 0, bundle.getString(BEACON_IS_CLOSE_PROMO));
 
-    class VRImages {
-        String name;
-        int loaded;
-        int notLoaded;
+                } else if (type.equals(BEACON_EXITED)) {
+                    beaconsToast(bundle.getString(BEACON_EXIT_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), 0, bundle.getString(BEACON_IS_CLOSE_PROMO));
 
-        public String getName() {
-            return name;
+                } else if (type.equals(BEACON_NEAR_BY)) {
+                    beaconsToast(bundle.getString(BEACON_NEAR_BY_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), 1, bundle.getString(BEACON_IS_CLOSE_PROMO));
+
+                }
+            }
         }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getLoaded() {
-            return loaded;
-        }
-
-        public void setLoaded(int loaded) {
-            this.loaded = loaded;
-        }
-
-        public int getNotLoaded() {
-            return notLoaded;
-        }
-
-        public void setNotLoaded(int notLoaded) {
-            this.notLoaded = notLoaded;
-        }
-    }
+    };
 
     /**
      * Called when the app is launched via the app icon or an intent using the adb command above. This
@@ -254,6 +234,220 @@ public class SimpleVrPanoramaActivity extends Activity {
         vrImages.setLoaded(i);
         vrImages.setNotLoaded(i1);
         return vrImages;
+    }
+
+    private void initView() {
+        try {
+            mPreferences = getSharedPreferences(Constants.mPref, 0);
+            mEditor = mPreferences.edit();
+
+            imgBack = (ImageView) findViewById(R.id.imgBack);
+            txtPrev = (NormalTextView) findViewById(R.id.txtPrev);
+            txtTitle = (NormalTextView) findViewById(R.id.txtTitle);
+            txtTitle.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "virtualreality"));
+//            txtTitle.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "virtualreality"));
+            txtPrev.setEnabled(false);
+            txtNext = (NormalTextView) findViewById(R.id.txtNext);
+            updateUI();
+            txtPrev.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (viewPager.getCurrentItem() != 0) {
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() - 1, true);
+                    }
+//                    if(viewPager.getCurrentItem()==0){
+                    txtPrev.setEnabled(viewPager.getCurrentItem() != 0);
+                    txtNext.setEnabled(viewPager.getCurrentItem() != mResources.size() - 1);
+                    updateUI();
+//                    }
+                }
+            });
+            txtNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (viewPager.getCurrentItem() != mResources.size() - 1) {
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
+                    }
+//                    if(viewPager.getCurrentItem()==0){
+                    txtPrev.setEnabled(viewPager.getCurrentItem() != 0);
+                    txtNext.setEnabled(viewPager.getCurrentItem() != mResources.size() - 1);
+                    updateUI();
+
+                }
+            });
+            imgBack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
+            e.printStackTrace();
+        }
+    }
+
+    private void updateUI() {
+        if (txtPrev.isEnabled())
+            txtPrev.setTextColor(Utilities.getColor(this, R.color.selector_white_blue));
+        else txtPrev.setTextColor(Utilities.getColor(this, R.color.mGray));
+        if (txtNext.isEnabled())
+            txtNext.setTextColor(Utilities.getColor(this, R.color.selector_white_blue));
+        else txtNext.setTextColor(Utilities.getColor(this, R.color.mGray));
+
+    }
+
+    /**
+     * Called when the Activity is already running and it's given a new intent.
+     */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Log.i(TAG, this.hashCode() + ".onNewIntent()");
+        // Save the intent. This allows the getIntent() call in onCreate() to use this new Intent during
+        // future invocations.
+        setIntent(intent);
+        // Load the new image.
+        //   handleIntent(mResources[0]);
+    }
+
+    /**
+     * Load custom images based on the Intent or load the default image. See the Javadoc for this
+     * class for information on generating a custom intent via adb.
+     *
+     * @param mResource
+     */
+    private void handleIntent(String mResource, VrPanoramaView panoWidgetView) {
+        // Determine if the Intent contains a file to load.
+        /*if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            Log.i(TAG, "ACTION_VIEW Intent recieved");
+
+            fileUri = intent.getData();
+            if (fileUri == null) {
+                Log.w(TAG, "No data uri specified. Use \"-d /path/filename\".");
+            } else {
+                Log.i(TAG, "Using file " + fileUri.toString());
+            }
+
+            panoOptions.inputType = intent.getIntExtra("inputType", Options.TYPE_MONO);
+            Log.i(TAG, "Options.inputType = " + panoOptions.inputType);
+        } else {
+            Log.i(TAG, "Intent is not ACTION_VIEW. Using default pano image.");
+            fileUri = null;
+            panoOptions.inputType = Options.TYPE_MONO;
+        }*/
+
+        // Load the bitmap in a background thread to avoid blocking the UI thread. This operation can
+        // take 100s of milliseconds.
+        if (downloadImageLoader != null) {
+            // Cancel any task from a previous intent sent to this activity.
+            downloadImageLoader.cancel(true);
+        }
+//        downloadImageLoader = new ImageLoaderTask();
+        downloadImageLoader = new DownloadImagesTask(mResource);
+        downloadImageLoader.execute(panoWidgetView);
+//        downloadImageLoader.execute(Pair.create(fileUri, panoOptions));
+    }
+
+    @Override
+    protected void onPause() {
+        // panoWidgetView.pauseRendering();
+        super.onPause();
+        try {
+            unregisterReceiver(broadcastReceiver);
+        } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
+            e.printStackTrace();
+        }
+
+    }
+
+    private void beaconsToast(final String msg, final String msgBeacon, final String img, final String placeId, final int isCloseApproach, final String isClosePromo) {
+        if (msg != null && !msg.equals("")) {
+
+            txt_snack_msg.setText(msg);
+            txt_snack_msg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isClosePromo.equals("1")) {
+                        Intent intent = new Intent(SimpleVrPanoramaActivity.this, BeaconsActivity.class);
+                        intent.putExtra(PLACE_ID, placeId);
+                        intent.putExtra(PLACE_IMAGE, img);
+                        intent.putExtra(BEACON_MESSAGE, msgBeacon);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(SimpleVrPanoramaActivity.this, SearchResultPlaceDetailsActivity.class);
+                        intent.putExtra("placeId", placeId);
+                        startActivity(intent);
+                    }
+
+
+                }
+            });
+
+
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    llBeaconToast.setVisibility(View.GONE);
+                }
+            };
+            llBeaconToast.setVisibility(View.VISIBLE);
+            handler.postDelayed(runnable, 4000);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // panoWidgetView.resumeRendering();
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                broadcastReceiver,
+                new IntentFilter(BROADCAST_BEACON));
+    }
+
+    @Override
+    protected void onDestroy() {
+        // Destroy the widget and free memory.
+        //panoWidgetView.shutdown();
+
+        // The background task has a 5 second timeout so it can potentially stay alive for 5 seconds
+        // after the activity is destroyed unless it is explicitly cancelled.
+        if (downloadImageLoader != null) {
+            downloadImageLoader.cancel(true);
+        }
+        super.onDestroy();
+    }
+
+    class VRImages {
+        String name;
+        int loaded;
+        int notLoaded;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getLoaded() {
+            return loaded;
+        }
+
+        public void setLoaded(int loaded) {
+            this.loaded = loaded;
+        }
+
+        public int getNotLoaded() {
+            return notLoaded;
+        }
+
+        public void setNotLoaded(int notLoaded) {
+            this.notLoaded = notLoaded;
+        }
     }
 
     class MyVRImagesAdapter extends RecyclerView.Adapter<MyVRImagesAdapter.MyViewHolder> {
@@ -399,226 +593,16 @@ public class SimpleVrPanoramaActivity extends Activity {
     }*/
     }
 
-    private void initView() {
-        try {
-            mPreferences = getSharedPreferences(Constants.mPref, 0);
-            mEditor = mPreferences.edit();
-
-            imgBack = (ImageView) findViewById(R.id.imgBack);
-            txtPrev = (NormalTextView) findViewById(R.id.txtPrev);
-            txtTitle = (NormalTextView) findViewById(R.id.txtTitle);
-            txtTitle.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "virtualreality"));
-//            txtTitle.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "virtualreality"));
-            txtPrev.setEnabled(false);
-            txtNext = (NormalTextView) findViewById(R.id.txtNext);
-            updateUI();
-            txtPrev.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (viewPager.getCurrentItem() != 0) {
-                        viewPager.setCurrentItem(viewPager.getCurrentItem() - 1, true);
-                    }
-//                    if(viewPager.getCurrentItem()==0){
-                    txtPrev.setEnabled(viewPager.getCurrentItem() != 0);
-                    txtNext.setEnabled(viewPager.getCurrentItem() != mResources.size() - 1);
-                    updateUI();
-//                    }
-                }
-            });
-            txtNext.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (viewPager.getCurrentItem() != mResources.size() - 1) {
-                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
-                    }
-//                    if(viewPager.getCurrentItem()==0){
-                    txtPrev.setEnabled(viewPager.getCurrentItem() != 0);
-                    txtNext.setEnabled(viewPager.getCurrentItem() != mResources.size() - 1);
-                    updateUI();
-
-                }
-            });
-            imgBack.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void updateUI() {
-        if (txtPrev.isEnabled())
-            txtPrev.setTextColor(Utilities.getColor(this, R.color.selector_white_blue));
-        else txtPrev.setTextColor(Utilities.getColor(this, R.color.mGray));
-        if (txtNext.isEnabled())
-            txtNext.setTextColor(Utilities.getColor(this, R.color.selector_white_blue));
-        else txtNext.setTextColor(Utilities.getColor(this, R.color.mGray));
-
-    }
-
-    /**
-     * Called when the Activity is already running and it's given a new intent.
-     */
-    @Override
-    protected void onNewIntent(Intent intent) {
-        Log.i(TAG, this.hashCode() + ".onNewIntent()");
-        // Save the intent. This allows the getIntent() call in onCreate() to use this new Intent during
-        // future invocations.
-        setIntent(intent);
-        // Load the new image.
-        //   handleIntent(mResources[0]);
-    }
-
-    /**
-     * Load custom images based on the Intent or load the default image. See the Javadoc for this
-     * class for information on generating a custom intent via adb.
-     *
-     * @param mResource
-     */
-    private void handleIntent(String mResource, VrPanoramaView panoWidgetView) {
-        // Determine if the Intent contains a file to load.
-        /*if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            Log.i(TAG, "ACTION_VIEW Intent recieved");
-
-            fileUri = intent.getData();
-            if (fileUri == null) {
-                Log.w(TAG, "No data uri specified. Use \"-d /path/filename\".");
-            } else {
-                Log.i(TAG, "Using file " + fileUri.toString());
-            }
-
-            panoOptions.inputType = intent.getIntExtra("inputType", Options.TYPE_MONO);
-            Log.i(TAG, "Options.inputType = " + panoOptions.inputType);
-        } else {
-            Log.i(TAG, "Intent is not ACTION_VIEW. Using default pano image.");
-            fileUri = null;
-            panoOptions.inputType = Options.TYPE_MONO;
-        }*/
-
-        // Load the bitmap in a background thread to avoid blocking the UI thread. This operation can
-        // take 100s of milliseconds.
-        if (downloadImageLoader != null) {
-            // Cancel any task from a previous intent sent to this activity.
-            downloadImageLoader.cancel(true);
-        }
-//        downloadImageLoader = new ImageLoaderTask();
-        downloadImageLoader = new DownloadImagesTask(mResource);
-        downloadImageLoader.execute(panoWidgetView);
-//        downloadImageLoader.execute(Pair.create(fileUri, panoOptions));
-    }
-
-    @Override
-    protected void onPause() {
-        // panoWidgetView.pauseRendering();
-        super.onPause();
-        try {
-            unregisterReceiver(broadcastReceiver);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent != null) {
-                Bundle bundle = intent.getExtras();
-                String type = bundle.getString("type");
-                if (type.equals(BEACON_ENTERED)) {
-                    beaconsToast(bundle.getString(BEACON_ENTRY_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), 0, bundle.getString(BEACON_IS_CLOSE_PROMO));
-
-                } else if (type.equals(BEACON_EXITED)) {
-                    beaconsToast(bundle.getString(BEACON_EXIT_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), 0, bundle.getString(BEACON_IS_CLOSE_PROMO));
-
-                }
-                else if (type.equals(BEACON_NEAR_BY)) {
-                    beaconsToast(bundle.getString(BEACON_NEAR_BY_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), 1,bundle.getString(BEACON_IS_CLOSE_PROMO));
-
-                }
-            }
-        }
-    };
-
-    private void beaconsToast(final String msg, final String msgBeacon, final String img, final String placeId, final int isCloseApproach, final String isClosePromo) {
-        if (msg != null && !msg.equals("")) {
-
-            txt_snack_msg.setText(msg);
-            txt_snack_msg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (isClosePromo.equals("1")) {
-                        Intent intent = new Intent(SimpleVrPanoramaActivity.this, BeaconsActivity.class);
-                        intent.putExtra(PLACE_ID, placeId);
-                        intent.putExtra(PLACE_IMAGE, img);
-                        intent.putExtra(BEACON_MESSAGE, msgBeacon);
-                        startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(SimpleVrPanoramaActivity.this, SearchResultPlaceDetailsActivity.class);
-                        intent.putExtra("placeId", placeId);
-                        startActivity(intent);
-                    }
-
-
-                }
-            });
-
-
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    llBeaconToast.setVisibility(View.GONE);
-                }
-            };
-            llBeaconToast.setVisibility(View.VISIBLE);
-            handler.postDelayed(runnable, 4000);
-        }
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // panoWidgetView.resumeRendering();
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-                broadcastReceiver,
-                new IntentFilter(BROADCAST_BEACON));
-    }
-
-    @Override
-    protected void onDestroy() {
-        // Destroy the widget and free memory.
-        //panoWidgetView.shutdown();
-
-        // The background task has a 5 second timeout so it can potentially stay alive for 5 seconds
-        // after the activity is destroyed unless it is explicitly cancelled.
-        if (downloadImageLoader != null) {
-            downloadImageLoader.cancel(true);
-        }
-        super.onDestroy();
-    }
-
     class CustomPagerAdapter extends PagerAdapter {
 
         Context mContext;
         LayoutInflater mLayoutInflater;
+        Context context;
+        SparseArray<View> views = new SparseArray<View>();
 
         public CustomPagerAdapter(Context context) {
             mContext = context;
             mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
-
-        @Override
-        public int getCount() {
-            return mResources.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == ((RelativeLayout) object);
         }
 
        /* @Override
@@ -635,7 +619,15 @@ public class SimpleVrPanoramaActivity extends Activity {
             //            return POSITION_NONE;
         }*/
 
-        Context context;
+        @Override
+        public int getCount() {
+            return mResources.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == ((RelativeLayout) object);
+        }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
@@ -697,8 +689,6 @@ public class SimpleVrPanoramaActivity extends Activity {
 //            views.setValueAt(position,itemView);
             return itemView;
         }
-
-        SparseArray<View> views = new SparseArray<View>();
 
         /*  @Override
           public void notifyDataSetChanged() {
@@ -769,6 +759,10 @@ public class SimpleVrPanoramaActivity extends Activity {
         String path;
         private ProgressBar progressbar;
 
+        public DownloadImagesTask(String path) {
+            this.path = path;
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -782,10 +776,6 @@ public class SimpleVrPanoramaActivity extends Activity {
             window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             window.setGravity(Gravity.CENTER);
             Constants.dialog.show();*/
-        }
-
-        public DownloadImagesTask(String path) {
-            this.path = path;
         }
 
         @Override
@@ -816,6 +806,8 @@ public class SimpleVrPanoramaActivity extends Activity {
                     return bmp;
 
             } catch (Exception e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
             }
             return bmp;
         }

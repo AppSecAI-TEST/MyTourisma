@@ -19,6 +19,7 @@ import android.util.Log;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
+import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
 import com.ftl.tourisma.SplashFragmentActivity;
 import com.ftl.tourisma.utils.Preference;
@@ -127,6 +128,8 @@ public class MyBeaconsService extends Service {
                                                                              range = jsonObject.getInt("range");
                                                                          }
                                                                      } catch (JSONException e) {
+                                                                         // Tracking exception
+                                                                         MyTorismaApplication.getInstance().trackException(e);
                                                                          e.printStackTrace();
                                                                      }
                                                                  }
@@ -182,6 +185,8 @@ public class MyBeaconsService extends Service {
                                                   beaconManager.startRanging(new Region(jsonObject.getString("uuid") + ":" + jsonObject.getInt("major") + ":" + jsonObject.getInt("minor"),
                                                           UUID.fromString(jsonObject.getString("uuid")), jsonObject.getInt("major"), jsonObject.getInt("minor")));
                                               } catch (JSONException e) {
+                                                  // Tracking exception
+                                                  MyTorismaApplication.getInstance().trackException(e);
                                                   e.printStackTrace();
                                               }
                                           }
@@ -216,6 +221,8 @@ public class MyBeaconsService extends Service {
                             }
 
                         } catch (JSONException e) {
+                            // Tracking exception
+                            MyTorismaApplication.getInstance().trackException(e);
                             e.printStackTrace();
                         }
                         break;
@@ -237,6 +244,8 @@ public class MyBeaconsService extends Service {
 
                             }
                         } catch (JSONException e) {
+                            // Tracking exception
+                            MyTorismaApplication.getInstance().trackException(e);
                             e.printStackTrace();
                         }
                         break;
@@ -245,6 +254,8 @@ public class MyBeaconsService extends Service {
                 }
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Utils.Log(TAG, " getBeaconNotification Exception : " + e.getLocalizedMessage());
         }
     }
@@ -258,6 +269,8 @@ public class MyBeaconsService extends Service {
                     if (region.getIdentifier().equals(jsonObject.getString("uuid") + ":" + jsonObject.getInt("major") + ":" + jsonObject.getInt("minor")))
                         return jsonObject;
                 } catch (JSONException e) {
+                    // Tracking exception
+                    MyTorismaApplication.getInstance().trackException(e);
                     e.printStackTrace();
                 }
             }
@@ -274,6 +287,8 @@ public class MyBeaconsService extends Service {
                     if (region.getIdentifier().equals(jsonObject.getString("uuid") + ":" + jsonObject.getInt("major") + ":" + jsonObject.getInt("minor")))
                         return jsonObject.getInt("range");
                 } catch (JSONException e) {
+                    // Tracking exception
+                    MyTorismaApplication.getInstance().trackException(e);
                     e.printStackTrace();
                 }
             }
@@ -301,6 +316,8 @@ public class MyBeaconsService extends Service {
                     if (region.getIdentifier().equals(jsonObject.getString("uuid") + ":" + jsonObject.getInt("major") + ":" + jsonObject.getInt("minor")))
                         return jsonObject.getString("exit_text");
                 } catch (JSONException e) {
+                    // Tracking exception
+                    MyTorismaApplication.getInstance().trackException(e);
                     e.printStackTrace();
                 }
             }
@@ -317,6 +334,8 @@ public class MyBeaconsService extends Service {
                     if (region.getIdentifier().equals(jsonObject.getString("uuid") + ":" + jsonObject.getInt("major") + ":" + jsonObject.getInt("minor")))
                         return jsonObject.getString("nearby_text");
                 } catch (JSONException e) {
+                    // Tracking exception
+                    MyTorismaApplication.getInstance().trackException(e);
                     e.printStackTrace();
                 }
             }
@@ -334,6 +353,8 @@ public class MyBeaconsService extends Service {
                     if (region.getIdentifier().equals(jsonObject.getString("uuid") + ":" + jsonObject.getInt("major") + ":" + jsonObject.getInt("minor")))
                         return jsonObject.getString("entry_text");
                 } catch (JSONException e) {
+                    // Tracking exception
+                    MyTorismaApplication.getInstance().trackException(e);
                     e.printStackTrace();
                 }
             }
@@ -409,6 +430,8 @@ public class MyBeaconsService extends Service {
                         break;
                     }
                 } catch (JSONException e) {
+                    // Tracking exception
+                    MyTorismaApplication.getInstance().trackException(e);
                     e.printStackTrace();
                 }
             }

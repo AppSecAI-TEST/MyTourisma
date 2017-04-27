@@ -232,6 +232,8 @@ public class ShareFragmentActivity extends FragmentActivity implements View.OnCl
 
                 }
             } catch (Exception e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 Utils.Log(TAG, "google_share Exception: " + e.getLocalizedMessage());
             }
 

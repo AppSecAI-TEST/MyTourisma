@@ -1,5 +1,6 @@
 package com.ftl.tourisma.utils;
 
+import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.database.FeesDetails;
 import com.ftl.tourisma.database.Nearby;
 import com.ftl.tourisma.models.HourDetails;
@@ -34,6 +35,8 @@ public class JSONObjConverter {
             // hourDetails.setFeesDetails(getFeesObject(jsonObject));
             return hourDetails;
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Utils.Log(TAG, "" + e.getLocalizedMessage());
         }
         return null;
@@ -58,6 +61,8 @@ public class JSONObjConverter {
             }
             // hoursOfOperation.setFeesDetailses(feesArrayList);
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -119,6 +124,8 @@ public class JSONObjConverter {
             recommended.setHourDetailsArrayList(detailsArrayList);
             return recommended;
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Utils.Log(TAG, "" + e.getLocalizedMessage());
         }
         return null;

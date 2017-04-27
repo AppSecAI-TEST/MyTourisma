@@ -869,6 +869,7 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                     txtPlaceName.setText(resultList.get(position));
                     imageView.setVisibility(View.GONE);
                 } catch (Exception e) {
+
                     e.printStackTrace();
                 }
 

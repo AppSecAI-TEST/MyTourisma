@@ -47,6 +47,7 @@ import android.widget.Toast;
 
 import com.ftl.tourisma.LanguageFragmentActivity;
 import com.ftl.tourisma.LoginFragmentActivity;
+import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
 import com.ftl.tourisma.adapters.CropOptionAdapter;
 import com.ftl.tourisma.custom_views.NormalEditText;
@@ -472,6 +473,8 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
                 editProfileResponse(response);
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
         }
     }
@@ -944,6 +947,8 @@ public class MyProfileFragment1 extends Fragment implements View.OnClickListener
                     selectedImagePath = jobj.getString("fileName");
 
                 } catch (Exception e) {
+                    // Tracking exception
+                    MyTorismaApplication.getInstance().trackException(e);
                     e.printStackTrace();
                 }
 

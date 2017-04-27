@@ -265,6 +265,8 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
         try {
             unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -290,6 +292,8 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
             height = displaymetrics.heightPixels;
             width = displaymetrics.widthPixels;
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -537,6 +541,8 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
                 }
 
             } catch (ParseException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
         }
@@ -788,6 +794,8 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
                 Distance = distApi;
             }
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -893,6 +901,8 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
                 searchResponse(response);
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
         }
     }
@@ -1014,6 +1024,8 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
                 }
             }
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
     }
@@ -1055,6 +1067,8 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
 
 
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Utils.Log(TAG, "openWeekDaysPopup Exception: " + e.getLocalizedMessage());
         }
 
@@ -1101,6 +1115,8 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
             }
             // hoursOfOperation.setFeesDetailses(feesArrayList);
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -1128,6 +1144,8 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
                 Distance = distApi;
             }*/
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -1173,6 +1191,8 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
                 } else {
                 }
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
         }
@@ -1211,7 +1231,9 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
                     }
                 }
             } catch (JSONException e) {
-
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
+                e.printStackTrace();
             }
         }
     }
@@ -1337,6 +1359,8 @@ public class SearchResultPlaceDetailsActivity extends FragmentActivity implement
                 }
                 txtDistance.setText(Distance + Constants.showMessage(SearchResultPlaceDetailsActivity.this, mPreferences.getString("Lan_Id", ""), "KM"));
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }

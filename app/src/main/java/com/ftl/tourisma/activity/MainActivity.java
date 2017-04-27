@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 
 import com.ftl.tourisma.BeaconsActivity;
 import com.ftl.tourisma.LoginFragmentActivity;
+import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
 import com.ftl.tourisma.SearchResultPlaceDetailsActivity;
 import com.ftl.tourisma.SignupFragmentActivity;
@@ -410,6 +411,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
             height = displaymetrics.heightPixels;
             width = displaymetrics.widthPixels;
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -473,6 +476,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
         try {
             unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
     }
@@ -569,6 +574,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
             }
 
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
 
             String address = "";
@@ -634,6 +641,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
                 getBeaconsResponse(response);
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
         }
     }
@@ -648,6 +657,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
         try {
             fragmentManager.popBackStack();
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
     }

@@ -198,6 +198,8 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
             }
 
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
 //            Log.e(LOG_TAG, "Cannot process JSON results", e);
         }
 
@@ -470,9 +472,13 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
 //                startActivity(mIntent);
 //                finish();
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
     }
@@ -504,9 +510,13 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
 //                startActivity(mIntent);
 //                finish();
             } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
     }
@@ -588,6 +598,8 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
                 nearbies.add(nearby);
             }
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -616,6 +628,8 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
             }
             // hoursOfOperation.setFeesDetailses(feesArrayList);
         } catch (JSONException e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -633,6 +647,8 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
                 searchPlacesResponse(response);
             }
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             Log.e(TAG, "onResponse Exception " + e.getLocalizedMessage());
         }
     }
@@ -765,7 +781,8 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
 //            p1 = new LatLng(location.getLatitude(), location.getLongitude());
 
         } catch (Exception ex) {
-
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(ex);
             ex.printStackTrace();
         }
 
@@ -846,6 +863,8 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
         try {
             unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
 
@@ -922,6 +941,8 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
             }
 
         } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
 
             String address = "";
