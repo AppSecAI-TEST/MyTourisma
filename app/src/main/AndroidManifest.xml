@@ -94,6 +94,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activity.CalendarDayDecoratorActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activity.CountrySpecific"
             android:screenOrientation="portrait" />
 

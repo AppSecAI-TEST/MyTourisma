@@ -175,7 +175,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
         rlVirtualTour.setOnClickListener(this);
         custom_indicator1 = (PagerIndicator) view.findViewById(R.id.custom_indicator1);
         custom_indicator1.setIndicatorStyleResource(R.drawable.shape_cirlce_fill, R.drawable.shape_cirlce_unfill);
-
+        buy_tickets = (Button) view.findViewById(R.id.buy_tickets);
         ll_see_all = (LinearLayout) view.findViewById(R.id.ll_see_all);
 
         tv_fee_search_result = (NormalTextView) view.findViewById(R.id.tv_fee_explore);
@@ -291,6 +291,9 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
             mIntent.putExtra("myMsg", share1 + " \"" + mPreferences.getString("User_Name", "") + "\" " + share2 + " \"" + mNearby.getPlace_Name() + "\" " + share3);
             startActivity(mIntent);
 
+        } else if (v == buy_tickets) {
+            Intent intent = new Intent(getActivity(), CalendarDayDecoratorActivity.class);
+            startActivity(intent);
         }
     }
 

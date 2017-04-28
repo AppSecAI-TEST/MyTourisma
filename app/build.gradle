@@ -90,6 +90,7 @@ dependencies {
     compile project(':videowidgetVR')
     compile project(':library_pager_indicator')
     compile project(':library')
+    compile project(':calender_library')
     testCompile 'junit:junit:4.12'
     compile 'com.github.aakira:expandable-layout:1.6.0@aar'
     compile 'hanks.xyz:htextview-library:0.1.5'
