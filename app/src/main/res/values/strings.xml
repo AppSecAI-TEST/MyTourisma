@@ -32,9 +32,9 @@
     <string name="sms">SMS</string>
 
 
-    <string name="font_normal_app">fonts/AlrightSans-Regular-v3.otf</string>
+    <string name="font_normal_app">fonts/Dubai-Regular.otf</string>
     <!--<string name="font_normal_app">fonts/Ubuntu_R.ttf</string>-->
-    <string name="font_bold_app">fonts/AlrightSans-Medium-v3.otf</string>
+    <string name="font_bold_app">fonts/Dubai-Medium.otf</string>
     <string name="font_Muraid_Pro">fonts/myriadpro_regular.otf</string>
 
 

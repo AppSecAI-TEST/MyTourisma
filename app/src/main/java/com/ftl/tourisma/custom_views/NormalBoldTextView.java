@@ -3,7 +3,6 @@ package com.ftl.tourisma.custom_views;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import com.ftl.tourisma.MyTorismaApplication;
 
@@ -11,7 +10,7 @@ import com.ftl.tourisma.MyTorismaApplication;
  * Created by C162 on 06/09/16.
  */
 
-public class NormalBoldTextView extends TextView {
+public class NormalBoldTextView extends android.support.v7.widget.AppCompatTextView {
     public NormalBoldTextView(Context context) {
         super(context);
         applyCustomFont();
