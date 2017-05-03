@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.ftl.tourisma">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -9,7 +10,6 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.NETWORK" />
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -17,28 +17,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="com.ftl.tourisma.permission.C2D_MESSAGE" />
-    <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-
-    <uses-feature
-        android:name="android.hardware.bluetooth"
-        android:required="true" />
-    <uses-feature
-        android:name="android.hardware.bluetooth_le"
-        android:required="true" />
-
-    <permission
-        android:name="com.ftl.tourisma.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature" />
-    <uses-permission android:name="com.ftl.tourisma.permission.MAPS_RECEIVE" />
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true" />
-
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="com.google.android.c2dm.permission.SEND" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -47,6 +28,30 @@
     <uses-permission android:name="android.permission.ACCESS_ASSISTED_GPS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.REAL_GET_TASKS" />
+    <uses-permission android:name="com.ftl.tourisma.permission.MAPS_RECEIVE" />
+
+    <uses-sdk tools:overrideLibrary="com.google.vr.widgets.pano,
+                                     com.google.vr.widgets.common,
+                                     com.google.vr.cardboard,
+                                     com.google.vr.sdk.audio,
+                                     com.google.vr.sdk.base,
+                                     com.google.vr.widgets.video" />
+
+    <uses-feature
+        android:name="android.hardware.bluetooth"
+        android:required="true" />
+
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <permission
+        android:name="com.ftl.tourisma.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
 
     <supports-screens android:xlargeScreens="true" />
 
@@ -84,19 +89,15 @@
             android:name=".LoginFragmentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-
         <activity
             android:name=".activity.NoInternet"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.IntroScreens"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.CountrySpecific"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"
@@ -108,31 +109,26 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-
         <activity
             android:name=".SearchFragmentActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-
         <activity
             android:name=".ShareFragmentActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-
         <activity
             android:name=".ForgotPasswordFragmentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-
         <activity
             android:name=".TwitterDialog"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-
         <activity
             android:name=".SearchResultFragmentActivity"
             android:exported="true"
@@ -146,7 +142,6 @@
             android:name=".SearchResultPlaceDetailsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-
         <activity
             android:name=".MapLocationFragment"
             android:screenOrientation="portrait"
@@ -159,12 +154,10 @@
             android:name=".BeaconsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-
         <activity
             android:name=".MapDetailFragment"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-
         <activity
             android:name=".ResolverActivity"
             android:screenOrientation="portrait"
@@ -224,11 +217,9 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyARcU53tPS4oPd6GFnIfNXrog0NtLMOwpI" />

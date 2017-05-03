@@ -23,7 +23,7 @@ android {
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.ftl.tourisma"
-        minSdkVersion 19
+        minSdkVersion 15
         targetSdkVersion 25
         multiDexEnabled true
         versionCode 12
