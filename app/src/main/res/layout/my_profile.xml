@@ -45,6 +45,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignBottom="@+id/imgBG"
                             android:layout_alignEnd="@+id/imgBG"
+                            android:layout_alignRight="@+id/imgBG"
                             android:adjustViewBounds="true"
                             android:src="@drawable/ic_profile_rest" />
 
@@ -352,6 +353,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/imgBG1"
                         android:layout_alignEnd="@+id/imgBG1"
+                        android:layout_alignRight="@+id/imgBG1"
                         android:adjustViewBounds="true"
                         android:src="@drawable/ic_profile_rest" />
 

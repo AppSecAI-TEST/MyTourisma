@@ -20,7 +20,7 @@
     <dimen name="TEXT_SMALL">23sp</dimen>
     <dimen name="TEXT_MEDIUM">25sp</dimen>
     <dimen name="TEXT_NORMAL">23sp</dimen>
-    <dimen name="m150dp">175dp</dimen>
+    <dimen name="m150dp">375dp</dimen>
     <dimen name="m80dp">150dp</dimen>
     <dimen name="m300dp">400dp</dimen>
     <dimen name="m4dp">6dp</dimen>

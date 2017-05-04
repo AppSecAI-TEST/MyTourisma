@@ -84,6 +84,7 @@
             android:id="@+id/iv_search_header3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:padding="@dimen/m18dp"

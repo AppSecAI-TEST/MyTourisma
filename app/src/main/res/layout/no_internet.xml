@@ -26,7 +26,7 @@
         android:textColor="#ffffff"
         android:visibility="gone" />
 
-    <TextView
+    <com.ftl.tourisma.custom_views.NormalTextView
         android:id="@+id/internet_fail_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,15 +39,16 @@
         android:textColor="#ababab"
         android:textSize="22sp" />
 
-    <TextView
+    <com.ftl.tourisma.custom_views.NormalTextView
         android:id="@+id/net_fail_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/internet_fail_txt"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
         android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:text="@string/network_error"
         android:textColor="#ababab"
         android:textSize="15sp" />

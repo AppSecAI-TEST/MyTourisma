@@ -44,6 +44,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/ll_search_result2"
+        android:layout_toRightOf="@+id/ll_search_result2"
         android:orientation="vertical"
         android:visibility="visible">
 
@@ -69,9 +70,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/your_location"
-                    android:visibility="visible"
                     android:textColor="@color/mWhite"
-                    android:textSize="@dimen/TEXT_SMALL" />
+                    android:textSize="@dimen/TEXT_SMALL"
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:id="@+id/ll_change_city"
@@ -97,8 +98,8 @@
                         android:id="@+id/imgDownArrow"
                         android:layout_width="@dimen/m10dp"
                         android:layout_height="@dimen/m10dp"
-                        android:visibility="gone"
-                        android:src="@drawable/down_arrow_white" />
+                        android:src="@drawable/down_arrow_white"
+                        android:visibility="gone" />
                 </LinearLayout>
             </LinearLayout>
 

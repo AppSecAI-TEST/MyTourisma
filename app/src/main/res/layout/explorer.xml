@@ -30,16 +30,16 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:descendantFocusability="blocksDescendants"
                 android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants"
                 android:orientation="vertical">
 
 
                 <RelativeLayout
                     android:id="@+id/rl_recommended"
-                    android:background="@android:color/white"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white">
 
                     <com.daimajia.slider.library.SliderLayout
                         android:id="@+id/slider"
@@ -50,6 +50,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:layout_marginBottom="@dimen/m80dp"
                             android:layout_marginLeft="@dimen/m10dp"
@@ -83,6 +84,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/m70dp"
                         android:layout_alignParentBottom="true"
+                        android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
                         android:layout_gravity="right|bottom"
                         android:background="#99000000"

@@ -687,7 +687,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
                 if (!isForSimilarPlaces)
                     setDetailInfo(mNearby);
                 galleryAdapter2 = new GalleryAdapter2(getActivity());
-                gv_detail1_search_result2.setAdapter(null);
+//                gv_detail1_search_result2.setAdapter(null);
                 gv_detail1_search_result2.setAdapter(galleryAdapter2);
 
                 if (nearbies1.size() == 0) {

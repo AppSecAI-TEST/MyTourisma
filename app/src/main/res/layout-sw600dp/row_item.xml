@@ -10,7 +10,8 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/rlBottom"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/progressBar" />
+        android:layout_toEndOf="@+id/progressBar"
+        android:layout_toRightOf="@+id/progressBar" />
 
     <ProgressBar
         android:id="@+id/progressBar"

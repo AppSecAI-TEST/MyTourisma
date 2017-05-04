@@ -76,6 +76,7 @@
                             android:layout_width="@dimen/m30dp"
                             android:layout_height="@dimen/m30dp"
                             android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_margin="@dimen/m15dp"
                             android:background="@drawable/bg_blue_arrow"

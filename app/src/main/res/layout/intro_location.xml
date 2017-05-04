@@ -21,7 +21,7 @@
         android:gravity="center"
         android:text="We will use your location only to show you the nearest places on the map, for directions and nearby search results."
         android:textColor="#ababab"
-        android:textSize="12sp" />
+        android:textSize="@dimen/TEXT_EXTRA_SMALL" />
 
     <ImageView
         android:id="@+id/btm_img"
@@ -48,6 +48,6 @@
         android:layout_marginTop="15dp"
         android:text="YOUR LOCATION"
         android:textColor="#ffffff"
-        android:textSize="13sp" />
+        android:textSize="@dimen/TEXT_MEDIUM" />
 
 </RelativeLayout>
