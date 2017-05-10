@@ -45,20 +45,20 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
     private DBAdapter dbAdapter;
     private Language language;
     private NormalTextView txtChooseLanguage;
-    Runnable runnableOut = new Runnable() {
-        @Override
-        public void run() {
-            txtChooseLanguage.startAnimation(animFadeOut);
-            handler.removeCallbacks(runnableOut);
-            handler.postDelayed(runnableIn, 200);
-        }
-    };
     Runnable runnableIn = new Runnable() {
         @Override
         public void run() {
             txtChooseLanguage.startAnimation(animFadeIn);
             handler.removeCallbacks(runnableIn);
             handler.postDelayed(runnableOut, 3000);
+        }
+    };
+    Runnable runnableOut = new Runnable() {
+        @Override
+        public void run() {
+            txtChooseLanguage.startAnimation(animFadeOut);
+            handler.removeCallbacks(runnableOut);
+            handler.postDelayed(runnableIn, 200);
         }
     };
 
@@ -75,6 +75,7 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
         mEditor.putString("language", "6").commit();
         mEditor.putString("Lan_Id", "6").commit();
 
+        languageCall();
         initialisation();
 
         iv_arrow_language.setOnClickListener(this);
@@ -188,17 +189,34 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
     @Override
     public void onClick(View v) {
         if (v == iv_arrow_language) {
-            languageCall();
-            /*if (mPreferences.getString("language", "").equalsIgnoreCase("6")) {
+            if (Prefs.getString(Constants.tutorial, "").equals("second")) {
+                Intent mIntent = new Intent(LanguageFragmentActivity.this, SignUpLoginFragmentActivity.class);
+                startActivity(mIntent);
+                finish();
             } else {
-                SnackbarManager.show(Snackbar.with(LanguageFragmentActivity.this).color(Utilities.getColor(this,R.color.mBlue)).text("Please select english for now"));
-            }*/
+                Intent mIntent = new Intent(LanguageFragmentActivity.this, IntroScreens.class);
+                Prefs.putString(Constants.tutorial, "second");
+                startActivity(mIntent);
+                finish();
+            }
         } else if (v == button_bt_arabic) {
             AppConstants.language = "arabic";
             Constants.language = "arabic";
             mEditor.putString("language", "8").commit();
             mEditor.putString("Lan_Id", "8").commit();
             Constants.mLanguage = 8;
+
+          /*  if (Prefs.getString(Constants.tutorial, "").equals("second")) {
+                Intent mIntent = new Intent(LanguageFragmentActivity.this, SignUpLoginFragmentActivity.class);
+                startActivity(mIntent);
+                finish();
+            } else {*/
+            Intent mIntent = new Intent(LanguageFragmentActivity.this, IntroScreens.class);
+            Prefs.putString(Constants.tutorial, "second");
+            startActivity(mIntent);
+            finish();
+//            }
+
             button_bt_english.setBackground(null);
             button_bt_russian.setBackground(null);
             button_bt_arabic.setBackgroundResource(R.drawable.selector_button);
@@ -213,6 +231,12 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
             mEditor.putString("language", "7").commit();
             mEditor.putString("Lan_Id", "7").commit();
             Constants.mLanguage = 7;
+
+            Intent mIntent = new Intent(LanguageFragmentActivity.this, IntroScreens.class);
+            Prefs.putString(Constants.tutorial, "second");
+            startActivity(mIntent);
+            finish();
+
             button_bt_english.setBackground(null);
             button_bt_russian.setBackgroundResource(R.drawable.selector_button);
             button_bt_russian.setPadding((int) getResources().getDimension(R.dimen.m20dp), (int) getResources().getDimension(R.dimen.m5dp), (int) getResources().getDimension(R.dimen.m20dp), (int) getResources().getDimension(R.dimen.m5dp));
@@ -227,6 +251,11 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
             mEditor.putString("language", "6").commit();
             mEditor.putString("Lan_Id", "6").commit();
             Constants.mLanguage = 6;
+
+            Intent mIntent = new Intent(LanguageFragmentActivity.this, IntroScreens.class);
+            Prefs.putString(Constants.tutorial, "second");
+            startActivity(mIntent);
+            finish();
 
             button_bt_english.setBackgroundResource(R.drawable.selector_button);
             button_bt_english.setPadding((int) getResources().getDimension(R.dimen.m20dp), (int) getResources().getDimension(R.dimen.m5dp), (int) getResources().getDimension(R.dimen.m20dp), (int) getResources().getDimension(R.dimen.m5dp));
@@ -286,18 +315,6 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
                         }
                     }
                     dbAdapter.close();
-
-                    if (Prefs.getString(Constants.tutorial, "").equals("second")) {
-                        Intent mIntent = new Intent(LanguageFragmentActivity.this, SignUpLoginFragmentActivity.class);
-                        startActivity(mIntent);
-                        finish();
-                    } else {
-                        Intent mIntent = new Intent(LanguageFragmentActivity.this, IntroScreens.class);
-                        Prefs.putString(Constants.tutorial, "second");
-                        startActivity(mIntent);
-                        finish();
-                    }
-
                 } catch (JSONException e) {
                     // Tracking exception
                     MyTorismaApplication.getInstance().trackException(e);

@@ -137,7 +137,8 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_true_go_inside" />
+                android:src="@drawable/ic_true_go_inside"
+                android:visibility="gone" />
         </com.andexert.library.RippleView>
     </LinearLayout>
 

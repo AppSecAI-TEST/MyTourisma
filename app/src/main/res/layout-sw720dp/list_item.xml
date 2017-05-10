@@ -3,8 +3,6 @@
     android:id="@+id/textView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/m10dp"
-    android:layout_marginRight="@dimen/m10dp"
     android:background="@color/mWhite"
     android:paddingBottom="@dimen/m10dp"
     android:paddingLeft="@dimen/m20dp"
