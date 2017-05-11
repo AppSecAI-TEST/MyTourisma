@@ -127,7 +127,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         super.onCreate(savedInstanceState);
 
 
-
         _24HourSDF = new SimpleDateFormat("HH:mm");
         _12HourSDF = new SimpleDateFormat("hh:mma");
 
@@ -287,8 +286,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
 
         if (CommonClass.hasInternetConnection(getActivity())) {
 
-            String url = Constants.SERVER_URL + "json.php?action=HomePageData";
-            String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"keyword\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\"}]";
+//            String url = Constants.SERVER_URL + "json.php?action=HomePageData";
+//            String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"keyword\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\"}]";
+            String url = "http://35.154.205.155/mytourisma/json.php?action=newHomePageData";
+            String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"City_Name\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\"}]";
             System.out.println("homepagedata_json " + json);
             System.out.println("homepagedata_url " + url);
             new post_sync(getActivity(), "HomePageData", HomeFragment.this, true).execute(url, json);
@@ -383,35 +384,35 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         allCategories1.clear();
         homePageDataCall();
 
-            if (resultString.length() > 2) {
-                try {
-                    JSONArray jsonArray = new JSONArray(resultString);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.optJSONObject(i);
-                        categories = new AllCategories();
-                        categories.setCategory_Id(jsonObject.optString("Category_Id"));
-                        categories.setCategory_Name(jsonObject.optString("Category_Name"));
-                        categories.setCategory_Map_Icon(jsonObject.optString("Category_Map_Icon"));
-                        categories.setLan_Id(jsonObject.optString("Lan_Id"));
-                        categories.setCategory_Info(jsonObject.optString("Category_Info"));
-                        categories.setCategory_Status(jsonObject.optString("Category_Status"));
+        if (resultString.length() > 2) {
+            try {
+                JSONArray jsonArray = new JSONArray(resultString);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.optJSONObject(i);
+                    categories = new AllCategories();
+                    categories.setCategory_Id(jsonObject.optString("Category_Id"));
+                    categories.setCategory_Name(jsonObject.optString("Category_Name"));
+                    categories.setCategory_Map_Icon(jsonObject.optString("Category_Map_Icon"));
+                    categories.setLan_Id(jsonObject.optString("Lan_Id"));
+                    categories.setCategory_Info(jsonObject.optString("Category_Info"));
+                    categories.setCategory_Status(jsonObject.optString("Category_Status"));
 
-                        if (mainActivity.getPreferences().getString("Lan_Id", "").equalsIgnoreCase(jsonObject.optString("Lan_Id"))) {
+                    if (mainActivity.getPreferences().getString("Lan_Id", "").equalsIgnoreCase(jsonObject.optString("Lan_Id"))) {
 
-                            if (allCategories1.size() <= 9) {
-                                allCategories.add(categories);
-                            }
-                            allCategories1.add(categories);
-
+                        if (allCategories1.size() <= 9) {
+                            allCategories.add(categories);
                         }
-                    }
+                        allCategories1.add(categories);
 
-                } catch (JSONException e) {
-                    // Tracking exception
-                    MyTorismaApplication.getInstance().trackException(e);
-                    e.printStackTrace();
+                    }
                 }
+
+            } catch (JSONException e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
+                e.printStackTrace();
             }
+        }
 
         explorerAdapter = new ExplorerAdapter(getActivity());
         gv_explorer.setAdapter(null);
@@ -468,8 +469,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
             rl_recommended.setVisibility(View.GONE);
         }
 
+        if (recommendeds.size() == 0) {
+            llEmptyLayout.setVisibility(View.VISIBLE);
+        } else {
+            setNearBy();
+        }
 
-        setNearBy();
     }
 
     @Override
@@ -672,7 +677,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                 tv_near.setText(nearbies.get(i).getPlace_Name());
                 if (nearbies.get(i).getFree_entry().equals("0")) {
                     tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Check Details"));
-                } else if (nearbies.get(i).getFree_entry().equals("1")){
+                } else if (nearbies.get(i).getFree_entry().equals("1")) {
                     tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Free Entry"));
                 }
                 txtCategory.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Category") + ": " + nearbies.get(i).getCategory_Name());

@@ -20,7 +20,6 @@ import com.ftl.tourisma.postsync.PostSync;
 import com.ftl.tourisma.postsync.post_sync;
 import com.ftl.tourisma.utils.CommonClass;
 import com.ftl.tourisma.utils.Constants;
-import com.ftl.tourisma.utils.Utilities;
 import com.github.paolorotolo.appintro.util.AppConstants;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -45,20 +44,20 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
     private DBAdapter dbAdapter;
     private Language language;
     private NormalTextView txtChooseLanguage;
-    Runnable runnableIn = new Runnable() {
-        @Override
-        public void run() {
-            txtChooseLanguage.startAnimation(animFadeIn);
-            handler.removeCallbacks(runnableIn);
-            handler.postDelayed(runnableOut, 3000);
-        }
-    };
     Runnable runnableOut = new Runnable() {
         @Override
         public void run() {
             txtChooseLanguage.startAnimation(animFadeOut);
             handler.removeCallbacks(runnableOut);
             handler.postDelayed(runnableIn, 200);
+        }
+    };
+    Runnable runnableIn = new Runnable() {
+        @Override
+        public void run() {
+            txtChooseLanguage.startAnimation(animFadeIn);
+            handler.removeCallbacks(runnableIn);
+            handler.postDelayed(runnableOut, 3000);
         }
     };
 
@@ -145,44 +144,18 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
         button_bt_russian = (NormalTextView) findViewById(R.id.button_bt_russian);
         button_bt_arabic = (NormalTextView) findViewById(R.id.button_bt_arabic);
 
-//        Log.i("System out", "Constants.mLanguage " + Constants.mLanguage);
-
         if (Constants.mLanguage == 7) {
             mEditor.putString("language", "7").commit();
             mEditor.putString("Lan_Id", "7").commit();
 
-            button_bt_english.setBackground(null);
-            button_bt_russian.setBackgroundResource(R.drawable.selector_button);
-            button_bt_russian.setPadding((int) getResources().getDimension(R.dimen.m20dp), (int) getResources().getDimension(R.dimen.m5dp), (int) getResources().getDimension(R.dimen.m20dp), (int) getResources().getDimension(R.dimen.m5dp));
-            button_bt_arabic.setBackground(null);
-
-            button_bt_english.setTextColor(Utilities.getColor(this, R.color.selector_black_white));
-            button_bt_russian.setTextColor(Utilities.getColor(this, R.color.selector_white_blue));
-            button_bt_arabic.setTextColor(Utilities.getColor(this, R.color.selector_black_white));
         } else if (Constants.mLanguage == 8) {
             mEditor.putString("language", "8").commit();
             mEditor.putString("Lan_Id", "8").commit();
 
-            button_bt_english.setBackground(null);
-            button_bt_russian.setBackground(null);
-            button_bt_arabic.setBackgroundResource(R.drawable.selector_button);
-            button_bt_arabic.setPadding((int) getResources().getDimension(R.dimen.m20dp), (int) getResources().getDimension(R.dimen.m5dp), (int) getResources().getDimension(R.dimen.m20dp), (int) getResources().getDimension(R.dimen.m5dp));
-
-            button_bt_english.setTextColor(Utilities.getColor(this, R.color.selector_black_white));
-            button_bt_russian.setTextColor(Utilities.getColor(this, R.color.selector_black_white));
-            button_bt_arabic.setTextColor(Utilities.getColor(this, R.color.selector_white_blue));
         } else if (Constants.mLanguage == 6) {
             mEditor.putString("language", "6").commit();
             mEditor.putString("Lan_Id", "6").commit();
 
-            button_bt_english.setBackgroundResource(R.drawable.selector_button);
-            button_bt_english.setPadding((int) getResources().getDimension(R.dimen.m20dp), (int) getResources().getDimension(R.dimen.m5dp), (int) getResources().getDimension(R.dimen.m20dp), (int) getResources().getDimension(R.dimen.m5dp));
-            button_bt_russian.setBackground(null);
-            button_bt_arabic.setBackground(null);
-
-            button_bt_english.setTextColor(Utilities.getColor(this, R.color.selector_white_blue));
-            button_bt_russian.setTextColor(Utilities.getColor(this, R.color.selector_black_white));
-            button_bt_arabic.setTextColor(Utilities.getColor(this, R.color.selector_black_white));
         }
     }
 
@@ -206,24 +179,10 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
             mEditor.putString("Lan_Id", "8").commit();
             Constants.mLanguage = 8;
 
-          /*  if (Prefs.getString(Constants.tutorial, "").equals("second")) {
-                Intent mIntent = new Intent(LanguageFragmentActivity.this, SignUpLoginFragmentActivity.class);
-                startActivity(mIntent);
-                finish();
-            } else {*/
             Intent mIntent = new Intent(LanguageFragmentActivity.this, IntroScreens.class);
             Prefs.putString(Constants.tutorial, "second");
             startActivity(mIntent);
             finish();
-//            }
-
-            button_bt_english.setBackground(null);
-            button_bt_russian.setBackground(null);
-            button_bt_arabic.setBackgroundResource(R.drawable.selector_button);
-            button_bt_arabic.setPadding((int) getResources().getDimension(R.dimen.m20dp), (int) getResources().getDimension(R.dimen.m5dp), (int) getResources().getDimension(R.dimen.m20dp), (int) getResources().getDimension(R.dimen.m5dp));
-            button_bt_english.setTextColor(Utilities.getColor(this, R.color.selector_black_white));
-            button_bt_russian.setTextColor(Utilities.getColor(this, R.color.selector_black_white));
-            button_bt_arabic.setTextColor(Utilities.getColor(this, R.color.selector_white_blue));
 
         } else if (v == button_bt_russian) {
             AppConstants.language = "russian";
@@ -237,14 +196,6 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
             startActivity(mIntent);
             finish();
 
-            button_bt_english.setBackground(null);
-            button_bt_russian.setBackgroundResource(R.drawable.selector_button);
-            button_bt_russian.setPadding((int) getResources().getDimension(R.dimen.m20dp), (int) getResources().getDimension(R.dimen.m5dp), (int) getResources().getDimension(R.dimen.m20dp), (int) getResources().getDimension(R.dimen.m5dp));
-            button_bt_arabic.setBackground(null);
-
-            button_bt_english.setTextColor(Utilities.getColor(this, R.color.selector_black_white));
-            button_bt_russian.setTextColor(Utilities.getColor(this, R.color.selector_white_blue));
-            button_bt_arabic.setTextColor(Utilities.getColor(this, R.color.selector_black_white));
         } else if (v == button_bt_english) {
             AppConstants.language = "english";
             Constants.language = "english";
@@ -257,14 +208,6 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
             startActivity(mIntent);
             finish();
 
-            button_bt_english.setBackgroundResource(R.drawable.selector_button);
-            button_bt_english.setPadding((int) getResources().getDimension(R.dimen.m20dp), (int) getResources().getDimension(R.dimen.m5dp), (int) getResources().getDimension(R.dimen.m20dp), (int) getResources().getDimension(R.dimen.m5dp));
-            button_bt_russian.setBackground(null);
-            button_bt_arabic.setBackground(null);
-
-            button_bt_english.setTextColor(Utilities.getColor(this, R.color.selector_white_blue));
-            button_bt_russian.setTextColor(Utilities.getColor(this, R.color.selector_black_white));
-            button_bt_arabic.setTextColor(Utilities.getColor(this, R.color.selector_black_white));
         }
     }
 

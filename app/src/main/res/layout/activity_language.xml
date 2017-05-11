@@ -44,6 +44,7 @@
             <com.ftl.tourisma.custom_views.NormalTextView
                 android:id="@+id/button_bt_english"
                 style="@style/MyCustomButton"
+                android:layout_width="100dp"
                 android:gravity="center"
                 android:paddingBottom="@dimen/m5dp"
                 android:paddingLeft="@dimen/m20dp"
@@ -72,16 +73,14 @@
 
             <com.ftl.tourisma.custom_views.NormalTextView
                 android:id="@+id/button_bt_russian"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
+                style="@style/MyCustomButton"
+                android:layout_width="100dp"
                 android:gravity="center"
                 android:paddingBottom="@dimen/m5dp"
                 android:paddingLeft="@dimen/m20dp"
                 android:paddingRight="@dimen/m20dp"
                 android:paddingTop="@dimen/m5dp"
                 android:text="Русский"
-                android:textColor="@color/mBlack"
                 android:textSize="@dimen/TEXT_SMALL"
                 android:textStyle="bold" />
         </com.andexert.library.RippleView>
@@ -103,16 +102,14 @@
 
             <com.ftl.tourisma.custom_views.NormalTextView
                 android:id="@+id/button_bt_arabic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
+                style="@style/MyCustomButton"
+                android:layout_width="100dp"
                 android:gravity="center"
                 android:paddingBottom="@dimen/m5dp"
                 android:paddingLeft="@dimen/m20dp"
                 android:paddingRight="@dimen/m20dp"
                 android:paddingTop="@dimen/m5dp"
                 android:text="العربية "
-                android:textColor="@color/mBlack"
                 android:textSize="@dimen/TEXT_SMALL"
                 android:textStyle="bold" />
         </com.andexert.library.RippleView>
@@ -149,15 +146,15 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/m15dp"
         android:src="@drawable/_ic_lang_footer" />
-<!--    <ImageView
-        android:id="@+id/background_one"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_bg_blur"/>
+    <!--    <ImageView
+            android:id="@+id/background_one"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_bg_blur"/>
 
-    <ImageView
-        android:id="@+id/background_two"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_bg_blur"/>-->
+        <ImageView
+            android:id="@+id/background_two"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_bg_blur"/>-->
 </RelativeLayout>

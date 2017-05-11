@@ -76,6 +76,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/location_select"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/m10dp"
@@ -96,10 +97,12 @@
 
                 <com.ftl.tourisma.custom_views.NormalEditText
                     android:id="@+id/etAutoDetect"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
+                    android:editable="false"
                     android:ellipsize="end"
+                    android:enabled="false"
                     android:imeOptions="actionDone"
                     android:inputType="text"
                     android:maxLines="1"

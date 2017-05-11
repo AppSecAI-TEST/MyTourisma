@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -105,6 +106,7 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
     private String lastSearchedPlace = "";
     private MainActivity mainActivity;
     private View view;
+    private LinearLayout location_select;
 
     public static ArrayList<String> autocomplete(String input) {
         ArrayList<String> resultList = null;
@@ -663,6 +665,14 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
 
     private void initialisation() {
 
+        location_select = (LinearLayout) view.findViewById(R.id.location_select);
+        location_select.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.exploreNearbyFragment.replaceLocationFragment();
+            }
+        });
+
         listview = (ListView) view.findViewById(R.id.listview);
 
         txtSearch = (NormalTextView) view.findViewById(R.id.txtSearch);
@@ -678,7 +688,7 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
         etSearchPlace = (EditText) view.findViewById(R.id.etSearchPlace);
 
         imgAutoDetect = (ImageView) view.findViewById(R.id.imgAutoDetect);
-        imgAutoDetect.setOnClickListener(this);
+//        imgAutoDetect.setOnClickListener(this);
 
         if (bundle != null) {
             if (bundle.getString("from") != null && bundle.getString("from").equals("beacon")) {

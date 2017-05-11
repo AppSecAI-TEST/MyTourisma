@@ -62,6 +62,7 @@ public class SearchLocationFragment extends Fragment implements post_sync.Respon
     LocationSearch locationSearch;
     ArrayList<LocationSearch> locationSearches = new ArrayList<>();
     ArrayList<LocationSearch> temp_locationSearches = new ArrayList<>();
+    MainActivity mainActivity;
     private View view;
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
@@ -104,6 +105,15 @@ public class SearchLocationFragment extends Fragment implements post_sync.Respon
             latitude = gpsTracker.getLatitude();
             longitude = gpsTracker.getLongitude();
         }
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                getLocationOfAddress(false);
+            }
+        }, 2);
+
         return view;
     }
 
@@ -149,7 +159,6 @@ public class SearchLocationFragment extends Fragment implements post_sync.Respon
                     }
                 })
         );
-
 
         etSearch.addTextChangedListener(new TextWatcher() {
 

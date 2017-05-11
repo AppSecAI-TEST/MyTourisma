@@ -59,7 +59,7 @@ public class Constants {
     public static String beacons_guestuser_session = "beacons_guestuser_session";
     public static String from_login = "from_login";
     public static String first_time = "first_time";
-    public static String cityName = "cityName";
+    public static String searchFragment = "searchFragment";
 
 
 
