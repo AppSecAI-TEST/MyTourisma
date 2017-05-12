@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -669,7 +671,12 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
         location_select.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.exploreNearbyFragment.replaceLocationFragment();
+                Fragment fragment = new SearchCityLocationFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fram1, fragment);
+                fragmentTransaction.addToBackStack(SearchLocationFragment.class.getSimpleName());
+                fragmentTransaction.commit();
             }
         });
 
@@ -716,18 +723,19 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                 break;
 
             case R.id.txtCancel:
-                Utils.hideKeyboard(getActivity());
-                mainActivity.onBackPressed();
+//                Utils.hideKeyboard(getActivity());
+//                mainActivity.onBackPressed();
+                Intent mIntent = new Intent(getActivity(), MainActivity.class);
+                Constants.mStatic = 0;
+                Constants.mFromSelectLocation = 1;
+                mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mIntent);
+                getActivity().finish();
                 break;
 
             case R.id.txtSearch:
                 Utils.hideKeyboard(getActivity());
-               /* if (etSearchPlace.getText().toString().trim().length() == 0) {
-
-                } else {*/
-                    searchCall();
-//                }
-
+                searchCall();
                 break;
         }
     }

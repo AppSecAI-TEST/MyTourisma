@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -54,10 +56,10 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by vinay on 5/5/2017.
+ * Created by Vinay on 5/12/2017.
  */
 
-public class SearchLocationFragment extends Fragment implements post_sync.ResponseHandler {
+public class SearchCityLocationFragment extends Fragment implements post_sync.ResponseHandler {
 
     LocationSearch locationSearch;
     ArrayList<LocationSearch> locationSearches = new ArrayList<>();
@@ -150,12 +152,13 @@ public class SearchLocationFragment extends Fragment implements post_sync.Respon
                     @Override
                     public void onItemClick(View view, int position) {
                         mEditor.putString(Preference.Pref_City, SearchLocationAdapter.locationSearches.get(position).getCityName()).commit();
-                        Intent mIntent = new Intent(getActivity(), MainActivity.class);
-                        Constants.mStatic = 0;
-                        Constants.mFromSelectLocation = 1;
-                        mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(mIntent);
-                        getActivity().finish();
+                        Fragment fragment = new SearchFragment();
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.fram1, fragment);
+                        fragmentTransaction.addToBackStack(SearchFragment.class.getSimpleName());
+                        getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        fragmentTransaction.commit();
                     }
                 })
         );
@@ -244,7 +247,7 @@ public class SearchLocationFragment extends Fragment implements post_sync.Respon
         if (CommonClass.hasInternetConnection(getActivity())) {
             String url = "http://35.154.205.155/mytourisma/json.php?action=CmsPlaces";
             String json = "";
-            new PostSync(getActivity(), "CmsPlaces", SearchLocationFragment.this).execute(url, json);
+            new PostSync(getActivity(), "CmsPlaces", SearchCityLocationFragment.this).execute(url, json);
         } else {
             Intent intent = new Intent(getActivity(), NoInternet.class);
             startActivity(intent);
