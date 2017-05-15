@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout xmlns:ripple="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mBlue"
+        android:gravity="center_horizontal">
+
+        <com.andexert.library.RippleView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            ripple:rv_type="rectangle">
+
+            <ImageView
+                android:id="@+id/img_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/m20dp"
+                android:src="@drawable/ic_left_arrow" />
+        </com.andexert.library.RippleView>
+
+        <com.ftl.tourisma.custom_views.NormalTextView
+            android:id="@+id/txtTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:text="Personal Details"
+            android:textAllCaps="true"
+            android:textColor="@color/mWhite"
+            android:textSize="@dimen/TEXT_MEDIUM" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/details_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/tickets_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Required for the tickets"
+            android:textColor="@color/black"
+            android:textSize="@dimen/TEXT_MEDIUM" />
+
+        <EditText
+            android:id="@+id/first_name_edtxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tickets_txt"
+            android:layout_marginTop="5dp"
+            android:hint="First Name *"
+            android:inputType="textPersonName"
+            android:textSize="@dimen/TEXT_SMALL" />
+
+        <EditText
+            android:id="@+id/last_name_edtxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/first_name_edtxt"
+            android:layout_marginTop="5dp"
+            android:hint="Last Name"
+            android:inputType="textPersonName"
+            android:textSize="@dimen/TEXT_SMALL" />
+
+        <TextView
+            android:id="@+id/notification_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/last_name_edtxt"
+            android:layout_marginTop="10dp"
+            android:text="For ticket event notification"
+            android:textColor="@color/black"
+            android:textSize="@dimen/TEXT_MEDIUM" />
+
+        <EditText
+            android:id="@+id/email_edtxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/notification_txt"
+            android:layout_marginTop="5dp"
+            android:hint="Email Address *"
+            android:inputType="textEmailAddress"
+            android:textSize="@dimen/TEXT_SMALL" />
+
+        <EditText
+            android:id="@+id/mobile_edtxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/email_edtxt"
+            android:layout_marginTop="5dp"
+            android:hint="Mobile Number"
+            android:inputType="number"
+            android:textSize="@dimen/TEXT_SMALL" />
+
+        <EditText
+            android:id="@+id/addr_edtxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mobile_edtxt"
+            android:layout_marginTop="5dp"
+            android:hint="Address"
+            android:inputType="text"
+            android:maxLines="4"
+            android:textSize="@dimen/TEXT_SMALL" />
+
+    </RelativeLayout>
+
+    <com.ftl.tourisma.custom_views.NormalTextView
+        android:id="@+id/continue_btn"
+        style="@style/MyCustomButton"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:padding="@dimen/m10dp"
+        android:text="CONTINUE"
+        android:textSize="@dimen/TEXT_EXTRA_SMALL" />
+
+</RelativeLayout>

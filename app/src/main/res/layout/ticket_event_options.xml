@@ -43,9 +43,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_below="@+id/header">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -57,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -145,16 +143,85 @@
                 android:text="How many tickets?" />
 
             <RelativeLayout
-                android:id="@+id/relativeLayout_adult"
+                android:id="@+id/relativeLayout_senior"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_below="@+id/tickets_txt"
                 android:layout_marginTop="20dp">
 
                 <TextView
+                    android:id="@+id/senior_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="30dp"
+                    android:text="Senior" />
+
+                <ImageView
+                    android:id="@+id/add_qyt_senr"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="30dp"
+                    android:src="@drawable/add" />
+
+                <TextView
+                    android:id="@+id/qty_txt_senr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/add_qyt_senr"
+                    android:text="10"
+                    android:textColor="@color/mBlack1" />
+
+                <ImageView
+                    android:id="@+id/sub_qyt_senr"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/qty_txt_senr"
+                    android:src="@drawable/sub" />
+
+                <TextView
+                    android:id="@+id/amt_txt_senr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/sub_qyt_senr"
+                    android:text="AED 350"
+                    android:textColor="@color/mBlack1" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:background="#666666" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout_adult"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/relativeLayout_senior">
+
+                <TextView
                     android:id="@+id/adult_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
@@ -171,7 +238,7 @@
                     android:src="@drawable/add" />
 
                 <TextView
-                    android:id="@+id/qty_txt"
+                    android:id="@+id/qty_txt_adlt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -187,11 +254,11 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/qty_txt"
+                    android:layout_toLeftOf="@+id/qty_txt_adlt"
                     android:src="@drawable/sub" />
 
                 <TextView
-                    android:id="@+id/amt_txt"
+                    android:id="@+id/amt_txt_adlt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -221,6 +288,7 @@
                     android:id="@+id/child_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
@@ -287,6 +355,7 @@
                     android:id="@+id/infant_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
@@ -343,11 +412,21 @@
 
             </RelativeLayout>
 
+            <TextView
+                android:id="@+id/promo_txt_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayout_infant"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="Insert your promo code here"
+                android:textColor="@color/mBlue" />
+
             <RelativeLayout
                 android:id="@+id/relativeLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/relativeLayout_infant"
+                android:layout_below="@+id/promo_txt_main"
                 android:layout_marginTop="20dp">
 
                 <TextView
@@ -355,7 +434,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="Insert your promo code here" />
+                    android:text="Apply your promo code here" />
 
                 <EditText
                     android:id="@+id/promo_edtxt"
@@ -366,8 +445,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:inputType="textPersonName"
-                    android:text="Insert your promo code"
-                    android:textColor="@color/mBlack"
+                    android:textColor="@color/mBlack1"
                     android:textColorHint="@color/mBlack1"
                     android:textSize="14sp" />
 
