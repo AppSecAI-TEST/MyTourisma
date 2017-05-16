@@ -13,6 +13,6 @@
         android:gravity="center"
         android:text="20:00"
         android:textColor="@color/mWhite"
-        android:textSize="18sp" />
+        android:textSize="@dimen/TEXT_SMALL" />
 
 </RelativeLayout>
