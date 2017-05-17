@@ -127,7 +127,7 @@ public class SplashFragmentActivity extends FragmentActivity {
                         public void run() {
                             try {
                                 Thread.sleep(3000);
-                                if (mPreferences.getString("User_Id", "").length() != 0 && mPreferences.getString("User_Email", "").length() != 0 || Prefs.getString(Constants.beacons_guestuser_session, "").equals("start")) {
+                                if (mPreferences.getString("User_Id", "").length() != 0 || mPreferences.getString("User_Email", "").length() != 0 || Prefs.getString(Constants.beacons_guestuser_session, "").equals("start")) {
                                     Constants.mFromSelectLocation = 0;
                                     Intent mIntent = new Intent(SplashFragmentActivity.this, MainActivity.class);
 //                                    Intent mIntent = new Intent(SplashFragmentActivity.this, SelectLocationFragmentActivity.class);

@@ -1153,7 +1153,27 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
             final LinearLayout llCategory = (LinearLayout) convertView.findViewById(R.id.llCategory);
             final NormalTextView tv_explore_grid = (NormalTextView) convertView.findViewById(R.id.tv_explore_grid);
             final LinearLayout ll_right = (LinearLayout) convertView.findViewById(R.id.ll_right);
+            final LinearLayout category_txt = (LinearLayout) convertView.findViewById(R.id.category_txt);
 
+            category_txt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    isListOfCategoryVisible = true;
+                    Category_Id = allCategories1.get(position).getCategory_Id();
+                    isCalledFromCat = true;
+                    searchCall1();
+                }
+            });
+
+            tv_explore_grid.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    isListOfCategoryVisible = true;
+                    Category_Id = allCategories1.get(position).getCategory_Id();
+                    isCalledFromCat = true;
+                    searchCall1();
+                }
+            });
 
             llCategory.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1207,22 +1227,39 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.explore_adapter, parent, false);
             final LinearLayout llCategory = (LinearLayout) convertView.findViewById(R.id.llCategory);
-
+            final LinearLayout category_txt = (LinearLayout) convertView.findViewById(R.id.category_txt);
             final NormalTextView tv_explore_grid = (NormalTextView) convertView.findViewById(R.id.tv_explore_grid);
             final LinearLayout ll_right = (LinearLayout) convertView.findViewById(R.id.ll_right);
 
-
             isShowLess = false;
-            llCategory.setOnClickListener(new View.OnClickListener() {
+
+            category_txt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     isListOfCategoryVisible = true;
                     Category_Id = allCategories1.get(position).getCategory_Id();
                     isCalledFromCat = true;
                     searchCall1();
+                }
+            });
 
+            tv_explore_grid.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    isListOfCategoryVisible = true;
+                    Category_Id = allCategories1.get(position).getCategory_Id();
+                    isCalledFromCat = true;
+                    searchCall1();
+                }
+            });
 
+            llCategory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    isListOfCategoryVisible = true;
+                    Category_Id = allCategories1.get(position).getCategory_Id();
+                    isCalledFromCat = true;
+                    searchCall1();
                 }
             });
 

@@ -52,7 +52,6 @@
                     android:paddingLeft="@dimen/m40dp"
                     android:text="" />
 
-
                 <com.ftl.tourisma.custom_views.NormalTextView
                     android:id="@+id/login_using_mail"
                     android:layout_width="wrap_content"
