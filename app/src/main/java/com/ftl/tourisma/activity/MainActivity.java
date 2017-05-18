@@ -65,6 +65,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import hotchemi.android.rate.AppRate;
+import hotchemi.android.rate.OnClickButtonListener;
+import hotchemi.android.rate.StoreType;
+
 import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_ENTERED;
 import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_ENTRY_TEXT;
 import static com.ftl.tourisma.beacons.MyBeaconsService.BEACON_EXITED;
@@ -218,6 +222,30 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
             callApiForGetBeacons();
         }
         setActiviateIcon(0);
+
+        AppRate.with(this)
+                .setStoreType(StoreType.GOOGLEPLAY) //default is Google, other option is Amazon
+                .setInstallDays(0) // default 10, 0 means install day.
+                .setLaunchTimes(2) // default 10 times.
+                .setRemindInterval(2) // default 1 day.
+                .setShowLaterButton(true) // default true.
+                .setDebug(true) // default false.
+                .setCancelable(false) // default false.
+                .setOnClickButtonListener(new OnClickButtonListener() { // callback listener.
+                    @Override
+                    public void onClickButton(int which) {
+                        Log.d(MainActivity.class.getName(), Integer.toString(which));
+                    }
+                })
+                .setTitle(R.string.new_rate_dialog_title)
+                .setTextLater(R.string.new_rate_dialog_later)
+                .setTextNever(R.string.new_rate_dialog_never)
+                .setTextRateNow(R.string.new_rate_dialog_ok)
+                .monitor();
+
+
+        AppRate.showRateDialogIfMeetsConditions(this);
+
     }
 
     private void addPlaceDetailFragment(String placeId) {

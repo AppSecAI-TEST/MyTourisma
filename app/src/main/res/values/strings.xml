@@ -64,5 +64,10 @@
     <string name="tutorial_bluetooth_txt_russian">Мы будем использовать ваш Bluetooth, чтобы найти ближайшие устройства вокруг вас. Как только вы войдёте в их диапазон, вы получите уведомления с интересными фактами и информацией об этом месте.</string>
     <string name="tutorial_bluetooth_txt_arabic">سيتم استخدام خاصية البلوتوث للعثور على المستقبلات الرقمية بالقرب منك، عند الدخول في مجال احدى المستقبلات سوف يتم تنبيهك بماهو مثير للاهتمام في المنطقة التي قمت بزيارتها</string>
 
+    <string name="new_rate_dialog_title">Rate myTourisma!</string>
+    <string name="rate_dialog_message">If you enjoy myTourisma app, would you mind taking a moment to rate it? It won\'t take more than a minute. Thanks for your support!</string>
+    <string name="new_rate_dialog_never">Never</string>
+    <string name="new_rate_dialog_later">Later</string>
+    <string name="new_rate_dialog_ok">Rate</string>
 
 </resources>

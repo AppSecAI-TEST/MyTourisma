@@ -247,40 +247,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         return view;
     }
 
-
-    /*//LocalBroadcastManager to refresh home page starts here
-    public void refresh() {
-        //your code in refresh.
-        Log.i("Refresh", "YES");
-    }
-
-    public void onPause() {
-        super.onPause();
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
-    }
-
-    public void onResume() {
-        super.onResume();
-        receiver = new MyReceiver();
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver,
-                new IntentFilter("TAG_REFRESH_HOMEPAGE"));
-        try {
-            explorerAdapter.notifyDataSetChanged();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    //Local broadcast receiver to refresh the home page
-    private class MyReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            HomeFragment.this.refresh();
-            getAllCategoriesCall();
-        }
-    }
-*/
-
     private void homePageDataCall() {
         isCalledFromCat = false;
 
