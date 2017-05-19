@@ -225,11 +225,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
 
         AppRate.with(this)
                 .setStoreType(StoreType.GOOGLEPLAY) //default is Google, other option is Amazon
-                .setInstallDays(0) // default 10, 0 means install day.
+                .setInstallDays(2) // default 10, 0 means install day.
                 .setLaunchTimes(2) // default 10 times.
                 .setRemindInterval(2) // default 1 day.
                 .setShowLaterButton(true) // default true.
-                .setDebug(true) // default false.
+                .setDebug(false) // default false.
                 .setCancelable(false) // default false.
                 .setOnClickButtonListener(new OnClickButtonListener() { // callback listener.
                     @Override
@@ -237,12 +237,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
                         Log.d(MainActivity.class.getName(), Integer.toString(which));
                     }
                 })
-                .setTitle(R.string.new_rate_dialog_title)
-                .setTextLater(R.string.new_rate_dialog_later)
-                .setTextNever(R.string.new_rate_dialog_never)
-                .setTextRateNow(R.string.new_rate_dialog_ok)
+                .setTitle(Constants.showMessage(MainActivity.this, mPreferences.getString("Lan_Id", ""), "rate_head"))
+                .setMessage(Constants.showMessage(MainActivity.this, mPreferences.getString("Lan_Id", ""), "rate_msg"))
+                .setTextLater(Constants.showMessage(MainActivity.this, mPreferences.getString("Lan_Id", ""), "rate_later_a"))
+                .setTextNever(Constants.showMessage(MainActivity.this, mPreferences.getString("Lan_Id", ""), "rate_never_a"))
+                .setTextRateNow(Constants.showMessage(MainActivity.this, mPreferences.getString("Lan_Id", ""), "rate_rate"))
                 .monitor();
-
 
         AppRate.showRateDialogIfMeetsConditions(this);
 
@@ -378,11 +378,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
                 Prefs.putString(Constants.first_time, "second");
             } else {*/
                 if (gpsTracker.getLatitude() == 0 || gpsTracker.getLongitude() == 0) {
-                    mEditor.putString("latitude1", "23.424076").commit();
-                    mEditor.putString("longitude1", "53.847818").commit();
-                    mEditor.putString("latitude2", "23.424076").commit();
-                    mEditor.putString("longitude2", "53.847818").commit();
-                    mPreferences.edit().putString(Preference.Pref_City, "United Arab Emirates").apply();
+                    mEditor.putString("latitude1", "25.2048").commit();
+                    mEditor.putString("longitude1", "55.2708").commit();
+                    mEditor.putString("latitude2", "25.2048").commit();
+                    mEditor.putString("longitude2", "55.2708").commit();
+                    mPreferences.edit().putString(Preference.Pref_City, "Dubai").apply();
 
                 } else {
                     mEditor.putString("latitude1", String.valueOf(gpsTracker.getLatitude())).commit();
