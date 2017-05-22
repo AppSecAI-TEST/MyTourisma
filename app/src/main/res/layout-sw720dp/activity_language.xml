@@ -44,7 +44,8 @@
             <com.ftl.tourisma.custom_views.NormalTextView
                 android:id="@+id/button_bt_english"
                 style="@style/MyCustomButton"
-                android:layout_width="200dp"
+                android:layout_width="350dp"
+                android:layout_height="65dp"
                 android:gravity="center"
                 android:paddingBottom="@dimen/m5dp"
                 android:paddingLeft="@dimen/m20dp"
@@ -53,6 +54,7 @@
                 android:text="English"
                 android:textSize="@dimen/TEXT_SMALL"
                 android:textStyle="bold" />
+
         </com.andexert.library.RippleView>
 
     </LinearLayout>
@@ -63,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/llChooseLanguage"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/m5dp"
+        android:layout_marginTop="@dimen/m10dp"
         android:orientation="horizontal">
 
         <com.andexert.library.RippleView
@@ -74,7 +76,8 @@
             <com.ftl.tourisma.custom_views.NormalTextView
                 android:id="@+id/button_bt_russian"
                 style="@style/MyCustomButton"
-                android:layout_width="200dp"
+                android:layout_width="350dp"
+                android:layout_height="65dp"
                 android:gravity="center"
                 android:paddingBottom="@dimen/m5dp"
                 android:paddingLeft="@dimen/m20dp"
@@ -83,7 +86,9 @@
                 android:text="Русский"
                 android:textSize="@dimen/TEXT_SMALL"
                 android:textStyle="bold" />
+
         </com.andexert.library.RippleView>
+
     </LinearLayout>
 
     <LinearLayout
@@ -92,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/llEnglish"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/m5dp"
+        android:layout_marginTop="@dimen/m10dp"
         android:orientation="horizontal">
 
         <com.andexert.library.RippleView
@@ -103,7 +108,8 @@
             <com.ftl.tourisma.custom_views.NormalTextView
                 android:id="@+id/button_bt_arabic"
                 style="@style/MyCustomButton"
-                android:layout_width="200dp"
+                android:layout_width="350dp"
+                android:layout_height="65dp"
                 android:gravity="center"
                 android:paddingBottom="@dimen/m5dp"
                 android:paddingLeft="@dimen/m20dp"
@@ -112,7 +118,9 @@
                 android:text="العربية "
                 android:textSize="@dimen/TEXT_SMALL"
                 android:textStyle="bold" />
+
         </com.andexert.library.RippleView>
+
     </LinearLayout>
 
     <LinearLayout

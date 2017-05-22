@@ -102,7 +102,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
     private ImageView iv_back5;
     private String[] strImg1;
     private int id1;
-    private LinearLayout listView_fees, ll_search_result2, ll_see_all;
+    private LinearLayout listView_fees, ll_search_result2, ll_see_all, visiting_hours_layout;
     private Double latitude, longitude;
     private int pos = 0;
     private Marker marker;
@@ -169,6 +169,9 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
         imgSharePlace = (ImageView) view.findViewById(R.id.imgSharePlace);
         imgSharePlace.setOnClickListener(this);
 
+        visiting_hours_layout = (LinearLayout) view.findViewById(R.id.visiting_hours_layout);
+        visiting_hours_layout.setOnClickListener(this);
+
         similar_scroll = (ScrollView) view.findViewById(R.id.similar_scroll);
         buy_tickets = (Button) view.findViewById(R.id.buy_tickets);
         rlVirtualTour = (RelativeLayout) view.findViewById(R.id.rlVirtualTour);
@@ -217,12 +220,18 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
 
         tv_full_name_search_result2 = (NormalBoldTextView) view.findViewById(R.id.tv_full_name);
         tv_info_search_result2 = (NormalTextView) view.findViewById(R.id.tv_info);
+        tv_info_search_result2.setSelected(true);
+        tv_info_search_result2.requestFocus();
+
         txtOpenNowVal = (NormalTextView) view.findViewById(R.id.txtOpenNowVal);
         txtDailyWorkingHours = (NormalTextView) view.findViewById(R.id.txtDailyWorkingHours);
         txtDailyWorkingHours.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "View Daily Working Hours"));
         txtDailyWorkingHours.setOnClickListener(this);
 
         tv_distance1_search_result2 = (NormalTextView) view.findViewById(R.id.tv_distance1);
+        tv_distance1_search_result2.setSelected(true);
+        tv_distance1_search_result2.requestFocus();
+
         tv_discription_search_result2 = (NormalTextView) view.findViewById(R.id.tv_discription);
         gv_detail1_search_result2 = (com.ftl.tourisma.gallery1.Gallery) view.findViewById(R.id.gv_detail1);
 
@@ -276,6 +285,8 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
         } else if (v == txtSuggestPlace) {
             suggestPlace();
         } else if (v == txtDailyWorkingHours) {
+            openWeekDaysPopup();
+        } else if (v == visiting_hours_layout) {
             openWeekDaysPopup();
         } else if (v == rlVirtualTour) {
             Intent intent = new Intent(getActivity(), SimpleVrPanoramaActivity.class);
@@ -907,11 +918,10 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) rlMain.getLayoutParams();
             layoutParams.width = (width * 50) / 100;
             layoutParams.height = (width * 50) / 100;
-
-
             rlMain.setLayoutParams(layoutParams);
-
             tv_name.setText(nearbies1.get(position).getPlace_Name());
+            tv_name.setSelected(true);
+            tv_name.requestFocus();
             tv_km.setText(nearbies1.get(position).getDistance() + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
             /*double d = Utilities.GetRoutDistane(Double.parseDouble(mPreferences.getString("latitude2", "")), Double.parseDouble(mPreferences.getString("longitude2", "")), Double.parseDouble(nearbies1.get(position).getPlace_Latitude()), Double.parseDouble(nearbies1.get(position).getPlace_Longi()), nearbies1.get(position).getDist());
             if(d!=-1)

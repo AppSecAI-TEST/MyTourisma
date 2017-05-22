@@ -609,6 +609,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
 
                 LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
                 View view = inflater.inflate(R.layout.item_nearby, null);
+
                 final ImageView iv_nearby_explorer = (ImageView) view.findViewById(R.id.iv_nearby_explorer);
                 final ImageView imgFav = (ImageView) view.findViewById(R.id.imgFav);
                 final LinearLayout llView = (LinearLayout) view.findViewById(R.id.llView);
@@ -639,8 +640,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
 
 
                 //imageLoader.displayImage(imageURL, iv_nearby_explorer, optionsSimple);
-//
                 tv_near.setText(nearbies.get(i).getPlace_Name());
+                tv_near.setSelected(true);
+                tv_near.requestFocus();
                 if (nearbies.get(i).getFree_entry().equals("0")) {
                     tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Check Details"));
                 } else if (nearbies.get(i).getFree_entry().equals("1")) {

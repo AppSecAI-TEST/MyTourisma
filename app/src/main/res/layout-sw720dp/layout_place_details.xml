@@ -26,7 +26,7 @@
                 android:id="@+id/sliderPlaceImages"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -42,7 +42,6 @@
                         android:layout_marginBottom="@dimen/m10dp"
                         android:layout_marginLeft="@dimen/m10dp"
                         android:layout_marginRight="@dimen/m10dp"
-
                         android:gravity="top|center_horizontal">
 
                         <com.daimajia.slider.library.Indicators.PagerIndicator
@@ -124,44 +123,48 @@
                 android:textColor="@color/mBlack"
                 android:textSize="@dimen/TEXT_MEDIUM" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/m10dp"
                 android:layout_marginLeft="@dimen/m10dp"
                 android:layout_marginRight="@dimen/m10dp"
-                android:layout_marginTop="@dimen/m10dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="3">
+                android:layout_marginTop="@dimen/m10dp">
 
                 <com.ftl.tourisma.custom_views.NormalTextView
                     android:id="@+id/tv_info"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="right"
+                    android:layout_toLeftOf="@+id/view"
+                    android:ellipsize="marquee"
+                    android:freezesText="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:text="Jumeirah 1, Dubai"
                     android:textColor="@color/mBlack1"
                     android:textSize="@dimen/TEXT_SMALL" />
 
                 <View
+                    android:id="@+id/view"
                     android:layout_width="@dimen/m2dp"
                     android:layout_height="@dimen/m20dp"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginLeft="@dimen/m5dp"
                     android:layout_marginRight="@dimen/m5dp"
                     android:background="@color/mBlack" />
 
                 <com.ftl.tourisma.custom_views.NormalTextView
                     android:id="@+id/tv_distance1"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_toRightOf="@+id/view"
                     android:gravity="left"
                     android:text="12.3 km"
                     android:textColor="@color/mBlue"
                     android:textSize="@dimen/TEXT_MEDIUM" />
-            </LinearLayout>
+
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -171,7 +174,7 @@
                 android:background="#E7E7E7" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/m10dp"
                 android:layout_marginLeft="@dimen/m10dp"
@@ -283,6 +286,7 @@
                 android:text="@string/fees"
                 android:textColor="@color/mBlack"
                 android:textSize="@dimen/TEXT_MEDIUM" />
+
         </LinearLayout>
 
 
@@ -307,7 +311,8 @@
             android:padding="10dp"
             android:text="Buy Tickets"
             android:textColor="@color/mBlue"
-            android:textSize="@dimen/TEXT_EXTRA_SMALL" />
+            android:textSize="@dimen/TEXT_EXTRA_SMALL"
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"
