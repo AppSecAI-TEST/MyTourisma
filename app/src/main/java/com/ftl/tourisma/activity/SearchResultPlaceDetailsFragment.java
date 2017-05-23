@@ -41,6 +41,7 @@ import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
 import com.ftl.tourisma.ShareFragmentActivity;
 import com.ftl.tourisma.SimpleVrPanoramaActivity;
+import com.ftl.tourisma.TicketEvent;
 import com.ftl.tourisma.adapters.TimingAdapter;
 import com.ftl.tourisma.custom_views.NormalBoldTextView;
 import com.ftl.tourisma.custom_views.NormalTextView;
@@ -174,11 +175,11 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
 
         similar_scroll = (ScrollView) view.findViewById(R.id.similar_scroll);
         buy_tickets = (Button) view.findViewById(R.id.buy_tickets);
+        buy_tickets.setOnClickListener(this);
         rlVirtualTour = (RelativeLayout) view.findViewById(R.id.rlVirtualTour);
         rlVirtualTour.setOnClickListener(this);
         custom_indicator1 = (PagerIndicator) view.findViewById(R.id.custom_indicator1);
         custom_indicator1.setIndicatorStyleResource(R.drawable.shape_cirlce_fill, R.drawable.shape_cirlce_unfill);
-        buy_tickets = (Button) view.findViewById(R.id.buy_tickets);
         ll_see_all = (LinearLayout) view.findViewById(R.id.ll_see_all);
 
         tv_fee_search_result = (NormalTextView) view.findViewById(R.id.tv_fee_explore);
@@ -229,8 +230,6 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
         txtDailyWorkingHours.setOnClickListener(this);
 
         tv_distance1_search_result2 = (NormalTextView) view.findViewById(R.id.tv_distance1);
-        tv_distance1_search_result2.setSelected(true);
-        tv_distance1_search_result2.requestFocus();
 
         tv_discription_search_result2 = (NormalTextView) view.findViewById(R.id.tv_discription);
         gv_detail1_search_result2 = (com.ftl.tourisma.gallery1.Gallery) view.findViewById(R.id.gv_detail1);
@@ -298,10 +297,15 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
             String share1 = Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "share1");
             String share2 = Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "share2");
             String share3 = Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "share3");
-
             mIntent.putExtra("myMsg", share1 + " \"" + mPreferences.getString("User_Name", "") + "\" " + share2 + " \"" + mNearby.getPlace_Name() + "\" " + share3);
             startActivity(mIntent);
-
+        } else if (v == buy_tickets) {
+            Fragment fragment = new TicketEvent();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fram1, fragment);
+            fragmentTransaction.addToBackStack(TicketEvent.class.getSimpleName());
+            fragmentTransaction.commit();
         }
     }
 
@@ -432,7 +436,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
             }
         });
 
-        tv_distance1_search_result2.setText(Utilities.GetRoutDistane(Double.parseDouble(mPreferences.getString("latitude2", "")), Double.parseDouble(mPreferences.getString("longitude2", "")), Double.parseDouble(mNearby.getPlace_Latitude()), Double.parseDouble(mNearby.getPlace_Longi()), mNearby.getDist()) + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
+        tv_distance1_search_result2.setText(Utilities.GetRoutDistane(Double.parseDouble(mPreferences.getString("latitude2", "")), Double.parseDouble(mPreferences.getString("longitude2", "")), Double.parseDouble(mNearby.getPlace_Latitude()), Double.parseDouble(mNearby.getPlace_Longi()), mNearby.getDist()) + " " + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
 //        tv_distance1_search_result2.setText(mNearby.getDistance() + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
 
         tv_full_name_search_result2.setText(mNearby.getPlace_Name());
@@ -716,7 +720,6 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
 
     private void openWeekDaysPopup() {
         try {
-
             // Inflate the custom layout/view
             WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
             Display display = wm.getDefaultDisplay();

@@ -727,6 +727,12 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CODE_ASK_PERMISSIONS: {
+                Prefs.putInt(Constants.user_id, 1);
+                mGoogleApiClient = new GoogleApiClient.Builder(LoginFragmentActivity.this)
+                        .addConnectionCallbacks(LoginFragmentActivity.this)
+                        .addOnConnectionFailedListener(LoginFragmentActivity.this).addApi(Plus.API)
+                        .addScope(Plus.SCOPE_PLUS_LOGIN).build();
+                mGoogleApiClient.connect();
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mGoogleApiClient.connect();
