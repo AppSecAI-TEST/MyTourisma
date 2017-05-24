@@ -88,13 +88,10 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-//        FacebookSdk.sdkInitialize(getApplicationContext());
-//        callbackManager = CallbackManager.Factory.create();
+
         // Add code to print out the key hash
         try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.facebook.samples.hellofacebook",
-                    PackageManager.GET_SIGNATURES);
+            PackageInfo info = getPackageManager().getPackageInfo("com.facebook.samples.hellofacebook", PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
@@ -130,101 +127,21 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
         callbackManager = CallbackManager.Factory.create();
         FacebookLogin();
 
-
         List<String> permissions = new ArrayList<String>();
         permissions.add("public_profile");
         permissions.add("email");
         permissions.add("user_birthday");
 
-        /*fb_login_btn = (LoginButton) findViewById(R.id.fb_login_btn);
-        fb_login_btn.setReadPermissions(permissions);
-
-        fb_login_btn.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                accessTokenNew = loginResult.getAccessToken().getToken();
-                mEditor.putString("fb_id", "").commit();
-                mEditor.putString("socialname", "").commit();
-                mEditor.putString("socialemail", "").commit();
-                mEditor.putString("socialgender", "").commit();
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(
-                                    JSONObject object,
-                                    GraphResponse response) {
-//                                Log.d("System out", "response get is:" + response.toString());
-
-                                try {
-                                    mEditor.putString("umEmail", object.getString("email")).commit();
-                                    mEditor.putString("fb_id", object.getString("id")).commit();
-
-                                    String fb_firstname, fb_lastname, fb_email;
-                                    try {
-                                        fb_email = object.getString("email");
-                                        fb_firstname = object.getString("name").split(" ")[0];
-                                        fb_lastname = object.getString("name").split(" ")[1];
-                                    } catch (Exception e) {
-                                        fb_firstname = "";
-                                        fb_lastname = "";
-                                        fb_email = "";
-                                        fb_firstname = object.getString("name");
-                                    }
-                                    mEditor.putString("umRealName", fb_firstname).commit();
-                                    mEditor.putString("umLastName", fb_lastname).commit();
-                                    mEditor.putString("User_Email", fb_email).commit();
-                                    mEditor.putString("User_Name", object.getString("name")).commit();
-
-                                    LoginManager.getInstance().logOut();
-
-                                    //: {"id":"612593892177596","birthday":"02\/17\/1984",
-                                    // "gender":"male","email":"testlast11@gmail.com","name":"Sedy Last"}, error: null}
-
-//                                    checkFBID();
-                                    fbConnectCall();
-                                } catch (Exception e) {
-//                                    Log.d("System out", "please enter valid email or password");
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,gender,birthday");
-                request.setParameters(parameters);
-                request.executeAsync();
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-            }
-        });
-*/
         btn_sign_up1 = (NormalTextView) findViewById(R.id.btn_sign_up1);
         btn_sign_up12 = (NormalTextView) findViewById(R.id.btn_sign_up12);
         btn_sign_up1.setText(Constants.showMessage(LoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "donthaveanaccount"));
         btn_sign_up12.setText(Constants.showMessage(LoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "SignUp"));
-
         tv_login_g = (NormalTextView) findViewById(R.id.tv_login_g);
         login_using_mail = (NormalTextView) findViewById(R.id.login_using_mail);
         login_using_mail.setText(Constants.showMessage(LoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "loginscreentitle"));
         tv_login_fb = (NormalTextView) findViewById(R.id.tv_login_fb);
         tv_login_fb.setText(Constants.showMessage(LoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "Log in via Facebook"));
         tv_login_g.setText(Constants.showMessage(LoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "Log in via Google+"));
-//        if (mPreferences.getString("Lan_Id", "").equalsIgnoreCase("6")) {
-//        } else if (mPreferences.getString("Lan_Id", "").equalsIgnoreCase("7")) {
-//            tv_login_fb.setText("Войти через Facebook");
-//            tv_login_g.setText("Войти через Google+");
-//        } else {
-//            tv_login_fb.setText("تسجيل الدخول عبر الفيسبوك");
-//            tv_login_g.setText("تسجيل الدخول عبر Google+");
-//        }
         tv_login = (NormalTextView) findViewById(R.id.tv_login);
         tv_login.setText(Constants.showMessage(LoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "Login"));
         tv_forgot_login = (NormalTextView) findViewById(R.id.tv_forgot_login);
@@ -254,8 +171,6 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
                                 public void onCompleted(
                                         JSONObject object,
                                         GraphResponse response) {
-//                                Log.d("System out", "response get is:" + response.toString());
-
                                     try {
                                         mEditor.putString("umEmail", object.getString("email")).commit();
                                         mEditor.putString("fb_id", object.getString("id")).commit();
@@ -275,21 +190,13 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
                                         mEditor.putString("umLastName", fb_lastname).commit();
                                         mEditor.putString("User_Email", fb_email).commit();
                                         mEditor.putString("User_Name", object.getString("name")).commit();
-
                                         LoginManager.getInstance().logOut();
-
-                                        //: {"id":"612593892177596","birthday":"02\/17\/1984",
-                                        // "gender":"male","email":"testlast11@gmail.com","name":"Sedy Last"}, error: null}
-
-//                                    checkFBID();
                                         fbConnectCall();
                                     } catch (Exception e) {
-//                                    Log.d("System out", "please enter valid email or password");
                                         e.printStackTrace();
                                     }
                                 }
                             });
-
                     Bundle parameters = new Bundle();
                     parameters.putString("fields", "id,name,first_name,last_name,link,birthday,picture,email,gender");
                     request.setParameters(parameters);
@@ -298,19 +205,12 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
 
                 @Override
                 public void onCancel() {
-//
+
                 }
 
                 @Override
                 public void onError(FacebookException exception) {
-
-//                    Toast.makeText(
-//                            getActivity().getApplicationContext(),
-//                            "Try Again..." + exception.getMessage(),
-//                            Toast.LENGTH_SHORT).show();
                     Utilities.Log(TAG, "onError", exception);
-
-
                 }
             });
         } else {
@@ -347,7 +247,6 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
                     .addScope(Plus.SCOPE_PLUS_LOGIN).build();
             mGoogleApiClient.connect();
         } else if (v == tv_login_fb) {
-//            fb_login_btn.performClick();
             onClickFacebookLogin();
         } else if (v == btn_sign_up12) {
             Intent mIntent = new Intent(LoginFragmentActivity.this, SignupFragmentActivity.class);
@@ -357,16 +256,8 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
     }
 
     public void onClickFacebookLogin() {
-
         Prefs.putInt(Constants.user_id, 1);
-
-        LoginManager.getInstance().logInWithReadPermissions(
-                this,
-                // (Arrays.asList("public_profile", "user_friends",
-                // "user_birthday", "user_location",
-                // "user_about_me", "email")));
-                Arrays.asList("public_profile", "user_friends",
-                        "user_about_me", "email", "user_birthday"));
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends", "user_about_me", "email", "user_birthday"));
     }
 
     private void loginCall() {
@@ -374,8 +265,6 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
         if (CommonClass.hasInternetConnection(LoginFragmentActivity.this)) {
             String url = Constants.SERVER_URL + "json.php?action=Login";
             String json = "[{\"User_Email\":\"" + et_email_login.getText().toString() + "\",\"User_Password\":\"" + et_password_login.getText().toString() + "\"}]";
-//            Log.d("System out", "Login " + json);
-//            new PostSync(LoginFragmentActivity.this, "Login").execute(url, json);
             new PostSync(LoginFragmentActivity.this, "Login", LoginFragmentActivity.this).execute(url, json);
         } else {
             Intent intent = new Intent(getApplicationContext(), NoInternet.class);
@@ -385,15 +274,11 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
     }
 
     public void loginResponse(String resultString) {
-//        Log.d("System out", "result string loginCall " + resultString);
-
         if (resultString.length() > 2) {
             try {
                 JSONArray jsonArray = new JSONArray(resultString);
                 JSONObject jsonObject = jsonArray.optJSONObject(0);
                 if (jsonObject.has("User_Id")) {
-//                    String str = jsonObject.optString("status");
-//                    if (str.equalsIgnoreCase("true")) {
                     Prefs.putInt(Constants.user_id, Integer.parseInt(jsonObject.optString("User_Id")));
                     mEditor.putString("User_Id", jsonObject.optString("User_Id")).commit();
                     mEditor.putString("User_Email", jsonObject.optString("User_Email")).commit();
@@ -410,16 +295,13 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
                     mEditor.putString("User_Facebook_ID", jsonObject.optString("User_Facebook_ID")).commit();
                     mEditor.putString("User_GPlus_Id", jsonObject.optString("User_GPlus_Id")).commit();
                     mEditor.putString("User_About", jsonObject.optString("User_About")).commit();
-                    Constants.mFromSelectLocation = 0;
 
+                    Constants.mFromSelectLocation = 0;
                     Intent mIntent = new Intent(LoginFragmentActivity.this, MainActivity.class);
-//                    Intent mIntent = new Intent(LoginFragmentActivity.this, SelectLocationFragmentActivity.class);
                     mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     mIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     startActivity(mIntent);
                     finish();
-//                    } else {
-//                    }
                 } else {
                     SnackbarManager.show(Snackbar.with(LoginFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(LoginFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "INVALID")));
 //                    SnackbarManager.show(Snackbar.with(LoginFragmentActivity.this).color(Utils.getColor(this,R.color.mBlue)).text(jsonObject.optString("status")));
@@ -437,11 +319,6 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
         if (permissionCheck1 == android.content.pm.PackageManager.PERMISSION_GRANTED) {
             Log.d("System out", "account name" + Plus.AccountApi.getAccountName(mGoogleApiClient));
             mEditor.putString("um[Email", Plus.AccountApi.getAccountName(mGoogleApiClient)).commit();
-//        et_email_sign_up.setText(Plus.AccountApi.getAccountName(mGoogleApiClient));
-
-//            Log.d("System out", "apis" + Plus.API.toString());
-            //Plus.PeopleApi.loadVisible(mGoogleApiClient, null);
-
             if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
                 Person person = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
                 Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
@@ -454,9 +331,6 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-//            et_username_sign_up.setText(personName);
-
                 try {
                     JSONObject jsonObject = new JSONObject(person.toString());
                     String g_firstname, g_lastname;
@@ -479,7 +353,7 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
                     e.printStackTrace();
                 }
             } else {
-//                Log.d("System out", "detail of users else");
+
             }
         } else {
             ActivityCompat.requestPermissions(LoginFragmentActivity.this, new String[]{Manifest.permission.GET_ACCOUNTS}, REQUEST_CODE_ASK_PERMISSIONS);
@@ -503,12 +377,6 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
                 mGoogleApiClient.connect();
             }
         }
-
-//        Intent i = new Intent(this, ResolverActivity.class);
-//        i.putExtra(ResolverActivity.CONNECT_RESULT_KEY, connectionResult);
-//        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        startActivity(i);
-
     }
 
     protected void signInWithGplus() {
@@ -542,7 +410,6 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
             }
         } else {
             callbackManager.onActivityResult(requestCode, responseCode, intent);
-//            Log.d("System out", "data " + intent.getExtras().toString());
         }
     }
 
@@ -561,15 +428,13 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
     }
 
     public void showMessage(String message) {
-//        login_sn.applyStyle(R.style.Material_Widget_SnackBar_Tablet).text(message).actionText(null).duration(3000).show();
+
     }
 
     private void fbConnectCall() {
         if (CommonClass.hasInternetConnection(LoginFragmentActivity.this)) {
             String url = Constants.SERVER_URL + "json.php?action=FBConnect";
             String json = "[{\"User_Email\":\"" + mPreferences.getString("User_Email", "") + "\",\"User_Password\":\"" + "" + "\",\"User_Name\":\"" + mPreferences.getString("User_Name", "") + "\",\"User_ProfilePic\":\"" + "" + "\",\"User_Address\":\"" + "" + "\",\"User_Latitude\":\"" + mPreferences.getString("latitude2", "") + "\",\"User_Longi\":\"" + mPreferences.getString("longitude2", "") + "\",\"Lan_Id\":\"" + mPreferences.getString("language", "") + "\",\"User_Facebook_ID\":\"" + mPreferences.getString("fb_id", "") + "\",\"User_GPlus_Id\":\"" + mPreferences.getString("gpluse_id", "") + "\",\"User_About\":\"" + "" + "\"}]";
-//            Log.d("System out", "FBConnect " + json);
-//            new PostSync(LoginFragmentActivity.this, "FBConnect").execute(url, json);
             new PostSync(LoginFragmentActivity.this, "FBConnect", LoginFragmentActivity.this).execute(url, json);
         } else {
             Intent intent = new Intent(getApplicationContext(), NoInternet.class);
@@ -579,8 +444,6 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
     }
 
     public void fbConnectResponse(String resultString) {
-//        Log.d("System out", "fbConnectResponse " + resultString);
-
         if (resultString.length() > 2) {
             try {
                 JSONArray jsonArray = new JSONArray(resultString);
@@ -588,10 +451,8 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
                 if (jsonObject.has("status")) {
                     String str = jsonObject.optString("status");
                     if (str.equalsIgnoreCase("true")) {
-
                         JSONArray jsonArray1 = jsonObject.optJSONArray("data");
                         JSONObject jsonObject1 = jsonArray1.optJSONObject(0);
-
                         mEditor.putString("User_Id", jsonObject1.optString("User_Id")).commit();
 //                        mEditor.putString("User_Email", jsonObject1.optString("User_Email")).commit();
                         mEditor.putString("user_Password", jsonObject1.optString("User_Pa ssword")).commit();
@@ -640,8 +501,6 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
         if (CommonClass.hasInternetConnection(LoginFragmentActivity.this)) {
             String url = Constants.SERVER_URL + "json.php?action=GPConnect";
             String json = "[{\"User_Email\":\"" + mPreferences.getString("umEmail", "") + "\",\"User_Password\":\"" + "" + "\",\"User_Name\":\"" + mPreferences.getString("User_Name", "") + "\",\"User_ProfilePic\":\"" + "" + "\",\"User_Address\":\"" + "" + "\",\"User_Latitude\":\"" + mPreferences.getString("latitude2", "") + "\",\"User_Longi\":\"" + mPreferences.getString("longitude2", "") + "\",\"Lan_Id\":\"" + mPreferences.getString("language", "") + "\",\"User_Facebook_ID\":\"" + mPreferences.getString("fb_id", "") + "\",\"User_GPlus_Id\":\"" + mPreferences.getString("gpluse_id", "") + "\",\"User_About\":\"" + "" + "\"}]";
-//            Log.d("System out", "GPConnect " + json);
-//            new PostSync(LoginFragmentActivity.this, "GPConnect").execute(url, json);
             new PostSync(LoginFragmentActivity.this, "GPConnect", LoginFragmentActivity.this).execute(url, json);
         } else {
             Intent intent = new Intent(getApplicationContext(), NoInternet.class);
@@ -651,8 +510,6 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
     }
 
     public void gPlusResponse(String resultString) {
-//        Log.d("System out", "gPlusConnectResponse " + resultString);
-
         if (resultString.length() > 2) {
             try {
                 JSONArray jsonArray = new JSONArray(resultString);
@@ -660,10 +517,8 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
                 if (jsonObject.has("status")) {
                     String str = jsonObject.optString("status");
                     if (str.equalsIgnoreCase("true")) {
-
                         JSONArray jsonArray1 = jsonObject.optJSONArray("data");
                         JSONObject jsonObject1 = jsonArray1.optJSONObject(0);
-
                         mEditor.putString("User_Id", jsonObject1.optString("User_Id")).commit();
                         mEditor.putString("User_Email", jsonObject1.optString("User_Email")).commit();
                         mEditor.putString("user_Password", jsonObject1.optString("User_Pa ssword")).commit();
@@ -680,13 +535,7 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
                         mEditor.putString("User_GPlus_Id", jsonObject1.optString("User_GPlus_Id")).commit();
                         mEditor.putString("User_About", jsonObject1.optString("User_About")).commit();
 
-                        /*FragmentManager fm = getSupportFragmentManager();
-                        int count = fm.getBackStackEntryCount();
-                        for (int i = 0; i < count; ++i) {
-                            fm.popBackStackImmediate();
-                        }*/
                         Constants.mFromSelectLocation = 0;
-
                         Intent mIntent = new Intent(LoginFragmentActivity.this, MainActivity.class);
                         startActivity(mIntent);
                         finish();
@@ -709,7 +558,6 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
         Intent mIntent = new Intent(LoginFragmentActivity.this, SignUpLoginFragmentActivity.class);
         startActivity(mIntent);
         finish();
@@ -736,19 +584,11 @@ public class LoginFragmentActivity extends FragmentActivity implements OnClickLi
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mGoogleApiClient.connect();
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-
                 } else {
                     this.finish();
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                 }
                 return;
             }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 

@@ -89,16 +89,10 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         super.onCreate(savedInstanceState);
-//        FacebookSdk.sdkInitialize(getApplicationContext());
-//        callbackManager = CallbackManager.Factory.create();
-
         setContentView(R.layout.activity_signup);
-
         mPreferences = getSharedPreferences(Constants.mPref, 0);
         mEditor = mPreferences.edit();
-
         initialisation();
-
         iv_close_header1.setOnClickListener(this);
         tv_forgot_sign_up.setOnClickListener(this);
         tv_signUp.setOnClickListener(this);
@@ -154,97 +148,6 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
 
         fb_login_button_.setText(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "Sign up via Facebook"));
         tv_google_plus.setText(Constants.showMessage(SignupFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "Sign up via Google+"));
-//        if (mPreferences.getString("Lan_Id", "").equalsIgnoreCase("6")) {
-//        } else if (mPreferences.getString("Lan_Id", "").equalsIgnoreCase("7")) {
-//            fb_login_button_.setText("Зарегистрироваться через Facebook");
-//            tv_google_plus.setText("Зарегистрируйтесь с помощью Google+");
-//        } else {
-//            fb_login_button_.setText("تسجيل الدخول عبر الفيسبوك");
-//            tv_google_plus.setText("الاشتراك عبر Google+");
-//        }
-
-      /*  fb_login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                accessTokenNew = loginResult.getAccessToken().getToken();
-                mEditor.putString("fb_id", "").commit();
-                mEditor.putString("gpluse_id", "").commit();
-                mEditor.putString("socialname", "").commit();
-                mEditor.putString("socialemail", "").commit();
-                mEditor.putString("socialgender", "").commit();
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(
-                                    JSONObject object,
-                                    GraphResponse response) {
-//                                Log.d("System out", "response get is:" + response.toString());
-
-                                try {
-                                    mEditor.putString("umEmail", object.getString("email")).commit();
-                                    mEditor.putString("fb_id", object.getString("id")).commit();
-
-                                    String fb_firstname, fb_lastname, fb_email;
-                                    try {
-                                        fb_email = object.getString("email");
-                                        fb_firstname = object.getString("name").split(" ")[0];
-                                        fb_lastname = object.getString("name").split(" ")[1];
-                                    } catch (Exception e) {
-                                        fb_firstname = "";
-                                        fb_lastname = "";
-                                        fb_email = "";
-                                        fb_firstname = object.getString("name");
-                                    }
-                                    mEditor.putString("umRealName", fb_firstname).commit();
-                                    mEditor.putString("umLastName", fb_lastname).commit();
-
-                                    et_username_sign_up.setText(object.getString("name"));
-                                    et_email_sign_up.setText(fb_email);
-
-                                    LoginManager.getInstance().logOut();
-
-                                    //: {"id":"612593892177596","birthday":"02\/17\/1984",
-                                    // "gender":"male","email":"testlast11@gmail.com","name":"Sedy Last"}, error: null}
-
-                                    checkFBID();
-                                } catch (Exception e) {
-//                                    Log.d("System out", "please enter valid email or password");
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,gender,birthday");
-                request.setParameters(parameters);
-                request.executeAsync();
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-            }
-        });*/
-
-        /*int permissionCheck1 = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-//        Log.d("System out", "permission check fine location " + permissionCheck1);
-        if (permissionCheck1 == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-            int permissionCheck2 = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
-            if (permissionCheck2 == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-                gpsTracker = new GPSTracker(this);
-                lat = String.valueOf(gpsTracker.getLatitude());
-                lon = String.valueOf(gpsTracker.getLongitude());
-            } else {
-                ActivityCompat.requestPermissions(SignupFragmentActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE_ASK_PERMISSIONS);
-            }
-        } else {
-            ActivityCompat.requestPermissions(SignupFragmentActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_ASK_PERMISSIONS);
-        }*/
     }
 
     private void FacebookLogin() {
@@ -258,15 +161,12 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
                     mEditor.putString("socialname", "").commit();
                     mEditor.putString("socialemail", "").commit();
                     mEditor.putString("socialgender", "").commit();
-                    GraphRequest request = GraphRequest.newMeRequest(
-                            loginResult.getAccessToken(),
+                    GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
                             new GraphRequest.GraphJSONObjectCallback() {
                                 @Override
                                 public void onCompleted(
                                         JSONObject object,
                                         GraphResponse response) {
-//                                Log.d("System out", "response get is:" + response.toString());
-
                                     try {
                                         mEditor.putString("umEmail", object.getString("email")).commit();
                                         mEditor.putString("fb_id", object.getString("id")).commit();
@@ -284,18 +184,11 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
                                         }
                                         mEditor.putString("umRealName", fb_firstname).commit();
                                         mEditor.putString("umLastName", fb_lastname).commit();
-
                                         et_username_sign_up.setText(object.getString("name"));
                                         et_email_sign_up.setText(fb_email);
-
                                         LoginManager.getInstance().logOut();
-
-                                        //: {"id":"612593892177596","birthday":"02\/17\/1984",
-                                        // "gender":"male","email":"testlast11@gmail.com","name":"Sedy Last"}, error: null}
-
                                         checkFBID();
                                     } catch (Exception e) {
-//                                    Log.d("System out", "please enter valid email or password");
                                         e.printStackTrace();
                                     }
                                 }
@@ -308,19 +201,12 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
 
                 @Override
                 public void onCancel() {
-//
+
                 }
 
                 @Override
                 public void onError(FacebookException exception) {
-
-//                    Toast.makeText(
-//                            getActivity().getApplicationContext(),
-//                            "Try Again..." + exception.getMessage(),
-//                            Toast.LENGTH_SHORT).show();
                     Utilities.Log(TAG, "onError", exception);
-
-
                 }
             });
         } else {
@@ -334,11 +220,8 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
         try {
             if (accessTokenNew != null && accessTokenNew.length() > 0 && mPreferences.getString("fb_id", "") != null && mPreferences.getString("umEmail", "") != null && mPreferences.getString("umRealName", "") != null) {
                 String FBPICURL = "https://graph.facebook.com/" + mPreferences.getString("fb_id", "") + "/picture?type=large";
-//                    new RetrieveFeedTasknew().execute();
                 Log.i("System out", "Fb Profile-->" + FBPICURL);
                 mPreferences.edit().putString("User_ProfilePic", FBPICURL).commit();
-//                Intent i=new Intent(LoginActivity.this,RegisterUserActivity.class);
-//                startActivity(i);
             } else {
             }
         } catch (Exception e) {
@@ -389,29 +272,18 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
                     .addScope(Plus.SCOPE_PLUS_LOGIN).build();
             mGoogleApiClient.connect();
         } else if (v == fb_login_button_) {
-//            fb_login_button.performClick();
             onClickFacebookLogin();
         }
     }
 
     public void onClickFacebookLogin() {
-
-        LoginManager.getInstance().logInWithReadPermissions(
-                this,
-                // (Arrays.asList("public_profile", "user_friends",
-                // "user_birthday", "user_location",
-                // "user_about_me", "email")));
-                Arrays.asList("public_profile", "user_friends",
-                        "user_about_me", "email", "user_birthday"));
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends", "user_about_me", "email", "user_birthday"));
     }
 
     private void singUpCall() {
-
         if (CommonClass.hasInternetConnection(SignupFragmentActivity.this)) {
             String url = Constants.SERVER_URL + "json.php?action=SignUp";
             String json = "[{\"User_Email\":\"" + et_email_sign_up.getText().toString() + "\",\"User_Password\":\"" + et_password_sign_up.getText().toString() + "\",\"User_Name\":\"" + et_username_sign_up.getText().toString() + "\",\"User_ProfilePic\":\"" + mPreferences.getString("User_ProfilePic", "") + "\",\"User_Address\":\"" + "" + "\",\"User_Latitude\":\"" + mPreferences.getString("latitude2", "") + "\",\"User_Longi\":\"" + mPreferences.getString("longitude2", "") + "\",\"Lan_Id\":\"" + mPreferences.getString("language", "") + "\",\"User_Facebook_ID\":\"" + mPreferences.getString("fb_id", "") + "\",\"User_GPlus_Id\":\"" + mPreferences.getString("gpluse_id", "") + "\",\"User_About\":\"" + "" + "\"}]";
-//            Log.d("System out", "SignUp " + json);
-//            new PostSync(SignupFragmentActivity.this, "SignUp").execute(url, json);
             new PostSync(SignupFragmentActivity.this, "SignUp", SignupFragmentActivity.this).execute(url, json);
         } else {
             Intent intent = new Intent(getApplicationContext(), NoInternet.class);
@@ -421,8 +293,6 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
     }
 
     public void signUpResponse(String resultString) {
-//        Log.d("System out", "result string signUpCall " + resultString);
-
         if (resultString.length() > 2) {
             try {
                 JSONArray jsonArray = new JSONArray(resultString);
@@ -431,10 +301,8 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
                     String str = jsonObject.optString("status");
                     if (str.equalsIgnoreCase("true")) {
                         mEditor.putString("User_Id", jsonObject.optString("User_Id")).commit();
-
                         JSONArray jsonArray1 = jsonObject.optJSONArray("user_details");
                         JSONObject jsonObject1 = jsonArray1.optJSONObject(0);
-
                         mEditor.putString("User_Email", jsonObject1.optString("User_Email")).commit();
                         mEditor.putString("user_Password", jsonObject1.optString("User_Pa ssword")).commit();
                         mEditor.putString("User_Name", jsonObject1.optString("User_Name")).commit();
@@ -472,34 +340,22 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
     @Override
     public void onConnected(Bundle bundle) {
         int permissionCheck1 = ContextCompat.checkSelfPermission(this, android.Manifest.permission.GET_ACCOUNTS);
-//        Log.d("System out", "GET_ACCOUNTS " + permissionCheck1);
         if (permissionCheck1 == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-//            Log.d("System out", "account name" + Plus.AccountApi.getAccountName(mGoogleApiClient));
             mEditor.putString("umEmail", Plus.AccountApi.getAccountName(mGoogleApiClient)).commit();
             et_email_sign_up.setText(Plus.AccountApi.getAccountName(mGoogleApiClient));
-
-//            Log.d("System out", "apis" + Plus.API.toString());
-            //Plus.PeopleApi.loadVisible(mGoogleApiClient, null);
-
             if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
                 Person person = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
                 Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
                 String personName = currentPerson.getDisplayName();
                 String personPhoto = String.valueOf(currentPerson.getImage());
                 String personGooglePlusProfile = currentPerson.getUrl();
-//                Log.d("System out", "personName-->" + personName);
-//                Log.d("System out", "personPhoto-->" + personPhoto);
-
                 try {
                     JSONObject obj = new JSONObject(personPhoto.toString());
                     mPreferences.edit().putString("User_ProfilePic", obj.optString("url")).commit();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-//                Log.d("System out", "personGooglePlusProfile-->" + personGooglePlusProfile);
                 et_username_sign_up.setText(personName);
-
                 try {
                     JSONObject jsonObject = new JSONObject(person.toString());
                     String g_firstname, g_lastname;
@@ -521,7 +377,7 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
                     e.printStackTrace();
                 }
             } else {
-//                Log.d("System out", "detail of users else");
+
             }
         } else {
             ActivityCompat.requestPermissions(SignupFragmentActivity.this, new String[]{android.Manifest.permission.GET_ACCOUNTS}, REQUEST_CODE_ASK_PERMISSIONS);
@@ -578,7 +434,6 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
             }
         } else {
             callbackManager.onActivityResult(requestCode, responseCode, intent);
-//            Log.d("System out", "data " + intent.getExtras().toString());
         }
     }
 
@@ -587,13 +442,12 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
     }
 
     public void showMessage(String message) {
-//        login_sn.applyStyle(R.style.Material_Widget_SnackBar_Tablet).text(message).actionText(null).duration(3000).show();
+
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
         Intent mIntent = new Intent(SignupFragmentActivity.this, SignUpLoginFragmentActivity.class);
         startActivity(mIntent);
         finish();
@@ -634,16 +488,6 @@ public class SignupFragmentActivity extends FragmentActivity implements View.OnC
         privacy_txt.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "PrivacyPolicyTitle"));
         desc_txt.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "privacyPolicy"));
         ok.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "okButtonPrivacyPolicy"));
-        /*if (Constants.language.equals("arabic")) {
-            desc_txt.setText(getResources().getString(R.string.privacy_arabic));
-            ok.setText("حسنا");
-            privacy_txt.setText("سياسة الخصوصية");
-        } else if (Constants.language.equals("russian")) {
-            desc_txt.setText(getResources().getString(R.string.privacy_russian));
-            ok.setText("ОК");
-            privacy_txt.setText("политика конфиденциальности");
-        }*/
-
 
         ok.setOnClickListener(new View.OnClickListener() {
             @Override

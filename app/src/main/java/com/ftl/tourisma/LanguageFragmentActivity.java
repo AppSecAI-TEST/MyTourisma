@@ -27,8 +27,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-//import android.util.Log;
-
 /**
  * Created by fipl11111 on 22-Feb-16.
  */
@@ -44,20 +42,20 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
     private DBAdapter dbAdapter;
     private Language language;
     private NormalTextView txtChooseLanguage;
-    Runnable runnableOut = new Runnable() {
-        @Override
-        public void run() {
-            txtChooseLanguage.startAnimation(animFadeOut);
-            handler.removeCallbacks(runnableOut);
-            handler.postDelayed(runnableIn, 200);
-        }
-    };
     Runnable runnableIn = new Runnable() {
         @Override
         public void run() {
             txtChooseLanguage.startAnimation(animFadeIn);
             handler.removeCallbacks(runnableIn);
             handler.postDelayed(runnableOut, 3000);
+        }
+    };
+    Runnable runnableOut = new Runnable() {
+        @Override
+        public void run() {
+            txtChooseLanguage.startAnimation(animFadeOut);
+            handler.removeCallbacks(runnableOut);
+            handler.postDelayed(runnableIn, 200);
         }
     };
 
@@ -67,29 +65,34 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
         setContentView(R.layout.activity_language);
         Constants.homepage = "homepage";
 
+        //Initializing database
         dbAdapter = new DBAdapter(this);
+
+        //Initializing SharedPreferences
         mPreferences = getSharedPreferences(Constants.mPref, 0);
         mEditor = mPreferences.edit();
 
+        //Default english language is setted
         mEditor.putString("language", "6").commit();
         mEditor.putString("Lan_Id", "6").commit();
 
+        //Calling multi language api
         languageCall();
+
+        //Intializing the layout views
         initialisation();
 
+        //Setting click listners
         iv_arrow_language.setOnClickListener(this);
         button_bt_english.setOnClickListener(this);
         button_bt_arabic.setOnClickListener(this);
         button_bt_russian.setOnClickListener(this);
 
-//        txtChooseLanguage.setInAnimation(this, R.anim.fade_in);
-//        txtChooseLanguage.setOutAnimation(this, R.anim.fade_out);
-// load animations
+        //Preparing animation
         animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.fade_in);
         animFadeOut = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.fade_out);
-// set animation listeners
         animFadeIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -124,7 +127,7 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
             @Override
             public void onAnimationEnd(Animation animation) {
                 txtChooseLanguage.setText("");
-//                txtChooseLanguage.startAnimation(animFadeIn);
+
             }
 
             @Override

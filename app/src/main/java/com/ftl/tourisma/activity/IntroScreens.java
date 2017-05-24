@@ -146,13 +146,6 @@ public class IntroScreens extends AppIntro {
             TextView loc_txt = (TextView) v.findViewById(R.id.loc_txt);
             location_txt.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "locationtitle"));
             loc_txt.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tutorial message-2"));
-            /*if (Constants.language.equals("arabic")) {
-                location_txt.setText("مواقع");
-//                loc_txt.setText(getResources().getString(R.string.tutorial_location_txt_arabic));
-            } else if (Constants.language.equals("russian")) {
-                location_txt.setText("Ваше местоположение");
-//                loc_txt.setText(getResources().getString(R.string.tutorial_location_txt_russian));
-            }*/
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeResource(getResources(), R.drawable.location_new, options);
@@ -180,13 +173,6 @@ public class IntroScreens extends AppIntro {
             TextView notification_txt = (TextView) v.findViewById(R.id.notification_txt);
             notify_txt.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "notificationTitle"));
             notification_txt.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tutorial Message-1"));
-            /*if (Constants.language.equals("arabic")) {
-                notify_txt.setText("إخطارات");
-//                notification_txt.setText(getResources().getString(R.string.tutorial_notification_txt_arabic));
-            } else if (Constants.language.equals("russian")) {
-                notify_txt.setText("Уведомления");
-//                notification_txt.setText(getResources().getString(R.string.tutorial_notification_txt_russian));
-            }*/
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeResource(getResources(), R.drawable.notifications_new, options);
@@ -214,13 +200,6 @@ public class IntroScreens extends AppIntro {
             TextView bluetooth_txt = (TextView) v.findViewById(R.id.bluetooth_txt);
             blue_txt.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "bluetoothTitle"));
             bluetooth_txt.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tutorial message-3"));
-           /* if (Constants.language.equals("arabic")) {
-                blue_txt.setText("بلوتوث");
-//                bluetooth_txt.setText(getResources().getString(R.string.tutorial_bluetooth_txt_arabic));
-            } else if (Constants.language.equals("russian")) {
-                blue_txt.setText("Bluetooth");
-//                bluetooth_txt.setText(getResources().getString(R.string.tutorial_bluetooth_txt_russian));
-            }*/
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeResource(getResources(), R.drawable.bluetooth_new, options);

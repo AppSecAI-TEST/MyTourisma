@@ -113,13 +113,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
                 String type = bundle.getString("type");
                 if (type.equals(BEACON_ENTERED)) {
                     beaconsToast(bundle.getString(BEACON_ENTRY_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), 0, bundle.getString(BEACON_IS_CLOSE_PROMO));
-
                 } else if (type.equals(BEACON_EXITED)) {
                     beaconsToast(bundle.getString(BEACON_EXIT_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), 0, bundle.getString(BEACON_IS_CLOSE_PROMO));
-
                 } else if (type.equals(BEACON_NEAR_BY)) {
                     beaconsToast(bundle.getString(BEACON_NEAR_BY_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), 1, bundle.getString(BEACON_IS_CLOSE_PROMO));
-
                 }
             }
         }
@@ -155,7 +152,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
                 }
             });
 
-
             runnable = new Runnable() {
                 @Override
                 public void run() {
@@ -183,7 +179,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
         replaceMainFragment(null);
 
         if (Constants.mFromSelectLocation == 0) {
-            //  Constants.mFromSelectLocation=0;
             getLocationOfAddress();
         }
 
@@ -191,12 +186,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
 
             if (bundle.getString("from") != null && bundle.getString("from").equals("beacon")) {
                 Constants.placeId = bundle.getString(PLACE_ID);
-//                Intent intent = new Intent(MainActivity.this, SearchResultPlaceDetailsActivity.class);
-//                intent.putExtra("placeId", Constants.placeId);
-//                startActivity(intent);
-
-                //  addPlaceDetailFragment(Constants.placeId);
-
             }
 
         } else if (bundleBeaconFromNotification != null) {
@@ -213,16 +202,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
                     intent.putExtra("placeId", Constants.placeId);
                     intent.putExtra("location", "");
                     startActivity(intent);
-//                    addPlaceDetailFragment(Constants.placeId);
                 }
             }
-
-//        startService(new Intent(this, MyBeaconsService.class));
         } else {
             callApiForGetBeacons();
         }
         setActiviateIcon(0);
 
+        //Rating for the app
         AppRate.with(this)
                 .setStoreType(StoreType.GOOGLEPLAY) //default is Google, other option is Amazon
                 .setInstallDays(2) // default 10, 0 means install day.
@@ -258,18 +245,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
     public void replaceMainFragment(Bundle bundle) {
         mainTabHostFragment = new MainTabHostFragment();
         mainTabHostFragment.setArguments(bundle);
-//        addFragment(mainTabHostFragment, true, bundle);
-//        SelectLocationFragment searchResultFragmentFragment = new SelectLocationFragment();
-//        replaceFragment(searchResultFragmentFragment, true, null);
         fragmentManager.beginTransaction().replace(R.id.frame_container, mainTabHostFragment, MainTabHostFragment.class.getSimpleName()).commit();
-
     }
 
     private void callApiForGetBeacons() {
         if (CommonClass.hasInternetConnection(this)) {
             String url = Constants.SERVER_URL + "json.php?action=Beacons";
             String json = "[{\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\"}]";
-
             new PostSync(MainActivity.this, "Beacons", MainActivity.this).execute(url, json);
         } else {
             SnackbarManager.show(Snackbar.with(this).color(Utilities.getColor(this, R.color.mBlue)).text("No Internet connection!"));
@@ -278,7 +260,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
 
     public void addFragment(Fragment fragment, boolean addToBackStack, Bundle bundle) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        transaction.setCustomAnimations(R.anim.left_in_fragment, R.anim.left_out_fragment, R.anim.right_in_fragment, R.anim.right_out_fragment);
         String backStateName = fragment.getClass().getName();
         if (addToBackStack) {
             transaction.addToBackStack(backStateName);
@@ -298,10 +279,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
 
     public void addFragmentFromBottom(Fragment fragment, boolean addToBackStack, Bundle bundle) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        transaction.setCustomAnimations(R.anim.push_uppp_in, R.anim.push_up_out_no, 0, 0);
-
         String backStateName = fragment.getClass().getName();
-
         if (addToBackStack) {
             transaction.addToBackStack(backStateName);
         }
@@ -319,7 +297,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
     }
 
     public void setActiviateIcon(int index) {
-
         switch (index) {
             case 0:
                 viewProfile.setVisibility(View.GONE);
@@ -335,16 +312,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
                 viewProfile.setVisibility(View.VISIBLE);
                 viewFav.setVisibility(View.GONE);
                 viewHome.setVisibility(View.GONE);
-
                 break;
-
         }
     }
 
     public void addFragmentZoom(Fragment fragment, boolean addToBackStack, Bundle bundle) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        transaction.setCustomAnimations(R.anim.zoom_in, R.anim.translate, R.anim.translate, R.anim.fade_out);
-
         String backStateName = fragment.getClass().getName();
 
         if (addToBackStack) {
@@ -369,37 +342,21 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
 
         gpsTracker = new GPSTracker(this, true);
         if (CommonClass.hasInternetConnection(this)) {
-     /*       if (Prefs.getString(Constants.first_time, "").equals("first")) {
-                mEditor.putString("latitude1", "23.424076").commit();
-                mEditor.putString("longitude1", "53.847818").commit();
-                mEditor.putString("latitude2", "23.424076").commit();
-                mEditor.putString("longitude2", "53.847818").commit();
-                mPreferences.edit().putString(Preference.Pref_City, "United Arab Emirates").apply();
-                Prefs.putString(Constants.first_time, "second");
-            } else {*/
-                if (gpsTracker.getLatitude() == 0 || gpsTracker.getLongitude() == 0) {
-                    mEditor.putString("latitude1", "25.2048").commit();
-                    mEditor.putString("longitude1", "55.2708").commit();
-                    mEditor.putString("latitude2", "25.2048").commit();
-                    mEditor.putString("longitude2", "55.2708").commit();
-                    mPreferences.edit().putString(Preference.Pref_City, "Dubai").apply();
-
-                } else {
-                    mEditor.putString("latitude1", String.valueOf(gpsTracker.getLatitude())).commit();
-                    mEditor.putString("longitude1", String.valueOf(gpsTracker.getLongitude())).commit();
-                    mEditor.putString("latitude2", String.valueOf(gpsTracker.getLatitude())).commit();
-                    mEditor.putString("longitude2", String.valueOf(gpsTracker.getLongitude())).commit();
-                    getGeoLocation();
-
-
-//            Constants.latitude = String.valueOf(gpsTracker.getLatitude());
-//            Constants.longitude = String.valueOf(gpsTracker.getLongitude());
-
-                    Log.d("System out", "Constant.latitude1 " + mPreferences.getString("latitude1", ""));
-                    Log.d("System out", "Constant.longitude1 " + mPreferences.getString("longitude1", ""));
-
-                }
-//            }
+            if (gpsTracker.getLatitude() == 0 || gpsTracker.getLongitude() == 0) {
+                mEditor.putString("latitude1", "25.2048").commit();
+                mEditor.putString("longitude1", "55.2708").commit();
+                mEditor.putString("latitude2", "25.2048").commit();
+                mEditor.putString("longitude2", "55.2708").commit();
+                mPreferences.edit().putString(Preference.Pref_City, "Dubai").apply();
+            } else {
+                mEditor.putString("latitude1", String.valueOf(gpsTracker.getLatitude())).commit();
+                mEditor.putString("longitude1", String.valueOf(gpsTracker.getLongitude())).commit();
+                mEditor.putString("latitude2", String.valueOf(gpsTracker.getLatitude())).commit();
+                mEditor.putString("longitude2", String.valueOf(gpsTracker.getLongitude())).commit();
+                getGeoLocation();
+                Log.d("System out", "Constant.latitude1 " + mPreferences.getString("latitude1", ""));
+                Log.d("System out", "Constant.longitude1 " + mPreferences.getString("longitude1", ""));
+            }
         } else {
             Intent intent = new Intent(getApplicationContext(), NoInternet.class);
             startActivity(intent);
@@ -408,7 +365,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
     }
 
     private void initialisation() {
-
         fragmentManager = getSupportFragmentManager();
         llYourLocationToast = (LinearLayout) findViewById(R.id.llYourLocationToast);
         ll_login_snack = (LinearLayout) findViewById(R.id.ll_login_snack);
@@ -420,18 +376,15 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
         tv_snack_msg = (NormalTextView) findViewById(R.id.tv_snack_msg);
         ll_sign_up_snack.setOnClickListener(this);
         ll_login_snack.setOnClickListener(this);
-
         ll_favorite_footer1 = (ImageView) findViewById(R.id.ll_favorite_footer1);
         ll_home_footer1 = (ImageView) findViewById(R.id.ll_home_footer1);
         ll_profile_footer1 = (ImageView) findViewById(R.id.ll_profile_footer1);
         viewHome = (View) findViewById(R.id.viewHome);
         viewFav = (View) findViewById(R.id.viewFav);
         viewProfile = (View) findViewById(R.id.viewProfile);
-
         ll_favorite_footer1.setOnClickListener(this);
         ll_profile_footer1.setOnClickListener(this);
         ll_home_footer1.setOnClickListener(this);
-
 
         try {
             DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -446,16 +399,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
 
         mPreferences = this.getSharedPreferences(Constants.mPref, 0);
         mEditor = mPreferences.edit();
-/*
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
-                .threadPriority(Thread.NORM_PRIORITY - 2)
-                .denyCacheImageMultipleSizesInMemory()
-                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
-                .tasksProcessingOrder(QueueProcessingType.LIFO)
-                .build();*/
 
         imageLoader = ImageLoader.getInstance();
-
         imageLoader.init(ImageLoaderConfiguration.createDefault(this));
         options = new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(null)
@@ -467,11 +412,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
                 .displayer(new SimpleBitmapDisplayer())
                 .showImageOnFail(null).cacheInMemory(true)
                 .cacheOnDisk(true).build();
-
     }
 
     public SharedPreferences getPreferences() {
-        if(mPreferences==null){
+        if (mPreferences == null) {
             mPreferences = this.getSharedPreferences(Constants.mPref, 0);
         }
         return mPreferences;
@@ -480,23 +424,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
     @Override
     protected void onResume() {
         super.onResume();
-//        SystemRequirementsChecker.checkWithDefaultDialogs(this);
-        /*LocalBroadcastManager.getInstance(this).registerReceiver(
-                broadcastReceiver,
-                new IntentFilter(BROADCAST_BEACON));*/
-//        ServiceProxy.bindService(this, mConnection);
-//        ServiceProxy.stopMonitoringForRegion(this, mMyUuid);
     }
-
- /*   @Override
-    protected void onPause() {
-        super.onPause();
-        try {
-            unregisterReceiver(broadcastReceiver);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
 
     @Override
     protected void onDestroy() {
@@ -512,11 +440,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
 
     @Override
     public void onClick(View v) {
-
-
         switch (v.getId()) {
+
             case R.id.ll_favorite_footer1:
-                //  dialogFragment.dismiss();
                 if (mPreferences.getString("User_Id", "").equalsIgnoreCase("0")) {
                     showGuestSnackToast();
                 } else {
@@ -525,42 +451,35 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
                     }
                 }
                 break;
-            case R.id.ll_profile_footer1:
-                // dialogFragment.dismiss();
 
+            case R.id.ll_profile_footer1:
                 if (mainTabHostFragment != null)
                     mainTabHostFragment.vpFragment.setCurrentItem(2);
-
                 break;
-            case R.id.ll_home_footer1:
-                // dialogFragment.dismiss();
 
+            case R.id.ll_home_footer1:
                 if (mainTabHostFragment != null)
                     mainTabHostFragment.vpFragment.setCurrentItem(0);
                 break;
             case R.id.ll_sign_up_snack:
-
                 mPreferences.edit().putString("User_id", "").commit();
                 Intent mIntent = new Intent(MainActivity.this, SignupFragmentActivity.class);
                 startActivity(mIntent);
                 finish();
-
                 break;
-            case R.id.ll_login_snack:
 
+            case R.id.ll_login_snack:
                 mPreferences.edit().putString("User_id", "").commit();
                 Intent mIntent1 = new Intent(MainActivity.this, LoginFragmentActivity.class);
                 startActivity(mIntent1);
                 finish();
                 break;
-
         }
     }
 
     @Override
     public void backToHome(Object object) {
-//        this.object = object;
-//        Log.d("System out", "object " + object.toString());
+
     }
 
     @Override
@@ -586,15 +505,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
                     String zipCode = addresses.get(0).getPostalCode();
                     String country = addresses.get(0).getCountryName();
                     mEditor.putString(Preference.Pref_Country, country).commit();
-
                     String addressmaps = str.replaceAll(" null,", "");
-                    // flag = 0;
-                    //  etSearch.setHint(addressmaps);
-
-                    /*Intent mIntent = new Intent(SelectLocationFragmentActivity.this, YourLocationFragmentActivity.class);
-                    startActivity(mIntent);
-                    finish();*/
-
                     Log.i("System out", "Get current location city--> " + city);
                     Log.i("System out", "Get current location state--> " + state);
                     Log.i("System out", "Get current location country--> " + country);
@@ -605,14 +516,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
             // Tracking exception
             MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
-
             String address = "";
             String apiRequest = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + mPreferences.getString("latitude1", "") + "," + mPreferences.getString("longitude1", ""); //+ "&ka&sensor=false"
             HttpGet httpGet = new HttpGet(apiRequest);
             HttpClient client = new DefaultHttpClient();
             HttpResponse response;
             StringBuilder stringBuilder = new StringBuilder();
-
             try {
                 response = client.execute(httpGet);
                 HttpEntity entity = response.getEntity();
@@ -638,9 +547,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
         }
     }
 
-    /*
-    Managing response of Beacon api
-     */
+    //Managing response of Beacon api
     public void getBeaconsResponse(String resultString) {
         if (resultString != null && resultString.length() > 2) {
             try {
@@ -654,8 +561,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
                 }
                 set.addAll(beaconsArrayList);
                 Preference.setStringSetPrefs("keyBeacons", this, set);
-                //scoreEditor.commit();
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -675,12 +580,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
         }
     }
 
-   /* public void replaceSearchResultFragment(ArrayList<Nearby> nearbies1, String search) {
-        SearchResultFragmentFragment searchResultFragmentFragment = SearchResultFragmentFragment.NewInstance(nearbies1, search);
-//        replaceFragment(searchResultFragmentFragment, true, null);
-        fragmentManager.beginTransaction().replace(R.id.frame_container, searchResultFragmentFragment, SearchResultFragmentFragment.class.getSimpleName()).addToBackStack(SearchResultFragmentFragment.class.getSimpleName()).commit();
-    }*/
-
     public void popbackStackFragment() {
         try {
             fragmentManager.popBackStack();
@@ -694,12 +593,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
     public void replaceFragment(Fragment fragment, boolean
             addToBackStack, Bundle bundle) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        transaction.setCustomAnimations(R.anim.left_in_fragment, R.anim.left_out_fragment, R.anim.right_in_fragment, R.anim.right_out_fragment);
         String backStateName = fragment.getClass().getName();
         if (addToBackStack) {
             transaction.addToBackStack(backStateName);
         }
-
         boolean fragmentPopped = fragmentManager.popBackStackImmediate(backStateName, 0);
         if (!fragmentPopped && fragmentManager.findFragmentByTag(backStateName) == null) {
             if (bundle != null) {
@@ -727,7 +624,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
             } else {
                 super.onBackPressed();
             }
-
         } else {
             if (mainTabHostFragment.vpFragment.getCurrentItem() == 0) {
 
@@ -738,7 +634,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
                     super.onBackPressed();
                     return;
                 }
-
                 this.doubleBackToExitPressedOnce = true;
                 SnackbarManager.show(Snackbar.with(MainActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(MainActivity.this, mPreferences.getString("Lan_Id", ""), "Please click BACK again to exit")));
 
@@ -749,44 +644,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
                         doubleBackToExitPressedOnce = false;
                     }
                 }, 2000);
-                //onCloseApp("Are you sure you want to close the App?");
             } else {
-                //for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-//                    fm.popBackStack();
-                // }
                 super.onBackPressed();
             }
-            /*if (object != null) {
-                Constants.mStaticNearCall = 0;
-                ((ExploreNearbyFragment1) object).update();
-                object = null;
-//                Log.d("System out", "home.....");
-            } else {
-                if (doubleBackToExitPressedOnce) {
-                    super.onBackPressed();
-                    return;
-                }
-
-                this.doubleBackToExitPressedOnce = true;
-                SnackbarManager.show(Snackbar.with(MainActivity.this).color(Utils.getColor(this, R.color.mBlue)).text(Constants.showMessage(MainActivity.this, mPreferences.getString("Lan_Id", ""), "Please click BACK again to exit")));
-
-                new Handler().postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        doubleBackToExitPressedOnce = false;
-                    }
-                }, 2000);
-            }*/
         }
     }
 
     public void guestSnackToast() {
-
         tv_login_snack.setText(Constants.showMessage(MainActivity.this, mPreferences.getString("Lan_Id", ""), "Login"));
         tv_sign_up_snack.setText(Constants.showMessage(MainActivity.this, mPreferences.getString("Lan_Id", ""), "SignUp"));
         tv_snack_msg.setText(Constants.showMessage(MainActivity.this, mPreferences.getString("Lan_Id", ""), "GetStarted"));
-
         runnable = new Runnable() {
             @Override
             public void run() {
@@ -798,10 +665,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
     }
 
     private void beaconsToast(final String msg, final String msgBeacon, final String img, final String placeId, final boolean isClickable, final int isCloseApproach) {
-
         if (msg != null && !msg.equals("")) {
             txt_snack_msg.setText(msg);
-            //   if (isClickable) {
             txt_snack_msg.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -816,13 +681,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
                         intent.putExtra("placeId", placeId);
                         startActivity(intent);
                     }
-
                 }
             });
-            //   } else {
-            //       txt_snack_msg.setOnClickListener(null);
-            //   }
-
             runnable = new Runnable() {
                 @Override
                 public void run() {
@@ -835,7 +695,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
     }
 
     public class PagerAdapter extends FragmentPagerAdapter {
-
         private List<Fragment> fragments;
 
         public PagerAdapter(FragmentManager fm, List<Fragment> fragments) {
@@ -851,19 +710,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
                     return exploreNearbyFragment;
 
                 case 1:
-                    // if (favouriteFragment == null)
-
                     favouriteFragment = new FavouriteMainFragment();
                     return favouriteFragment;
-                    //else
 
-                //  break;
                 case 2:
-                    //if (profileFragment == null)
                     profileFragment = new MyProfileFragment1();
-                    //else
                     return profileFragment;
-                // break;
             }
             return this.fragments.get(position);
         }
@@ -872,16 +724,5 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
         public int getCount() {
             return this.fragments.size();
         }
-
-      /*  @Override
-        public int getItemPosition(Object object) {
-//            if (object instanceof FavouriteFragment) {
-//                ((FavouriteFragment) object).update();
-//            } else if (object instanceof ExploreNearbyFragment) {
-//                ((ExploreNearbyFragment) object).update();
-//            }
-            //don't return POSITION_NONE, avoid fragment recreation.
-            return super.getItemPosition(object);
-        }*/
     }
 }

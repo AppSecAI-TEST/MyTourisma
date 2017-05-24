@@ -21,7 +21,6 @@ public class
 ExploreNearbyFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "ExploreNearbyFragment";
-
     private View view;
     private MainActivity mainActivity;
 
@@ -50,18 +49,14 @@ ExploreNearbyFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_new, container, false);
-
         return view;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
     }
-
 
     @Override
     public void onAttach(Context activity) {
