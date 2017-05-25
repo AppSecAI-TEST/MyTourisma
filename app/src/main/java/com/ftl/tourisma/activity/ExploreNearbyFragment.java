@@ -17,8 +17,7 @@ import com.ftl.tourisma.database.Nearby;
 import java.util.ArrayList;
 
 
-public class
-ExploreNearbyFragment extends Fragment implements View.OnClickListener {
+public class ExploreNearbyFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "ExploreNearbyFragment";
     private View view;
@@ -88,7 +87,6 @@ ExploreNearbyFragment extends Fragment implements View.OnClickListener {
         fragmentTransaction.replace(R.id.fram1, fragment);
         fragmentTransaction.addToBackStack(SearchFragment.class.getSimpleName());
         fragmentTransaction.commit();
-//        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, new SearchFragment()).addToBackStack(SearchFragment.class.getSimpleName()).commit();
     }
 
     public void replaceLocationFragment() {
@@ -98,7 +96,6 @@ ExploreNearbyFragment extends Fragment implements View.OnClickListener {
         fragmentTransaction.replace(R.id.fram1, fragment);
         fragmentTransaction.addToBackStack(SearchLocationFragment.class.getSimpleName());
         fragmentTransaction.commit();
-//        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, new SelectLocationFragment()).addToBackStack(SelectLocationFragment.class.getSimpleName()).commit();
     }
 
     public void replaceSearchResultFragment(ArrayList<Nearby> nearbies1, String search, boolean isForCategory) {

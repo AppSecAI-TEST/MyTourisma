@@ -67,17 +67,13 @@ public class TimingAdapter extends BaseAdapter {
         txtTimeStatus.setText(arrayList.get(position).getTime());
         txtDay.setText("");
         Rect bounds = new Rect();
-
         txtTimeStatus.getPaint().getTextBounds(txtTimeStatus.getText().toString(), 0, txtTimeStatus.getText().length(), bounds);
         Utils.Log("TimingAdapter", "Font color -> " + txtTimeStatus.getCurrentTextColor() + " == " + Utils.getColor(context, R.color.textColor));
         Utils.Log("TimingAdapter", "Font size -> " + txtTimeStatus.getTextSize());
-//        txtDay.setTextSize(txtTimeStatus.getH());
         if (txtTimeStatus.getCurrentTextColor() == Utils.getColor(context, R.color.textColor)) {
-//            Utils.getSpannableString(arrayList.get(position).getDay(), Utils.getColor(context, R.color.textColor), false, NORMAL_FONTS);
             txtDay.setText(Utils.getSpannableString(arrayList.get(position).getDay(), Utils.getColor(context, R.color.textColor), false, NORMAL_FONTS));
         } else {
             txtDay.setText(Utils.getSpannableString(arrayList.get(position).getDay(), Utils.getColor(context, R.color.textColor), false, CURRENT_DAY_FONTS));
-
         }
         return convertView;
     }

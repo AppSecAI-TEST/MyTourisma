@@ -81,7 +81,6 @@ public class SearchCityLocationFragment extends Fragment implements post_sync.Re
             Fade fade = new Fade();
             fade.setDuration(400);
             getActivity().getWindow().setEnterTransition(fade);
-
             Slide slide = new Slide();
             slide.setDuration(400);
             getActivity().getWindow().setReturnTransition(slide);
@@ -97,31 +96,25 @@ public class SearchCityLocationFragment extends Fragment implements post_sync.Re
         initialisation();
         locationCall();
         onClickListners();
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         search_recycler_view.setLayoutManager(linearLayoutManager);
-
         gpsTracker = new GPSTracker(getActivity());
         if (gpsTracker.canGetLocation()) {
             gpsTracker.getLocation();
             latitude = gpsTracker.getLatitude();
             longitude = gpsTracker.getLongitude();
         }
-
         new Handler().postDelayed(new Runnable() {
-
             @Override
             public void run() {
                 getLocationOfAddress(false);
             }
         }, 2);
-
         return view;
     }
 
     private void initialisation() {
         Constants.mStaticFavCall = 0;
-
         search_recycler_view = (RecyclerView) view.findViewById(R.id.search_recycler_view);
 
         tv_auto_detect = (NormalTextView) view.findViewById(R.id.tv_auto_detect);

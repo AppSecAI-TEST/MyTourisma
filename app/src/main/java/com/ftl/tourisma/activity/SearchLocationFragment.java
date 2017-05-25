@@ -79,7 +79,6 @@ public class SearchLocationFragment extends Fragment implements post_sync.Respon
             Fade fade = new Fade();
             fade.setDuration(400);
             getActivity().getWindow().setEnterTransition(fade);
-
             Slide slide = new Slide();
             slide.setDuration(400);
             getActivity().getWindow().setReturnTransition(slide);
@@ -285,7 +284,6 @@ public class SearchLocationFragment extends Fragment implements post_sync.Respon
                     } else {
                         if (addresses.size() > 0) {
                             String str = (addresses.get(0).getAddressLine(1) + ", " + addresses.get(0).getLocality() + ", "
-
                                     + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
 
                             if (update) {
@@ -307,14 +305,12 @@ public class SearchLocationFragment extends Fragment implements post_sync.Respon
                     // Tracking exception
                     MyTorismaApplication.getInstance().trackException(e);
                     e.printStackTrace();
-
                     String address = "";
                     String apiRequest = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + mPreferences.getString("latitude1", "") + "," + mPreferences.getString("longitude1", ""); //+ "&ka&sensor=false"
                     HttpGet httpGet = new HttpGet(apiRequest);
                     HttpClient client = new DefaultHttpClient();
                     HttpResponse response;
                     StringBuilder stringBuilder = new StringBuilder();
-
                     try {
                         response = client.execute(httpGet);
                         HttpEntity entity = response.getEntity();
@@ -328,7 +324,6 @@ public class SearchLocationFragment extends Fragment implements post_sync.Respon
                     } catch (IOException e2) {
                         e2.printStackTrace();
                     }
-
                     JSONObject jsonObject = new JSONObject();
                     try {
                         jsonObject = new JSONObject(stringBuilder.toString());

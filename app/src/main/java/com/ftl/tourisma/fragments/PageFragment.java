@@ -29,18 +29,13 @@ public class PageFragment extends Fragment {
         return f;
     }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout resource that'll be returned
-        View rootView = inflater.inflate(R.layout.fragment_page, container,
-                false);
-
+        View rootView = inflater.inflate(R.layout.fragment_page, container, false);
         description = (TextView)rootView.findViewById(R.id.textView);
         image = (ImageView) rootView.findViewById(R.id.image);
-
         description.setText(getArguments().getString("page_title"));
         setImage();
-
         return rootView;
     }
 

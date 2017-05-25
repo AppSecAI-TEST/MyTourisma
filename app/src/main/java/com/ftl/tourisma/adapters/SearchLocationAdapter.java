@@ -34,7 +34,6 @@ public class SearchLocationAdapter extends RecyclerView.Adapter<SearchLocationAd
 
     @Override
     public void onBindViewHolder(final CategoryViewHolder CategoryViewHolder, int position) {
-
         CategoryViewHolder.loc_txtvw.setText(locationSearches.get(position).getCityName());
     }
 

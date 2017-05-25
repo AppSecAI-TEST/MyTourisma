@@ -1,11 +1,8 @@
 package com.ftl.tourisma.adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,9 +49,7 @@ public class FeesAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         ViewHolder viewHolder;
-//        if (convertView == null) {
         view = layoutInflater.inflate(R.layout.row_fees, null);
-
         viewHolder = new ViewHolder();
         viewHolder.txtFees = (NormalTextView) view.findViewById(R.id.txtFees);
         viewHolder.txtFees.setText("");

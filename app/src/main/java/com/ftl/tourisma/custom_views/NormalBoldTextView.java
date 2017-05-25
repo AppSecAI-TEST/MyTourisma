@@ -19,7 +19,6 @@ public class NormalBoldTextView extends android.support.v7.widget.AppCompatTextV
     public NormalBoldTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         applyCustomFont();
-
     }
 
     public NormalBoldTextView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -28,24 +27,12 @@ public class NormalBoldTextView extends android.support.v7.widget.AppCompatTextV
 
     }
 
-    /*  public NormalTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-              super(context, attrs, defStyleAttr, defStyleRes);
-          }
-          applyCustomFont();
-
-      }
-  */
-
-
     private void applyCustomFont() {
-
         setTypeface(MyTorismaApplication.typeFace.getBoldFonts());
     }
 
     @Override
     public void setTypeface(Typeface tf) {
         super.setTypeface(tf);
-
     }
 }

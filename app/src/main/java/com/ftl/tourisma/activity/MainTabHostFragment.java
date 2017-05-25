@@ -50,7 +50,6 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
         return view;
     }
 
-
     private void initViews(View view) {
         fragmentManager = getChildFragmentManager();
         vpFragment = (ViewPager) view.findViewById(R.id.vp_your_location);
@@ -63,18 +62,13 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-/*
-        switch (v.getId()) {
 
-
-        }*/
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            //  mListener = (OnFragmentInteractionListener)activity;
             mainActivity = (MainActivity) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " ");
@@ -109,6 +103,7 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
                     Intent intent = new Intent("TAG_REFRESH_EXPLORE");
                     localBroadcastManager.sendBroadcast(intent);
                 }
+
                 if (position == 1) {
                     if (Prefs.getInt(Constants.user_id, 0) == 0) {
                         if (Constants.homepage.equals("profile")) {
@@ -121,6 +116,7 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
                         localBroadcastManager.sendBroadcast(intent);
                     }
                 }
+
                 if (position == 2) {
                     if (Prefs.getInt(Constants.user_id, 0) == 0) {
                         if (Constants.homepage.equals("profile")) {
@@ -129,14 +125,6 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
                         }
                     }
                 }
-
-               /* if (position == 0) {
-                    if (mainActivity.exploreNearbyFragment != null)
-                        mainActivity.exploreNearbyFragment.update();
-                } else if (position == 1) {
-                    if (mainActivity.favouriteFragment != null)
-                        mainActivity.favouriteFragment.setRefreshView(true);
-                }*/
             }
 
             @Override
@@ -146,8 +134,6 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
         });
     }
 
-
-    //Viewpager adapter
     public class MainScreenPagerAdapter extends FragmentStatePagerAdapter {
         //Defining the array for Tab icons..which is going to call dynamically and load it into tabBar of toolbar
         public MainScreenPagerAdapter(FragmentManager fm) {
@@ -202,5 +188,4 @@ public class MainTabHostFragment extends Fragment implements View.OnClickListene
             return super.getItemPosition(object);
         }
     }
-
 }

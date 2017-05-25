@@ -16,35 +16,24 @@ public class NormalEditText extends EditText {
     public NormalEditText(Context context) {
         super(context);
         applyCustomFont();
-
     }
 
     public NormalEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         applyCustomFont();
-
     }
 
     public NormalEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         applyCustomFont();
-
     }
 
-  /*  public NormalEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        applyCustomFont();
-
-    }*/
-
     private void applyCustomFont() {
-
         setTypeface(MyTorismaApplication.typeFace.getNormalFonts());
     }
 
     @Override
     public void setTypeface(Typeface tf) {
         super.setTypeface(tf);
-
     }
 }

@@ -112,7 +112,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
 
     public static ArrayList<String> autocomplete(String input) {
         ArrayList<String> resultList = null;
-
         HttpURLConnection conn = null;
         StringBuilder jsonResults = new StringBuilder();
         try {
@@ -120,30 +119,24 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
             sb.append("?key=" + API_KEY);
             sb.append("&components=country:AE");
             sb.append("&input=" + URLEncoder.encode(input, "utf8"));
-
             URL url = new URL(sb.toString());
-
             System.out.println("URL: " + url);
             conn = (HttpURLConnection) url.openConnection();
             InputStreamReader in = new InputStreamReader(conn.getInputStream());
-
             int read;
             char[] buff = new char[1024];
             while ((read = in.read(buff)) != -1) {
                 jsonResults.append(buff, 0, read);
             }
         } catch (MalformedURLException e) {
-//            Log.e(LOG_TAG, "Error processing Places API URL", e);
             return resultList;
         } catch (IOException e) {
-//            Log.e(LOG_TAG, "Error connecting to Places API", e);
             return resultList;
         } finally {
             if (conn != null) {
                 conn.disconnect();
             }
         }
-
         try {
             // Create a JSON object hierarchy from the results
             JSONObject jsonObj = new JSONObject(jsonResults.toString());
@@ -158,7 +151,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
             }
 
         } catch (JSONException e) {
-//            Log.e(LOG_TAG, "Cannot process JSON results", e);
         }
 
         return resultList;
@@ -167,14 +159,10 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_search, container, false);
-
         mPreferences = getActivity().getSharedPreferences(Constants.mPref, 0);
         mEditor = mPreferences.edit();
-
         initialisation();
-
         latitude = mPreferences.getString("latitude1", "");
         longitude = mPreferences.getString("longitude1", "");
         if (mPreferences.getString(Preference.Pref_City, "").equalsIgnoreCase("")) {
@@ -183,18 +171,12 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
             strAddress = mPreferences.getString(Preference.Pref_City, "");
         }
         etAutoDetect.setText(strAddress);
-
         placesAdapter = new PlacesAdapter();
         listview.setAdapter(placesAdapter);
-        // listview.setOnItemClickListener(this);
-
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 etAutoDetect.setText(resultList.get(position));
-                //   str1 = resultList.get(position);
-//
-
                 hideKeyBoard(etAutoDetect);
                 isLocationChanged = true;
                 if (etAutoDetect.getText().toString().length() != 0) {
@@ -223,6 +205,7 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
             public void afterTextChanged(Editable s) {
             }
         });
+
         etAutoDetect.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -284,10 +267,8 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                 if (postSync != null && postSync.getStatus().equals(AsyncTask.Status.RUNNING)) {
                     postSync.cancel(true);
                 }
-
                 postSync = new post_sync(getActivity(), "SearchPlacesOTG", SearchFragment.this, false);
                 postSync.execute(url, json);
-
             } else {
                 if (searchPlacesNew != null && searchPlacesNew.size() > 0) {
                     searchPlaces = new ArrayList<>();
@@ -297,7 +278,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                         }
                     }
                     placesAdapter.notifyDataSetChanged();
-
                 }
             }
         } else {
@@ -308,7 +288,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
     }
 
     public void addressResponse(String resultString) {
-
         try {
             JSONObject jsonObject = new JSONObject(resultString);
             try {
@@ -319,9 +298,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                 double latitude = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
                         .getJSONObject("geometry").getJSONObject("location")
                         .getDouble("lat");
-
-//            mEditor.putString("mAddress", jsonObject.getString("formatted_address")).commit();
-
                 this.latitude = String.valueOf(latitude);
                 this.longitude = String.valueOf(longitude);
             } catch (JSONException e) {
@@ -333,8 +309,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
     }
 
     public void searchPlacesOTG(String resultString) {
-//        Log.d("System searchResponse", resultString);
-
         try {
             JSONArray jsonArray = new JSONArray(resultString);
             try {
@@ -350,14 +324,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                 placesAdapter.notifyDataSetChanged();
                 listview.setEmptyView(txtEmptyView);
                 txtEmptyView.setText("Sorry, No place found!");
-
-//            mEditor.putString("mAddress", jsonObject.getString("formatted_address")).commit();
-
-
-//                Intent mIntent = new Intent(SearchActivity.this, SearchResultFragmentActivity.class);
-//                mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(mIntent);
-//                finish();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -373,12 +339,9 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
 
     public void searchPlacesResponse(String resultString) {
         Log.d("System out", resultString);
-
         ArrayList<Nearby> nearbies = new ArrayList<>();
-
         try {
             JSONArray jsonArray = new JSONArray(resultString);
-
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.optJSONObject(i);
                 Nearby nearby = new Nearby();
@@ -387,44 +350,30 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                 nearby.setPlace_Name(jsonObject.optString("Place_Name"));
                 nearby.setPlace_ShortInfo(jsonObject.optString("Place_ShortInfo"));
                 nearby.setPlace_MainImage(jsonObject.optString("Place_MainImage"));
-//                nearby.setPlace_Description(jsonObject.optString("Place_Description"));
-
                 if (jsonObject.optString("Place_Description") != null && !jsonObject.optString("Place_Description").equalsIgnoreCase("")) {
                     String price = jsonObject.optString("Place_Description");
-//                    String a = price.replace("\\*", "");
-
-//                    String b = price.replaceAll("\r", "");
-//                    String c = b.replaceAll("\n", System.getProperty("line.separator"));
                     nearby.setPlace_Description(price);
                 } else {
                     nearby.setPlace_Description(jsonObject.optString("Place_Description"));
 
                 }
-
                 nearby.setPlace_Address(jsonObject.optString("Place_Address"));
-
                 if (jsonObject.optString("Price_Description") != null && !jsonObject.optString("Price_Description").equalsIgnoreCase("")) {
                     String price = jsonObject.optString("Price_Description");
-//                    String a = price.replaceAll("\r", "");
-//                    String b = a.replaceAll("\n", System.getProperty("line.separator"));
                     nearby.setPrice_Description(price);
                 } else {
                     nearby.setPrice_Description(jsonObject.optString("Price_Description"));
 
                 }
-
-//                nearby.setPrice_Description(jsonObject.optString("Price_Description"));
                 nearby.setPlace_Latitude(jsonObject.optString("Place_Latitude"));
                 nearby.setPlace_Longi(jsonObject.optString("Place_Longi"));
                 nearby.setOtherimages(jsonObject.optString("otherimages"));
                 nearby.setDist(jsonObject.optString("dist"));
                 nearby.setFav_Id(jsonObject.optString("Fav_Id"));
                 nearby.setFree_entry(jsonObject.optString("free_entry"));
-
                 JSONArray operation1 = jsonObject.getJSONArray("HourDetails");
                 ArrayList<HourDetails> detailsArrayList = new ArrayList<>();
                 for (int j = 0; j < operation1.length(); j++) {
-
                     HourDetails hourDetails = new HourDetails();
                     JSONObject jsonObject2 = operation1.getJSONObject(j);
                     hourDetails.setPlaceId(jsonObject2.getString("Place_Id"));
@@ -438,9 +387,7 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                     detailsArrayList.add(hourDetails);
                 }
                 nearby.setHourDetailsArrayList(detailsArrayList);
-
                 double d = Utilities.GetRoutDistane(Double.parseDouble(mPreferences.getString("latitude2", "")), Double.parseDouble(mPreferences.getString("longitude2", "")), Double.parseDouble(nearby.getPlace_Latitude()), Double.parseDouble(nearby.getPlace_Longi()), nearby.getDist());
-
                 nearby.setDistance(d);
                 nearbies.add(nearby);
             }
@@ -448,17 +395,11 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         if (mainActivity.mainTabHostFragment.vpFragment.getCurrentItem() == 1) {
             mainActivity.favouriteFragment.replaceSearchResultFragment(nearbies, etSearchPlace.getText().toString());
         } else {
             mainActivity.exploreNearbyFragment.replaceSearchResultFragment(nearbies, etSearchPlace.getText().toString(), false);
         }
-//        Intent mIntent = new Intent(getActivity(), SearchResultFragmentActivity.class);
-//        mIntent.putExtra("nearbies", nearbies);
-//        mIntent.putExtra("search", etSearchPlace.getText().toString());
-//        startActivity(mIntent);"\"" + search + "\""
-//        finish();
     }
 
     public ArrayList<FeesDetails> getFeesObject(JSONObject jsonObject) {
@@ -467,9 +408,7 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
         try {
             feesDetails = jsonObject.getJSONArray("Fees_Details");
             if (feesDetails != null) {
-
                 for (int k = 0; k < feesDetails.length(); k++) {
-
                     JSONObject jobjFees = feesDetails.getJSONObject(k);
                     FeesDetails objFees = new FeesDetails();
                     objFees.setFeesName(jobjFees.getString("Fee_Name"));
@@ -477,11 +416,9 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                     feesArrayList.add(objFees);
                 }
             }
-            // hoursOfOperation.setFeesDetailses(feesArrayList);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return feesArrayList;
     }
 
@@ -501,68 +438,7 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
     }
 
     public void onItemClick(String str) {
-        // String str = (String) adapterView.getItemAtPosition(position);
         Log.d("System out", str);
-
-        // str1 = (String) adapterView.getItemAtPosition(position);
-        //   str = (String) adapterView.getItemAtPosition(position);
-//    //            Toast.makeText(AddAddressSearchAddress_Activity.this, str1, Toast.LENGTH_SHORT).show();
-
-        // String[] s = str1.split(",");
-        // Log.i("System out", "Address length " + s.length);
-//        for (int j = 0; j < s.length; j++) {
-        //  Log.i("System out", s[j]);
-//        }
-      /*  if (s.length == 6) {
-//            mEditor.putString("Address_Unit",s[0]);
-//            mEditor.putString("Address_Street",s[1]);
-//            mEditor.putString("Address_AddressName",s[2]);
-            mEditor.putString(Preference.Pref_City, s[3]).commit();
-            mEditor.putString(Preference.Pref_State, s[4]).commit();
-            mEditor.putString(Preference.Pref_Country, s[5]).commit();
-//            Toast.makeText(AddAddressSearchAddress_Activity.this,str1+" "+s.length, Toast.LENGTH_SHORT).show();
-        } else if (s.length == 5) {
-
-//            mEditor.putString("Address_Unit", "");
-//            mEditor.putString("Address_Street", s[0]);
-//            mEditor.putString("Address_AddressName", s[1]);
-            mEditor.putString(Preference.Pref_City, s[1]).commit();
-            mEditor.putString(Preference.Pref_State, s[3]).commit();
-            mEditor.putString(Preference.Pref_Country, s[4]).commit();
-//            Toast.makeText(AddAddressSearchAddress_Activity.this,str1+" "+s.length, Toast.LENGTH_SHORT).show();
-        } else if (s.length == 4) {
-
-//            mEditor.putString("Address_Unit", "");
-//            mEditor.putString("Address_Street", "");
-//            mEditor.putString("Address_AddressName", s[0]);
-            mEditor.putString(Preference.Pref_City, s[1]).commit();
-            mEditor.putString(Preference.Pref_State, s[2]).commit();
-            mEditor.putString(Preference.Pref_Country, s[3]).commit();
-//            Toast.makeText(AddAddressSearchAddress_Activity.this,str1+" "+s.length, Toast.LENGTH_SHORT).show();
-
-        } else if (s.length == 3) {
-
-//            mEditor.putString("Address_Unit", "");
-//            mEditor.putString("Address_Street", "");
-//            mEditor.putString("Address_AddressName", "");
-            mEditor.putString(Preference.Pref_City, s[0]).commit();
-            mEditor.putString(Preference.Pref_State, s[1]).commit();
-            mEditor.putString(Preference.Pref_Country, s[2]).commit();
-//            mEditor.commit();
-//            Toast.makeText(AddAddressSearchAddress_Activity.this,str1+" "+s.length, Toast.LENGTH_SHORT).show();
-        } else if (s.length == 2) {
-//            mEditor.putString("Address_Unit", "");
-//            mEditor.putString("Address_Street", "");
-//            mEditor.putString("Address_AddressName", "");
-            mEditor.putString(Preference.Pref_City, s[0]).commit();
-            mEditor.putString(Preference.Pref_State, s[0]).commit();
-            mEditor.putString(Preference.Pref_Country, s[1]).commit();
-        } else {
-            mEditor.putString(Preference.Pref_City, s[0]).commit();
-            mEditor.putString(Preference.Pref_State, s[0]).commit();
-            mEditor.putString(Preference.Pref_Country, s[0]).commit();
-        }*/
-
         InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(etAutoDetect.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
 
@@ -593,7 +469,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
             String json = "[{\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\",\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + latitude + "\",\"Current_Longitude\":\"" + longitude + "\",\"keywords\":\"" + etSearchPlace.getText().toString() + "\",\"Category_Id\":\"" + "" + "\",\"keyword\":\"" + strAddress + "\",\"secondary_text\":\"" + mainActivity.getPreferences().getString(Preference.Pref_Country, "") + "\"}]";
             System.out.println("search_url" + url);
             System.out.println("search_json" + json);
-//            Log.d("System out", "SearchPlaces " + json);
             new PostSync(getActivity(), "SearchPlaces", SearchFragment.this).execute(url, json);
         } else {
             Intent intent = new Intent(getActivity(), NoInternet.class);
@@ -603,7 +478,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
     }
 
     public Address getLocationFromAddress(Context context, String strAddress) {
-
         Geocoder coder = new Geocoder(context);
         List<Address> address;
         LatLng p1 = null;
@@ -624,39 +498,26 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                 this.strAddress = location.getLocality();
             else if (location.getCountryName() != null)
                 this.strAddress = location.getCountryName();
-
-
-//
-//            p1 = new LatLng(location.getLatitude(), location.getLongitude());
-
         } catch (Exception ex) {
 
             ex.printStackTrace();
         }
-
         return location;
     }
 
     public void getLocationOfAddress() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         gpsTracker = new GPSTracker(getActivity(), true);
         if (CommonClass.hasInternetConnection(getActivity())) {
             if (gpsTracker.getLatitude() == 0 || gpsTracker.getLongitude() == 0) {
-                // if (mPreferences.getString("longitude2", "").equals("")) {
                 latitude = "23.424076";
                 longitude = "53.847818";
                 strAddress = "United Arab Emirates";
-                //  }
-
-
             } else {
                 latitude = String.valueOf(gpsTracker.getLatitude());
                 longitude = String.valueOf(gpsTracker.getLongitude());
                 getGeoLocation();
-
-
             }
         } else {
             Intent intent = new Intent(getActivity(), NoInternet.class);
@@ -666,7 +527,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
     }
 
     private void initialisation() {
-
         location_select = (LinearLayout) view.findViewById(R.id.location_select);
         location_select.setOnClickListener(new OnClickListener() {
             @Override
@@ -681,21 +541,16 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
         });
 
         listview = (ListView) view.findViewById(R.id.listview);
-
         txtSearch = (NormalTextView) view.findViewById(R.id.txtSearch);
         txtSearch.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Search"));
         txtSearch.setOnClickListener(this);
-
         txtEmptyView = (NormalTextView) view.findViewById(R.id.txtEmptyView);
         txtCancel = (NormalTextView) view.findViewById(R.id.txtCancel);
         txtCancel.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Cancel"));
         txtCancel.setOnClickListener(this);
-
         etAutoDetect = (NormalEditText) view.findViewById(R.id.etAutoDetect);
         etSearchPlace = (EditText) view.findViewById(R.id.etSearchPlace);
-
         imgAutoDetect = (ImageView) view.findViewById(R.id.imgAutoDetect);
-//        imgAutoDetect.setOnClickListener(this);
 
         if (bundle != null) {
             if (bundle.getString("from") != null && bundle.getString("from").equals("beacon")) {
@@ -713,7 +568,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imgAutoDetect:
-                // getLocationOfAddress();
                 Utils.hideKeyboard(getActivity());
                 isGpsClicked = true;
                 etAutoDetect.setText(mPreferences.getString(Preference.Pref_City, ""));
@@ -723,8 +577,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                 break;
 
             case R.id.txtCancel:
-//                Utils.hideKeyboard(getActivity());
-//                mainActivity.onBackPressed();
                 Intent mIntent = new Intent(getActivity(), MainActivity.class);
                 Constants.mStatic = 0;
                 Constants.mFromSelectLocation = 1;
@@ -755,23 +607,14 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                 if (addresses.size() > 0) {
                     String str = (addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getLocality() + ", "
                             + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
-
                     String umAddress1 = addresses.get(0).getAddressLine(0);
                     String city = addresses.get(0).getLocality();
                     String state = addresses.get(0).getAdminArea();
                     String zipCode = addresses.get(0).getPostalCode();
                     String country = addresses.get(0).getCountryName();
-
                     String addressmaps = str.replaceAll(" null,", "");
-                    // flag = 0;
-                    //  etSearch.setHint(addressmaps);
                     etAutoDetect.setText(addressmaps);
                     strAddress = addressmaps;
-
-                    /*Intent mIntent = new Intent(SelectLocationFragmentActivity.this, YourLocationFragmentActivity.class);
-                    startActivity(mIntent);
-                    finish();*/
-
                     Log.i("System out", "Get current location city--> " + city);
                     Log.i("System out", "Get current location state--> " + state);
                     Log.i("System out", "Get current location country--> " + country);
@@ -780,14 +623,12 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
 
         } catch (Exception e) {
             e.printStackTrace();
-
             String address = "";
             String apiRequest = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude; //+ "&ka&sensor=false"
             HttpGet httpGet = new HttpGet(apiRequest);
             HttpClient client = new DefaultHttpClient();
             HttpResponse response;
             StringBuilder stringBuilder = new StringBuilder();
-
             try {
                 response = client.execute(httpGet);
                 HttpEntity entity = response.getEntity();
@@ -801,7 +642,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
             } catch (IOException e2) {
                 e2.printStackTrace();
             }
-
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject = new JSONObject(stringBuilder.toString());
@@ -811,7 +651,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
             } catch (JSONException e3) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -820,7 +659,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
         @Override
         protected Object doInBackground(String... strings) {
             resultList = autocomplete(strings[0]);
-
             return null;
         }
 
@@ -836,7 +674,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
         @Override
         protected Object doInBackground(String... strings) {
             resultList = autocomplete(strings[0]);
-
             return null;
         }
 
@@ -890,9 +727,8 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
 
                     e.printStackTrace();
                 }
-
-
             }
+
             txtPlaceName.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -906,7 +742,6 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                         try {
                             getLocationFromAddress(getActivity(), resultList.get(position));
                             etAutoDetect.setText(strAddress);
-                            // onItemClick(resultList.get(position));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -916,6 +751,4 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
             return view;
         }
     }
-
-
 }

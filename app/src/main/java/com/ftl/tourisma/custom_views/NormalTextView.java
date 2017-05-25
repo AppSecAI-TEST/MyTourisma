@@ -19,33 +19,19 @@ public class NormalTextView extends android.support.v7.widget.AppCompatTextView 
     public NormalTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         applyCustomFont();
-
     }
 
     public NormalTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         applyCustomFont();
-
     }
 
-    /*  public NormalTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-              super(context, attrs, defStyleAttr, defStyleRes);
-          }
-          applyCustomFont();
-
-      }
-  */
-
-
     private void applyCustomFont() {
-
         setTypeface(MyTorismaApplication.typeFace.getNormalFonts());
     }
 
     @Override
     public void setTypeface(Typeface tf) {
         super.setTypeface(tf);
-
     }
 }

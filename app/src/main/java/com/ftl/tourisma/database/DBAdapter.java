@@ -130,7 +130,6 @@ public class DBAdapter {
         try {
             ContentValues contentValues = new ContentValues();
             contentValues.put(KEY_SEARCH_STR, searchStr);
-
             returnVal = sqlDB.insert(TABLE_SEARCH, null, contentValues);
             Utils.Log(TAG, "inserted search string " + searchStr);
         } catch (Exception e) {
@@ -167,9 +166,7 @@ public class DBAdapter {
             cv.put(KEY_Msg_Constant, Msg_Constant);
             cv.put(KEY_Msg_Statement, Msg_Statement);
             cv.put(KEY_Msg_Status, Msg_Status);
-
             returnVal = sqlDB.insert(TABLE_LANGUAGES, null, cv);
-//            Utils.Log(TAG, " insertLanguage Msg_Statement " + Msg_Statement);
         } catch (Exception e) {
             // Tracking exception
             MyTorismaApplication.getInstance().trackException(e);
@@ -182,14 +179,10 @@ public class DBAdapter {
         String msg = new String();
         Cursor cr = sqlDB.rawQuery("select * from " + TABLE_LANGUAGES + " where Lan_ID = \"" + Lan_ID + "\" and " + "Msg_Constant = \"" + Msg_Constant + "\"", null);
         if (cr != null && cr.moveToFirst()) {
-//            cr.moveToFirst();
             msg = cr.getString(cr.getColumnIndex(KEY_Msg_Statement));
-            //Log.d("System out", "Msg_Constant Inside if" + msg);
         } else {
             msg = "";
-            // Log.d("System out", "Msg_Constant Inside else" + msg);
         }
-        // Log.d("System out", "Msg_Constant Outside" + msg);
         return msg.trim();
     }
 
@@ -232,7 +225,6 @@ public class DBAdapter {
             cv.put(KEY_otherimages, otherimages);
             cv.put(KEY_dist, dist);
             cv.put(KEY_Fav_Id, Fav_Id);
-
             returnVal = sqlDB.insert(TABLE_NEARBY, null, cv);
             Utils.Log(TAG, "inserted place id " + Place_Id);
         } catch (Exception e) {
@@ -313,7 +305,6 @@ public class DBAdapter {
             cv.put(KEY_POH_Start_Time, POH_Start_Time);
             cv.put(KEY_POH_End_Time, POH_End_Time);
             cv.put(KEY_POH_Charges, POH_Charges);
-
             returnVal = sqlDB.insert(TABLE_HoursOfOperation, null, cv);
             Utils.Log(TAG, "inserted poh id " + POH_Id);
         } catch (Exception e) {
@@ -338,7 +329,6 @@ public class DBAdapter {
             data.setPOH_Start_Time(cr.getString(5));
             data.setPOH_End_Time(cr.getString(6));
             data.setPOH_Charges(cr.getString(7));
-
             hoursOfOperationArrayList.add(data);
             cr.moveToNext();
         }
@@ -359,7 +349,6 @@ public class DBAdapter {
             data.setPOH_Start_Time(cr.getString(5));
             data.setPOH_End_Time(cr.getString(6));
             data.setPOH_Charges(cr.getString(7));
-
             hoursOfOperationArrayList.add(data);
             cr.moveToNext();
         }
@@ -377,10 +366,6 @@ public class DBAdapter {
             Utils.Log(TAG, "TABLE_CREATE_LANGUAGE");
             db.execSQL(TABLE_CREATE_SEARCH);
             Utils.Log(TAG, "TABLE_CREATE_SEARCH");
-//            db.execSQL(TABLE_CREATE_NEARBY);
-//            Log.d("System out", "TABLE_CREATE_NEARBY");
-//            db.execSQL(TABLE_CREATE_HoursOfOperation);
-//            Log.d("System out", "TABLE_CREATE_HoursOfOperation");
         }
 
         @Override

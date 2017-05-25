@@ -18,14 +18,12 @@ import java.util.ArrayList;
 public class FavouriteMainFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "FavouriteMainFragment";
-
     private View view;
     private MainActivity mainActivity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         replaceFragment();
     }
 
@@ -47,18 +45,14 @@ public class FavouriteMainFragment extends Fragment implements View.OnClickListe
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_fav, container, false);
-
         return view;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
     }
-
 
     @Override
     public void onAttach(Context activity) {
@@ -68,17 +62,13 @@ public class FavouriteMainFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        //replaceFragment();
     }
 
     public void replaceFragment() {
-//        if()
-
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fram_fav, new FavouriteFragment1()).commit();
     }
 
     public void replacePlaceDetailsFragment(String placeId, String location) {
-//        if()
         Bundle bundle = new Bundle();
         bundle.putString("placeId", placeId);
         bundle.putString("location", location);
@@ -87,15 +77,8 @@ public class FavouriteMainFragment extends Fragment implements View.OnClickListe
         getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram_fav, searchResultPlaceDetailsFragment).addToBackStack(SearchResultPlaceDetailsFragment.class.getSimpleName()).commit();
     }
 
-   /* public void replaceSimilarFragment(String from) {
-//        if()
-
-        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, new SearchResultFragmentFragment()).addToBackStack(SearchResultFragmentFragment.class.getSimpleName()).commit();
-    }*/
-
     public void replaceSearchFragment() {
         getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram_fav, new SearchFragment()).addToBackStack(SearchFragment.class.getSimpleName()).commit();
-
     }
 
     public void replaceLocationFragment() {
@@ -103,8 +86,7 @@ public class FavouriteMainFragment extends Fragment implements View.OnClickListe
     }
 
     public void replaceSearchResultFragment(ArrayList<Nearby> nearbies1, String search) {
-        SearchResultFragmentFragment searchResultFragmentFragment = SearchResultFragmentFragment.NewInstance(nearbies1, search,false);
-//        replaceFragment(searchResultFragmentFragment, true, null);
+        SearchResultFragmentFragment searchResultFragmentFragment = SearchResultFragmentFragment.NewInstance(nearbies1, search, false);
         getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram_fav, searchResultFragmentFragment, SearchResultFragmentFragment.class.getSimpleName()).addToBackStack(SearchResultFragmentFragment.class.getSimpleName()).commit();
     }
 }

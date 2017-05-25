@@ -97,9 +97,6 @@
             android:name=".activity.IntroScreens"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.CountrySpecific"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.MainActivity"
             android:exported="true"
             android:largeHeap="true"

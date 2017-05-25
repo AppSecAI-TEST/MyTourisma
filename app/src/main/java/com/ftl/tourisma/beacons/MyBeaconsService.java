@@ -106,75 +106,62 @@ public class MyBeaconsService extends Service {
         });
 
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
-                                             @Override
-                                             public void onBeaconsDiscovered(Region region, List<Beacon> list) {
-                                                 if (list != null) {
-                                                     if (list.size() > 0) {
-                                                         for (Beacon beacon : list) {
+            @Override
+            public void onBeaconsDiscovered(Region region, List<Beacon> list) {
+                if (list != null) {
+                    if (list.size() > 0) {
+                        for (Beacon beacon : list) {
 
-                                                             Beacon selectedBeacon = beacon;
-                                                             double v = calculateDistance(selectedBeacon.getMeasuredPower(), selectedBeacon.getRssi());
-//                                                             Utils.showToast(getApplicationContext(),"UUID: "+region.getProximityUUID()+"\n Distance: "+v);
+                            Beacon selectedBeacon = beacon;
+                            double v = calculateDistance(selectedBeacon.getMeasuredPower(), selectedBeacon.getRssi());
+                            double range = 0;
+                            String type = "";
+                            Set<String> stringSet = Preference.getStringSetPrefs("keyBeacons", getApplicationContext());
+                            if (stringSet != null) {
+                                for (String str : stringSet) {
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(str);
+                                        if (region.getIdentifier().equals(jsonObject.getString("uuid") + ":" + jsonObject.getInt("major") + ":" + jsonObject.getInt("minor"))) {
+                                            type = jsonObject.getString(BEACON_TYPE);
+                                            range = jsonObject.getInt("range");
+                                        }
+                                    } catch (JSONException e) {
+                                        // Tracking exception
+                                        MyTorismaApplication.getInstance().trackException(e);
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                            if (type.equals("1")) {
+                                if (v <= range) {
+                                    if (Preference.getBooleanPrefs(region.getIdentifier() + "nearby", getApplicationContext(), false)) {
+                                        Preference.setBooleanPrefs(region.getIdentifier() + "nearby", getApplicationContext(), false);
+                                        String enterMessage = getEnteredMessage(region);
+                                        if (enterMessage != null && !enterMessage.equals("")) {
+                                            showNotification(getApplicationContext().getResources().getString(R.string.app_name), getEnteredMessage(region), BEACON_ENTERED, region.getIdentifier());
+                                        }
+                                    }
+                                } else if (v > range) {
+                                    if (!Preference.getBooleanPrefs(region.getIdentifier() + "nearby", getApplicationContext(), false)) {
+                                        Preference.setBooleanPrefs(region.getIdentifier() + "nearby", getApplicationContext(), true);
+                                        String exitMessage = getExitedRegionMessage(region);
+                                        if (exitMessage != null && !exitMessage.equals("")) {
+                                            showNotification(getApplicationContext().getResources().getString(R.string.app_name), exitMessage, BEACON_EXITED, region.getIdentifier());
+                                        }
+                                    }
+                                }
+                            } else {
 
-                                                             double range = 0;
-                                                             String type = "";
-                                                             Set<String> stringSet = Preference.getStringSetPrefs("keyBeacons", getApplicationContext());
-                                                             if (stringSet != null) {
-                                                                 for (String str : stringSet) {
-                                                                     try {
-                                                                         JSONObject jsonObject = new JSONObject(str);
-                                                                         if (region.getIdentifier().equals(jsonObject.getString("uuid") + ":" + jsonObject.getInt("major") + ":" + jsonObject.getInt("minor"))) {
-                                                                             type = jsonObject.getString(BEACON_TYPE);
-                                                                             range = jsonObject.getInt("range");
-                                                                         }
-                                                                     } catch (JSONException e) {
-                                                                         // Tracking exception
-                                                                         MyTorismaApplication.getInstance().trackException(e);
-                                                                         e.printStackTrace();
-                                                                     }
-                                                                 }
-                                                             }
-                                                             if (type.equals("1")) {
-                                                                 if (v <= range) {
-                                                                     if (Preference.getBooleanPrefs(region.getIdentifier() + "nearby", getApplicationContext(), false)) {
-                                                                         Preference.setBooleanPrefs(region.getIdentifier() + "nearby", getApplicationContext(), false);
-                                                                         String enterMessage = getEnteredMessage(region);
-                                                                         if (enterMessage != null && !enterMessage.equals("")) {
-                                                                             showNotification(getApplicationContext().getResources().getString(R.string.app_name), getEnteredMessage(region), BEACON_ENTERED, region.getIdentifier());
-//                                                                         Utils.toast("Close Aproach \nUUID: " + region.getProximityUUID() + "\nDistance: " + v + "\n" + getEnteredMessage(region));
-                                                                         }
-                                                                         //beaconManager.stopRanging(region);
-                                                                     }
-                                                                 } else if (v > range) {
-                                                                     if (!Preference.getBooleanPrefs(region.getIdentifier() + "nearby", getApplicationContext(), false)) {
-                                                                         Preference.setBooleanPrefs(region.getIdentifier() + "nearby", getApplicationContext(), true);
-//                                                                         Utils.toast("Close Aproach \nUUID: " + region.getProximityUUID() + "\nDistance: " + v + "\n" + getExitedRegionMessage(region));
-                                                                         String exitMessage = getExitedRegionMessage(region);
-                                                                         if (exitMessage != null && !exitMessage.equals("")) {
-                                                                             showNotification(getApplicationContext().getResources().getString(R.string.app_name), exitMessage, BEACON_EXITED, region.getIdentifier());
-                                                                         }
-//                                                                     beaconManager.stopRanging(region);
-                                                                     }
-                                                                 }
-                                                             } else {
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
-                                                             }
-                                                         }
-                                                     }
-                                                 }
-//                                                 if (list != null) {
-//                                                     list.clear();
-//                                                 }
-
-                                             }
-
-                                         }
-
-        );
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
                                   @Override
                                   public void onServiceReady() {
-                                      //  showNotification("Beacon Region", "onServiceReady");
                                       Set<String> stringSet = Preference.getStringSetPrefs("keyBeacons", getApplicationContext());
                                       if (stringSet != null) {
                                           for (String str : stringSet) {
@@ -192,34 +179,25 @@ public class MyBeaconsService extends Service {
                                           }
                                       }
                                   }
-
                               }
-
         );
-
     }
 
     private void getBeaconNotification(int type, Region region, int range) {
         try {
             JSONObject jsonObject = checkRegionFound(region);
             if (jsonObject != null) {
-
                 switch (type) {
                     case TYPE_ENTER:
                         try {
-
                             if (jsonObject.getString(BEACON_TYPE).equalsIgnoreCase("1")) {
-                                // Preference.setBooleanPrefs(region.getIdentifier() + "nearby", getApplicationContext(), true);
                             } else {
-
-//                                Utils.showToast(getApplicationContext(), "Entered in beacon range.\n UUID: " + region.getProximityUUID());
                                 String enterMesg = jsonObject.getString(BEACON_ENTRY_TEXT);
                                 if (enterMesg != null && !enterMesg.equals("")) {
                                     showNotification(getApplicationContext().getResources().getString(R.string.app_name), jsonObject.getString(BEACON_ENTRY_TEXT), BEACON_ENTERED, region.getIdentifier());
                                 }
                                 Preference.setBooleanPrefs(region.getIdentifier() + "enter", getApplicationContext(), true);
                             }
-
                         } catch (JSONException e) {
                             // Tracking exception
                             MyTorismaApplication.getInstance().trackException(e);
@@ -230,18 +208,12 @@ public class MyBeaconsService extends Service {
                         try {
                             Log.e(TAG, "onExitedRegion " + jsonObject.getString(BEACON_EXIT_TEXT));
                             if (!jsonObject.getString(BEACON_TYPE).equalsIgnoreCase("1")) {
-//                                Utils.showToast(getApplicationContext(), "Exited.\n UUID: " + region.getProximityUUID());
                                 Preference.remove(region.getIdentifier() + "enter", getApplicationContext());
                                 String exitMsg = jsonObject.getString(BEACON_EXIT_TEXT);
                                 if (exitMsg != null && !exitMsg.equals("")) {
                                     showNotification(getApplicationContext().getResources().getString(R.string.app_name), jsonObject.getString(BEACON_EXIT_TEXT), BEACON_EXITED, region.getIdentifier());
                                 }
-
                             } else {
-                                // Preference.setBooleanPrefs(region.getIdentifier() + "nearby", getApplicationContext(), false);
-
-                                // Preference.remove(region.getIdentifier() + "nearby", getApplicationContext());
-
                             }
                         } catch (JSONException e) {
                             // Tracking exception
@@ -303,7 +275,6 @@ public class MyBeaconsService extends Service {
      *
      * d = 10 ^ ((TxPower - RSSI) / (10 * n))
      */
-
         return Math.pow(10d, ((double) txPower - rssi) / (10 * 2));
     }
 
@@ -372,7 +343,6 @@ public class MyBeaconsService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         Log.e(TAG, "In Background");
-
         return null;
     }
 
@@ -397,28 +367,18 @@ public class MyBeaconsService extends Service {
                 isInBackground = false;
             }
         }
-
         return isInBackground;
     }
 
     public void showNotification(String title, String message, String type, String beacon) {
         JSONObject jsonObject;
         String placeid = null, placeImage = null, messageBeacon = null, message1, is_close_promo = null, entered_message = null, exit_message = null, near_by_message = null, beaconType = null;
-
-
         Set<String> stringSet = Preference.getStringSetPrefs("keyBeacons", getApplicationContext());
         if (stringSet != null) {
             for (String str : stringSet) {
                 try {
                     jsonObject = new JSONObject(str);
                     if (beacon.equals(jsonObject.getString("uuid") + ":" + jsonObject.getInt("major") + ":" + jsonObject.getInt("minor"))) {
-//                        if (type.equals(BEACON_ENTERED) || type.equals(BEACON_EXITED)) {
-//                            if (jsonObject.getString("is_close_approach").equals("1"))
-//                                return;
-//                        } else if (type.equals(BEACON_NEAR_BY)) {
-//                            if (jsonObject.getString("is_close_approach").equals("0"))
-//                                return;
-//                        }
                         placeImage = jsonObject.getString("image_path");
                         messageBeacon = jsonObject.getString("message");
                         placeid = jsonObject.getString("place_id");
@@ -452,7 +412,6 @@ public class MyBeaconsService extends Service {
             notifyIntent.putExtra(BEACON_TYPE, beaconType);
             notifyIntent.putExtra(BEACON_IS_CLOSE_PROMO, is_close_promo);
             notifyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
 //            pendingIntent = PendingIntent.getActivity(this, nid++, notifyIntent, 0);
             PendingIntent pendingIntent = PendingIntent.getActivities(this, 0, new Intent[]{notifyIntent}, PendingIntent.FLAG_UPDATE_CURRENT);
             Notification notification = new Notification.Builder(this)
@@ -468,13 +427,7 @@ public class MyBeaconsService extends Service {
             notificationManager.notify(1, notification);
             Preference.setIntPrefs("NOTIFICATION_ID", this, nid);
         } else {
-            //Utils.toast(message);
             Intent broadCastIntent = new Intent(BROADCAST_BEACON);
-//            Utils.Log(TAG, "broadcastReceiver for news feed -> " + type);
-            // String[] strings = pushmsg.split(" ");
-//            if (getEnteredMessage(beacon, 0).equals("")) {
-//                return;
-//            }
             broadCastIntent.putExtra(BEACON_ENTRY_TEXT, entered_message);
             broadCastIntent.putExtra(BEACON_EXIT_TEXT, exit_message);
             broadCastIntent.putExtra(BEACON_NEAR_BY_TEXT, near_by_message);
@@ -487,6 +440,4 @@ public class MyBeaconsService extends Service {
             LocalBroadcastManager.getInstance(this).sendBroadcast(broadCastIntent);
         }
     }
-
-
 }
