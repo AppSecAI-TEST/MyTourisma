@@ -1,7 +1,5 @@
 package com.ftl.tourisma.models;
 
-import org.json.JSONObject;
-
 import java.io.Serializable;
 
 /**
@@ -22,29 +20,6 @@ public class Beacons implements Serializable {
     private String range;
     private String beaconName;
     private String nearbyText;
-
-/*
-    public beaconsss () {
-
-    }
-
-    public beaconsss (JSONObject json) {
-
-        this.uuid = json.optString("uuid");
-        this.major = json.optString("major");
-        this.beaconId = json.optString("beacon_id");
-        this.lanId = json.optString("lan_id");
-        this.message = json.optString("message");
-        this.minor = json.optString("minor");
-        this.exitText = json.optString("exit_text");
-        this.entryText = json.optString("entry_text");
-        this.placeId = json.optString("place_id");
-        this.imagePath = json.optString("image_path");
-        this.range = json.optString("range");
-        this.beaconName = json.optString("beacon_name");
-        this.nearbyText = json.optString("nearby_text");
-
-    }*/
 
     public String getUuid() {
         return this.uuid;

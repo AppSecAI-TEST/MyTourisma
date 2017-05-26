@@ -9,8 +9,8 @@ import android.view.View;
  * Created by fipl11111 on 09-Mar-16.
  */
 public class MyScrollableViewPager extends ViewPager {
-    private static final int MATCH_PARENT = 1073742592;
 
+    private static final int MATCH_PARENT = 1073742592;
     private int currentPageNumber;
     private int pageCount;
 

@@ -31,9 +31,7 @@ public class GPSTracker extends Service implements LocationListener {
     boolean canGetLocation = false;
     Location location; // location
     double latitude; // latitude
-    //    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 50; // 10 meters
     double longitude; // longitude
-    //    private static final long MIN_TIME_BW_UPDATES = 0; // 0 minute
     String resultString;
     private Context mContext;
 
@@ -55,16 +53,14 @@ public class GPSTracker extends Service implements LocationListener {
 
     public Location getLocation() {
         try {
-            locationManager = (LocationManager) mContext
-                    .getSystemService(LOCATION_SERVICE);
+            locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
 
             // getting GPS status
             isGPSEnabled = locationManager
                     .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
             // getting network status
-            isNetworkEnabled = locationManager
-                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
             if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
@@ -75,7 +71,6 @@ public class GPSTracker extends Service implements LocationListener {
                 // First get location from Network Provider
 
                 if (isNetworkEnabled) {
-
                     int permissionCheck1 = ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION);
                     Log.d("System out", "permission check fine location " + permissionCheck1);
                     if (permissionCheck1 == android.content.pm.PackageManager.PERMISSION_GRANTED) {
@@ -94,7 +89,7 @@ public class GPSTracker extends Service implements LocationListener {
                     } else {
                     }
                 }// if GPS Enabled get lat/long using GPS Services
-                 if (isGPSEnabled && location==null) {
+                if (isGPSEnabled && location == null) {
                     int permissionCheck1 = ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION);
                     Log.d("System out", "permission check fine location " + permissionCheck1);
                     if (permissionCheck1 == android.content.pm.PackageManager.PERMISSION_GRANTED) {
@@ -125,7 +120,6 @@ public class GPSTracker extends Service implements LocationListener {
             MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
-
         return location;
     }
 
@@ -135,7 +129,6 @@ public class GPSTracker extends Service implements LocationListener {
      */
     public void stopUsingGPS() {
         if (locationManager != null) {
-//            locationManager.removeUpdates(GPSTracker.this);
         }
     }
 

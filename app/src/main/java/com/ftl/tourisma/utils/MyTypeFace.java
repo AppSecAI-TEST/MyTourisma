@@ -15,12 +15,9 @@ public class MyTypeFace {
 
     public MyTypeFace(Context context) {
         this.context = context;
-
         normalFonts= Typeface.createFromAsset(context.getAssets(), context.getString(R.string.font_normal_app));
         boldFonts= Typeface.createFromAsset(context.getAssets(), context.getString(R.string.font_bold_app));
         mytiadProFonts = Typeface.createFromAsset(context.getAssets(), context.getString(R.string.font_Muraid_Pro));
-
-
     }
 
     public Typeface getNormalFonts() {

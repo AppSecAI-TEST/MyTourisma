@@ -19,7 +19,6 @@ public class PlaceJSONParser {
      * Receives a JSONObject and returns a list
      */
     public List<HashMap<String, String>> parse(JSONObject jObject) {
-
         JSONArray jPlaces = null;
         try {
             /** Retrieves all the elements in the 'places' array */
@@ -53,7 +52,6 @@ public class PlaceJSONParser {
                 e.printStackTrace();
             }
         }
-
         return placesList;
     }
 
@@ -61,23 +59,17 @@ public class PlaceJSONParser {
      * Parsing the Place JSON object
      */
     private HashMap<String, String> getPlace(JSONObject jPlace) {
-
         HashMap<String, String> place = new HashMap<String, String>();
-
         String id = "";
         String reference = "";
         String description = "";
-
         try {
-
             description = jPlace.getString("description");
             id = jPlace.getString("id");
             reference = jPlace.getString("reference");
-
             place.put("description", description);
             place.put("_id", id);
             place.put("reference", reference);
-
         } catch (JSONException e) {
             // Tracking exception
             MyTorismaApplication.getInstance().trackException(e);

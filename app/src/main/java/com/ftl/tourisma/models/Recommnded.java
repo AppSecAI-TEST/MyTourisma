@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import org.json.*;
-
 import java.util.ArrayList;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -213,6 +211,5 @@ public class Recommnded {
     public void setPlaceLongi(String placeLongi) {
         this.placeLongi = placeLongi;
     }
-
 
 }

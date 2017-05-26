@@ -40,11 +40,8 @@ public class post_sync extends AsyncTask<String, Integer, String> {
     String activity = "", action = "";
     ProgressBar progressbar;
     private Context context;
-    //    private SearchActivity searchActivity;
     private boolean isShowProgress, isInProgress;
-//    MyProfileFragment myProfileFragment;
 private ResponseHandler responseHandler;
-
 
     public post_sync(Context context, String action, ResponseHandler responseHandler, boolean isShowProgress) {
         this.action = action;
@@ -55,19 +52,15 @@ private ResponseHandler responseHandler;
         progressbar.setBackgroundColor(Utils.getColor(context, android.R.color.transparent));
         progressbar.setProgressDrawable(Utils.getDrawable(context, R.drawable.progress_background));
         this.isShowProgress = isShowProgress;
-
     }
 
     private static String invoke1(String url, String umid) {
-
         String s = "";
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(url);
-
         HttpParams httpParameters = new BasicHttpParams();
         HttpProtocolParams.setContentCharset(httpParameters, HTTP.UTF_8);
         HttpProtocolParams.setHttpElementCharset(httpParameters, HTTP.UTF_8);
-
         HttpClient client = new DefaultHttpClient(httpParameters);
         client.getParams().setParameter("http.protocol.version", HttpVersion.HTTP_1_1);
         client.getParams().setParameter("http.socket.timeout", new Integer(50000));
@@ -75,21 +68,16 @@ private ResponseHandler responseHandler;
         httpParameters.setBooleanParameter("http.protocol.expect-continue", false);
         HttpPost request = new HttpPost(url);
         request.getParams().setParameter("http.socket.timeout", new Integer(50000));
-
         Log.i("System out", "link : " + url);
-        // Log.i("System out", "postString : " + postString);
         try {
             org.apache.http.Header[] headers = request.getAllHeaders();
             for (int i = 0; i < headers.length; i++) {
                 Log.i("System out", "headerName : " + headers[i].getName()
                         + ", value: " + headers[i].getValue());
             }
-
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("json", umid));
-            request.setEntity(new UrlEncodedFormEntity(nameValuePairs,
-                    HTTP.UTF_8));
-
+            request.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
             HttpResponse response = client.execute(request);
             HttpEntity httpEntity = response.getEntity();
             if (httpEntity != null) {
@@ -113,9 +101,6 @@ private ResponseHandler responseHandler;
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-//            dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
-//            progressbar.setBackgroundResource(R.drawable.progress_background);
-
         try {
             if (isShowProgress) {
                 if (dialog != null && dialog.isShowing()) {
@@ -155,18 +140,14 @@ private ResponseHandler responseHandler;
             String str = "";
             if (responseHandler != null) {
                 if (resultString != null) {
-                    //str = resultString.replaceAll("\r", " ");
-//                    str = resultString.replaceAll("\\r|\\n", "");
                     str = resultString.replace("\\\\", "\\");
                     if (str.contains("\\\\")) {
                         str = str.replace("\\\\", "\\");
                     }
-
                 }
                 responseHandler.onResponse(str, action);
             }
         }
-
     }
 
     public void setResponseHandler(ResponseHandler responseHandler) {

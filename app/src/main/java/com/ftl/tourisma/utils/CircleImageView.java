@@ -23,45 +23,35 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
 
-public class CircleImageView extends ImageView {
+public class CircleImageView extends android.support.v7.widget.AppCompatImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
-
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
     private static final int COLORDRAWABLE_DIMENSION = 2;
-
     private static final int DEFAULT_BORDER_WIDTH = 0;
     private static final int DEFAULT_BORDER_COLOR = Color.BLACK;
     private static final int DEFAULT_FILL_COLOR = Color.TRANSPARENT;
     private static final boolean DEFAULT_BORDER_OVERLAY = false;
-
     private final RectF mDrawableRect = new RectF();
     private final RectF mBorderRect = new RectF();
-
     private final Matrix mShaderMatrix = new Matrix();
     private final Paint mBitmapPaint = new Paint();
     private final Paint mBorderPaint = new Paint();
     private final Paint mFillPaint = new Paint();
-
     private int mBorderColor = DEFAULT_BORDER_COLOR;
     private int mBorderWidth = DEFAULT_BORDER_WIDTH;
     private int mFillColor = DEFAULT_FILL_COLOR;
-
     private Bitmap mBitmap;
     private BitmapShader mBitmapShader;
     private int mBitmapWidth;
     private int mBitmapHeight;
-
     private float mDrawableRadius;
     private float mBorderRadius;
-
     private ColorFilter mColorFilter;
-
     private boolean mReady;
     private boolean mSetupPending;
     private boolean mBorderOverlay;
@@ -77,23 +67,18 @@ public class CircleImageView extends ImageView {
 
     public CircleImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, defStyle, 0);
-
         mBorderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_civ_border_width, DEFAULT_BORDER_WIDTH);
         mBorderColor = a.getColor(R.styleable.CircleImageView_civ_border_color, DEFAULT_BORDER_COLOR);
         mBorderOverlay = a.getBoolean(R.styleable.CircleImageView_civ_border_overlay, DEFAULT_BORDER_OVERLAY);
         mFillColor = a.getColor(R.styleable.CircleImageView_civ_fill_color, DEFAULT_FILL_COLOR);
-
         a.recycle();
-
         init();
     }
 
     private void init() {
         super.setScaleType(SCALE_TYPE);
         mReady = true;
-
         if (mSetupPending) {
             setup();
             mSetupPending = false;
@@ -124,7 +109,6 @@ public class CircleImageView extends ImageView {
         if (mBitmap == null) {
             return;
         }
-
         if (mFillColor != Color.TRANSPARENT) {
             canvas.drawCircle(getWidth() / 2.0f, getHeight() / 2.0f, mDrawableRadius, mFillPaint);
         }
@@ -148,14 +132,13 @@ public class CircleImageView extends ImageView {
         if (borderColor == mBorderColor) {
             return;
         }
-
         mBorderColor = borderColor;
         mBorderPaint.setColor(mBorderColor);
         invalidate();
     }
 
     public void setBorderColorResource(@ColorRes int borderColorRes) {
-        setBorderColor(Utils.getColor(getContext(),borderColorRes));
+        setBorderColor(Utils.getColor(getContext(), borderColorRes));
     }
 
     public int getFillColor() {
@@ -166,14 +149,13 @@ public class CircleImageView extends ImageView {
         if (fillColor == mFillColor) {
             return;
         }
-
         mFillColor = fillColor;
         mFillPaint.setColor(fillColor);
         invalidate();
     }
 
     public void setFillColorResource(@ColorRes int fillColorRes) {
-        setFillColor(Utils.getColor(getContext(),fillColorRes));
+        setFillColor(Utils.getColor(getContext(), fillColorRes));
     }
 
     public int getBorderWidth() {
@@ -184,7 +166,6 @@ public class CircleImageView extends ImageView {
         if (borderWidth == mBorderWidth) {
             return;
         }
-
         mBorderWidth = borderWidth;
         setup();
     }
@@ -197,7 +178,6 @@ public class CircleImageView extends ImageView {
         if (borderOverlay == mBorderOverlay) {
             return;
         }
-
         mBorderOverlay = borderOverlay;
         setup();
     }
@@ -287,31 +267,24 @@ public class CircleImageView extends ImageView {
         }
 
         mBitmapShader = new BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-
         mBitmapPaint.setAntiAlias(true);
         mBitmapPaint.setShader(mBitmapShader);
-
         mBorderPaint.setStyle(Paint.Style.STROKE);
         mBorderPaint.setAntiAlias(true);
         mBorderPaint.setColor(mBorderColor);
         mBorderPaint.setStrokeWidth(mBorderWidth);
-
         mFillPaint.setStyle(Paint.Style.FILL);
         mFillPaint.setAntiAlias(true);
         mFillPaint.setColor(mFillColor);
-
         mBitmapHeight = mBitmap.getHeight();
         mBitmapWidth = mBitmap.getWidth();
-
         mBorderRect.set(0, 0, getWidth(), getHeight());
         mBorderRadius = Math.min((mBorderRect.height() - mBorderWidth) / 2.0f, (mBorderRect.width() - mBorderWidth) / 2.0f);
-
         mDrawableRect.set(mBorderRect);
         if (!mBorderOverlay) {
             mDrawableRect.inset(mBorderWidth, mBorderWidth);
         }
         mDrawableRadius = Math.min(mDrawableRect.height() / 2.0f, mDrawableRect.width() / 2.0f);
-
         updateShaderMatrix();
         invalidate();
     }
@@ -320,7 +293,6 @@ public class CircleImageView extends ImageView {
         float scale;
         float dx = 0;
         float dy = 0;
-
         mShaderMatrix.set(null);
 
         if (mBitmapWidth * mDrawableRect.height() > mDrawableRect.width() * mBitmapHeight) {
@@ -333,8 +305,6 @@ public class CircleImageView extends ImageView {
 
         mShaderMatrix.setScale(scale, scale);
         mShaderMatrix.postTranslate((int) (dx + 0.5f) + mDrawableRect.left, (int) (dy + 0.5f) + mDrawableRect.top);
-
         mBitmapShader.setLocalMatrix(mShaderMatrix);
     }
-
 }

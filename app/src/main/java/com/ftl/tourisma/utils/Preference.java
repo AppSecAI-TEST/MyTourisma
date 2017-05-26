@@ -130,11 +130,9 @@ public class Preference {
      * @param object
      */
     public static void setPreferenceObject(String prefKey, Context context, Object object) {
-        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(
-                context);
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
         Gson gson = new Gson();
-
         String json = gson.toJson(object); // myObject - instance of MyObject
         prefsEditor.putString(prefKey, json);
         prefsEditor.commit();
@@ -150,8 +148,7 @@ public class Preference {
      * @return
      */
     public static Object getPreferenceJsonObject(String prefKey, Context context, Class object) {
-        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(
-                context.getApplicationContext());
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         Gson gson = new Gson();
         String json = appSharedPrefs.getString(prefKey, "");
         Object obj = gson.fromJson(json, object);

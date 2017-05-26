@@ -7,6 +7,7 @@ import android.text.SpannableStringBuilder;
  */
 
 public class WeekDaysModel {
+
     SpannableStringBuilder time;
     String day;
     boolean isCurrentDay;

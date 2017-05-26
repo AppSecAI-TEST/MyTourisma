@@ -17,15 +17,8 @@ import java.util.regex.Pattern;
  */
 public class Constants {
 
-
     //    Custom progress dialog
     public static final int LOADER_HEIGHT = 60;
-
-    //    public static String SERVER_URL = "http://betaapplication.com/tourisma/";
-//    public static String IMG_URL = "http://betaapplication.com/tourisma/json.php";
-//    public static String IMAGE_URL = "http://betaapplication.com/tourisma/timthumb.php?src=/uploads/place/";
-//    public static String IMAGE_URL1 = "http://betaapplication.com/tourisma/uploads/user/";
-//    public static String IMAGE_URL2 = "http://betaapplication.com/tourisma/timthumb.php?src=/uploads/category/";
     public static final int LOADER_WIDTH = 60;
     public static String mPref = "My_Pref";
     //        public static String SERVER_URL = "http://35.154.205.155/mytourisma/";
@@ -37,10 +30,6 @@ public class Constants {
     public static String IMAGE_URL2 = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/timthumb.php?src=/uploads/category/";
     public static String VR_IMAGE = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/uploads/vrplace/";
     public static Dialog dialog;
-    //    public static String latitude = "23.0342871";
-//    public static String longitude = "72.5068045";
-//    public static String latitude1 = "";
-//    public static String longitude1 = "";
     public static List<Fragment> fragments = new Vector<Fragment>();
     public static int mStatic = 0;
     public static String placeId;
@@ -61,16 +50,6 @@ public class Constants {
     public static String first_time = "first_time";
     public static String searchFragment = "searchFragment";
 
-
-
-    /*public final static boolean isValidEmail(CharSequence target) {
-        if (target == null) {
-            return false;
-        } else {
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
-        }
-    }*/
-
     public static boolean isValidEmail(String email) {
         Pattern pattern;
         Matcher matcher;
@@ -86,7 +65,6 @@ public class Constants {
         dbAdapter.open();
         msg = dbAdapter.getLanguageMsg(Lan_ID, Msg_Constant);
         dbAdapter.close();
-        // Log.d("System out", "msg--- " + msg);
         return msg;
     }
 
@@ -96,22 +74,6 @@ public class Constants {
         dbAdapter.open();
         msg = dbAdapter.getLanguageMsg(Lan_ID, Msg_Constant);
         dbAdapter.close();
-        // Log.d("System out", "msg--- " + msg);
         return msg;
     }
-
-//    public static void showToastFull(Activity activity, String Message, View v) {
-//        View inflate = View.inflate(activity, R.layout.login_signup_snackbar, null);
-//        final TextView tv_snack_msg = (TextView) inflate.findViewById(R.id.tv_snack_msg);
-//        TextView tv_login_snack = (TextView) inflate.findViewById(R.id.tv_login_snack);
-//        TextView tv_sign_up_snack = (TextView) inflate.findViewById(R.id.tv_sign_up_snack);
-//        tv_snack_msg.setText(Message);
-//        new BubblePopup(activity, inflate)
-//                .anchorView(v)
-//                .bubbleColor(Color.parseColor("#0070CC"))
-//                .showAnim(new SlideBottomEnter())
-//                .dismissAnim(new SlideBottomExit())
-//                .autoDismiss(true)
-//                .show();
-//    }
 }

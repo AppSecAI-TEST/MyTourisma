@@ -5,6 +5,7 @@ package com.ftl.tourisma.models;
  */
 
 public class RequestData {
+
     private String User_Email;
     private String Lan_Id;
 

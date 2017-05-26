@@ -32,15 +32,15 @@ import android.widget.SpinnerAdapter;
 /**
  * An abstract base class for spinner widgets. SDK users will probably not
  * need to use this class.
- *
+ * <p>
  * CHECKSTYLE:OFF Android Attr
+ *
  * @attr ref android.R.styleable#AbsSpinner_entries
  * CHECKSTYLE:ON
  */
 public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
 
     SpinnerAdapter mAdapter;
-
     int mHeightMeasureSpec;
     int mWidthMeasureSpec;
     boolean mBlockLayoutRequests;
@@ -51,7 +51,6 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
     Rect mSpinnerPadding = new Rect();
     View mSelectedView = null;
     Interpolator mInterpolator;
-
     RecycleBin mRecycler = new RecycleBin();
     private DataSetObserver mDataSetObserver;
 
@@ -62,6 +61,7 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
 
     /**
      * Constructor.
+     *
      * @param context the context to inflate into
      */
     public AbsSpinner(final Context context) {
@@ -71,8 +71,9 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
 
     /**
      * Constructor for xml inflation.
+     *
      * @param context the context to inflate into
-     * @param attrs the xml attrs
+     * @param attrs   the xml attrs
      */
     public AbsSpinner(final Context context, final AttributeSet attrs) {
         this(context, attrs, 0);
@@ -80,8 +81,9 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
 
     /**
      * Constructor for xml inflation.
-     * @param context the context to inflate into
-     * @param attrs the xml attrs
+     *
+     * @param context  the context to inflate into
+     * @param attrs    the xml attrs
      * @param defStyle the default style resource
      */
     public AbsSpinner(final Context context, final AttributeSet attrs, final int defStyle) {
@@ -98,72 +100,23 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
     }
 
     /**
-     * The Adapter is used to provide the data which backs this Spinner.
-     * It also provides methods to transform spinner items based on their position
-     * relative to the selected item.
-     * @param adapter The SpinnerAdapter to use for this Spinner
-     */
-    // CHECKSTYLE:OFF unmodified
-    @Override
-    public void setAdapter(final SpinnerAdapter adapter) {
-        if (null != mAdapter) {
-            mAdapter.unregisterDataSetObserver(mDataSetObserver);
-            resetList();
-        }
-
-        mAdapter = adapter;
-
-        mOldSelectedPosition = INVALID_POSITION;
-        mOldSelectedRowId = INVALID_ROW_ID;
-
-        if (mAdapter != null) {
-            mOldItemCount = mItemCount;
-            mItemCount = mAdapter.getCount();
-            checkFocus();
-
-            mDataSetObserver = new AdapterDataSetObserver();
-            mAdapter.registerDataSetObserver(mDataSetObserver);
-
-            final int position = mItemCount > 0 ? 0 : INVALID_POSITION;
-
-            setSelectedPositionInt(position);
-            setNextSelectedPositionInt(position);
-
-            if (mItemCount == 0) {
-                // Nothing selected
-                checkSelectionChanged();
-            }
-
-        } else {
-            checkFocus();
-            resetList();
-            // Nothing selected
-            checkSelectionChanged();
-        }
-
-        requestLayout();
-    }
-    // CHECKSTYLE:ON
-
-    /**
      * Clear out all children from the list.
      */
     final void resetList() {
         mDataChanged = false;
         mNeedSync = false;
-
         removeAllViewsInLayout();
         mOldSelectedPosition = INVALID_POSITION;
         mOldSelectedRowId = INVALID_ROW_ID;
-
         setSelectedPositionInt(INVALID_POSITION);
         setNextSelectedPositionInt(INVALID_POSITION);
         invalidate();
     }
+    // CHECKSTYLE:ON
 
     /**
      * @see View#measure(int, int)
-     *
+     * <p>
      * Figure out the dimensions of this Spinner. The width comes from
      * the widthMeasureSpec as Spinnners can't have their width set to
      * UNSPECIFIED. The height is based on the height of the selected item
@@ -175,24 +128,16 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
         final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int widthSize;
         int heightSize;
-
-        mSpinnerPadding.left = getPaddingLeft() > mSelectionLeftPadding ? getPaddingLeft()
-                : mSelectionLeftPadding;
-        mSpinnerPadding.top = getPaddingTop() > mSelectionTopPadding ? getPaddingTop()
-                : mSelectionTopPadding;
-        mSpinnerPadding.right = getPaddingRight() > mSelectionRightPadding ? getPaddingRight()
-                : mSelectionRightPadding;
-        mSpinnerPadding.bottom = getPaddingBottom() > mSelectionBottomPadding ? getPaddingBottom()
-                : mSelectionBottomPadding;
-
+        mSpinnerPadding.left = getPaddingLeft() > mSelectionLeftPadding ? getPaddingLeft() : mSelectionLeftPadding;
+        mSpinnerPadding.top = getPaddingTop() > mSelectionTopPadding ? getPaddingTop() : mSelectionTopPadding;
+        mSpinnerPadding.right = getPaddingRight() > mSelectionRightPadding ? getPaddingRight() : mSelectionRightPadding;
+        mSpinnerPadding.bottom = getPaddingBottom() > mSelectionBottomPadding ? getPaddingBottom() : mSelectionBottomPadding;
         if (mDataChanged) {
             handleDataChanged();
         }
-
         int preferredHeight = 0;
         int preferredWidth = 0;
         boolean needsMeasuring = true;
-
         final int selectedPosition = getSelectedItemPosition();
         if (selectedPosition >= 0 && mAdapter != null) {
             // Try looking in the recycler. (Maybe we were measured once already)
@@ -214,12 +159,8 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
                     mBlockLayoutRequests = false;
                 }
                 measureChild(view, widthMeasureSpec, heightMeasureSpec);
-
-                preferredHeight = getChildHeight(view) + mSpinnerPadding.top
-                        + mSpinnerPadding.bottom;
-                preferredWidth = getChildWidth(view) + mSpinnerPadding.left
-                        + mSpinnerPadding.right;
-
+                preferredHeight = getChildHeight(view) + mSpinnerPadding.top + mSpinnerPadding.bottom;
+                preferredWidth = getChildWidth(view) + mSpinnerPadding.left + mSpinnerPadding.right;
                 needsMeasuring = false;
             }
         }
@@ -234,27 +175,27 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
 
         preferredHeight = Math.max(preferredHeight, getSuggestedMinimumHeight());
         preferredWidth = Math.max(preferredWidth, getSuggestedMinimumWidth());
-
         heightSize = resolveSize(preferredHeight, heightMeasureSpec);
         widthSize = resolveSize(preferredWidth, widthMeasureSpec);
-
         setMeasuredDimension(widthSize, heightSize);
         mHeightMeasureSpec = heightMeasureSpec;
         mWidthMeasureSpec = widthMeasureSpec;
     }
-    // CHECKSTYLE:ON
 
     /**
      * Gets the height of the child view passed.
+     *
      * @param child the child to get the height of
      * @return the child's measured height
      */
     final int getChildHeight(final View child) {
         return child.getMeasuredHeight();
     }
+    // CHECKSTYLE:ON
 
     /**
      * Gets the width of the child view passed.
+     *
      * @param child the child to get the width of
      * @return the child's measure width
      */
@@ -265,7 +206,7 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
     //  CHECKSTYLE:OFF overridden in gallery
     @Override
     protected LayoutParams generateDefaultLayoutParams() {
-    //  CHECKSTYLE:ON
+        //  CHECKSTYLE:ON
         return new LayoutParams(
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT);
@@ -293,19 +234,18 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
          * This is harmless right now, but we don't want to do redundant work if
          * this gets more complicated
          */
-       super.handleDataChanged();
+        super.handleDataChanged();
     }
 
     /**
      * Jump directly to a specific item in the adapter data.
      *
      * @param position the position to select
-     * @param animate if true, animate the selection
+     * @param animate  if true, animate the selection
      */
     public final void setSelection(final int position, final boolean animate) {
         // Animate only if requested position is already on screen somewhere
-        final boolean shouldAnimate = animate && mFirstPosition <= position
-                && position <= mFirstPosition + getChildCount() - 1;
+        final boolean shouldAnimate = animate && mFirstPosition <= position && position <= mFirstPosition + getChildCount() - 1;
         setSelectionInt(position, shouldAnimate);
     }
 
@@ -320,13 +260,12 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
      * Makes the item at the supplied position selected.
      *
      * @param position Position to select
-     * @param animate Should the transition be animated
-     *
+     * @param animate  Should the transition be animated
      */
     final void setSelectionInt(final int position, final boolean animate) {
         if (position != mOldSelectedPosition) {
             mBlockLayoutRequests = true;
-            final int delta  = position - mSelectedPosition;
+            final int delta = position - mSelectedPosition;
             setNextSelectedPositionInt(position);
             layout(delta, animate);
             mBlockLayoutRequests = false;
@@ -335,7 +274,6 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
 
     // CHECKSTYLE:OFF unmodified
     abstract void layout(int delta, boolean animate);
-    // CHECKSTYLE:ON
 
     @Override
     public final View getSelectedView() {
@@ -345,6 +283,7 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
             return null;
         }
     }
+    // CHECKSTYLE:ON
 
     /**
      * Override to prevent spamming ourselves with layout requests
@@ -364,6 +303,45 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
         return mAdapter;
     }
 
+    /**
+     * The Adapter is used to provide the data which backs this Spinner.
+     * It also provides methods to transform spinner items based on their position
+     * relative to the selected item.
+     *
+     * @param adapter The SpinnerAdapter to use for this Spinner
+     */
+    // CHECKSTYLE:OFF unmodified
+    @Override
+    public void setAdapter(final SpinnerAdapter adapter) {
+        if (null != mAdapter) {
+            mAdapter.unregisterDataSetObserver(mDataSetObserver);
+            resetList();
+        }
+        mAdapter = adapter;
+        mOldSelectedPosition = INVALID_POSITION;
+        mOldSelectedRowId = INVALID_ROW_ID;
+        if (mAdapter != null) {
+            mOldItemCount = mItemCount;
+            mItemCount = mAdapter.getCount();
+            checkFocus();
+            mDataSetObserver = new AdapterDataSetObserver();
+            mAdapter.registerDataSetObserver(mDataSetObserver);
+            final int position = mItemCount > 0 ? 0 : INVALID_POSITION;
+            setSelectedPositionInt(position);
+            setNextSelectedPositionInt(position);
+            if (mItemCount == 0) {
+                // Nothing selected
+                checkSelectionChanged();
+            }
+        } else {
+            checkFocus();
+            resetList();
+            // Nothing selected
+            checkSelectionChanged();
+        }
+        requestLayout();
+    }
+
     @Override
     public final int getCount() {
         return mItemCount;
@@ -375,7 +353,7 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
      * @param x X in local coordinate
      * @param y Y in local coordinate
      * @return The position of the item which contains the specified point, or
-     *         {@link #INVALID_POSITION} if the point does not intersect an item.
+     * {@link #INVALID_POSITION} if the point does not intersect an item.
      */
     public final int pointToPosition(final int x, final int y) {
         Rect frame = mTouchFrame;
@@ -397,8 +375,47 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
         return INVALID_POSITION;
     }
 
+    @Override
+    public Parcelable onSaveInstanceState() {
+        final Parcelable superState = super.onSaveInstanceState();
+        final SavedState ss = new SavedState(superState);
+        ss.selectedId = getSelectedItemId();
+        if (ss.selectedId >= 0) {
+            ss.position = getSelectedItemPosition();
+        } else {
+            ss.position = INVALID_POSITION;
+        }
+        return ss;
+    }
+
+    @Override
+    public void onRestoreInstanceState(final Parcelable state) {
+        final SavedState ss = (SavedState) state;
+        super.onRestoreInstanceState(ss.getSuperState());
+        if (ss.selectedId >= 0) {
+            mDataChanged = true;
+            mNeedSync = true;
+            mSyncRowId = ss.selectedId;
+            mSyncPosition = ss.position;
+            mSyncMode = SYNC_SELECTED_POSITION;
+            requestLayout();
+        }
+    }
+
     //  CHECKSTYLE:OFF unmodified
     static class SavedState extends BaseSavedState {
+        public static final Creator<SavedState> CREATOR
+                = new Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(final Parcel in) {
+                return new SavedState(in);
+            }
+
+            @Override
+            public SavedState[] newArray(final int size) {
+                return new SavedState[size];
+            }
+        };
         long selectedId;
         int position;
 
@@ -432,48 +449,6 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
                     + " selectedId=" + selectedId
                     + " position=" + position + "}";
         }
-
-        public static final Creator<SavedState> CREATOR
-                = new Creator<SavedState>() {
-            @Override
-           public SavedState createFromParcel(final Parcel in) {
-                return new SavedState(in);
-            }
-
-            @Override
-           public SavedState[] newArray(final int size) {
-                return new SavedState[size];
-            }
-        };
-    }
-
-    @Override
-    public Parcelable onSaveInstanceState() {
-        final Parcelable superState = super.onSaveInstanceState();
-        final SavedState ss = new SavedState(superState);
-        ss.selectedId = getSelectedItemId();
-        if (ss.selectedId >= 0) {
-            ss.position = getSelectedItemPosition();
-        } else {
-            ss.position = INVALID_POSITION;
-        }
-        return ss;
-    }
-
-    @Override
-    public void onRestoreInstanceState(final Parcelable state) {
-        final SavedState ss = (SavedState) state;
-
-        super.onRestoreInstanceState(ss.getSuperState());
-
-        if (ss.selectedId >= 0) {
-            mDataChanged = true;
-            mNeedSync = true;
-            mSyncRowId = ss.selectedId;
-            mSyncPosition = ss.position;
-            mSyncMode = SYNC_SELECTED_POSITION;
-            requestLayout();
-        }
     }
 
     class RecycleBin {
@@ -487,16 +462,13 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
             // System.out.print("Looking for " + position);
             final View result = mScrapHeap.get(position);
             if (result != null) {
-                // System.out.println(" HIT");
                 mScrapHeap.delete(position);
             } else {
-                // System.out.println(" MISS");
             }
             return result;
         }
 
         View peek(final int position) {
-            // System.out.print("Looking for " + position);
             return mScrapHeap.get(position);
         }
 
@@ -512,5 +484,4 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
             scrapHeap.clear();
         }
     }
-    // CHECKSTYLE:ON
 }

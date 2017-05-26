@@ -45,46 +45,32 @@ public class Utilities {
     private static ObjectMapper mapper = null;
     private static ProgressDialog progressDialog;
 
-
     public static double GetRoutDistane(double startLat, double startLong, double endLat, double endLong, String distApi) {
         try {
-//            Log.e("Distance Link : ", "http://maps.googleapis.com/maps/api/directions/json?origin=" + startLat + "," + startLong + "&destination=" + endLat + "," + endLong + "&sensor=false");
             Location startPoint = new Location("locationA");
             startPoint.setLatitude(startLat);
             startPoint.setLongitude(startLong);
-
             Location endPoint = new Location("locationA");
             endPoint.setLatitude(endLat);
             endPoint.setLongitude(endLong);
             DecimalFormat df = new DecimalFormat("#.##");
             Double time = Double.valueOf(df.format(startPoint.distanceTo(endPoint) / 1000));
             return time;
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return -1;
-
-
     }
+
     public static ArrayList<Nearby> sortLocations(ArrayList<Nearby> locations) {
         Comparator comp = new Comparator<Nearby>() {
             @Override
             public int compare(Nearby o, Nearby o2) {
-//                float[] result1 = new float[3];
-//                android.location.Location.distanceBetween(myLatitude, myLongitude, o.Lat, o.Long, result1);
                 double distance1 = o.getDistance();
-
-//                float[] result2 = new float[3];
-//                android.location.Location.distanceBetween(myLatitude, myLongitude, o2.Lat, o2.Long, result2);
                 double distance2 = o2.getDistance();
-
-
                 return Double.compare(distance1, distance2);
             }
         };
-
-
         Collections.sort(locations, comp);
         return locations;
     }
@@ -97,17 +83,13 @@ public class Utilities {
             lock.lock();
             if (mapper == null) {
                 mapper = new ObjectMapper();
-                mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES,
-                        false);
-//                mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);//TODO new added
+                mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
             }
             lock.unlock();
         } catch (Exception ex) {
             if (ex != null)
                 Log.e(LOG_TAG, "Mapper Initialization Failed.", ex);
-
         }
-
         return mapper;
     }
 
@@ -149,23 +131,18 @@ public class Utilities {
         dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         dialog.show();
         return dialog;
-
-
     }
 
     public static void toast(Context context, String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-
     }
 
     public static int getColor(Context context, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return context.getColor(color);
         } else {
-            //noinspection deprecation
             return context.getResources().getColor(color);
         }
-
     }
 
     public static Drawable getDrawable(Context context, int drawable) {
@@ -184,10 +161,7 @@ public class Utilities {
      */
     public static boolean isConnected(Context context) {
         NetworkInfo networkInfo = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
-//
-
         return networkInfo != null && networkInfo.isConnectedOrConnecting();
-//        return networkInfo != null && networkInfo.isConnected()? isInternetAvailable():false;
     }
 
     public static void Log(String log_tag, String message, Exception e) {
@@ -239,7 +213,6 @@ public class Utilities {
         } catch (JSONException e) {
             Log.e("log_tag", "Error parsing data " + e.toString());
         }
-
         return jArray;
     }
 }

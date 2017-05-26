@@ -2,8 +2,6 @@ package com.ftl.tourisma.models;
 
 import com.ftl.tourisma.database.FeesDetails;
 
-import org.json.*;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -24,45 +22,10 @@ public class HourDetails implements Serializable {
     private String pOHStartTime;
     private String pOHCharges;
     
-    
 	public HourDetails () {
 		
 	}	
-        
-   /* public HourDetails (JSONObject json) {
-    
-        this.pOHId = json.optString("POH_Id");
-        this.pOHDay = json.optString("POH_Day");
-        this.pOHIsOpen = json.optString("POH_Is_Open");
-        this.pOHKey = json.optString("POH_Key");
-        this.placeId = json.optString("Place_Id");
-        this.pOHEndTime = json.optString("POH_End_Time");
-        this.pOHFamilyCharges = json.optString("POH_FamilyCharges");
-        this.pOHGroupCharges = json.optString("POH_GroupCharges");
 
-        this.feesDetails = new ArrayList<FeesDetails>();
-        JSONArray arrayFeesDetails = json.optJSONArray("Fees_Details");
-        if (null != arrayFeesDetails) {
-            int feesDetailsLength = arrayFeesDetails.length();
-            for (int i = 0; i < feesDetailsLength; i++) {
-                String item = arrayFeesDetails.optString(i);
-                if (null != item) {
-                    this.feesDetails.add(item);
-                }
-            }
-        }
-        else {
-            String item = json.optString("Fees_Details");
-            if (null != item) {
-                this.feesDetails.add(item);
-            }
-        }
-
-        this.pOHStartTime = json.optString("POH_Start_Time");
-        this.pOHCharges = json.optString("POH_Charges");
-
-    }
-    */
     public String getPOHId() {
         return this.pOHId;
     }

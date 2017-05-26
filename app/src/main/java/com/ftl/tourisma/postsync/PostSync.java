@@ -1,13 +1,10 @@
 package com.ftl.tourisma.postsync;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -43,169 +40,31 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ftl.tourisma.utils.Utils.getMapper;
-
 public class PostSync extends AsyncTask<String, Integer, String> {
 
     private static final String TAG = "PostSync";
-
+    static String resultString = "";
     Dialog dialog;
     Context context;
     ProgressBar progressbar;
     String action = "";
-    static String resultString = "";
-
-
     private post_sync.ResponseHandler responseHandler;
-
-    public void setResponseHandler(post_sync.ResponseHandler responseHandler) {
-        this.responseHandler = responseHandler;
-    }
 
     public PostSync(Context context, String action, post_sync.ResponseHandler responseHandler) {
         this.context = context;
         this.responseHandler = responseHandler;
         this.action = action;
-
-    }
-
-    protected void onPreExecute() {
-        try {
-            if (Constants.dialog != null) {
-                Constants.dialog = null;
-            }
-
-            Constants.dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
-
-            progressbar = new ProgressBar(context);
-            progressbar.setBackgroundColor(Utils.getColor(context, android.R.color.transparent));
-            progressbar.setProgressDrawable(Utils.getDrawable(context, R.drawable.progress_background));
-            Constants.dialog.setContentView(progressbar);
-            Constants.dialog.setCancelable(false);
-            Window window = Constants.dialog.getWindow();
-            window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            window.setGravity(Gravity.CENTER);
-            Constants.dialog.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected String doInBackground(String... params) {
-
-        if (params.length == 3) {
-            invoke2(params[0], params[1], params[2]);
-        } else if (params.length == 2) {
-            invoke1(params[0], params[1]);
-        } else {
-            connect_post(params[0]);
-        }
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(String result) {
-        super.onPostExecute(result);
-        Log.i("System out", "result: " + resultString);
-        if (Constants.dialog != null) {
-            Constants.dialog.dismiss();
-        }
-        try {
-            System.gc();
-            Runtime.getRuntime().gc();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("here in post execute method");
-        sendResult();
-    }
-
-    private void sendResult() {
-        try {
-            String str = "";
-            String p = "\\\\";
-            if (responseHandler != null) {
-                if (resultString != null) {
-                    //str = resultString.replaceAll("\r", " ");
-//                    str = resultString.replaceAll("\\r|\\n", "");
-                    str = resultString.replace("\\\\", "\\");
-                    if (str.contains("\\\\")) {
-                        str = str.replace("\\\\", "\\");
-                    }
-                }
-                responseHandler.onResponse(str, action);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void connect_post(String obj) {
-        try {
-            String urlStr = obj.replaceAll(" ", "%20").replaceAll("'", "%27");
-            Utils.Log(TAG, "connect_post Url==> " + urlStr);
-            URL url;
-            HttpURLConnection connection;
-            StringBuffer buffer = null;
-
-            try {
-                url = new URL(urlStr);
-                connection = (HttpURLConnection) url.openConnection();
-                buffer = new StringBuffer();
-                InputStreamReader inputReader = new InputStreamReader(
-                        connection.getInputStream());
-                BufferedReader buffReader = new BufferedReader(inputReader,
-                        50000);
-                String line = "";
-                do {
-                    line = buffReader.readLine();
-                    if (line != null)
-                        buffer.append(line);
-                } while (line != null);
-
-                buffReader.reset();
-                line = "";
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                Utils.Log(TAG, "connect_post MalformedURLException " + e.getLocalizedMessage());
-            } catch (OutOfMemoryError e) {
-                e.printStackTrace();
-                // Toast.makeText(,"Could not post image due to insufficient storage memory",
-                // 3000).show();
-                Utils.Log(TAG, "connect_post OutOfMemoryError " + e.getLocalizedMessage());
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                Utils.Log(TAG, "connect_post IOException " + e.getLocalizedMessage());
-
-            }
-            resultString = buffer.toString();
-            buffer = null;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public static String convertInputStreamToString(InputStream is) {
         BufferedReader reader;
         StringBuilder sb = null;
         try {
-            // reader = new BufferedReader(new InputStreamReader(is, "UTF-8"),
-            // 8); // JSON is UTF-8 by default I believe
             reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             sb = new StringBuilder();
             String line = null;
-
-            // returnResponse = reader.readLine();
-            // Log.d("DEBUG", "returnResponse: " + returnResponse); // DEBUG
-            // returnResponse = reader.readLine();
-            // Log.d("DEBUG", "returnResponse: " + returnResponse); // DEBUG
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
-                // Log.d("DEBUG", "sb: " + sb.toString()); // DEBUG
             }
         } catch (UnsupportedEncodingException e1) {
             e1.printStackTrace();
@@ -218,74 +77,32 @@ public class PostSync extends AsyncTask<String, Integer, String> {
                 e.printStackTrace();
             }
         }
-
         return sb.toString();
     }
 
-
     public static String invoke1(String url, String umid) {
-
-        // StrictMode.ThreadPolicy policy = new
-        // StrictMode.ThreadPolicy.Builder().permitAll().build();
-        // StrictMode.setThreadPolicy(policy);
-      /*  try {
-
-
-            HttpURLConnection myURLConnection = null;
-            Log.e(TAG, "The url is:::" + url);
-            URL myURL = new URL(url);
-            myURLConnection = (HttpURLConnection) myURL.openConnection();
-            myURLConnection.setReadTimeout(10000);
-            myURLConnection.setConnectTimeout(10000);
-//                    Log.e(TAG, "The method is::: GET");
-//                    String json = performGetReQuest(myURLConnection);
-            Log.e(TAG, "The method is::: METHOD_POST");
-            ObjectWriter writer = getMapper().writer();
-            String jsonObject = "";
-            // writer.writeValueAsString( request );
-            jsonObject = writer.writeValueAsString(umid);
-            Log.i(TAG, "REQUEST JSON OBJECT : " + jsonObject + "");
-            String json1 = performPostCall(myURLConnection, jsonObject);
-            Log.e(TAG, json1);
-        } catch (Exception e) {
-            Log.i(TAG, "REQUEST JSON OBJECT Exception : " + e.getLocalizedMessage() + "");
-        }
-*/
         String s = "";
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(url);
-
         HttpParams httpParameters = new BasicHttpParams();
         HttpProtocolParams.setContentCharset(httpParameters, HTTP.UTF_8);
         HttpProtocolParams.setHttpElementCharset(httpParameters, HTTP.UTF_8);
-
         HttpClient client = new DefaultHttpClient(httpParameters);
-        client.getParams().setParameter("http.protocol.version",
-                HttpVersion.HTTP_1_1);
-        client.getParams().setParameter("http.socket.timeout",
-                new Integer(15000));
-        client.getParams().setParameter("http.protocol.content-charset",
-                HTTP.UTF_8);
-        httpParameters.setBooleanParameter("http.protocol.expect-continue",
-                false);
+        client.getParams().setParameter("http.protocol.version", HttpVersion.HTTP_1_1);
+        client.getParams().setParameter("http.socket.timeout", new Integer(15000));
+        client.getParams().setParameter("http.protocol.content-charset", HTTP.UTF_8);
+        httpParameters.setBooleanParameter("http.protocol.expect-continue", false);
         HttpPost request = new HttpPost(url);
-        request.getParams().setParameter("http.socket.timeout",
-                new Integer(15000));
-
+        request.getParams().setParameter("http.socket.timeout", new Integer(15000));
         Utils.Log(TAG, "invoke1 link : " + url);
-        // Log.i("System out", "postString : " + postString);
         try {
             org.apache.http.Header[] headers = request.getAllHeaders();
             for (int i = 0; i < headers.length; i++) {
-                Utils.Log(TAG, "invoke1 headername : " + headers[i].getName()
-                        + ", value: " + headers[i].getValue());
+                Utils.Log(TAG, "invoke1 headername : " + headers[i].getName() + ", value: " + headers[i].getValue());
             }
-
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("json", umid));
-            request.setEntity(new UrlEncodedFormEntity(nameValuePairs,
-                    HTTP.UTF_8));
-
+            request.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
             HttpResponse response = client.execute(request);
             HttpEntity httpEntity = response.getEntity();
             if (httpEntity != null) {
@@ -297,11 +114,9 @@ public class PostSync extends AsyncTask<String, Integer, String> {
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
             Utils.Log(TAG, "invoke1 OutOfMemoryError :" + e.getLocalizedMessage());
-
         } catch (Exception e) {
             e.printStackTrace();
             Utils.Log(TAG, "invoke1 Exception :" + e.getLocalizedMessage());
-
         }
         httppost = null;
         httpclient = null;
@@ -309,47 +124,29 @@ public class PostSync extends AsyncTask<String, Integer, String> {
     }
 
     public static String invoke2(String url, String json, String orderDetails) {
-
-        // StrictMode.ThreadPolicy policy = new
-        // StrictMode.ThreadPolicy.Builder().permitAll().build();
-        // StrictMode.setThreadPolicy(policy);
-
         String s = "";
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(url);
-
         HttpParams httpParameters = new BasicHttpParams();
         HttpProtocolParams.setContentCharset(httpParameters, HTTP.UTF_8);
         HttpProtocolParams.setHttpElementCharset(httpParameters, HTTP.UTF_8);
-
         HttpClient client = new DefaultHttpClient(httpParameters);
-        client.getParams().setParameter("http.protocol.version",
-                HttpVersion.HTTP_1_1);
-        client.getParams().setParameter("http.socket.timeout",
-                new Integer(50000));
-        client.getParams().setParameter("http.protocol.content-charset",
-                HTTP.UTF_8);
-        httpParameters.setBooleanParameter("http.protocol.expect-continue",
-                false);
+        client.getParams().setParameter("http.protocol.version", HttpVersion.HTTP_1_1);
+        client.getParams().setParameter("http.socket.timeout", new Integer(50000));
+        client.getParams().setParameter("http.protocol.content-charset", HTTP.UTF_8);
+        httpParameters.setBooleanParameter("http.protocol.expect-continue", false);
         HttpPost request = new HttpPost(url);
-        request.getParams().setParameter("http.socket.timeout",
-                new Integer(50000));
-
+        request.getParams().setParameter("http.socket.timeout", new Integer(50000));
         Utils.Log(TAG, "link : " + url);
-        // Log.i("System out", "postString : " + postString);
         try {
             org.apache.http.Header[] headers = request.getAllHeaders();
             for (int i = 0; i < headers.length; i++) {
-                Utils.Log(TAG, "headername : " + headers[i].getName()
-                        + ", value: " + headers[i].getValue());
+                Utils.Log(TAG, "headername : " + headers[i].getName() + ", value: " + headers[i].getValue());
             }
-
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
             nameValuePairs.add(new BasicNameValuePair("json", json));
             nameValuePairs.add(new BasicNameValuePair("orderDetails", orderDetails));
-            request.setEntity(new UrlEncodedFormEntity(nameValuePairs,
-                    HTTP.UTF_8));
-
+            request.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
             HttpResponse response = client.execute(request);
             HttpEntity httpEntity = response.getEntity();
             if (httpEntity != null) {
@@ -390,11 +187,7 @@ public class PostSync extends AsyncTask<String, Integer, String> {
     }
 
     public static String performPostCall(HttpURLConnection conn, String postData) throws Exception {
-
-
         String response = "";
-
-
         Log.e(TAG + "Response", "performPostCall");
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/json");
@@ -403,7 +196,6 @@ public class PostSync extends AsyncTask<String, Integer, String> {
         conn.setRequestProperty("Accept-Charset", "UTF-8");
         conn.setDoInput(true);
         conn.setDoOutput(true);
-
         OutputStream output = conn.getOutputStream();
         output.write(postData.getBytes());
         output.close();
@@ -411,26 +203,123 @@ public class PostSync extends AsyncTask<String, Integer, String> {
         boolean isError = conn.getResponseCode() >= 400;
         //The normal input stream doesn't work in error-cases.
         InputStream is = isError ? conn.getErrorStream() : conn.getInputStream();
-
         Log.e(TAG, "responseCode====>" + responseCode);
-        //if (responseCode == HttpsURLConnection.HTTP_OK) {
         String line;
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         while ((line = br.readLine()) != null) {
             response += line;
         }
-           /* }
-            else {
-                response="";
-
-            }*/
-
-
-      /*  } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
         return response;
+    }
+
+    public void setResponseHandler(post_sync.ResponseHandler responseHandler) {
+        this.responseHandler = responseHandler;
+    }
+
+    protected void onPreExecute() {
+        try {
+            if (Constants.dialog != null) {
+                Constants.dialog = null;
+            }
+            Constants.dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+            progressbar = new ProgressBar(context);
+            progressbar.setBackgroundColor(Utils.getColor(context, android.R.color.transparent));
+            progressbar.setProgressDrawable(Utils.getDrawable(context, R.drawable.progress_background));
+            Constants.dialog.setContentView(progressbar);
+            Constants.dialog.setCancelable(false);
+            Window window = Constants.dialog.getWindow();
+            window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            window.setGravity(Gravity.CENTER);
+            Constants.dialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected String doInBackground(String... params) {
+        if (params.length == 3) {
+            invoke2(params[0], params[1], params[2]);
+        } else if (params.length == 2) {
+            invoke1(params[0], params[1]);
+        } else {
+            connect_post(params[0]);
+        }
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        super.onPostExecute(result);
+        Log.i("System out", "result: " + resultString);
+        if (Constants.dialog != null) {
+            Constants.dialog.dismiss();
+        }
+        try {
+            System.gc();
+            Runtime.getRuntime().gc();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("here in post execute method");
+        sendResult();
+    }
+
+    private void sendResult() {
+        try {
+            String str = "";
+            String p = "\\\\";
+            if (responseHandler != null) {
+                if (resultString != null) {
+                    str = resultString.replace("\\\\", "\\");
+                    if (str.contains("\\\\")) {
+                        str = str.replace("\\\\", "\\");
+                    }
+                }
+                responseHandler.onResponse(str, action);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void connect_post(String obj) {
+        try {
+            String urlStr = obj.replaceAll(" ", "%20").replaceAll("'", "%27");
+            Utils.Log(TAG, "connect_post Url==> " + urlStr);
+            URL url;
+            HttpURLConnection connection;
+            StringBuffer buffer = null;
+            try {
+                url = new URL(urlStr);
+                connection = (HttpURLConnection) url.openConnection();
+                buffer = new StringBuffer();
+                InputStreamReader inputReader = new InputStreamReader(connection.getInputStream());
+                BufferedReader buffReader = new BufferedReader(inputReader, 50000);
+                String line = "";
+                do {
+                    line = buffReader.readLine();
+                    if (line != null)
+                        buffer.append(line);
+                } while (line != null);
+
+                buffReader.reset();
+                line = "";
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                Utils.Log(TAG, "connect_post MalformedURLException " + e.getLocalizedMessage());
+            } catch (OutOfMemoryError e) {
+                e.printStackTrace();
+                Utils.Log(TAG, "connect_post OutOfMemoryError " + e.getLocalizedMessage());
+            } catch (IOException e) {
+                e.printStackTrace();
+                Utils.Log(TAG, "connect_post IOException " + e.getLocalizedMessage());
+            }
+            resultString = buffer.toString();
+            buffer = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

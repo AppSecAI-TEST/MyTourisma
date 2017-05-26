@@ -49,7 +49,6 @@ public class JSONObjConverter {
         try {
             feesDetails = jsonObject.getJSONArray("Fees_Details");
             if (feesDetails != null) {
-
                 for (int k = 0; k < feesDetails.length(); k++) {
 
                     JSONObject jobjFees = feesDetails.getJSONObject(k);
@@ -59,13 +58,11 @@ public class JSONObjConverter {
                     feesArrayList.add(objFees);
                 }
             }
-            // hoursOfOperation.setFeesDetailses(feesArrayList);
         } catch (JSONException e) {
             // Tracking exception
             MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
-
         return feesArrayList;
     }
 
@@ -77,17 +74,11 @@ public class JSONObjConverter {
             recommended.setPlace_Name(jsonObject1.optString("Place_Name"));
             recommended.setPlace_ShortInfo(jsonObject1.optString("Place_ShortInfo"));
             recommended.setPlace_MainImage(jsonObject1.optString("Place_MainImage"));
-
-//            recommended.setPlace_Description(jsonObject1.optString("Place_Description"));
             if (jsonObject1.optString("Place_Description") != null && !jsonObject1.optString("Place_Description").equalsIgnoreCase("")) {
                 String price = jsonObject1.optString("Place_Description");
-//                String a = price.replace("\\*", "");
-               // String b = price.replaceAll("\r", "");
-//                String c = b.replaceAll("\n", System.getProperty("line.separator"));
                 recommended.setPlace_Description(price);
             } else {
                 recommended.setPlace_Description(jsonObject1.optString("Place_Description"));
-
             }
             recommended.setPlace_Address(jsonObject1.optString("Place_Address"));
             recommended.setPlace_Latitude(jsonObject1.optString("Place_Latitude"));
@@ -95,7 +86,6 @@ public class JSONObjConverter {
             recommended.setOtherimages(jsonObject1.optString("otherimages"));
             recommended.setPlaceVRMainImage(jsonObject1.optString("Place_VRMainImage"));
             recommended.setVrimages(jsonObject1.optString("vrimages"));
-
             if (jsonObject1.optString("Price_Description") != null && !jsonObject1.optString("Price_Description").equalsIgnoreCase("")) {
                 String price = jsonObject1.optString("Price_Description");
                 recommended.setPrice_Description(price);
@@ -107,18 +97,13 @@ public class JSONObjConverter {
             recommended.setCategory_Id(jsonObject1.optString("Category_Id"));
             recommended.setPlace_Recommended(jsonObject1.optString("Place_Recommended"));
             recommended.setPlace_Close_Note(jsonObject1.optString("Place_Close_Note"));
-
             recommended.setDist(jsonObject1.optString("dist"));
             recommended.setFav_Id(jsonObject1.optString("Fav_Id"));
             recommended.setFree_entry(jsonObject1.optString("free_entry"));
 
-
             JSONArray operation1 = jsonObject1.getJSONArray("HourDetails");
             ArrayList<HourDetails> detailsArrayList = new ArrayList<>();
             for (int j = 0; j < operation1.length(); j++) {
-
-//                JSONObjConverter jsonObjConverter = new JSONObjConverter();
-//                jsonObjConverter.convertJsonToHoursDetailsObj(operation1.getJSONObject(j));
                 detailsArrayList.add(convertJsonToHoursDetailsObj(operation1.getJSONObject(j)));
             }
             recommended.setHourDetailsArrayList(detailsArrayList);

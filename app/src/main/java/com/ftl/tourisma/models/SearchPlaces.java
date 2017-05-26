@@ -1,8 +1,5 @@
 package com.ftl.tourisma.models;
 
-import org.json.*;
-
-
 public class SearchPlaces {
 	
     private String placeName;
@@ -15,15 +12,6 @@ public class SearchPlaces {
         this.placeMainImage = placeMainImage;
         this.placeId = placeId;
     }
-
-    //    public myt (JSONObject json) {
-//
-//        this.placeName = json.optString("Place_Name");
-//        this.lanId = json.optString("Lan_Id");
-//        this.placeMainImage = json.optString("Place_MainImage");
-//        this.placeId = json.optString("Place_Id");
-//
-//    }
     
     public String getPlaceName() {
         return this.placeName;
@@ -56,7 +44,5 @@ public class SearchPlaces {
     public void setPlaceId(String placeId) {
         this.placeId = placeId;
     }
-
-
     
 }
