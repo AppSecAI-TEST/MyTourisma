@@ -50,6 +50,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -552,6 +553,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                 String imageURL = Constants.IMAGE_URL + nearbies.get(i).getPlace_MainImage() + "&w=" + (mainActivity.width);
                 Picasso.with(getActivity())
                         .load(imageURL)
+                        .networkPolicy(NetworkPolicy.OFFLINE)
                         .resize(mainActivity.width, (mainActivity.height * 60) / 100)
                         .into(iv_nearby_explorer);
                 tv_near.setText(nearbies.get(i).getPlace_Name());
@@ -696,10 +698,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                             Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?q=loc:" + gpsTracker.getLatitude() + "," + gpsTracker.getLongitude() + "&daddr=" + Double.parseDouble(nearbies.get(rl_navigator.getId()).getPlace_Latitude()) + "," + Double.parseDouble(nearbies.get(rl_navigator.getId()).getPlace_Longi())));
                             startActivity(intent);
                         }
-                        /*String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f", Double.parseDouble(mainActivity.getPreferences().getString("latitude1", "")), Double.parseDouble(mainActivity.getPreferences().getString("longitude1", "")), Double.parseDouble(nearbies.get(rl_navigator.getId()).getPlace_Latitude()), Double.parseDouble(nearbies.get(rl_navigator.getId()).getPlace_Longi()));
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
-                        startActivity(intent);*/
                     }
                 });
                 ll_nearby_explorer.addView(view);

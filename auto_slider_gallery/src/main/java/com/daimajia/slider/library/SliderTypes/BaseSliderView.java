@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.daimajia.slider.library.R;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
@@ -22,25 +23,19 @@ import java.io.File;
 public abstract class BaseSliderView {
 
     protected Context mContext;
-
+    protected OnSliderClickListener mOnSliderClickListener;
     private Bundle mBundle;
-
     /**
      * Error place holder image.
      */
     private int mErrorPlaceHolderRes;
-
     /**
      * Empty imageView placeholder.
      */
     private int mEmptyPlaceHolderRes;
-
     private String mUrl;
     private File mFile;
     private int mRes;
-
-    protected OnSliderClickListener mOnSliderClickListener;
-
     private boolean mErrorDisappear;
 
     private ImageLoadListener mLoadListener;
@@ -53,10 +48,6 @@ public abstract class BaseSliderView {
      * Scale type of the image.
      */
     private ScaleType mScaleType = ScaleType.Fit;
-
-    public enum ScaleType{
-        CenterCrop, CenterInside, Fit, FitCenterCrop
-    }
 
     protected BaseSliderView(Context context) {
         mContext = context;
@@ -210,11 +201,11 @@ public abstract class BaseSliderView {
         Picasso p = (mPicasso != null) ? mPicasso : Picasso.with(mContext);
         RequestCreator rq = null;
         if(mUrl!=null){
-            rq = p.load(mUrl);
+            rq = p.load(mUrl).networkPolicy(NetworkPolicy.OFFLINE);
         }else if(mFile != null){
-            rq = p.load(mFile);
+            rq = p.load(mFile).networkPolicy(NetworkPolicy.OFFLINE);
         }else if(mRes != 0){
-            rq = p.load(mRes);
+            rq = p.load(mRes).networkPolicy(NetworkPolicy.OFFLINE);
         }else{
             return;
         }
@@ -263,15 +254,13 @@ public abstract class BaseSliderView {
         });
    }
 
-
+    public ScaleType getScaleType() {
+        return mScaleType;
+    }
 
     public BaseSliderView setScaleType(ScaleType type){
         mScaleType = type;
         return this;
-    }
-
-    public ScaleType getScaleType(){
-        return mScaleType;
     }
 
     /**
@@ -289,21 +278,12 @@ public abstract class BaseSliderView {
         mLoadListener = l;
     }
 
-    public interface OnSliderClickListener {
-        public void onSliderClick(BaseSliderView slider);
-    }
-
     /**
      * when you have some extra information, please put it in this bundle.
      * @return
      */
     public Bundle getBundle(){
         return mBundle;
-    }
-
-    public interface ImageLoadListener{
-        public void onStart(BaseSliderView target);
-        public void onEnd(boolean result,BaseSliderView target);
     }
 
     /**
@@ -324,5 +304,19 @@ public abstract class BaseSliderView {
      */
     public void setPicasso(Picasso picasso) {
         mPicasso = picasso;
+    }
+
+    public enum ScaleType {
+        CenterCrop, CenterInside, Fit, FitCenterCrop
+    }
+
+    public interface OnSliderClickListener {
+        public void onSliderClick(BaseSliderView slider);
+    }
+
+    public interface ImageLoadListener {
+        public void onStart(BaseSliderView target);
+
+        public void onEnd(boolean result, BaseSliderView target);
     }
 }

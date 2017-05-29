@@ -72,6 +72,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -851,10 +852,14 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
             viewHolder.txtFav.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Favourite"));
             String imageURL = Constants.IMAGE_URL + nearbies.get(position).getPlace_MainImage() + "&w=" + (width - 30);
             viewHolder.iv_nearby_explorer.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (height * 60) / 100));
-            Picasso.with(getActivity()).load(imageURL).
-                    resize(width, (height * 60) / 100)
+            Picasso.with(getActivity())
+                    .load(imageURL)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .resize(width, (height * 60) / 100)
                     .into(viewHolder.iv_nearby_explorer);
             viewHolder.tv_near.setText(nearbies.get(position).getPlace_Name());
+            viewHolder.tv_near.setSelected(true);
+            viewHolder.tv_near.requestFocus();
             if (nearbies.get(position).getFree_entry().equals("0")) {
                 viewHolder.tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Check Details"));
             } else if (nearbies.get(position).getFree_entry().equals("1")) {
@@ -1082,8 +1087,9 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
             tv_km.setText(nearbies1.get(position).getDistance() + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
             String imageUrl = Constants.IMAGE_URL + nearbies1.get(position).getPlace_MainImage() + "&w=" + (width - 30);
 
-            Picasso.with(getActivity()) //
-                    .load(imageUrl) //
+            Picasso.with(getActivity())
+                    .load(imageUrl)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
                     .resize(widthofImage, widthofImage)
                     .into(iv_detail);
 
