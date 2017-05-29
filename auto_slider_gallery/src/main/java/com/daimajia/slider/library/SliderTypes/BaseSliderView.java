@@ -7,7 +7,6 @@ import android.widget.ImageView;
 
 import com.daimajia.slider.library.R;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
@@ -201,11 +200,11 @@ public abstract class BaseSliderView {
         Picasso p = (mPicasso != null) ? mPicasso : Picasso.with(mContext);
         RequestCreator rq = null;
         if(mUrl!=null){
-            rq = p.load(mUrl).networkPolicy(NetworkPolicy.OFFLINE);
+            rq = p.load(mUrl);
         }else if(mFile != null){
-            rq = p.load(mFile).networkPolicy(NetworkPolicy.OFFLINE);
+            rq = p.load(mFile);
         }else if(mRes != 0){
-            rq = p.load(mRes).networkPolicy(NetworkPolicy.OFFLINE);
+            rq = p.load(mRes);
         }else{
             return;
         }

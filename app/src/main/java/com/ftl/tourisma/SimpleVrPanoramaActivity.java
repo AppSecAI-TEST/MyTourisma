@@ -112,7 +112,6 @@ public class SimpleVrPanoramaActivity extends Activity {
      * Configuration information for the panorama.
      **/
     private Options panoOptions = new Options();
-    //    private ImageLoaderTask downloadImageLoader;
     private DownloadImagesTask downloadImageLoader;
     private String path, path_1;
     private ViewPager viewPager;
@@ -191,10 +190,8 @@ public class SimpleVrPanoramaActivity extends Activity {
         vrImagesLoaded.add(path);
         customPagerAdapter = new CustomPagerAdapter(this);
         viewPager.setAdapter(customPagerAdapter);
-
         downloadImageLoader = null;
         initView();
-        //listview.setAdapter(new MyVRImagesAdapter(this));
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -206,9 +203,7 @@ public class SimpleVrPanoramaActivity extends Activity {
                     Log.e(TAG, "View Notified: " + position + "// " + viewPager.getCurrentItem());
                     mResources.get(viewPager.getCurrentItem()).setNotLoaded(1);
                     customPagerAdapter.updateCurrentUI();
-//                    customPagerAdapter.instantiateItem(customPagerAdapter.)
                 }
-
             }
 
             @Override
@@ -221,8 +216,6 @@ public class SimpleVrPanoramaActivity extends Activity {
 
             }
         });
-//        panoWidgetView = (VrPanoramaView) findViewById(R.id.pano_view);
-//        panoWidgetView.setEventListener(new ActivityEventListener());
 
         // Initial launch of the app or an Activity recreation due to rotation.
         // handleIntent(getIntent());
@@ -240,12 +233,10 @@ public class SimpleVrPanoramaActivity extends Activity {
         try {
             mPreferences = getSharedPreferences(Constants.mPref, 0);
             mEditor = mPreferences.edit();
-
             imgBack = (ImageView) findViewById(R.id.imgBack);
             txtPrev = (NormalTextView) findViewById(R.id.txtPrev);
             txtTitle = (NormalTextView) findViewById(R.id.txtTitle);
             txtTitle.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "virtualreality"));
-//            txtTitle.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "virtualreality"));
             txtPrev.setEnabled(false);
             txtNext = (NormalTextView) findViewById(R.id.txtNext);
             updateUI();
@@ -255,11 +246,9 @@ public class SimpleVrPanoramaActivity extends Activity {
                     if (viewPager.getCurrentItem() != 0) {
                         viewPager.setCurrentItem(viewPager.getCurrentItem() - 1, true);
                     }
-//                    if(viewPager.getCurrentItem()==0){
                     txtPrev.setEnabled(viewPager.getCurrentItem() != 0);
                     txtNext.setEnabled(viewPager.getCurrentItem() != mResources.size() - 1);
                     updateUI();
-//                    }
                 }
             });
             txtNext.setOnClickListener(new View.OnClickListener() {
@@ -268,7 +257,6 @@ public class SimpleVrPanoramaActivity extends Activity {
                     if (viewPager.getCurrentItem() != mResources.size() - 1) {
                         viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
                     }
-//                    if(viewPager.getCurrentItem()==0){
                     txtPrev.setEnabled(viewPager.getCurrentItem() != 0);
                     txtNext.setEnabled(viewPager.getCurrentItem() != mResources.size() - 1);
                     updateUI();
@@ -318,40 +306,16 @@ public class SimpleVrPanoramaActivity extends Activity {
      * @param mResource
      */
     private void handleIntent(String mResource, VrPanoramaView panoWidgetView) {
-        // Determine if the Intent contains a file to load.
-        /*if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            Log.i(TAG, "ACTION_VIEW Intent recieved");
-
-            fileUri = intent.getData();
-            if (fileUri == null) {
-                Log.w(TAG, "No data uri specified. Use \"-d /path/filename\".");
-            } else {
-                Log.i(TAG, "Using file " + fileUri.toString());
-            }
-
-            panoOptions.inputType = intent.getIntExtra("inputType", Options.TYPE_MONO);
-            Log.i(TAG, "Options.inputType = " + panoOptions.inputType);
-        } else {
-            Log.i(TAG, "Intent is not ACTION_VIEW. Using default pano image.");
-            fileUri = null;
-            panoOptions.inputType = Options.TYPE_MONO;
-        }*/
-
-        // Load the bitmap in a background thread to avoid blocking the UI thread. This operation can
-        // take 100s of milliseconds.
         if (downloadImageLoader != null) {
             // Cancel any task from a previous intent sent to this activity.
             downloadImageLoader.cancel(true);
         }
-//        downloadImageLoader = new ImageLoaderTask();
         downloadImageLoader = new DownloadImagesTask(mResource);
         downloadImageLoader.execute(panoWidgetView);
-//        downloadImageLoader.execute(Pair.create(fileUri, panoOptions));
     }
 
     @Override
     protected void onPause() {
-        // panoWidgetView.pauseRendering();
         super.onPause();
         try {
             unregisterReceiver(broadcastReceiver);
@@ -410,8 +374,6 @@ public class SimpleVrPanoramaActivity extends Activity {
     @Override
     protected void onDestroy() {
         // Destroy the widget and free memory.
-        //panoWidgetView.shutdown();
-
         // The background task has a 5 second timeout so it can potentially stay alive for 5 seconds
         // after the activity is destroyed unless it is explicitly cancelled.
         if (downloadImageLoader != null) {
@@ -458,16 +420,6 @@ public class SimpleVrPanoramaActivity extends Activity {
             this.context = context;
         }
 
-        /* @Override
-         public int getCount() {
-             return mResources.size();
-         }
-
-         @Override
-         public Object getItem(int position) {
-             return mResources.get(position);
-         }
-     */
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(context).inflate(R.layout.row_item_virtual_tour, parent, false);
@@ -484,39 +436,20 @@ public class SimpleVrPanoramaActivity extends Activity {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     switch (event.getAction()) {
-
                         case MotionEvent.ACTION_DOWN:
-
                             break;
-
                         case MotionEvent.ACTION_MOVE:
-
-
                             break;
-
                         case MotionEvent.ACTION_UP:
-
-
                             break;
-
                         case MotionEvent.ACTION_POINTER_UP:
 
                             break;
-
                     }
-
-
                     return true;
                 }
             });
-//            panoWidgetView.setTransitionViewEnabled(true);
-//            panoWidgetView.setTouchTrackingEnabled(true);
-//            View framelayout = ((ViewGroup) panoWidgetView).getChildAt(0);
-//            ((ViewGroup)((ViewGroup)((ViewGroup)framelayout).getChildAt(1)).getChildAt(2)).getChildAt(0).performClick();
             holder.panoWidgetView.setStereoModeButtonEnabled(true);
-//        if(downloadImageLoader!=null){
-//            downloadImageLoader.cancel(true);
-//        }
             DownloadImagesTask downloadImageLoader = new DownloadImagesTask(mResources.get(position).getName());
             downloadImageLoader.execute(holder.panoWidgetView);
         }
@@ -540,57 +473,6 @@ public class SimpleVrPanoramaActivity extends Activity {
                 panoWidgetView = (VrPanoramaView) itemView.findViewById(R.id.pano_view);
             }
         }
-  /*  @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View itemView = LayoutInflater.from(context).inflate(R.layout.row_item_virtual_tour, parent, false);
-        final VrPanoramaView panoWidgetView = (VrPanoramaView) itemView.findViewById(R.id.pano_view);
-        //imageView.setImageResource(mResources[position]);
-        panoWidgetView.setEventListener(new ActivityEventListener());
-        panoWidgetView.setMotionEventSplittingEnabled(true);
-        panoWidgetView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-
-                    case MotionEvent.ACTION_DOWN:
-
-                        break;
-
-                    case MotionEvent.ACTION_MOVE:
-
-
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-
-
-                        break;
-
-                    case MotionEvent.ACTION_POINTER_UP:
-
-                        break;
-
-                }
-
-
-                return true;
-            }
-        });
-//            panoWidgetView.setTransitionViewEnabled(true);
-//            panoWidgetView.setTouchTrackingEnabled(true);
-//            View framelayout = ((ViewGroup) panoWidgetView).getChildAt(0);
-//            ((ViewGroup)((ViewGroup)((ViewGroup)framelayout).getChildAt(1)).getChildAt(2)).getChildAt(0).performClick();
-        panoWidgetView.setStereoModeButtonEnabled(true);
-//        if(downloadImageLoader!=null){
-//            downloadImageLoader.cancel(true);
-//        }
-        DownloadImagesTask downloadImageLoader = new DownloadImagesTask(mResources.get(position));
-        downloadImageLoader.execute(panoWidgetView);
-//            handle Intent(mResources[position],panoWidgetView);
-//        container.addView(itemView);
-
-        return itemView;
-    }*/
     }
 
     class CustomPagerAdapter extends PagerAdapter {
@@ -605,20 +487,6 @@ public class SimpleVrPanoramaActivity extends Activity {
             mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
-       /* @Override
-        public int getItemPosition(Object object) {
-            VRImages dummyItem = (VRImages) ((View) object).getTag();
-            int position = mResources.indexOf(dummyItem);
-            if (position >= 0) {
-                // The current data matches the data in this active fragment, so let it be as it is.
-                return position;
-            } else {
-                // Returning POSITION_NONE means the current data does not matches the data this fragment is showing right now.  Returning POSITION_NONE constant will force the fragment to redraw its view layout all over again and show new data.
-                return POSITION_NONE;
-            }
-            //            return POSITION_NONE;
-        }*/
-
         @Override
         public int getCount() {
             return mResources.size();
@@ -632,21 +500,11 @@ public class SimpleVrPanoramaActivity extends Activity {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View itemView = mLayoutInflater.inflate(R.layout.row_item_virtual_tour, container, false);
-
             final VrPanoramaView panoWidgetView = (VrPanoramaView) itemView.findViewById(R.id.pano_view);
             final RelativeLayout progressbar = (RelativeLayout) itemView.findViewById(R.id.progressbar);
-            //imageView.setImageResource(mResources[position]);
             panoWidgetView.setEventListener(new ActivityEventListener());
             panoWidgetView.setMotionEventSplittingEnabled(true);
-
-//            panoWidgetView.setTransitionViewEnabled(true);
-//            panoWidgetView.setTouchTrackingEnabled(true);
-//            View framelayout = ((ViewGroup) panoWidgetView).getChildAt(0);
-//            ((ViewGroup)((ViewGroup)((ViewGroup)framelayout).getChildAt(1)).getChildAt(2)).getChildAt(0).performClick();
             panoWidgetView.setStereoModeButtonEnabled(true);
-            /*if (downloadImageLoader != null) {
-                downloadImageLoader.cancel(true);
-            }*/
             final Options panoOptions = new Options();
             panoOptions.inputType = Options.TYPE_MONO;
             imageLoader.loadImage(Constants.VR_IMAGE + mResources.get(position).getName(), displayImageOptions, new ImageLoadingListener() {
@@ -658,48 +516,27 @@ public class SimpleVrPanoramaActivity extends Activity {
                 @Override
                 public void onLoadingFailed(String s, View view, FailReason failReason) {
                     progressbar.setVisibility(View.GONE);
-
                 }
 
                 @Override
                 public void onLoadingComplete(String s, View view, Bitmap bitmap) {
                     panoWidgetView.loadImageFromBitmap(bitmap, panoOptions);
                     progressbar.setVisibility(View.GONE);
-
                 }
 
                 @Override
                 public void onLoadingCancelled(String s, View view) {
                     progressbar.setVisibility(View.GONE);
-
-
                 }
             });
-//            if (mResources.get(position).getNotLoaded() == 1 && mResources.get(position).getLoaded() == 0) {
             Log.e(TAG, "Downloading..." + position);
 
-//            DownloadImagesTask downloadImageLoader = new DownloadImagesTask(mResources.get(position).getName());
-//            downloadImageLoader.execute(panoWidgetView);
-//            Picasso.with(this).
             mResources.get(position).setLoaded(1);
-//            }
-//            handle Intent(mResources[position],panoWidgetView);
             itemView.setTag(mResources.get(position));
             container.addView(itemView);
-//            views.setValueAt(position,itemView);
             return itemView;
         }
 
-        /*  @Override
-          public void notifyDataSetChanged() {
-              int key = 0;
-              for(int i = 0; i < views.size(); i++) {
-                  key = views.keyAt(i);
-                  View view = views.get(key);
-                 // <refresh view with new data>
-              }
-              super.notifyDataSetChanged();
-          }*/
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((RelativeLayout) object);
@@ -742,13 +579,11 @@ public class SimpleVrPanoramaActivity extends Activity {
                     return false;
                 }
             }
-            //panoWidgetView.loadImageFromBitmap(BitmapFactory.decodeStream(istr), panoOptions);
             try {
                 istr.close();
             } catch (IOException e) {
                 Log.e(TAG, "Could not close input stream: " + e);
             }
-
             return true;
         }
     }
@@ -766,16 +601,6 @@ public class SimpleVrPanoramaActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-           /* Constants.dialog = new Dialog(SimpleVrPanoramaActivity.this, android.R.style.Theme_Translucent_NoTitleBar);
-
-            progressbar = new ProgressBar(SimpleVrPanoramaActivity.this);
-            progressbar.setBackgroundResource(R.drawable.progress_background);
-            Constants.dialog.addContentView(progressbar, new ViewGroup.LayoutParams(Constants.LOADER_HEIGHT, Constants.LOADER_WIDTH));
-            Constants.dialog.setCancelable(false);
-            Window window = Constants.dialog.getWindow();
-            window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            window.setGravity(Gravity.CENTER);
-            Constants.dialog.show();*/
         }
 
         @Override
@@ -786,9 +611,6 @@ public class SimpleVrPanoramaActivity extends Activity {
 
         @Override
         protected void onPostExecute(Bitmap result) {
-//            Constants.dialog.dismiss();
-//            progressbar.setVisibility(View.GONE);
-//            progressbar=null;
             panoOptions = new Options();
             panoOptions.inputType = Options.TYPE_MONO;
             imageView.loadImageFromBitmap(result, panoOptions);
@@ -804,7 +626,6 @@ public class SimpleVrPanoramaActivity extends Activity {
                 bmp = BitmapFactory.decodeStream(is);
                 if (null != bmp)
                     return bmp;
-
             } catch (Exception e) {
                 // Tracking exception
                 MyTorismaApplication.getInstance().trackException(e);
@@ -831,9 +652,7 @@ public class SimpleVrPanoramaActivity extends Activity {
         @Override
         public void onLoadError(String errorMessage) {
             loadImageSuccessful = false;
-            Toast.makeText(
-                    SimpleVrPanoramaActivity.this, "Error loading pano: " + errorMessage, Toast.LENGTH_LONG)
-                    .show();
+            Toast.makeText(SimpleVrPanoramaActivity.this, "Error loading pano: " + errorMessage, Toast.LENGTH_LONG).show();
             Log.e(TAG, "Error loading pano: " + errorMessage);
         }
     }

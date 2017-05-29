@@ -63,7 +63,6 @@ import com.ftl.tourisma.utils.Utils;
 import com.google.android.gms.maps.model.Marker;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -799,7 +798,6 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
 
             Picasso.with(getActivity())
                     .load(imageUrl)
-                    .networkPolicy(NetworkPolicy.OFFLINE)
                     .resize(width, width)
                     .into(iv_detail);
 

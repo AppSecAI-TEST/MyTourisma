@@ -72,7 +72,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -854,7 +853,6 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
             viewHolder.iv_nearby_explorer.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (height * 60) / 100));
             Picasso.with(getActivity())
                     .load(imageURL)
-                    .networkPolicy(NetworkPolicy.OFFLINE)
                     .resize(width, (height * 60) / 100)
                     .into(viewHolder.iv_nearby_explorer);
             viewHolder.tv_near.setText(nearbies.get(position).getPlace_Name());
@@ -1089,7 +1087,6 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
 
             Picasso.with(getActivity())
                     .load(imageUrl)
-                    .networkPolicy(NetworkPolicy.OFFLINE)
                     .resize(widthofImage, widthofImage)
                     .into(iv_detail);
 

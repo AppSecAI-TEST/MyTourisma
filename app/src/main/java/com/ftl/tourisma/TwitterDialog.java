@@ -16,7 +16,6 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
@@ -29,9 +28,6 @@ import static android.view.Window.FEATURE_NO_TITLE;
 
 public class TwitterDialog extends Activity {
 
-    private boolean loadingFinished = true;
-    private boolean redirect = false;
-
     static final float[] DIMENSIONS_DIFF_LANDSCAPE = {10, 40};
     static final float[] DIMENSIONS_DIFF_PORTRAIT = {20, 30};
     static final FrameLayout.LayoutParams FILL = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -39,25 +35,23 @@ public class TwitterDialog extends Activity {
     static final int PADDING = 2;
     static final String DISPLAY_STRING = "touch";
     static final String FB_ICON = "icon.png";
-
     String urlTwitter;
-
+    int w, h;
+    int titleHeight, buttonHeight;
+    SharedPreferences pref;
+    private boolean loadingFinished = true;
+    private boolean redirect = false;
     private String mUrl, title;
     private ProgressDialog mSpinner;
     private WebView mWebView;
     private ScrollView mContent;
     private LinearLayout linearLayout;
     private TextView mTitle;
-    int w, h;
-    int titleHeight, buttonHeight;
-    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         urlTwitter = "https://twitter.com/share?text=" + getIntent().getStringExtra("msg");
-
         Display d = getWindowManager().getDefaultDisplay();
         w = d.getWidth();
         h = d.getHeight();
@@ -74,10 +68,7 @@ public class TwitterDialog extends Activity {
         setScrollView();
         setUpTitle();
         setUpWebView();
-
         setContentView(mContent);
-
-//        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
     private void setScrollView() {
@@ -164,6 +155,5 @@ public class TwitterDialog extends Activity {
                 redirect = false;
             }
         }
-
     }
 }

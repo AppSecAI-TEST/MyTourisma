@@ -50,7 +50,6 @@ import com.github.clans.fab.FloatingActionButton;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -553,7 +552,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                 String imageURL = Constants.IMAGE_URL + nearbies.get(i).getPlace_MainImage() + "&w=" + (mainActivity.width);
                 Picasso.with(getActivity())
                         .load(imageURL)
-                        .networkPolicy(NetworkPolicy.OFFLINE)
                         .resize(mainActivity.width, (mainActivity.height * 60) / 100)
                         .into(iv_nearby_explorer);
                 tv_near.setText(nearbies.get(i).getPlace_Name());
