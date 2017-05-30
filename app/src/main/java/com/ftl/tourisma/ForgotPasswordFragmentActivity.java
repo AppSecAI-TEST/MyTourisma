@@ -51,33 +51,22 @@ public class ForgotPasswordFragmentActivity extends FragmentActivity implements 
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forget_password_new);
-
         mPreferences = getSharedPreferences(Constants.mPref, 0);
-
         initialization();
-
         iv_close_header1.setOnClickListener(this);
         tv_submit.setOnClickListener(this);
-
     }
 
     private void initialization() {
-
         txtForgotMessage = (NormalTextView) findViewById(R.id.txtForgotMessage);
         txtForgotMessage.setText(Constants.showMessage(ForgotPasswordFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "forgotdetailtitle"));
-
         iv_close_header1 = (ImageView) findViewById(R.id.img_close);
-
         tv_sign_up = (NormalTextView) findViewById(R.id.txtTitle);
         tv_sign_up.setText(Constants.showMessage(ForgotPasswordFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "forgottitle"));
-
         et_email_forgot_password = (NormalEditText) findViewById(R.id.et_email_forgot_password);
         et_email_forgot_password.setHint(Constants.showMessage(ForgotPasswordFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "useridtost"));
-
-
         flet_email_forgot_password = (FloatLabeledEditText) findViewById(R.id.flet_email_forgot_password);
         flet_email_forgot_password.setHint(Constants.showMessage(ForgotPasswordFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "useridtost"));
-
         tv_submit = (NormalTextView) findViewById(R.id.tv_submit);
         tv_submit.setText(Constants.showMessage(ForgotPasswordFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "submittitle"));
     }
@@ -106,20 +95,14 @@ public class ForgotPasswordFragmentActivity extends FragmentActivity implements 
                     "\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\"" +
                     "}" +
                     "]";
-//            RequestData requestData=new RequestData();
-//            requestData.setLan_Id(mPreferences.getString("Lan_Id", ""));
-//            requestData.setUser_Email(et_email_forgot_password.getText().toString());
-//            Log.d("System out", "ForgotPassword " + json);
             new PostSync(ForgotPasswordFragmentActivity.this, "ForgotPassword", ForgotPasswordFragmentActivity.this).execute(url, json);
         } else {
             Intent intent = new Intent(getApplicationContext(), NoInternet.class);
             startActivity(intent);
-            //SnackbarManager.show(Snackbar.with(ForgotPasswordFragmentActivity.this).color(Utilities.getColor(this, R.color.mBlue)).text(Constants.showMessage(ForgotPasswordFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "NOINTERNET")));
         }
     }
 
     public void forgotPasswordResponse(String resultString) {
-//        Log.i("System out", resultString);
         try {
             JSONArray jsonArray = new JSONArray(resultString);
             JSONObject jsonObject = jsonArray.optJSONObject(0);
@@ -144,9 +127,7 @@ public class ForgotPasswordFragmentActivity extends FragmentActivity implements 
             // Tracking exception
             MyTorismaApplication.getInstance().trackException(e);
             // TODO Auto-generated catch block
-//            Log.e("System out", e.getMessage());
         }
-
     }
 
     @Override
@@ -159,7 +140,6 @@ public class ForgotPasswordFragmentActivity extends FragmentActivity implements 
 
     @Override
     public void onResponse(String response, String action) {
-
         try {
             if (action.equalsIgnoreCase("ForgotPassword")) {
                 forgotPasswordResponse(response);

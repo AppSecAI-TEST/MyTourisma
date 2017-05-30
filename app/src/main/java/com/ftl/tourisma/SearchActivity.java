@@ -121,22 +121,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
     };
     private boolean isLocationChanged;
     private FetchLocations fetchLocations;
-
-    /* private void beaconsToast(Bundle bundle) {
-         String type = bundle.getString("type");
-
-         if (type.equals(BEACON_ENTERED)) {
-             beaconsToast(bundle.getString(BEACON_ENTRY_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), true, 0);
-
-         } else if (type.equals(BEACON_EXITED)) {
-             beaconsToast(bundle.getString(BEACON_EXIT_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), false, 0);
-
-         } else if (type.equals(BEACON_NEAR_BY)) {
- //                    SnackbarManager.show(Snackbar.with(YourLocationFragmentActivity.this).color(getResources().getColor(R.color.mTrans2)).text(bundle.getString(BEACON_NEAR_BY_TEXT)));
-             beaconsToast(bundle.getString(BEACON_NEAR_BY_TEXT), bundle.getString(BEACON_MESSAGE), bundle.getString(PLACE_IMAGE), bundle.getString(PLACE_ID), true, 1);
-
-         }
-     }*/
     private post_sync postSync;
     private Bundle bundle;
     private Bundle bundleBeaconFromNotification;
@@ -173,10 +157,8 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
                 jsonResults.append(buff, 0, read);
             }
         } catch (MalformedURLException e) {
-//            Log.e(LOG_TAG, "Error processing Places API URL", e);
             return resultList;
         } catch (IOException e) {
-//            Log.e(LOG_TAG, "Error connecting to Places API", e);
             return resultList;
         } finally {
             if (conn != null) {
@@ -200,7 +182,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
         } catch (JSONException e) {
             // Tracking exception
             MyTorismaApplication.getInstance().trackException(e);
-//            Log.e(LOG_TAG, "Cannot process JSON results", e);
         }
 
         return resultList;
@@ -208,7 +189,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
 
     private void beaconsToast(final String msg, final String msgBeacon, final String img, final String placeId, final int isCloseApproach, final String isClosePromo) {
         if (msg != null && !msg.equals("")) {
-
             txt_snack_msg.setText(msg);
             txt_snack_msg.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -224,11 +204,8 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
                         intent.putExtra("placeId", placeId);
                         startActivity(intent);
                     }
-
-
                 }
             });
-
 
             runnable = new Runnable() {
                 @Override
@@ -246,15 +223,11 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         setContentView(R.layout.activity_search);
-
         bundle = getIntent().getBundleExtra("beaconView");
         bundleBeaconFromNotification = getIntent().getBundleExtra("beacon");
-
         mPreferences = getSharedPreferences(Constants.mPref, 0);
         mEditor = mPreferences.edit();
-
         initialisation();
-
         latitude = mPreferences.getString("latitude1", "");
         longitude = mPreferences.getString("longitude1", "");
         if (mPreferences.getString(Preference.Pref_City, "").equalsIgnoreCase("")) {
@@ -262,23 +235,15 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
         } else {
             strAddress = mPreferences.getString(Preference.Pref_City, "");
         }
-        //strAddress = mPreferences.getString(Preference.Pref_City, "");
         etAutoDetect.setText(strAddress);
-
-        // getLocationOfAddress();
-
 
         placesAdapter = new PlacesAdapter();
         listview.setAdapter(placesAdapter);
-        // listview.setOnItemClickListener(this);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 etAutoDetect.setText(resultList.get(position));
-                //   str1 = resultList.get(position);
-//
-
                 hideKeyBoard(etAutoDetect);
                 isLocationChanged = true;
                 if (etAutoDetect.getText().toString().length() != 0) {
@@ -302,39 +267,11 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 searchplace();
-               /* if (etSearchPlace.getText().toString().length() == 0) {
-
-                    if (!lastSearchedPlace.equalsIgnoreCase(etSearchPlace.getText().toString().trim())) {
-                        lastSearchedPlace = etSearchPlace.getText().toString();
-                        searchplace();
-
-                    } else {
-                        if (searchPlaces != null && searchPlaces.size() > 0) {
-                            ArrayList<SearchPlaces> searchPlacesObj = new ArrayList<SearchPlaces>();
-                            for (SearchPlaces obj : searchPlaces) {
-                                if (obj.getPlaceName().contains(etSearchPlace.getText().toString().trim())) {
-                                    searchPlacesObj.add(obj);
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    if (searchPlaces != null && searchPlaces.size() > 0) {
-                        ArrayList<SearchPlaces> searchPlacesObj = new ArrayList<SearchPlaces>();
-                        for (SearchPlaces obj : searchPlaces) {
-                            if (obj.getPlaceName().contains(etSearchPlace.getText().toString().trim())) {
-                                searchPlacesObj.add(obj);
-                            }
-                        }
-                    }
-                }*/
-
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                // searchplace();
+
             }
         });
         etAutoDetect.addTextChangedListener(new TextWatcher() {
@@ -363,16 +300,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
                             }
                             fetchLocations = new FetchLocations();
                             fetchLocations.execute(etAutoDetect.getText().toString());
-                            // resultList = autocomplete(etAutoDetect.getText().toString());
-                            // placesAdapter.notifyDataSetChanged();
-//                            if (etAutoDetect.getText().toString().length() != 0) {
-                               /* if (CommonClass.hasInternetConnection(SearchActivity.this)) {
-                                    String url = "http://maps.google.com/maps/api/geocode/json?address=" + etAutoDetect.getText().toString() + "&sensor=false";
-                                    new PostSync(SearchActivity.this, "Address").execute(url);
-                                } else {
-                                    SnackbarManager.show(Snackbar.with(SearchActivity.this).color(Utils.getColor(this,R.color.mBlue)).text(Constants.showMessage(SearchActivity.this, mPreferences.getString("Lan_Id", ""), "NOINTERNET")));
-                                }*/
-//                            }
                         } else {
                             Intent intent = new Intent(getApplicationContext(), NoInternet.class);
                             startActivity(intent);
@@ -406,16 +333,11 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
                 isLocationChanged = false;
                 getLocationFromAddress(this, etAutoDetect.getText().toString().trim());
                 String json = "[{\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\",\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mPreferences.getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mPreferences.getString("longitude2", "") + "\",\"keywords\":\"" + etSearchPlace.getText().toString().trim() + "\",\"keyword\":\"" + strAddress + "\"}]";
-//                String json = "[{\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\",\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + latitude + "\",\"Current_Longitude\":\"" + longitude + "\",\"keywords\":\"" + etSearchPlace.getText().toString().trim() + "\",\"keyword\":\"" + strAddress + "\"}]";
-//            [{"Lan_Id":"6","User_Id":"348","Current_Latitude":"23.424076","Current_Longitude":"53.847818","keyword":"United Arab Emirates"}]
-//            Log.d("System out", "HomePageData " + json);
                 if (postSync != null && postSync.getStatus().equals(AsyncTask.Status.RUNNING)) {
                     postSync.cancel(true);
                 }
-
                 postSync = new post_sync(this, "SearchPlacesOTG", SearchActivity.this, false);
                 postSync.execute(url, json);
-
             } else {
                 if (searchPlacesNew != null && searchPlacesNew.size() > 0) {
                     searchPlaces = new ArrayList<>();
@@ -425,7 +347,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
                         }
                     }
                     placesAdapter.notifyDataSetChanged();
-
                 }
             }
         } else {
@@ -436,8 +357,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
     }
 
     public void addressResponse(String resultString) {
-//        Log.d("System out", resultString);
-
         try {
             JSONObject jsonObject = new JSONObject(resultString);
             try {
@@ -448,29 +367,8 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
                 double latitude = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
                         .getJSONObject("geometry").getJSONObject("location")
                         .getDouble("lat");
-
-//            mEditor.putString("mAddress", jsonObject.getString("formatted_address")).commit();
-
-
-//                if (gpsTracker == null) {
-//                    gpsTracker = new GPSTracker();
-//                }
-//                if (gpsTracker.getLongitude() == 0 && gpsTracker.getLatitude() == 0) {
-//
-//                } else {
                 this.latitude = String.valueOf(latitude);
                 this.longitude = String.valueOf(longitude);
-
-//                }
-                //    Log.i("System out", "mFlag --- " + mflag);
-
-//                Intent mIntent = new Intent(SearchActivity.this, YourLocationFragmentActivity.class);
-//                Constants.mStatic = 0;
-//                Constants.mFromSelectLocation = 1;
-//
-//                mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(mIntent);
-//                finish();
             } catch (JSONException e) {
                 // Tracking exception
                 MyTorismaApplication.getInstance().trackException(e);
@@ -484,8 +382,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
     }
 
     public void searchPlacesOTG(String resultString) {
-//        Log.d("System searchResponse", resultString);
-
         try {
             JSONArray jsonArray = new JSONArray(resultString);
             try {
@@ -501,14 +397,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
                 placesAdapter.notifyDataSetChanged();
                 listview.setEmptyView(txtEmptyView);
                 txtEmptyView.setText("Sorry, No place found!");
-
-//            mEditor.putString("mAddress", jsonObject.getString("formatted_address")).commit();
-
-
-//                Intent mIntent = new Intent(SearchActivity.this, SearchResultFragmentActivity.class);
-//                mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(mIntent);
-//                finish();
             } catch (JSONException e) {
                 // Tracking exception
                 MyTorismaApplication.getInstance().trackException(e);
@@ -528,9 +416,7 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
 
     public void searchPlacesResponse(String resultString) {
         Log.d("System out", resultString);
-
         ArrayList<Nearby> nearbies = new ArrayList<>();
-
         try {
             JSONArray jsonArray = new JSONArray(resultString);
 
@@ -542,44 +428,28 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
                 nearby.setPlace_Name(jsonObject.optString("Place_Name"));
                 nearby.setPlace_ShortInfo(jsonObject.optString("Place_ShortInfo"));
                 nearby.setPlace_MainImage(jsonObject.optString("Place_MainImage"));
-//                nearby.setPlace_Description(jsonObject.optString("Place_Description"));
-
                 if (jsonObject.optString("Place_Description") != null && !jsonObject.optString("Place_Description").equalsIgnoreCase("")) {
                     String price = jsonObject.optString("Place_Description");
-//                    String a = price.replace("\\*", "");
-
-//                    String b = price.replaceAll("\r", "");
-//                    String c = b.replaceAll("\n", System.getProperty("line.separator"));
                     nearby.setPlace_Description(price);
                 } else {
                     nearby.setPlace_Description(jsonObject.optString("Place_Description"));
-
                 }
-
                 nearby.setPlace_Address(jsonObject.optString("Place_Address"));
-
                 if (jsonObject.optString("Price_Description") != null && !jsonObject.optString("Price_Description").equalsIgnoreCase("")) {
                     String price = jsonObject.optString("Price_Description");
-//                    String a = price.replaceAll("\r", "");
-//                    String b = a.replaceAll("\n", System.getProperty("line.separator"));
                     nearby.setPrice_Description(price);
                 } else {
                     nearby.setPrice_Description(jsonObject.optString("Price_Description"));
-
                 }
-
-//                nearby.setPrice_Description(jsonObject.optString("Price_Description"));
                 nearby.setPlace_Latitude(jsonObject.optString("Place_Latitude"));
                 nearby.setPlace_Longi(jsonObject.optString("Place_Longi"));
                 nearby.setOtherimages(jsonObject.optString("otherimages"));
                 nearby.setDist(jsonObject.optString("dist"));
                 nearby.setFav_Id(jsonObject.optString("Fav_Id"));
                 nearby.setFree_entry(jsonObject.optString("free_entry"));
-
                 JSONArray operation1 = jsonObject.getJSONArray("HourDetails");
                 ArrayList<HourDetails> detailsArrayList = new ArrayList<>();
                 for (int j = 0; j < operation1.length(); j++) {
-
                     HourDetails hourDetails = new HourDetails();
                     JSONObject jsonObject2 = operation1.getJSONObject(j);
                     hourDetails.setPlaceId(jsonObject2.getString("Place_Id"));
@@ -593,8 +463,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
                     detailsArrayList.add(hourDetails);
                 }
                 nearby.setHourDetailsArrayList(detailsArrayList);
-
-
                 nearbies.add(nearby);
             }
         } catch (JSONException e) {
@@ -602,7 +470,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
             MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
-
         Intent mIntent = new Intent(SearchActivity.this, SearchResultFragmentActivity.class);
         mIntent.putExtra("nearbies", nearbies);
         mIntent.putExtra("search", etSearchPlace.getText().toString());
@@ -626,7 +493,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
                     feesArrayList.add(objFees);
                 }
             }
-            // hoursOfOperation.setFeesDetailses(feesArrayList);
         } catch (JSONException e) {
             // Tracking exception
             MyTorismaApplication.getInstance().trackException(e);
@@ -654,71 +520,9 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
     }
 
     public void onItemClick(String str) {
-        // String str = (String) adapterView.getItemAtPosition(position);
         Log.d("System out", str);
-
-        // str1 = (String) adapterView.getItemAtPosition(position);
-        //   str = (String) adapterView.getItemAtPosition(position);
-//    //            Toast.makeText(AddAddressSearchAddress_Activity.this, str1, Toast.LENGTH_SHORT).show();
-
-        // String[] s = str1.split(",");
-        // Log.i("System out", "Address length " + s.length);
-//        for (int j = 0; j < s.length; j++) {
-        //  Log.i("System out", s[j]);
-//        }
-      /*  if (s.length == 6) {
-//            mEditor.putString("Address_Unit",s[0]);
-//            mEditor.putString("Address_Street",s[1]);
-//            mEditor.putString("Address_AddressName",s[2]);
-            mEditor.putString(Preference.Pref_City, s[3]).commit();
-            mEditor.putString(Preference.Pref_State, s[4]).commit();
-            mEditor.putString(Preference.Pref_Country, s[5]).commit();
-//            Toast.makeText(AddAddressSearchAddress_Activity.this,str1+" "+s.length, Toast.LENGTH_SHORT).show();
-        } else if (s.length == 5) {
-
-//            mEditor.putString("Address_Unit", "");
-//            mEditor.putString("Address_Street", s[0]);
-//            mEditor.putString("Address_AddressName", s[1]);
-            mEditor.putString(Preference.Pref_City, s[1]).commit();
-            mEditor.putString(Preference.Pref_State, s[3]).commit();
-            mEditor.putString(Preference.Pref_Country, s[4]).commit();
-//            Toast.makeText(AddAddressSearchAddress_Activity.this,str1+" "+s.length, Toast.LENGTH_SHORT).show();
-        } else if (s.length == 4) {
-
-//            mEditor.putString("Address_Unit", "");
-//            mEditor.putString("Address_Street", "");
-//            mEditor.putString("Address_AddressName", s[0]);
-            mEditor.putString(Preference.Pref_City, s[1]).commit();
-            mEditor.putString(Preference.Pref_State, s[2]).commit();
-            mEditor.putString(Preference.Pref_Country, s[3]).commit();
-//            Toast.makeText(AddAddressSearchAddress_Activity.this,str1+" "+s.length, Toast.LENGTH_SHORT).show();
-
-        } else if (s.length == 3) {
-
-//            mEditor.putString("Address_Unit", "");
-//            mEditor.putString("Address_Street", "");
-//            mEditor.putString("Address_AddressName", "");
-            mEditor.putString(Preference.Pref_City, s[0]).commit();
-            mEditor.putString(Preference.Pref_State, s[1]).commit();
-            mEditor.putString(Preference.Pref_Country, s[2]).commit();
-//            mEditor.commit();
-//            Toast.makeText(AddAddressSearchAddress_Activity.this,str1+" "+s.length, Toast.LENGTH_SHORT).show();
-        } else if (s.length == 2) {
-//            mEditor.putString("Address_Unit", "");
-//            mEditor.putString("Address_Street", "");
-//            mEditor.putString("Address_AddressName", "");
-            mEditor.putString(Preference.Pref_City, s[0]).commit();
-            mEditor.putString(Preference.Pref_State, s[0]).commit();
-            mEditor.putString(Preference.Pref_Country, s[1]).commit();
-        } else {
-            mEditor.putString(Preference.Pref_City, s[0]).commit();
-            mEditor.putString(Preference.Pref_State, s[0]).commit();
-            mEditor.putString(Preference.Pref_Country, s[0]).commit();
-        }*/
-
         InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(etAutoDetect.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
-
         if (etAutoDetect.getText().toString().length() != 0) {
             if (CommonClass.hasInternetConnection(SearchActivity.this)) {
                 String url = "http://maps.google.com/maps/api/geocode/json?address=" + etAutoDetect.getText().toString() + "&sensor=false";
@@ -744,7 +548,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
             }
             String url = Constants.SERVER_URL + "json.php?action=SearchPlaces";
             String json = "[{\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\",\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + latitude + "\",\"Current_Longitude\":\"" + longitude + "\",\"keywords\":\"" + etSearchPlace.getText().toString() + "\",\"Category_Id\":\"" + "" + "\",\"keyword\":\"" + strAddress + "\"}]";
-//            Log.d("System out", "SearchPlaces " + json);
             new PostSync(SearchActivity.this, "SearchPlaces", SearchActivity.this).execute(url, json);
         } else {
             Intent intent = new Intent(getApplicationContext(), NoInternet.class);
@@ -775,40 +578,27 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
                 this.strAddress = location.getLocality();
             else if (location.getCountryName() != null)
                 this.strAddress = location.getCountryName();
-
-
-//
-//            p1 = new LatLng(location.getLatitude(), location.getLongitude());
-
         } catch (Exception ex) {
             // Tracking exception
             MyTorismaApplication.getInstance().trackException(ex);
             ex.printStackTrace();
         }
-
         return location;
     }
 
     public void getLocationOfAddress() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         gpsTracker = new GPSTracker(this, true);
         if (CommonClass.hasInternetConnection(this)) {
             if (gpsTracker.getLatitude() == 0 || gpsTracker.getLongitude() == 0) {
-                // if (mPreferences.getString("longitude2", "").equals("")) {
                 latitude = "23.424076";
                 longitude = "53.847818";
                 strAddress = "United Arab Emirates";
-                //  }
-
-
             } else {
                 latitude = String.valueOf(gpsTracker.getLatitude());
                 longitude = String.valueOf(gpsTracker.getLongitude());
                 getGeoLocation();
-
-
             }
         } else {
             Intent intent = new Intent(getApplicationContext(), NoInternet.class);
@@ -874,7 +664,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imgAutoDetect:
-                // getLocationOfAddress();
                 Utils.hideKeyboard(this);
                 isGpsClicked = true;
                 etAutoDetect.setText(mPreferences.getString(Preference.Pref_City, ""));
@@ -917,23 +706,14 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
                 if (addresses.size() > 0) {
                     String str = (addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getLocality() + ", "
                             + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
-
                     String umAddress1 = addresses.get(0).getAddressLine(0);
                     String city = addresses.get(0).getLocality();
                     String state = addresses.get(0).getAdminArea();
                     String zipCode = addresses.get(0).getPostalCode();
                     String country = addresses.get(0).getCountryName();
-
                     String addressmaps = str.replaceAll(" null,", "");
-                    // flag = 0;
-                    //  etSearch.setHint(addressmaps);
                     etAutoDetect.setText(addressmaps);
                     strAddress = addressmaps;
-
-                    /*Intent mIntent = new Intent(SelectLocationFragmentActivity.this, YourLocationFragmentActivity.class);
-                    startActivity(mIntent);
-                    finish();*/
-
                     Log.i("System out", "Get current location city--> " + city);
                     Log.i("System out", "Get current location state--> " + state);
                     Log.i("System out", "Get current location country--> " + country);
@@ -975,7 +755,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
             } catch (JSONException e3) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -989,7 +768,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
         @Override
         protected Object doInBackground(String... strings) {
             resultList = autocomplete(strings[0]);
-
             return null;
         }
 
@@ -1005,7 +783,6 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
         @Override
         protected Object doInBackground(String... strings) {
             resultList = autocomplete(strings[0]);
-
             return null;
         }
 
@@ -1076,44 +853,4 @@ public class SearchActivity extends FragmentActivity implements OnClickListener,
             return view;
         }
     }
-
-
-    /*private void beaconsToast(final String msg, final String msgBeacon, final String img, final String placeId, final boolean isClickable, final int isCloseApproach) {
-
-        if (msg != null && !msg.equals("")) {
-            txt_snack_msg.setText(msg);
-            //   if (isClickable) {
-            txt_snack_msg.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (isClickable) {
-                        if (isCloseApproach == 1) {
-                            Intent intent = new Intent(SearchActivity.this, BeaconsActivity.class);
-                            intent.putExtra(PLACE_ID, placeId);
-                            intent.putExtra(PLACE_IMAGE, img);
-                            intent.putExtra(BEACON_MESSAGE, msgBeacon);
-                            startActivity(intent);
-                        } else {
-                            Intent intent = new Intent(SearchActivity.this, SearchResultPlaceDetailsActivity.class);
-                            intent.putExtra("placeId", placeId);
-                            startActivity(intent);
-                        }
-                    }
-
-                }
-            });
-            //   } else {
-            //       txt_snack_msg.setOnClickListener(null);
-            //   }
-
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    llBeaconToast.setVisibility(View.GONE);
-                }
-            };
-            llBeaconToast.setVisibility(View.VISIBLE);
-            handlerBeaconToast.postDelayed(runnable, 5000);
-        }
-    }*/
 }

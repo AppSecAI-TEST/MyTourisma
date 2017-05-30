@@ -118,7 +118,6 @@ public class SearchFragmentActivity extends FragmentActivity implements View.OnC
                                 break;
                             }
                         }
-//                        Log.d("System out", "flag is " + flag);
                         if (flag == 0) {
                             dbAdapter.insertSearchString(edt_search.getText().toString());
                         }
@@ -145,10 +144,8 @@ public class SearchFragmentActivity extends FragmentActivity implements View.OnC
             for (int i = 0; i < searchArray.size(); i++) {
                 LayoutInflater inflater = (LayoutInflater) SearchFragmentActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View view = inflater.inflate(R.layout.history_adapter, null);
-
                 final NormalTextView tv_searched = (NormalTextView) view.findViewById(R.id.tv_searched);
                 final NormalTextView tv_type = (NormalTextView) view.findViewById(R.id.tv_type);
-
                 tv_searched.setText(searchArray.get(i));
 
                 view.setOnClickListener(new View.OnClickListener() {
@@ -177,14 +174,13 @@ public class SearchFragmentActivity extends FragmentActivity implements View.OnC
             Utils.hideKeyboard(this);
             finish();
         } else if (v == iv_search) {
-//            searchCall();
+
         } else if (v == ll_all_places) {
             edt_search.setText(mPreferences.getString(Preference.Pref_City, "").toString());
             searchCall();
         } else if (v == ll_header4_location) {
             Intent mIntent = new Intent(SearchFragmentActivity.this, SelectLocationFragmentActivity.class);
             startActivity(mIntent);
-            //  finish();
         }
     }
 
@@ -192,8 +188,6 @@ public class SearchFragmentActivity extends FragmentActivity implements View.OnC
         if (CommonClass.hasInternetConnection(SearchFragmentActivity.this)) {
             String url = Constants.SERVER_URL + "json.php?action=SearchPlaces";
             String json = "[{\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\",\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mPreferences.getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mPreferences.getString("longitude2", "") + "\",\"keywords\":\"" + edt_search.getText().toString() + "\",\"Category_Id\":\"" + "" + "\",\"keyword\":\"" + mPreferences.getString(Preference.Pref_City, "") + "\"}]";
-//            Log.d("System out", "SearchPlaces " + json);
-//            new PostSync(SearchFragmentActivity.this, "SearchPlaces").execute(url, json);
             new PostSync(SearchFragmentActivity.this, "SearchPlaces",SearchFragmentActivity.this).execute(url, json);
         } else {
             Intent intent = new Intent(getApplicationContext(), NoInternet.class);
@@ -203,8 +197,6 @@ public class SearchFragmentActivity extends FragmentActivity implements View.OnC
     }
 
     public void searchResponse(String resultString) {
-//        Log.d("System out", resultString);
-
         try {
             JSONArray jsonArray = new JSONArray(resultString);
 
@@ -216,31 +208,20 @@ public class SearchFragmentActivity extends FragmentActivity implements View.OnC
                 nearby.setPlace_Name(jsonObject.optString("Place_Name"));
                 nearby.setPlace_ShortInfo(jsonObject.optString("Place_ShortInfo"));
                 nearby.setPlace_MainImage(jsonObject.optString("Place_MainImage"));
-
-//                nearby.setPlace_Description(jsonObject.optString("Place_Description"));
                 if (jsonObject.optString("Place_Description") != null && !jsonObject.optString("Place_Description").equalsIgnoreCase("")) {
                     String price = jsonObject.optString("Place_Description");
-//                    String a = price.replace("\\*", "");
-//                    String b = price.replaceAll("\r", "");
-//                    String c = b.replaceAll("\n", System.getProperty("line.separator"));
                     nearby.setPlace_Description(price);
                 } else {
                     nearby.setPlace_Description(jsonObject.optString("Place_Description"));
-
                 }
-
                 nearby.setPlace_Address(jsonObject.optString("Place_Address"));
 
                 if(jsonObject.optString("Price_Description")!=null && !jsonObject.optString("Price_Description").equalsIgnoreCase("")) {
                     String price=jsonObject.optString("Price_Description");
-//                    String a = price.replaceAll("\r", "");
-//                    String b=a.replaceAll("\n",System.getProperty("line.separator"));
                     nearby.setPrice_Description(price);
                 }else{
                     nearby.setPrice_Description(jsonObject.optString("Price_Description"));
-
                 }
-//                nearby.setPrice_Description(jsonObject.optString("Price_Description"));
                 nearby.setPlace_Latitude(jsonObject.optString("Place_Latitude"));
                 nearby.setPlace_Longi(jsonObject.optString("Place_Longi"));
                 nearby.setOtherimages(jsonObject.optString("otherimages"));
@@ -251,7 +232,6 @@ public class SearchFragmentActivity extends FragmentActivity implements View.OnC
                 JSONArray operation1 = jsonObject.getJSONArray("HourDetails");
                 ArrayList<HourDetails> detailsArrayList = new ArrayList<>();
                 for (int j = 0; j < operation1.length(); j++) {
-
                     HourDetails hourDetails = new HourDetails();
                     JSONObject jsonObject2 = operation1.getJSONObject(j);
                     hourDetails.setPlaceId(jsonObject2.getString("Place_Id"));
@@ -265,40 +245,6 @@ public class SearchFragmentActivity extends FragmentActivity implements View.OnC
                     detailsArrayList.add(hourDetails);
                 }
                 nearby.setHourDetailsArrayList(detailsArrayList);
-
-
-                /*JSONArray operation = jsonObject.getJSONArray("HoursOfOperation");
-                ArrayList<HoursOfOperation> hoursOfOperationArrayList = new ArrayList<>();
-                HoursOfOperation hoursOfOperation = new HoursOfOperation();
-                hoursOfOperationArrayList.clear();
-                for (int j = 0; j < operation.length(); j++) {
-                    JSONObject jsonObject2 = operation.getJSONObject(j);
-                    hoursOfOperation = new HoursOfOperation();
-
-                    hoursOfOperation.setPOH_Id(jsonObject2.getString("POH_Id"));
-                    hoursOfOperation.setPlace_Id(jsonObject2.getString("Place_Id"));
-                    hoursOfOperation.setPOH_Start_Day(jsonObject2.getString("POH_Start_Day"));
-                    hoursOfOperation.setPOH_End_Day(jsonObject2.getString("POH_End_Day"));
-                    hoursOfOperation.setPOH_Start_Time(jsonObject2.getString("POH_Start_Time"));
-                    hoursOfOperation.setPOH_End_Time(jsonObject2.getString("POH_End_Time"));
-                    hoursOfOperation.setPOH_Charges(jsonObject2.getString("POH_Charges"));
-                    hoursOfOperationArrayList.add(hoursOfOperation);
-                }
-
-                if (hoursOfOperationArrayList.size() <= 0) {
-                    hoursOfOperation = new HoursOfOperation();
-
-                    hoursOfOperation.setPOH_Id("");
-                    hoursOfOperation.setPlace_Id("");
-                    hoursOfOperation.setPOH_Start_Day("");
-                    hoursOfOperation.setPOH_End_Day("");
-                    hoursOfOperation.setPOH_Start_Time("");
-                    hoursOfOperation.setPOH_End_Time("");
-                    hoursOfOperation.setPOH_Charges("");
-                    hoursOfOperationArrayList.add(hoursOfOperation);
-                }
-
-                nearby.setHoursOfOperations(hoursOfOperationArrayList);*/
                 nearbies.add(nearby);
             }
         } catch (JSONException e) {
@@ -306,7 +252,6 @@ public class SearchFragmentActivity extends FragmentActivity implements View.OnC
             MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
-
         Intent mIntent = new Intent(SearchFragmentActivity.this, SearchResultFragmentActivity.class);
         mIntent.putExtra("nearbies", nearbies);
         mIntent.putExtra("search", edt_search.getText().toString());
@@ -320,9 +265,7 @@ public class SearchFragmentActivity extends FragmentActivity implements View.OnC
         try {
             feesDetails = jsonObject.getJSONArray("Fees_Details");
             if (feesDetails != null) {
-
                 for (int k = 0; k < feesDetails.length(); k++) {
-
                     JSONObject jobjFees = feesDetails.getJSONObject(k);
                     FeesDetails objFees = new FeesDetails();
                     objFees.setFeesName(jobjFees.getString("Fee_Name"));
@@ -330,13 +273,11 @@ public class SearchFragmentActivity extends FragmentActivity implements View.OnC
                     feesArrayList.add(objFees);
                 }
             }
-            // hoursOfOperation.setFeesDetailses(feesArrayList);
         } catch (JSONException e) {
             // Tracking exception
             MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
-
         return feesArrayList;
     }
 

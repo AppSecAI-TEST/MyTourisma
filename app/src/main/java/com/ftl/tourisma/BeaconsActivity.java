@@ -67,7 +67,6 @@ public class BeaconsActivity extends Activity {
                 finish();
             }
         });
-//        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
         ImageView imgPlace = (ImageView) findViewById(R.id.imgPlace);
         imgPlace.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (height * 60) / 100));
         NormalTextView txtMessage = (NormalTextView) findViewById(R.id.txtMessage);
@@ -77,12 +76,10 @@ public class BeaconsActivity extends Activity {
         txtMessage.setText(message);
         txtViewDetails.setText(Constants.showMessage(this, mPreferences.getString("Lan_Id", ""), "Beacons Detail Button"));
         String imageUrl = Constants.BEACON_IMAGE_URL + placeImage + "&w=" + (width);
-//        progressBar.setIndeterminateDrawable(Utils.getDrawable(this, R.drawable.progress_background));
-
-        Picasso.with(this).load(imageUrl).resize(width,(height * 60) / 100).into(imgPlace, new Callback() {
+        Picasso.with(this).load(imageUrl).resize(width, (height * 60) / 100).into(imgPlace, new Callback() {
             @Override
             public void onSuccess() {
-                // progressBar.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -90,7 +87,6 @@ public class BeaconsActivity extends Activity {
 
             }
         });
-
         txtViewDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,12 +94,9 @@ public class BeaconsActivity extends Activity {
                 Bundle bundle1 = new Bundle();
                 bundle1.putString(PLACE_ID, placeId);
                 bundle1.putString("from", "beacon");
-//                intent.putExtra(PLACE_ID, placeId);
-//                intent.putExtra("from", "beacon");
                 intent.putExtra("beaconView", bundle1);
                 intent.putExtra("placeId", placeId);
                 startActivity(intent);
-                //rfinish();
             }
         });
 

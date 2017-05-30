@@ -95,9 +95,6 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
                 gpsTracker.getLocation();
                 mPreferences.edit().putString("latitude1", String.valueOf(gpsTracker.getLatitude())).commit();
                 mPreferences.edit().putString("latitude1", String.valueOf(gpsTracker.getLongitude())).commit();
-
-//                Log.d("System out", "Constant.latitude1 " + mPreferences.getString("latitude1", ""));
-//                Log.d("System out", "Constant.longitude1 " + mPreferences.getString("longitude1", ""));
             } else {
                 gpsTracker.showSettingsAlert();
             }
@@ -127,7 +124,6 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
         fab1_single.setOnClickListener(this);
         fab2_single = (FloatingActionButton) findViewById(R.id.fab2_single);
         fab2_single.setOnClickListener(this);
-
         tv_cate_name = (TextView) findViewById(R.id.tv_cate_name);
         iv_close_header1 = (ImageView) findViewById(R.id.img_close);
         iv_close_header1.setOnClickListener(this);
@@ -166,19 +162,13 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
 
     private void getSingleLocation() {
         try {
-//            tv_cate_name.setText(placeName + " on map");
             tv_cate_name.setText(placeName);
             map_direction1.clear();
             LatLngBounds.Builder b = new LatLngBounds.Builder();
-
             map_direction1.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(mPreferences.getString("latitude1", "")), Double.parseDouble(mPreferences.getString("longitude1", ""))), 15));
-
-//            Log.d("System out", "Current :" + "" + "Lat" + mPreferences.getString("latitude1", "") + "Long" + mPreferences.getString("longitude1", ""));
-
             try {
                 latitude1 = Double.parseDouble(latitude);
                 longitude1 = Double.parseDouble(longitude);
-
             } catch (NumberFormatException e) {
                 // Tracking exception
                 MyTorismaApplication.getInstance().trackException(e);
@@ -191,31 +181,14 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
                 map_direction1.getUiSettings().setMyLocationButtonEnabled(false);
                 map_direction1.getUiSettings().setAllGesturesEnabled(true);
                 map_direction1.setTrafficEnabled(true);
-
                 View marker1 = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.pin_popup, null);
-//                final TextView pin_text = (TextView) marker1.findViewById(R.id.pin_text);
-//                final TextView pin_text1 = (TextView) marker1.findViewById(R.id.pin_text1);
                 final ImageView pin_image = (ImageView) marker1.findViewById(R.id.pin_image);
-
-//                String imageUrl = Constants.IMAGE_URL2 + imgName + "&h=100";
-//                Log.i("System out", imageUrl);
-//                Picasso.with(MapLocationFragment.this) //
-//                        .load(imageUrl) //
-//                        .placeholder(R.drawable.map_pin1)
-//                        .error(R.drawable.map_pin1)
-//                        .into(pin_image);
-
-//                pin_text.setText(Constants.showMessage(MapLocationFragment.this, mPreferences.getString("Lan_Id", ""), "KM"));
-//                pin_text1.setText(""+Math.round(Float.parseFloat(dist)));
-
                 marker = map_direction1.addMarker(new MarkerOptions()
                         .position(new LatLng(latitude1, longitude1))
                         .snippet("" + 0)
                         .icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(this, marker1))));
-
                 b.include(new LatLng(Double.parseDouble(mPreferences.getString("latitude1", "")), Double.parseDouble(mPreferences.getString("longitude1", ""))));
                 b.include(new LatLng(latitude1, longitude1));
-
             } catch (Exception e) {
                 // Tracking exception
                 MyTorismaApplication.getInstance().trackException(e);
@@ -233,22 +206,13 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
 
     private void getSingleLocation1() {
         try {
-//            tv_cate_name.setText(placeName + " on map");
             tv_cate_name.setText(placeName);
             map_direction1.clear();
             LatLngBounds.Builder b = new LatLngBounds.Builder();
-
             map_direction1.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(mPreferences.getString("latitude1", "")), Double.parseDouble(mPreferences.getString("longitude1", ""))), 15));
-
-//            Log.d("System out", "Current :" + "" + "Lat" + mPreferences.getString("latitude1", "") + "Long" + mPreferences.getString("longitude1", ""));
-
             try {
                 latitude1 = Double.parseDouble(latitude);
                 longitude1 = Double.parseDouble(longitude);
-
-//                Log.d("System out", "At mgoogle :" + "" + "Lat" + latitude + ""
-//                        + "Long" + longitude);
-
             } catch (NumberFormatException e) {
                 // Tracking exception
                 MyTorismaApplication.getInstance().trackException(e);
@@ -261,22 +225,8 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
                 map_direction1.getUiSettings().setMyLocationButtonEnabled(false);
                 map_direction1.getUiSettings().setAllGesturesEnabled(true);
                 map_direction1.setTrafficEnabled(true);
-
                 View marker1 = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.pin_popup, null);
-//                final TextView pin_text = (TextView) marker1.findViewById(R.id.pin_text);
-//                final TextView pin_text1 = (TextView) marker1.findViewById(R.id.pin_text1);
                 final ImageView pin_image = (ImageView) marker1.findViewById(R.id.pin_image);
-
-//                String imageUrl = Constants.IMAGE_URL2 + imgName;
-//                Log.i("System out", imageUrl);
-//                Picasso.with(MapLocationFragment.this) //
-//                        .load(imageUrl) //
-//                        .placeholder(R.drawable.map_pin1)
-//                        .error(R.drawable.map_pin1)
-//                        .into(pin_image);
-
-//                pin_text.setText(Constants.showMessage(MapLocationFragment.this, mPreferences.getString("Lan_Id", ""), "KM"));
-//                pin_text1.setText(""+Math.round(Float.parseFloat(dist)));
 
                 marker = map_direction1.addMarker(new MarkerOptions()
                         .position(new LatLng(latitude1, longitude1))
@@ -307,30 +257,22 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
 
     // Convert a view to bitmap
     public Bitmap createDrawableFromView(Context context, View view) {
-
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         view.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
         view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
         view.buildDrawingCache();
-
-//        Log.d("System out", "width :" + view.getMeasuredWidth());
-
         Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
-
         return bitmap;
     }
 
     private List<LatLng> decodePoly(String encoded) {
-
         List<LatLng> poly = new ArrayList<LatLng>();
         int index = 0, len = encoded.length();
         int lat = 0, lng = 0;
-
         while (index < len) {
             int b, shift = 0, result = 0;
             do {
@@ -350,7 +292,6 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
             } while (b >= 0x20);
             int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
             lng += dlng;
-
             LatLng p = new LatLng((((double) lat / 1E5)),
                     (((double) lng / 1E5)));
             poly.add(p);
@@ -361,8 +302,6 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
 
     // This Map Direction.
     class GetDirection extends AsyncTask<String, String, List<LatLng>> {
-
-        // private ProgressDialog dialog;
 
         @Override
         protected void onPreExecute() {
@@ -377,66 +316,44 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
             String destination = latitude1 + "," + longitude1;
             String stringUrl = "http://maps.googleapis.com/maps/api/directions/json?origin="
                     + origin + "&destination=" + destination + "&sensor=false";
-            // String stringUrl =
-            // "http://maps.googleapis.com/maps/api/directions/json?origin="+
-            // origin + "&destination=" + destination + "&sensor=false";
             try {
-
                 JSONParser json_parser = new JSONParser();
-                String jsonOutput = json_parser.makeServiceCall(stringUrl,
-                        "GET");
-//                Log.d("System out",
-//                        "Route Response:==  " + jsonOutput.toString());
+                String jsonOutput = json_parser.makeServiceCall(stringUrl, "GET");
                 JSONObject jsonObject = new JSONObject(jsonOutput);
-
                 if (jsonObject.length() > 0) {
-
                     String status = "";
-
                     if (jsonObject.has("status")) {
                         status = jsonObject.optString("status");
-
                         if (status.equalsIgnoreCase("ZERO_RESULTS")) {
                             return pontos;
                         } else {
-
-                            // routesArray contains ALL routes
                             JSONArray routesArray = jsonObject
                                     .getJSONArray("routes");
                             if (routesArray.length() > 0) {
                                 // Grab the first route
                                 JSONObject route = routesArray.getJSONObject(0);
-
                                 JSONObject poly = route.getJSONObject("overview_polyline");
                                 String polyline = poly.getString("points");
                                 pontos = decodePoly(polyline);
-
                             }
-
                         }
-
                     } else {
                         return pontos;
                     }
                 } else {
                     return pontos;
                 }
-
             } catch (Exception e) {
                 // Tracking exception
                 MyTorismaApplication.getInstance().trackException(e);
                 Log.e("System out", e.getMessage());
             }
-
             return pontos;
-
         }
 
         protected void onPostExecute(List<LatLng> result) {
             super.onPostExecute(result);
-
             if (result != null) {
-
                 for (int i = 0; i < pontos.size() - 1; i++) {
                     LatLng src = pontos.get(i);
                     LatLng dest = pontos.get(i + 1);
@@ -450,9 +367,6 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
                                                         dest.longitude))
                                         .width(6).color(Color.BLUE)
                                         .geodesic(true));
-
-//                        getJobByJobIdApi1();
-
                     } catch (NullPointerException e) {
                         // Tracking exception
                         MyTorismaApplication.getInstance().trackException(e);
@@ -462,42 +376,20 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
                         Log.e("System out",
                                 "Exception onPostExecute: " + e2.toString());
                     }
-
                 }
-
                 try {
-//                    if (dialog.isShowing())
-//                        dialog.dismiss();
-
                 } catch (IllegalArgumentException e) {
                     Log.e("System out", e.getMessage());
-//                    dialog.dismiss();
-//                    dialog = null;
                 }
-
             } else {
-
                 runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
-//                        if (getIntent().getStringExtra("needdirection")
-//                                .equalsIgnoreCase("yes")) {
-                        SnackbarManager.show(Snackbar.with(MapLocationFragment.this).color(Utils.getColor(MapLocationFragment.this,R.color.mBlue)).text("Route not found."));
-//                        }
+                        SnackbarManager.show(Snackbar.with(MapLocationFragment.this).color(Utils.getColor(MapLocationFragment.this, R.color.mBlue)).text("Route not found."));
                     }
                 });
-
-                try {
-//                    if (dialog.isShowing())
-//                        dialog.dismiss();
-
-                } catch (IllegalArgumentException e) {
-//                    dialog.dismiss();
-//                    dialog = null;
-                }
             }
-
         }
     }
 }

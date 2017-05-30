@@ -25,7 +25,6 @@ import android.widget.TextView;
 
 import static android.view.Window.FEATURE_NO_TITLE;
 
-
 public class TwitterDialog extends Activity {
 
     static final float[] DIMENSIONS_DIFF_LANDSCAPE = {10, 40};
@@ -99,7 +98,6 @@ public class TwitterDialog extends Activity {
         mWebView.loadUrl(urlTwitter);
         mWebView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, h - titleHeight - buttonHeight - 40));
         linearLayout.addView(mWebView);
-
         TextView cancelButton = new TextView(this);
         cancelButton.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         cancelButton.setGravity(Gravity.CENTER);
@@ -150,7 +148,6 @@ public class TwitterDialog extends Activity {
                         mSpinner.dismiss();
                     }
                 }
-
             } else {
                 redirect = false;
             }

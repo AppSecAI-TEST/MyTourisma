@@ -97,11 +97,9 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
     private static final String API_KEY = "AIzaSyARcU53tPS4oPd6GFnIfNXrog0NtLMOwpI";
     private static final String TAG = SelectLocationFragmentActivity.class.getSimpleName();
     static int mflag = 0;
-    //    private static final String API_KEY = "AIzaSyDG7V34oHpHL5OtuXRcvd-TBg4cyg8rWgc";
     private static int flag = -1;
     Handler handler = new Handler();
     private ImageView iv_close_header2;
-    //    private AutoCompleteTextView act_address;
     private NormalEditText etSearch;
     private String umAddress1, city, zipCode, country, addressmaps, state;
     private ImageView iv_auto_location;
@@ -164,17 +162,14 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
                 jsonResults.append(buff, 0, read);
             }
         } catch (MalformedURLException e) {
-//            Log.e(LOG_TAG, "Error processing Places API URL", e);
             return resultList;
         } catch (IOException e) {
-//            Log.e(LOG_TAG, "Error connecting to Places API", e);
             return resultList;
         } finally {
             if (conn != null) {
                 conn.disconnect();
             }
         }
-
         try {
             // Create a JSON object hierarchy from the results
             JSONObject jsonObj = new JSONObject(jsonResults.toString());
@@ -188,7 +183,7 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
                 resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
             }
         } catch (JSONException e) {
-//            Log.e(LOG_TAG, "Cannot process JSON results", e);
+
         }
 
         return resultList;
@@ -199,7 +194,6 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
             Fade fade = new Fade();
             fade.setDuration(400);
             getWindow().setEnterTransition(fade);
-
             Slide slide = new Slide();
             slide.setDuration(400);
             getWindow().setReturnTransition(slide);
@@ -224,11 +218,8 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
                         intent.putExtra("placeId", placeId);
                         startActivity(intent);
                     }
-
-
                 }
             });
-
 
             runnable = new Runnable() {
                 @Override
@@ -259,26 +250,17 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
             MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
         }
-
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
         setContentView(R.layout.select_location);
         setupWindowAnimations();
         mPreferences = getSharedPreferences(Constants.mPref, 0);
         mEditor = mPreferences.edit();
-
         initialisation();
-
-//        mEditor.putString("latitude1", "").commit();
-//        mEditor.putString("longitude1", "").commit();
-//        mEditor.putString("latitude2", "").commit();
-//        mEditor.putString("longitude2", "").commit();
 
         gpsTracker = new GPSTracker(SelectLocationFragmentActivity.this);
         if (gpsTracker.canGetLocation()) {
@@ -287,9 +269,6 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
             mEditor.putString("longitude1", String.valueOf(gpsTracker.getLongitude())).commit();
             mEditor.putString("latitude2", String.valueOf(gpsTracker.getLatitude())).commit();
             mEditor.putString("longitude2", String.valueOf(gpsTracker.getLongitude())).commit();
-
-//            Log.d("System out", "Constant.latitude1 " + mPreferences.getString("latitude1", ""));
-//            Log.d("System out", "Constant.longitude1 " + mPreferences.getString("longitude1", ""));
 
             new Handler().postDelayed(new Runnable() {
 
@@ -319,13 +298,10 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
 
         iv_close_header2 = (ImageView) findViewById(R.id.img_close);
         iv_auto_location = (ImageView) findViewById(R.id.iv_auto_location);
-//        act_address = (AutoCompleteTextView) findViewById(R.id.act_address);
         etSearch = (NormalEditText) findViewById(R.id.etSearch);
         etSearch.setHint(Constants.showMessage(SelectLocationFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "searchlocationtost"));
-//        act_address.setAdapter(new GooglePlacesAutocompleteAdapter(this, R.layout.list_item));
         adapter = new PlacesAdapter();
         listview.setAdapter(adapter);
-        // listview.setOnItemClickListener(this);
         llBeaconToast = (LinearLayout) findViewById(R.id.llBeaconToast);
         txt_snack_msg = (NormalTextView) findViewById(R.id.txt_snack_msg);
 
@@ -335,51 +311,26 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
                 etSearch.setText(resultList.get(position));
                 str1 = resultList.get(position);
                 String[] s = str1.split(",");
-                // Log.i("System out", "Address length " + s.length);
                 for (int j = 0; j < s.length; j++) {
-                    // Log.i("System out", s[j]);
+
                 }
                 if (s.length == 6) {
-//            mEditor.putString("Address_Unit",s[0]);
-//            mEditor.putString("Address_Street",s[1]);
-//            mEditor.putString("Address_AddressName",s[2]);
                     mEditor.putString(Preference.Pref_City, s[3]).commit();
                     mEditor.putString(Preference.Pref_State, s[4]).commit();
                     mEditor.putString(Preference.Pref_Country, s[5]).commit();
-//            Toast.makeText(AddAddressSearchAddress_Activity.this,str1+" "+s.length, Toast.LENGTH_SHORT).show();
                 } else if (s.length == 5) {
-
-//            mEditor.putString("Address_Unit", "");
-//            mEditor.putString("Address_Street", s[0]);
-//            mEditor.putString("Address_AddressName", s[1]);
                     mEditor.putString(Preference.Pref_City, s[1]).commit();
                     mEditor.putString(Preference.Pref_State, s[3]).commit();
                     mEditor.putString(Preference.Pref_Country, s[4]).commit();
-//            Toast.makeText(AddAddressSearchAddress_Activity.this,str1+" "+s.length, Toast.LENGTH_SHORT).show();
                 } else if (s.length == 4) {
-
-//            mEditor.putString("Address_Unit", "");
-//            mEditor.putString("Address_Street", "");
-//            mEditor.putString("Address_AddressName", s[0]);
                     mEditor.putString(Preference.Pref_City, s[1]).commit();
                     mEditor.putString(Preference.Pref_State, s[2]).commit();
                     mEditor.putString(Preference.Pref_Country, s[3]).commit();
-//            Toast.makeText(AddAddressSearchAddress_Activity.this,str1+" "+s.length, Toast.LENGTH_SHORT).show();
-
                 } else if (s.length == 3) {
-
-//            mEditor.putString("Address_Unit", "");
-//            mEditor.putString("Address_Street", "");
-//            mEditor.putString("Address_AddressName", "");
                     mEditor.putString(Preference.Pref_City, s[0]).commit();
                     mEditor.putString(Preference.Pref_State, s[1]).commit();
                     mEditor.putString(Preference.Pref_Country, s[2]).commit();
-//            mEditor.commit();
-//            Toast.makeText(AddAddressSearchAddress_Activity.this,str1+" "+s.length, Toast.LENGTH_SHORT).show();
                 } else if (s.length == 2) {
-//            mEditor.putString("Address_Unit", "");
-//            mEditor.putString("Address_Street", "");
-//            mEditor.putString("Address_AddressName", "");
                     mEditor.putString(Preference.Pref_City, s[0]).commit();
                     mEditor.putString(Preference.Pref_State, s[0]).commit();
                     mEditor.putString(Preference.Pref_Country, s[1]).commit();
@@ -388,9 +339,7 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
                     mEditor.putString(Preference.Pref_State, s[0]).commit();
                     mEditor.putString(Preference.Pref_Country, s[0]).commit();
                 }
-
                 Utils.hideKeyboard(SelectLocationFragmentActivity.this);
-
                 if (etSearch.getText().toString().length() != 0) {
                     if (CommonClass.hasInternetConnection(SelectLocationFragmentActivity.this)) {
                         String url = "http://maps.google.com/maps/api/geocode/json?address=" + etSearch.getText().toString() + "&sensor=false";
@@ -450,7 +399,7 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
                             //SnackbarManager.show(Snackbar.with(SelectLocationFragmentActivity.this).color(Utils.getColor(SelectLocationFragmentActivity.this, R.color.mBlue)).text(Constants.showMessage(SelectLocationFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "NOINTERNET")));
                         }
                     } else {
-//
+
                     }
                 }
                 return false;
@@ -483,59 +432,27 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         String str = (String) adapterView.getItemAtPosition(position);
         Log.d("System out", str);
-
         mflag = 1;
-
         str1 = (String) adapterView.getItemAtPosition(position);
         str = (String) adapterView.getItemAtPosition(position);
-//                Toast.makeText(AddAddressSearchAddress_Activity.this, str1, Toast.LENGTH_SHORT).show();
-
         String[] s = str1.split(",");
-        // Log.i("System out", "Address length " + s.length);
-//        for (int j = 0; j < s.length; j++) {
-        //  Log.i("System out", s[j]);
-//        }
         if (s.length == 6) {
-//            mEditor.putString("Address_Unit",s[0]);
-//            mEditor.putString("Address_Street",s[1]);
-//            mEditor.putString("Address_AddressName",s[2]);
             mEditor.putString(Preference.Pref_City, s[3]).commit();
             mEditor.putString(Preference.Pref_State, s[4]).commit();
             mEditor.putString(Preference.Pref_Country, s[5]).commit();
-//            Toast.makeText(AddAddressSearchAddress_Activity.this,str1+" "+s.length, Toast.LENGTH_SHORT).show();
         } else if (s.length == 5) {
-
-//            mEditor.putString("Address_Unit", "");
-//            mEditor.putString("Address_Street", s[0]);
-//            mEditor.putString("Address_AddressName", s[1]);
             mEditor.putString(Preference.Pref_City, s[1]).commit();
             mEditor.putString(Preference.Pref_State, s[3]).commit();
             mEditor.putString(Preference.Pref_Country, s[4]).commit();
-//            Toast.makeText(AddAddressSearchAddress_Activity.this,str1+" "+s.length, Toast.LENGTH_SHORT).show();
         } else if (s.length == 4) {
-
-//            mEditor.putString("Address_Unit", "");
-//            mEditor.putString("Address_Street", "");
-//            mEditor.putString("Address_AddressName", s[0]);
             mEditor.putString(Preference.Pref_City, s[1]).commit();
             mEditor.putString(Preference.Pref_State, s[2]).commit();
             mEditor.putString(Preference.Pref_Country, s[3]).commit();
-//            Toast.makeText(AddAddressSearchAddress_Activity.this,str1+" "+s.length, Toast.LENGTH_SHORT).show();
-
         } else if (s.length == 3) {
-
-//            mEditor.putString("Address_Unit", "");
-//            mEditor.putString("Address_Street", "");
-//            mEditor.putString("Address_AddressName", "");
             mEditor.putString(Preference.Pref_City, s[0]).commit();
             mEditor.putString(Preference.Pref_State, s[1]).commit();
             mEditor.putString(Preference.Pref_Country, s[2]).commit();
-//            mEditor.commit();
-//            Toast.makeText(AddAddressSearchAddress_Activity.this,str1+" "+s.length, Toast.LENGTH_SHORT).show();
         } else if (s.length == 2) {
-//            mEditor.putString("Address_Unit", "");
-//            mEditor.putString("Address_Street", "");
-//            mEditor.putString("Address_AddressName", "");
             mEditor.putString(Preference.Pref_City, s[0]).commit();
             mEditor.putString(Preference.Pref_State, s[0]).commit();
             mEditor.putString(Preference.Pref_Country, s[1]).commit();
@@ -544,7 +461,6 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
             mEditor.putString(Preference.Pref_State, s[0]).commit();
             mEditor.putString(Preference.Pref_Country, s[0]).commit();
         }
-
         InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
 
@@ -559,20 +475,14 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
             }
         }
     }
-//    private void hideKeyBoard(View view) {
-//        InputMethodManager inputManager = (InputMethodManager) SelectLocationFragmentActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-//        inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
-//    }
 
     @Override
     public void onClick(View v) {
         if (v == iv_close_header2) {
             Utils.hideKeyboard(this);
             onBackPressed();
-
         } else if (v == iv_auto_location || v == tv_auto_detect) {
             etSearch.setText(addressmaps);
-            //  if (etSearch.getText().toString().length() == 0) {
             mEditor.putString("mAddress", addressmaps).commit();
             new Handler().postDelayed(new Runnable() {
 
@@ -586,13 +496,6 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
                     finish();
                 }
             }, 2);
-            // } else {
-//                Constants.mFromSelectLocation = 1;
-//                Intent mIntent = new Intent(SelectLocationFragmentActivity.this, YourLocationFragmentActivity.class);
-//                mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(mIntent);
-//                finish();
-            // }
         }
     }
 
@@ -603,14 +506,12 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
             if (mPreferences.getString("latitude2", "").length() != 0 && mPreferences.getString("longitude2", "").length() != 0 && !mPreferences.getString("longitude2", "").equalsIgnoreCase("0.0")) {
                 try {
                     Geocoder geo = new Geocoder(SelectLocationFragmentActivity.this.getApplicationContext(), Locale.getDefault());
-//                    Utils.toast(Double.parseDouble(mPreferences.getString("latitude1", "")) + "**" + Double.parseDouble(mPreferences.getString("longitude1", "")));
                     List<Address> addresses = geo.getFromLocation(Double.parseDouble(mPreferences.getString("latitude1", "")), Double.parseDouble(mPreferences.getString("longitude1", "")), 1);
                     if (addresses.isEmpty()) {
                     } else {
                         if (addresses.size() > 0) {
                             String str = (addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getLocality() + ", "
                                     + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
-
                             umAddress1 = addresses.get(0).getAddressLine(0);
                             city = addresses.get(0).getLocality();
                             mEditor.putString(Preference.Pref_City, city).commit();
@@ -619,21 +520,9 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
                             zipCode = addresses.get(0).getPostalCode();
                             country = addresses.get(0).getCountryName();
                             mEditor.putString(Preference.Pref_Country, country).commit();
-
                             addressmaps = str.replaceAll(" null,", "");
                             flag = 0;
                             etSearch.setHint(addressmaps);
-
-
-
-
-                    /*Intent mIntent = new Intent(SelectLocationFragmentActivity.this, YourLocationFragmentActivity.class);
-                    startActivity(mIntent);
-                    finish();*/
-
-//                            Log.i("System out", "Get current location city--> " + city);
-//                            Log.i("System out", "Get current location state--> " + state);
-//                            Log.i("System out", "Get current location country--> " + country);
                         }
                     }
 
@@ -641,14 +530,12 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
                     // Tracking exception
                     MyTorismaApplication.getInstance().trackException(e);
                     e.printStackTrace();
-
                     String address = "";
                     String apiRequest = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + mPreferences.getString("latitude1", "") + "," + mPreferences.getString("longitude1", ""); //+ "&ka&sensor=false"
                     HttpGet httpGet = new HttpGet(apiRequest);
                     HttpClient client = new DefaultHttpClient();
                     HttpResponse response;
                     StringBuilder stringBuilder = new StringBuilder();
-
                     try {
                         response = client.execute(httpGet);
                         HttpEntity entity = response.getEntity();
@@ -662,7 +549,6 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
                     } catch (IOException e2) {
                         e2.printStackTrace();
                     }
-
                     JSONObject jsonObject = new JSONObject();
                     try {
                         jsonObject = new JSONObject(stringBuilder.toString());
@@ -670,27 +556,18 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
                     } catch (JSONException e3) {
                         e.printStackTrace();
                     }
-
                     if (!address.equalsIgnoreCase("")) {
                         etSearch.setText(address);
                     }
                 }
             } else {
-                if(gpsTracker==null)
-                     gpsTracker = new GPSTracker(SelectLocationFragmentActivity.this);
+                if (gpsTracker == null)
+                    gpsTracker = new GPSTracker(SelectLocationFragmentActivity.this);
                 if (gpsTracker.canGetLocation()) {
-//            gpsTracker.getLocation();
                     mEditor.putString("latitude1", String.valueOf(gpsTracker.getLatitude())).commit();
                     mEditor.putString("longitude1", String.valueOf(gpsTracker.getLongitude())).commit();
                     mEditor.putString("latitude2", String.valueOf(gpsTracker.getLatitude())).commit();
                     mEditor.putString("longitude2", String.valueOf(gpsTracker.getLongitude())).commit();
-
-//            Constants.latitude = String.valueOf(gpsTracker.getLatitude());
-//            Constants.longitude = String.valueOf(gpsTracker.getLongitude());
-
-//                    Log.d("System out", "Constant.latitude1 " + mPreferences.getString("latitude1", ""));
-//                    Log.d("System out", "Constant.longitude1 " + mPreferences.getString("longitude1", ""));
-
                     new Handler().postDelayed(new Runnable() {
 
                         @Override
@@ -713,8 +590,6 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
     }
 
     public void addressResponse(String resultString) {
-//        Log.d("System out", resultString);
-
         try {
             JSONObject jsonObject = new JSONObject(resultString);
             try {
@@ -725,9 +600,6 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
                 double latitude = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
                         .getJSONObject("geometry").getJSONObject("location")
                         .getDouble("lat");
-
-//            mEditor.putString("mAddress", jsonObject.getString("formatted_address")).commit();
-
 
                 if (gpsTracker == null) {
                     gpsTracker = new GPSTracker();
@@ -743,20 +615,18 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
                     mEditor.putString("latitude1", String.valueOf(gpsTracker.getLatitude())).commit();
                     mEditor.putString("longitude1", String.valueOf(gpsTracker.getLongitude())).commit();
                 }
-                //    Log.i("System out", "mFlag --- " + mflag);
 
-//                if (mflag == 0) {
                 String mCity = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
                         .getJSONArray("address_components").getJSONObject(0)
                         .getString("long_name");
-                ;
+
                 mEditor.putString(Preference.Pref_City, mCity).commit();
                 if (((JSONArray) jsonObject.get("results")).getJSONObject(0)
                         .getJSONArray("address_components").length() > 1) {
                     String mState = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
                             .getJSONArray("address_components").getJSONObject(1)
                             .getString("long_name");
-                    ;
+
                     mEditor.putString(Preference.Pref_State, mState).commit();
                 }
                 if (((JSONArray) jsonObject.get("results")).getJSONObject(0)
@@ -768,20 +638,9 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
                     mEditor.putString(Preference.Pref_Country, mCountry).commit();
                 }
 
-//                Constants.latitude = String.valueOf(latitude);
-//                Constants.longitude = String.valueOf(longitude);
-
-//                Log.d("System out", "Constant.latitude " + mPreferences.getString("latitude2", ""));
-//                Log.d("System out", "Constant.longitude " + mPreferences.getString("longitude2", ""));
-            /*Log.d("System out", "City " + mCity);
-            Log.d("System out", "Country " + mCountry);
-            Log.d("System out", "State " + mState);*/
-//                Log.d("System out", "Thread called...");
-
                 Intent mIntent = new Intent(SelectLocationFragmentActivity.this, MainActivity.class);
                 Constants.mStatic = 0;
                 Constants.mFromSelectLocation = 1;
-
                 mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(mIntent);
                 finish();
@@ -800,22 +659,16 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        /*Intent intent = new Intent(SelectLocationFragmentActivity.this, YourLocationFragmentActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);*/
     }
 
     public JSONObject getLocationInfo(String address) {
-//        Log.d("System out", "getLocationInfo");
         StringBuilder stringBuilder = new StringBuilder();
         try {
             address = address.replaceAll(" ", "%20");
-
             HttpPost httppost = new HttpPost("http://maps.google.com/maps/api/geocode/json?address=" + address + "&sensor=false");
             HttpClient client = new DefaultHttpClient();
             HttpResponse response;
             stringBuilder = new StringBuilder();
-
             response = client.execute(httppost);
             HttpEntity entity = response.getEntity();
             InputStream stream = entity.getContent();
@@ -828,7 +681,6 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject = new JSONObject(stringBuilder.toString());
@@ -844,7 +696,6 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
     }
 
     public boolean getLatLong(JSONObject jsonObject) {
-//        Log.d("System out", "getLatLong");
         try {
             double longitude = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
                     .getJSONObject("geometry").getJSONObject("location")
@@ -853,45 +704,18 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
             double latitude = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
                     .getJSONObject("geometry").getJSONObject("location")
                     .getDouble("lat");
-
-            /*String mCity = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
-                    .getJSONArray("address_components").getJSONObject(0)
-                    .getString("long_name");
-            ;
-            String mCountry = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
-                    .getJSONArray("address_components").getJSONObject(2)
-                    .getString("long_name");
-            ;
-            String mState = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
-                    .getJSONArray("address_components").getJSONObject(3)
-                    .getString("long_name");
-            ;*/
-
-//            mEditor.putString("mAddress", jsonObject.getString("formatted_address")).commit();
-
             mEditor.putString("latitude2", String.valueOf(latitude)).commit();
             mEditor.putString("longitude2", String.valueOf(longitude)).commit();
-
-//            Log.d("System out", "Constant.latitude " + mPreferences.getString("latitude2", ""));
-//            Log.d("System out", "Constant.longitude " + mPreferences.getString("longitude2", ""));
-            /*Log.d("System out", "City " + mCity);
-            Log.d("System out", "Country " + mCountry);
-            Log.d("System out", "State " + mState);*/
-//            Log.d("System out", "Thread called...");
             Constants.mFromSelectLocation = 1;
-
             Intent mIntent = new Intent(SelectLocationFragmentActivity.this, MainActivity.class);
             mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(mIntent);
             finish();
-
         } catch (JSONException e) {
             // Tracking exception
             MyTorismaApplication.getInstance().trackException(e);
             return false;
-
         }
-
         return true;
     }
 
@@ -1009,7 +833,6 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
     }
 
     private class Connection extends AsyncTask {
-
         String address;
 
         public Connection(String address) {
@@ -1021,6 +844,5 @@ public class SelectLocationFragmentActivity extends FragmentActivity implements 
             getLocationInfo(address);
             return null;
         }
-
     }
 }

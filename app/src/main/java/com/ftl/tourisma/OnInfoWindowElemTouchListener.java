@@ -9,11 +9,19 @@ import android.view.View.OnTouchListener;
 import com.google.android.gms.maps.model.Marker;
 
 public abstract class OnInfoWindowElemTouchListener implements OnTouchListener {
+
     private final View view;
     private final Handler handler = new Handler();
-
     private Marker marker;
     private boolean pressed = false;
+    private final Runnable confirmClickRunnable = new Runnable() {
+        public void run() {
+            if (endPress()) {
+                Log.d("System out", "in call event");
+                onClickConfirmed(view, marker);
+            }
+        }
+    };
 
     public OnInfoWindowElemTouchListener(View view) {
         this.view = view;
@@ -51,8 +59,7 @@ public abstract class OnInfoWindowElemTouchListener implements OnTouchListener {
         if (!pressed) {
             pressed = true;
             handler.removeCallbacks(confirmClickRunnable);
-        //    view.setBackground(bgDrawablePressed);
-            if (marker != null) 
+            if (marker != null)
                 marker.showInfoWindow();
         }
     }
@@ -61,23 +68,13 @@ public abstract class OnInfoWindowElemTouchListener implements OnTouchListener {
         if (pressed) {
             this.pressed = false;
             handler.removeCallbacks(confirmClickRunnable);
-         //   view.setBackground(bgDrawableNormal);
-            if (marker != null) 
+            if (marker != null)
                 marker.showInfoWindow();
             return true;
         }
         else
             return false;
     }
-
-    private final Runnable confirmClickRunnable = new Runnable() {
-        public void run() {
-            if (endPress()) {
-            	Log.d("System out", "in call event");
-                onClickConfirmed(view, marker);
-            }
-        }
-    };
 
     /**
      * This is called after a successful click 

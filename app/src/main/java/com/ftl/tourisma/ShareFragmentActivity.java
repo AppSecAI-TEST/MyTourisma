@@ -80,9 +80,7 @@ public class ShareFragmentActivity extends FragmentActivity implements View.OnCl
         shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
             @Override
             public void onSuccess(Sharer.Result result) {
-//                db.open();
-//                Toast.makeText(ShareActivity.this, db.getTitle("FBPOST", pref.getString("Lan_ID", "")), Toast.LENGTH_LONG).show();
-//                db.close();
+
             }
 
             @Override
@@ -94,14 +92,8 @@ public class ShareFragmentActivity extends FragmentActivity implements View.OnCl
             }
         });
         ll_share = (LinearLayout) findViewById(R.id.ll_share);
-//        Log.d("System out", "sharetext " + Constants.showMessage(ShareFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "sharetext"));
         tv_main_invite = (NormalTextView) findViewById(R.id.tv_main_invite1);
         tv_main_invite.setText(Constants.showMessage(ShareFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "sharetext"));
-
-//        db.open();
-//        tv_main_invate.setText(db.getTitle("Share",pref.getString("Lan_ID","")));
-//        db.close();
-
         iv_menu_close = (ImageView) findViewById(R.id.iv_menu_close);
         iv_menu_close.setOnClickListener(this);
         facebook_share = (ImageView) findViewById(R.id.facebook_share);
@@ -112,7 +104,6 @@ public class ShareFragmentActivity extends FragmentActivity implements View.OnCl
         google_share.setOnClickListener(this);
         sms_share = (ImageView) findViewById(R.id.sms_share);
         sms_share.setOnClickListener(this);
-
         tv_sms = (NormalTextView) findViewById(R.id.tv_sms);
         tv_sms.setText(Constants.showMessage(ShareFragmentActivity.this, mPreferences.getString("Lan_Id", ""), "smsbutton"));
         tv_google = (NormalTextView) findViewById(R.id.tv_google);
@@ -138,28 +129,20 @@ public class ShareFragmentActivity extends FragmentActivity implements View.OnCl
             } catch (android.content.ActivityNotFoundException ex) {
                 SnackbarManager.show(Snackbar.with(ShareFragmentActivity.this).color(Utils.getColor(this, R.color.mBlue)).text("There is no email client installed."));
             }
-        } else {
-//            db.open();
-//            Toast.makeText(this,db.getTitle("NOINTERNET",pref.getString("Lan_ID","")), Toast.LENGTH_LONG).show();
-//            db.close();
         }
     }
 
     public void sendSMS() {
-//        db.open();
         Log.e("System out", "ShareText " + sharetext);
         Intent i = new Intent(android.content.Intent.ACTION_SEND);
         i.putExtra(Intent.EXTRA_TEXT, msg);
         i.setType("text/plain");
         this.startActivity(i);
-//        db.close();
     }
 
     public void shareOnFB() {
-
         if (IsNetworkConnection.checkNetworkConnection(this)) {
             LoginManager.getInstance().logInWithPublishPermissions(ShareFragmentActivity.this, Arrays.asList("publish_actions"));
-//            db.open();
             if (ShareDialog.canShow(ShareLinkContent.class)) {
                 ShareLinkContent linkContent = new ShareLinkContent.Builder()
                         .setContentTitle("MyTourisma")
@@ -167,12 +150,7 @@ public class ShareFragmentActivity extends FragmentActivity implements View.OnCl
                         .setContentUrl(Uri.parse("www.mytourisma.com"))
                         .build();
                 shareDialog.show(linkContent);
-//                db.close();
             }
-        } else {
-//            db.open();
-//            Toast.makeText(this,db.getTitle("NOINTERNET",pref.getString("Lan_ID","")), Toast.LENGTH_LONG).show();
-//            db.close();
         }
     }
 
@@ -184,40 +162,16 @@ public class ShareFragmentActivity extends FragmentActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-
         if (v == facebook_share) {
             shareOnFB();
             finish();
         } else if (v == google_share) {
-//            shareEmail();
             try {
                 if (isGooglePlusInstalled()) {
                     File media = new File("");
                     Uri uri = Uri.fromFile(media);
-//                    Intent shareIntent = ShareCompat.IntentBuilder.from(ShareFragmentActivity.this)
-//                            .setText(Html.fromHtml(msg))
-//                            .setType("image/jpeg")
-//                            .setStream(uri).getIntent()
-//                            .setPackage("com.google.android.apps.plus");
-//                    startActivity(shareIntent);
                     ContentResolver cr = this.getContentResolver();
                     String mime = cr.getType(uri);
-
-                   /* PlusShare.Builder share = new PlusShare.Builder(this);
-                    share.setText(Html.fromHtml(msg));
-                    share.setContentUrl(Uri.parse("https://developers.google.com/+/"));
-                    share.addStream(uri);
-                    share.setType(mime);
-                    startActivityForResult(share.getIntent(), 0);*/
-                    /*Intent shareIntent1 = new PlusShare.Builder(this)
-                            .setType("image/jpeg")
-                            .setText(Html.fromHtml(msg))
-                            .setContentUrl(Uri.parse("https://developers.google.com/+/"))
-                            .setStream(uri).getIntent();
-
-
-                    startActivityForResult(shareIntent1, 0);*/
-
                     Intent shareIntent = ShareCompat.IntentBuilder
                             .from(this)
                             .setText((Html.fromHtml(msg)))
@@ -225,18 +179,15 @@ public class ShareFragmentActivity extends FragmentActivity implements View.OnCl
                             .setPackage("com.google.android.apps.plus");
                     startActivityForResult(shareIntent, 0);
                     finish();
-
                 } else {
                     final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_STORE + "com.google.android.apps.plus"));
                     startActivity(intent);
-
                 }
             } catch (Exception e) {
                 // Tracking exception
                 MyTorismaApplication.getInstance().trackException(e);
                 Utils.Log(TAG, "google_share Exception: " + e.getLocalizedMessage());
             }
-
         } else if (v == sms_share) {
             sendSMS();
             finish();
