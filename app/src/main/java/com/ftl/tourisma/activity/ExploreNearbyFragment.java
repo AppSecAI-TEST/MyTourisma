@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ftl.tourisma.R;
+import com.ftl.tourisma.TicketEvent;
 import com.ftl.tourisma.database.Nearby;
 
 import java.util.ArrayList;
@@ -95,6 +96,15 @@ public class ExploreNearbyFragment extends Fragment implements View.OnClickListe
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fram1, fragment);
         fragmentTransaction.addToBackStack(SearchLocationFragment.class.getSimpleName());
+        fragmentTransaction.commit();
+    }
+
+    public void replaceTicketFragment() {
+        Fragment fragment = new TicketEvent();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fram1, fragment);
+        fragmentTransaction.addToBackStack(TicketEvent.class.getSimpleName());
         fragmentTransaction.commit();
     }
 

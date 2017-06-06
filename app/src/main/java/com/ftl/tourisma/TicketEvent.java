@@ -44,7 +44,6 @@ public class TicketEvent extends Fragment {
         //setting layout manager
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         event_recycler.setLayoutManager(linearLayoutManager);
-
         return view;
     }
 

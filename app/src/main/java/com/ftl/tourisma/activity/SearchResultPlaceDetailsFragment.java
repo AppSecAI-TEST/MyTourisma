@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
@@ -41,7 +40,6 @@ import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
 import com.ftl.tourisma.ShareFragmentActivity;
 import com.ftl.tourisma.SimpleVrPanoramaActivity;
-import com.ftl.tourisma.TicketEvent;
 import com.ftl.tourisma.adapters.TimingAdapter;
 import com.ftl.tourisma.custom_views.NormalBoldTextView;
 import com.ftl.tourisma.custom_views.NormalTextView;
@@ -262,12 +260,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
             mIntent.putExtra("myMsg", share1 + " \"" + mPreferences.getString("User_Name", "") + "\" " + share2 + " \"" + mNearby.getPlace_Name() + "\" " + share3);
             startActivity(mIntent);
         } else if (v == buy_tickets) {
-            Fragment fragment = new TicketEvent();
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fram1, fragment);
-            fragmentTransaction.addToBackStack(TicketEvent.class.getSimpleName());
-            fragmentTransaction.commit();
+            mainActivity.exploreNearbyFragment.replaceTicketFragment();
         }
     }
 
@@ -382,7 +375,8 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
         tv_distance1_search_result2.setText(Utilities.GetRoutDistane(Double.parseDouble(mPreferences.getString("latitude2", "")), Double.parseDouble(mPreferences.getString("longitude2", "")), Double.parseDouble(mNearby.getPlace_Latitude()), Double.parseDouble(mNearby.getPlace_Longi()), mNearby.getDist()) + " " + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
         tv_full_name_search_result2.setText(mNearby.getPlace_Name());
         tv_info_search_result2.setText(mNearby.getPlace_Address());
-        tv_discription_search_result2.setText(Html.fromHtml(Html.fromHtml("<html><body><p style=\"text-align:justify\">" + mNearby.getPlace_Description() + "</p></body></html>").toString()));
+//        tv_discription_search_result2.setText(Html.fromHtml(Html.fromHtml("<html><body><p style=\"text-align:justify\">" + mNearby.getPlace_Description() + "</p></body></html>").toString()));
+        tv_discription_search_result2.setText(String.format(mNearby.getPlace_Description()));
         String string = mNearby.getPlace_MainImage();
         if (mNearby.getOtherimages().length() != 0 && !mNearby.getOtherimages().equalsIgnoreCase("null")) {
             string += "," + mNearby.getOtherimages();
