@@ -70,6 +70,7 @@ public class JSONObjConverter {
         try {
             Nearby recommended = new Nearby();
             recommended.setPlace_Id(jsonObject1.optString("Place_Id"));
+            recommended.setGroup_Id(jsonObject1.optString("Group_Id"));
             recommended.setCategory_Name(jsonObject1.optString("Category_Name"));
             recommended.setPlace_Name(jsonObject1.optString("Place_Name"));
             recommended.setPlace_ShortInfo(jsonObject1.optString("Place_ShortInfo"));

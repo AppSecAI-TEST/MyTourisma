@@ -182,7 +182,7 @@ public class SimpleVrPanoramaActivity extends Activity {
         listview.setLayoutManager(layoutManager);
 
         mResources.add(getObjectVrImage(path, 0, 1));
-        if (path_1 != null && !path_1.equals("")) {
+        if (path_1 != null && !path_1.equals("") && !path_1.equals("null")) {
             String[] strings = path_1.split(",");
             for (String path : strings)
                 mResources.add(getObjectVrImage(path, 0, 0));
