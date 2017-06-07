@@ -188,7 +188,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@+id/add_qyt_senr"
-                    android:text="10"
+                    android:text="0"
                     android:textColor="@color/mBlack1"
                     android:textSize="@dimen/TEXT_SMALL" />
 
@@ -260,7 +260,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@+id/add_qyt_adlt"
-                    android:text="10"
+                    android:text="0"
                     android:textColor="@color/mBlack1"
                     android:textSize="@dimen/TEXT_SMALL" />
 
@@ -331,7 +331,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@+id/add_qyt_chld"
-                    android:text="10"
+                    android:text="0"
                     android:textColor="@color/mBlack1"
                     android:textSize="@dimen/TEXT_SMALL" />
 
@@ -369,6 +369,8 @@
                 android:id="@+id/relativeLayout_infant"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/relativeLayout_child">
 
                 <TextView
@@ -380,7 +382,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="30dp"
-                    android:text="Child(4-12)"
+                    android:text="Infant"
                     android:textColor="@color/mBlack1"
                     android:textSize="@dimen/TEXT_SMALL" />
 
@@ -402,7 +404,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@+id/add_qyt_infant"
-                    android:text="10"
+                    android:text="0"
                     android:textColor="@color/mBlack1"
                     android:textSize="@dimen/TEXT_SMALL" />
 
@@ -452,7 +454,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/promo_txt_main"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/promo_txt"
@@ -471,7 +474,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/tickets_promo_rect_bg"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:inputType="text"
                     android:textColor="@color/mBlack1"
                     android:textColorHint="@color/mBlack1"
