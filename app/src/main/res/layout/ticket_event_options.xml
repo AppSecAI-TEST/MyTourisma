@@ -457,7 +457,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/promo_txt_main"
                 android:layout_marginTop="10dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/promo_txt"
@@ -476,7 +476,6 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/tickets_promo_rect_bg"
-                    android:gravity="left"
                     android:inputType="text"
                     android:textColor="@color/mBlack1"
                     android:textColorHint="@color/mBlack1"

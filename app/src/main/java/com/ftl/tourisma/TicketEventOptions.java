@@ -16,9 +16,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ftl.tourisma.activity.MainActivity;
+import com.ftl.tourisma.models.TicketList;
 import com.ftl.tourisma.utils.Utils;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
+
+import java.util.ArrayList;
 
 /**
  * Created by Vinay on 6/7/2017.
@@ -26,7 +29,11 @@ import com.nispok.snackbar.SnackbarManager;
 
 public class TicketEventOptions extends Fragment {
 
-    public Integer cart_count = 0;
+    public Integer cart_count_senr = 0;
+    public Integer cart_count_adlt = 0;
+    public Integer cart_count_chld = 0;
+    public Integer cart_count_infant = 0;
+    ArrayList<TicketList> ticketLists = new ArrayList<>();
     View view;
     MainActivity mainActivity;
     ImageView img_close, add_qyt_senr, sub_qyt_senr, add_qyt_adlt, sub_qyt_adlt, add_qyt_chld, sub_qyt_chld, add_qyt_infant, sub_qyt_infant;
@@ -141,26 +148,28 @@ public class TicketEventOptions extends Fragment {
         add_qyt_senr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cart_count++;
-                if (cart_count > 0) {
-                    qty_txt_senr.setText("" + cart_count);
+                cart_count_senr++;
+                if (cart_count_senr > 0) {
+                    qty_txt_senr.setText("" + cart_count_senr);
                     sub_qyt_senr.setEnabled(true);
                 } else {
                     sub_qyt_senr.setEnabled(false);
                 }
+                TicketList ticketList = new TicketList(qty_txt_senr.getText().toString());
+                ticketLists.add(ticketList);
             }
         });
 
         sub_qyt_senr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cart_count--;
-                if (cart_count < 0) {
+                cart_count_senr--;
+                if (cart_count_senr < 0) {
                     qty_txt_senr.setText("" + 0);
                     sub_qyt_senr.setEnabled(false);
                 } else {
                     add_qyt_senr.setEnabled(true);
-                    qty_txt_senr.setText("" + cart_count);
+                    qty_txt_senr.setText("" + cart_count_senr);
                 }
             }
         });
@@ -168,12 +177,12 @@ public class TicketEventOptions extends Fragment {
         add_qyt_adlt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cart_count++;
-                if (cart_count > 0) {
-                    qty_txt_adlt.setText("" + cart_count);
-                    sub_qyt_senr.setEnabled(true);
+                cart_count_adlt++;
+                if (cart_count_adlt > 0) {
+                    qty_txt_adlt.setText("" + cart_count_adlt);
+                    sub_qyt_adlt.setEnabled(true);
                 } else {
-                    sub_qyt_senr.setEnabled(false);
+                    sub_qyt_adlt.setEnabled(false);
                 }
             }
         });
@@ -181,13 +190,13 @@ public class TicketEventOptions extends Fragment {
         sub_qyt_adlt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cart_count--;
-                if (cart_count < 0) {
+                cart_count_adlt--;
+                if (cart_count_adlt < 0) {
                     qty_txt_adlt.setText("" + 0);
-                    sub_qyt_senr.setEnabled(false);
+                    sub_qyt_adlt.setEnabled(false);
                 } else {
                     add_qyt_adlt.setEnabled(true);
-                    qty_txt_adlt.setText("" + cart_count);
+                    qty_txt_adlt.setText("" + cart_count_adlt);
                 }
             }
         });
@@ -195,12 +204,12 @@ public class TicketEventOptions extends Fragment {
         add_qyt_chld.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cart_count++;
-                if (cart_count > 0) {
-                    qty_txt_chld.setText("" + cart_count);
-                    sub_qyt_senr.setEnabled(true);
+                cart_count_chld++;
+                if (cart_count_chld > 0) {
+                    qty_txt_chld.setText("" + cart_count_chld);
+                    sub_qyt_chld.setEnabled(true);
                 } else {
-                    sub_qyt_senr.setEnabled(false);
+                    sub_qyt_chld.setEnabled(false);
                 }
             }
         });
@@ -208,13 +217,13 @@ public class TicketEventOptions extends Fragment {
         sub_qyt_chld.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cart_count--;
-                if (cart_count < 0) {
+                cart_count_chld--;
+                if (cart_count_chld < 0) {
                     qty_txt_chld.setText("" + 0);
-                    sub_qyt_senr.setEnabled(false);
+                    sub_qyt_chld.setEnabled(false);
                 } else {
-                    add_qyt_senr.setEnabled(true);
-                    qty_txt_chld.setText("" + cart_count);
+                    add_qyt_chld.setEnabled(true);
+                    qty_txt_chld.setText("" + cart_count_chld);
                 }
             }
         });
@@ -222,12 +231,12 @@ public class TicketEventOptions extends Fragment {
         add_qyt_infant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cart_count++;
-                if (cart_count > 0) {
-                    qty_txt_infant.setText("" + cart_count);
-                    sub_qyt_senr.setEnabled(true);
+                cart_count_infant++;
+                if (cart_count_infant > 0) {
+                    qty_txt_infant.setText("" + cart_count_infant);
+                    sub_qyt_infant.setEnabled(true);
                 } else {
-                    sub_qyt_senr.setEnabled(false);
+                    sub_qyt_infant.setEnabled(false);
                 }
             }
         });
@@ -235,13 +244,13 @@ public class TicketEventOptions extends Fragment {
         sub_qyt_infant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cart_count--;
-                if (cart_count < 0) {
+                cart_count_infant--;
+                if (cart_count_infant < 0) {
                     qty_txt_infant.setText("" + 0);
-                    sub_qyt_senr.setEnabled(false);
+                    sub_qyt_infant.setEnabled(false);
                 } else {
-                    add_qyt_senr.setEnabled(true);
-                    qty_txt_infant.setText("" + cart_count);
+                    add_qyt_infant.setEnabled(true);
+                    qty_txt_infant.setText("" + cart_count_infant);
                 }
             }
         });
@@ -249,7 +258,17 @@ public class TicketEventOptions extends Fragment {
         continue_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Fragment fragment = new TicketInfo();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+                Bundle bundle = new Bundle();
+                bundle.putString("arrayList", String.valueOf(ticketLists));
+                fragment.setArguments(bundle);
+
+                fragmentTransaction.replace(R.id.fram1, fragment);
+                fragmentTransaction.addToBackStack(TicketInfo.class.getSimpleName());
+                fragmentTransaction.commit();
             }
         });
     }
