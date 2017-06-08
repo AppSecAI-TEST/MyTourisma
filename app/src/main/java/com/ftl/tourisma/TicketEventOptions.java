@@ -157,12 +157,92 @@ public class TicketEventOptions extends Fragment {
                 cart_count--;
                 if (cart_count < 0) {
                     qty_txt_senr.setText("" + 0);
-                    add_qyt_senr.setEnabled(false);
+                    sub_qyt_senr.setEnabled(false);
                 } else {
                     add_qyt_senr.setEnabled(true);
                     qty_txt_senr.setText("" + cart_count);
                 }
+            }
+        });
 
+        add_qyt_adlt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cart_count++;
+                if (cart_count > 0) {
+                    qty_txt_senr.setText("" + cart_count);
+                    sub_qyt_senr.setEnabled(true);
+                } else {
+                    sub_qyt_senr.setEnabled(false);
+                }
+            }
+        });
+
+        sub_qyt_adlt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cart_count--;
+                if (cart_count < 0) {
+                    qty_txt_senr.setText("" + 0);
+                    sub_qyt_senr.setEnabled(false);
+                } else {
+                    add_qyt_senr.setEnabled(true);
+                    qty_txt_senr.setText("" + cart_count);
+                }
+            }
+        });
+
+        add_qyt_chld.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cart_count++;
+                if (cart_count > 0) {
+                    qty_txt_senr.setText("" + cart_count);
+                    sub_qyt_senr.setEnabled(true);
+                } else {
+                    sub_qyt_senr.setEnabled(false);
+                }
+            }
+        });
+
+        sub_qyt_chld.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cart_count--;
+                if (cart_count < 0) {
+                    qty_txt_senr.setText("" + 0);
+                    sub_qyt_senr.setEnabled(false);
+                } else {
+                    add_qyt_senr.setEnabled(true);
+                    qty_txt_senr.setText("" + cart_count);
+                }
+            }
+        });
+
+        add_qyt_infant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cart_count++;
+                if (cart_count > 0) {
+                    qty_txt_senr.setText("" + cart_count);
+                    sub_qyt_senr.setEnabled(true);
+                } else {
+                    sub_qyt_senr.setEnabled(false);
+                }
+            }
+        });
+
+        sub_qyt_infant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cart_count--;
+                if (cart_count < 0) {
+                    qty_txt_senr.setText("" + 0);
+                    sub_qyt_senr.setEnabled(false);
+                } else {
+                    add_qyt_senr.setEnabled(true);
+                    qty_txt_senr.setText("" + cart_count);
+                }
             }
         });
 

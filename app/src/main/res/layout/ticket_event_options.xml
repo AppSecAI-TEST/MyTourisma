@@ -440,11 +440,13 @@
 
             <TextView
                 android:id="@+id/promo_txt_main"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/relativeLayout_infant"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:padding="10dp"
                 android:text="Insert your promo code here"
                 android:textColor="@color/mBlue"
                 android:textSize="@dimen/TEXT_SMALL" />
@@ -454,7 +456,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/promo_txt_main"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:visibility="gone">
 
                 <TextView
