@@ -29,10 +29,10 @@ import java.util.ArrayList;
 
 public class TicketEventOptions extends Fragment {
 
-    public Integer cart_count_senr = 0;
-    public Integer cart_count_adlt = 0;
-    public Integer cart_count_chld = 0;
-    public Integer cart_count_infant = 0;
+    Integer cart_count_adlt = 0;
+    Integer cart_count_senr = 0;
+    Integer cart_count_chld = 0;
+    Integer cart_count_infant = 0;
     ArrayList<TicketList> ticketLists = new ArrayList<>();
     View view;
     MainActivity mainActivity;
@@ -58,7 +58,14 @@ public class TicketEventOptions extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.ticket_event_options, container, false);
         dcl_layout_variable(view);
+
+        cart_count_adlt = 0;
+        cart_count_senr = 0;
+        cart_count_chld = 0;
+        cart_count_infant = 0;
+
         onClickListners();
+
         return view;
     }
 
@@ -258,17 +265,21 @@ public class TicketEventOptions extends Fragment {
         continue_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new TicketInfo();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                if (qty_txt_adlt.getText().toString().equals("0") && qty_txt_senr.getText().toString().equals("0") && qty_txt_chld.getText().toString().equals("0") && qty_txt_infant.getText().toString().equals("0")) {
 
-                Bundle bundle = new Bundle();
-                bundle.putString("arrayList", String.valueOf(ticketLists));
-                fragment.setArguments(bundle);
+                } else {
+                    Fragment fragment = new TicketInfo();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                fragmentTransaction.replace(R.id.fram1, fragment);
-                fragmentTransaction.addToBackStack(TicketInfo.class.getSimpleName());
-                fragmentTransaction.commit();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("arrayList", String.valueOf(ticketLists));
+//                    fragment.setArguments(bundle);
+
+                    fragmentTransaction.replace(R.id.fram1, fragment);
+                    fragmentTransaction.addToBackStack(TicketInfo.class.getSimpleName());
+                    fragmentTransaction.commit();
+                }
             }
         });
     }

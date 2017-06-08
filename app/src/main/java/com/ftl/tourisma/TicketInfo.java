@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,14 +44,14 @@ public class TicketInfo extends Fragment {
         dcl_layout_variables(view);
         onClickListners();
 
-        Bundle bundle = getArguments();
-        ticketLists = (ArrayList<TicketList>) bundle.getSerializable("arrayList");
-
-        //setting adapter and layout manager
-        ticketInfoAdapter = new TicketInfoAdapter(getActivity(), ticketLists);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        ticket_info_recycler_view.setLayoutManager(mLayoutManager);
-        ticket_info_recycler_view.setAdapter(ticketInfoAdapter);
+//        Bundle bundle = getArguments();
+//        ticketLists = (ArrayList<TicketList>) bundle.getSerializable("arrayList");
+//
+//        //setting adapter and layout manager
+//        ticketInfoAdapter = new TicketInfoAdapter(getActivity(), ticketLists);
+//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+//        ticket_info_recycler_view.setLayoutManager(mLayoutManager);
+//        ticket_info_recycler_view.setAdapter(ticketInfoAdapter);
 
         return view;
     }
