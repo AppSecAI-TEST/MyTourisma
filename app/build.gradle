@@ -26,8 +26,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 25
         multiDexEnabled true
-        versionCode 12
-        versionName '2.0'
+        versionCode 14
+        versionName '2.1'
     }
     dexOptions {
         javaMaxHeapSize "4g"
@@ -65,7 +65,7 @@ dependencies {
     compile 'com.github.aakira:expandable-layout:1.6.0@aar'
     compile 'hanks.xyz:htextview-library:0.1.5'
     compile 'app.num.numandroidpagecurleffect:numandroidpagecurleffect:1.0'
-    compile 'com.estimote:sdk:0.9.4@aar'
+    compile 'com.estimote:sdk:0.16.0@aar'
     compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
