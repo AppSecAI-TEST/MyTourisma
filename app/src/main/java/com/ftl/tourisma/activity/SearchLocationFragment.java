@@ -241,7 +241,8 @@ public class SearchLocationFragment extends Fragment implements post_sync.Respon
 
     private void locationCall() {
         if (CommonClass.hasInternetConnection(getActivity())) {
-            String url = "http://35.154.205.155/mytourisma/json.php?action=CmsPlaces";
+            String url = Constants.SERVER_URL + "json.php?action=CmsPlaces";
+//            String url = "http://35.154.205.155/mytourisma/json.php?action=CmsPlaces";
             String json = "";
             new PostSync(getActivity(), "CmsPlaces", SearchLocationFragment.this).execute(url, json);
         } else {

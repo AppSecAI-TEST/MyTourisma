@@ -88,10 +88,12 @@ private ResponseHandler responseHandler;
             response = null;
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
+            Log.v("api_response", "failed");
         } catch (Exception e) {
             // Tracking exception
             MyTorismaApplication.getInstance().trackException(e);
             e.printStackTrace();
+            Log.v("api_response_s", "failed_s");
         }
         httppost = null;
         httpclient = null;

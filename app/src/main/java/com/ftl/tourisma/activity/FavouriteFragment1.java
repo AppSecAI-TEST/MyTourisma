@@ -242,9 +242,9 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
 
     private void getFavoriteCall() {
         if (CommonClass.hasInternetConnection(getActivity())) {
-//            String url = Constants.SERVER_URL + "json.php?action=GetFavorites";
+            String url = Constants.SERVER_URL + "json.php?action=GetFavorites";
 //            String json = "[{\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mPreferences.getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mPreferences.getString("longitude2", "") + "\",\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\"}]";
-            String url = "http://35.154.205.155/mytourisma/json.php?action=GetFavorites";
+//            String url = "http://35.154.205.155/mytourisma/json.php?action=GetFavorites";
             String json = "[{\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mPreferences.getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mPreferences.getString("longitude2", "") + "\",\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\"}]";
             System.out.println("fav_response" + json);
             new post_sync(getActivity(), "GetFavorites", FavouriteFragment1.this, true).execute(url, json);
@@ -410,9 +410,9 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
 
     private void addFavoriteCall(String Place_Id, String group_id) {
         if (CommonClass.hasInternetConnection(getActivity())) {
-//            String url = Constants.SERVER_URL + "json.php?action=AddFavorite";
+            String url = Constants.SERVER_URL + "json.php?action=AddFavorite";
 //            String json = "[{\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Place_Id\":\"" + Place_Id + "\"}]";
-            String url = "http://35.154.205.155/mytourisma/json.php?action=AddFavorite";
+//            String url = "http://35.154.205.155/mytourisma/json.php?action=AddFavorite";
             String json = "[{\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Place_Id\":\"" + Place_Id + "\",\"Group_Id\":\"" + group_id + "\"}]";
             new post_sync(getActivity(), "AddFavorite1", FavouriteFragment1.this, true).execute(url, json);
         } else {
@@ -455,9 +455,9 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
     /*private void deleteFavoriteCall(String Fav_Id) {*/
     private void deleteFavoriteCall(String group_id) {
         if (CommonClass.hasInternetConnection(getActivity())) {
-//            String url = Constants.SERVER_URL + "json.php?action=DeleteFavorite";
+            String url = Constants.SERVER_URL + "json.php?action=DeleteFavorite";
 //            String json = "[{\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Fav_Id\":\"" + Fav_Id + "\"}]";
-            String url = "http://35.154.205.155/mytourisma/json.php?action=DeleteFavorite";
+//            String url = "http://35.154.205.155/mytourisma/json.php?action=DeleteFavorite";
             String json = "[{\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Group_Id\":\"" + group_id + "\"}]";
             new post_sync(getActivity(), "DeleteFavorite1", FavouriteFragment1.this, true).execute(url, json);
         } else {

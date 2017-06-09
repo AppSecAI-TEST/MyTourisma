@@ -14,8 +14,6 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.StandardExceptionParser;
 import com.google.android.gms.analytics.Tracker;
 import com.pixplicity.easyprefs.library.Prefs;
-import com.squareup.picasso.OkHttpDownloader;
-import com.squareup.picasso.Picasso;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -51,13 +49,13 @@ public class MyTorismaApplication extends MultiDexApplication {
                 .setUseDefaultSharedPreference(true)
                 .build();
 
-        // Initializing the picasso
-        Picasso.Builder builder = new Picasso.Builder(this);
-        builder.downloader(new OkHttpDownloader(this, Integer.MAX_VALUE));
-        Picasso built = builder.build();
-        built.setIndicatorsEnabled(true);
-        built.setLoggingEnabled(true);
-        Picasso.setSingletonInstance(built);
+//        // Initializing the picasso
+//        Picasso.Builder builder = new Picasso.Builder(this);
+//        builder.downloader(new OkHttpDownloader(this, Integer.MAX_VALUE));
+//        Picasso built = builder.build();
+//        built.setIndicatorsEnabled(true);
+//        built.setLoggingEnabled(true);
+//        Picasso.setSingletonInstance(built);
 
         this.context = getApplicationContext();
         typeFace = new MyTypeFace(context);

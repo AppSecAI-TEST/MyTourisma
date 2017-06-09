@@ -213,7 +213,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
         AppRate.with(this)
                 .setStoreType(StoreType.GOOGLEPLAY) //default is Google, other option is Amazon
                 .setInstallDays(2) // default 10, 0 means install day.
-                .setLaunchTimes(2) // default 10 times.
+                .setLaunchTimes(1) // default 10 times.
                 .setRemindInterval(2) // default 1 day.
                 .setShowLaterButton(true) // default true.
                 .setDebug(false) // default false.

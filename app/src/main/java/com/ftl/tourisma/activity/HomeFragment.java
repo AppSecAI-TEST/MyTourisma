@@ -230,7 +230,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         if (CommonClass.hasInternetConnection(getActivity())) {
 //            String url = Constants.SERVER_URL + "json.php?action=HomePageData";
 //            String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"keyword\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\"}]";
-            String url = "http://35.154.205.155/mytourisma/json.php?action=newHomePageData";
+//            String url = "http://35.154.205.155/mytourisma/json.php?action=newHomePageData";
+            String url = Constants.SERVER_URL + "json.php?action=newHomePageData";
             String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"City_Name\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\"}]";
             System.out.println("homepagedata_json " + json);
             System.out.println("homepagedata_url " + url);
@@ -482,7 +483,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                             } else {
                                 mFlag = position;
 //                                deleteFavoriteCall(recommendeds.get(position).getFav_Id());
-                                deleteFavoriteCall(recommendeds.get(position).getGroup_Id());
+                                deleteFavoriteCall(recommendeds.get(position).getFav_Id(), recommendeds.get(position).getGroup_Id());
                             }
                         }
                     }
@@ -658,7 +659,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                                     } else {
                                         imgFav.setActivated(false);
 //                                        deleteFavoriteCall(nearbies.get(j).getFav_Id());
-                                        deleteFavoriteCall(nearbies.get(j).getGroup_Id());
+                                        deleteFavoriteCall(nearbies.get(j).getFav_Id(), nearbies.get(j).getGroup_Id());
                                         mFlag = j;
                                     }
                                 }
@@ -748,8 +749,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
 
     private void addFavoriteCall(String Place_Id, String group_id) {
         if (CommonClass.hasInternetConnection(getActivity())) {
-//            String url = Constants.SERVER_URL + "json.php?action=AddFavorite";
-            String url = "http://35.154.205.155/mytourisma/json.php?action=AddFavorite";
+            String url = Constants.SERVER_URL + "json.php?action=AddFavorite";
+//            String url = "http://35.154.205.155/mytourisma/json.php?action=AddFavorite";
             mPlaceId = Place_Id;
             String json = "[{\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Place_Id\":\"" + Place_Id + "\",\"Group_Id\":\"" + group_id + "\"}]";
             new post_sync(getActivity(), "AddFavorite", HomeFragment.this, true).execute(url, json);
@@ -800,13 +801,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     }
 
     /*private void deleteFavoriteCall(String Fav_Id, String group_id) {*/
-    private void deleteFavoriteCall(String group_id) {
+    private void deleteFavoriteCall(String Fav_Id, String group_id) {
         if (CommonClass.hasInternetConnection(getActivity())) {
-//            String url = Constants.SERVER_URL + "json.php?action=DeleteFavorite";
+            String url = Constants.SERVER_URL + "json.php?action=DeleteFavorite";
 //            String json = "[{\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Fav_Id\":\"" + Fav_Id + "\"}]";
-            String url = "http://35.154.205.155/mytourisma/json.php?action=DeleteFavorite";
+//            String url = "http://35.154.205.155/mytourisma/json.php?action=DeleteFavorite";
             String json = "[{\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Group_Id\":\"" + group_id + "\"}]";
-//            mFav = Fav_Id;
+            mFav = Fav_Id;
             new post_sync(getActivity(), "DeleteFavorite", HomeFragment.this, true).execute(url, json);
         } else {
             Intent intent = new Intent(getActivity(), NoInternet.class);
