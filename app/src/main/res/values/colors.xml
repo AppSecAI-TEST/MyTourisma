@@ -32,4 +32,6 @@
 
     <color name="background">#E0E0E0</color>
     <color name="grey">#757575</color>
+    <color name="calendarBlock">#14546D</color>
+    <color name="cardColor">#EDEDED</color>
 </resources>

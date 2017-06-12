@@ -26,9 +26,10 @@ public class TicketEvent extends Fragment {
     View view;
     RelativeLayout edit_date;
     RecyclerView event_recycler;
-    TextView continue_btn, txtTitle;
+    TextView continue_btn, txtTitle, dateText;
     ImageView img_close;
     MainActivity mainActivity;
+    String mDate;
 
     @Override
     public void onAttach(Context context) {
@@ -40,8 +41,13 @@ public class TicketEvent extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.ticket_event, container, false);
+
         dcl_layout_variable(view);
         onClickListners();
+
+        Bundle mIntent = getArguments();
+        mDate = mIntent.getString("DATE");
+        dateText.setText(mDate);
 
         //setting layout manager
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -55,6 +61,7 @@ public class TicketEvent extends Fragment {
         continue_btn = (TextView) view.findViewById(R.id.continue_btn);
         txtTitle = (TextView) view.findViewById(R.id.txtTitle);
         img_close = (ImageView) view.findViewById(R.id.img_close);
+        dateText = (TextView) view.findViewById(R.id.date_txt);
     }
 
     public void onClickListners() {
@@ -70,6 +77,9 @@ public class TicketEvent extends Fragment {
             @Override
             public void onClick(View v) {
                 Fragment fragment = new TicketPersonalDetails();
+                Bundle bundle = new Bundle();
+                bundle.putString("DATE", mDate);
+                fragment.setArguments(bundle);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fram1, fragment);

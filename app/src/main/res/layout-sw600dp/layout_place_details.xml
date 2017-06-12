@@ -21,85 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.daimajia.slider.library.SliderLayout
-                android:id="@+id/sliderPlaceImages"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/dotLayout_detail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_above="@+id/rlVirtualTour"
-                        android:layout_marginBottom="@dimen/m10dp"
-                        android:layout_marginLeft="@dimen/m10dp"
-                        android:layout_marginRight="@dimen/m10dp"
-
-                        android:gravity="top|center_horizontal">
-
-                        <com.daimajia.slider.library.Indicators.PagerIndicator
-                            android:id="@+id/custom_indicator1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center" />
-
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rlVirtualTour"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/m70dp"
-                        android:background="@color/mBlueTran"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
-
-                        <com.ftl.tourisma.custom_views.NormalBoldTextView
-                            android:id="@+id/txtViewAVirtalTour"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:drawableLeft="@drawable/ic_card_board"
-                            android:drawablePadding="@dimen/m10dp"
-                            android:text="View a Virtual Tour"
-                            android:textColor="@color/mWhite"
-                            android:textSize="@dimen/TEXT_MEDIUM" />
-
-                        <ImageView
-                            android:id="@+id/txtViewAVirtalTourNext"
-                            android:layout_width="@dimen/m30dp"
-                            android:layout_height="@dimen/m30dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_margin="@dimen/m15dp"
-                            android:background="@drawable/bg_blue_arrow"
-                            android:padding="@dimen/m10dp"
-                            android:src="@drawable/ic_right_white_arrow" />
-                    </RelativeLayout>
-
-
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/imgSharePlace"
-                    android:layout_width="@dimen/m30dp"
-                    android:layout_height="@dimen/m30dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="right"
-                    android:layout_margin="@dimen/m15dp"
-                    android:background="@drawable/bg_blue_arrow"
-                    android:padding="@dimen/m8dp"
-                    android:src="@drawable/ic_share_" />
-            </com.daimajia.slider.library.SliderLayout>
-
         </RelativeLayout>
 
 
@@ -312,7 +233,7 @@
             android:text="Buy Tickets"
             android:textColor="@color/mBlue"
             android:textSize="@dimen/TEXT_EXTRA_SMALL"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <View
             android:layout_width="match_parent"

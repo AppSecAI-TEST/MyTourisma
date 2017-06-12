@@ -46,6 +46,8 @@ public class TicketEventOptions extends Fragment {
     RelativeLayout calender_layout, event_options_layout, promo_code_layout;
     RecyclerView timings_recycler;
     boolean isVisible = true;
+    TextView dateText;
+    String mDate;
 
     @Override
     public void onAttach(Context context) {
@@ -65,6 +67,10 @@ public class TicketEventOptions extends Fragment {
         cart_count_infant = 0;
 
         onClickListners();
+
+        Bundle mIntent = getArguments();
+        mDate = mIntent.getString("DATE");
+        dateText.setText(mDate);
 
         return view;
     }
@@ -105,6 +111,7 @@ public class TicketEventOptions extends Fragment {
         promo_code_layout = (RelativeLayout) view.findViewById(R.id.relativeLayout3);
         promo_edtxt = (EditText) view.findViewById(R.id.promo_edtxt);
         timings_recycler = (RecyclerView) view.findViewById(R.id.timings_recycler);
+        dateText = (TextView) view.findViewById(R.id.date_txt);
     }
 
     public void onClickListners() {

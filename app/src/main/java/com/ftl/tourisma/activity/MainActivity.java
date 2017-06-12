@@ -91,8 +91,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
     public MyProfileFragment1 myProfileFragment;
     public int height;
     public int width;
+    public ExploreNearbyFragment exploreNearbyFragment;
     boolean doubleBackToExitPressedOnce = false;
-    ExploreNearbyFragment exploreNearbyFragment;
     FavouriteMainFragment favouriteFragment;
     MyProfileFragment1 profileFragment;
     private Object object;

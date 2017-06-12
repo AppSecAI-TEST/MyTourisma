@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp"
+    android:weightSum="7">
+
+    <TextView
+        style="@style/CalendarViewDayOfTheWeek"
+        android:layout_weight="1"
+        android:tag="dayOfWeek1"
+        android:text="SUN"
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        style="@style/CalendarViewDayOfTheWeek"
+        android:layout_weight="1"
+        android:tag="dayOfWeek2"
+        android:text="MON"
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        style="@style/CalendarViewDayOfTheWeek"
+        android:layout_weight="1"
+        android:tag="dayOfWeek3"
+        android:text="TUE"
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        style="@style/CalendarViewDayOfTheWeek"
+        android:layout_weight="1"
+        android:tag="dayOfWeek4"
+        android:text="WED"
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        style="@style/CalendarViewDayOfTheWeek"
+        android:layout_weight="1"
+        android:tag="dayOfWeek5"
+        android:text="THU"
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        style="@style/CalendarViewDayOfTheWeek"
+        android:layout_weight="1"
+        android:tag="dayOfWeek6"
+        android:text="FRI"
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        style="@style/CalendarViewDayOfTheWeek"
+        android:layout_weight="1"
+        android:tag="dayOfWeek7"
+        android:text="SAT"
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+</LinearLayout>

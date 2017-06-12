@@ -31,6 +31,7 @@ public class TicketPersonalDetails extends Fragment {
     ImageView img_close;
     EditText first_name_edtxt, last_name_edtxt, email_edtxt, mobile_edtxt, addr_edtxt;
     TextView continue_btn, txtTitle;
+    String mDate;
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
 
@@ -46,6 +47,9 @@ public class TicketPersonalDetails extends Fragment {
         view = inflater.inflate(R.layout.ticket_personal_details, container, false);
         dcl_layout_variable(view);
         onClickListners();
+
+        Bundle mIntent = getArguments();
+        mDate = mIntent.getString("DATE");
 
         mPreferences = getActivity().getSharedPreferences(Constants.mPref, 0);
         mEditor = mPreferences.edit();
@@ -84,6 +88,9 @@ public class TicketPersonalDetails extends Fragment {
                     SnackbarManager.show(Snackbar.with(getActivity()).color(Utils.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "VALIDEMAIL")));
                 } else {
                     Fragment fragment = new TicketEventOptions();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("DATE", mDate);
+                    fragment.setArguments(bundle);
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.fram1, fragment);

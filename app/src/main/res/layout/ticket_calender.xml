@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    tools:context=".activity.MainActivity">
 
     <RelativeLayout xmlns:ripple="http://schemas.android.com/apk/res-auto"
         android:id="@+id/header"
@@ -32,11 +33,34 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center_horizontal"
-            android:text="CHOOSE A DATE"
+            android:text="EVENT CALENDAR"
             android:textAllCaps="true"
             android:textColor="@color/mWhite"
             android:textSize="@dimen/TEXT_MEDIUM" />
 
     </RelativeLayout>
+
+    <include
+        android:id="@+id/REGD_TITLE_BAR"
+        layout="@layout/ticket_calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header" />
+
+    <com.ftl.tourisma.custom_views.CalendarGridView
+        android:id="@+id/calendar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/REGD_TITLE_BAR"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:adjustViewBounds="true"
+        android:background="@android:color/white"
+        android:columnWidth="20dp"
+        android:gravity="center"
+        android:numColumns="7"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="5dp" />
 
 </RelativeLayout>

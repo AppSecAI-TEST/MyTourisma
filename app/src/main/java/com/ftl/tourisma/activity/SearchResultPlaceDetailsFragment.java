@@ -262,7 +262,8 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
             mIntent.putExtra("myMsg", share1 + " \"" + mPreferences.getString("User_Name", "") + "\" " + share2 + " \"" + mNearby.getPlace_Name() + "\" " + share3);
             startActivity(mIntent);
         } else if (v == buy_tickets) {
-            mainActivity.exploreNearbyFragment.replaceTicketFragment();
+//            mainActivity.exploreNearbyFragment.replaceTicketFragment();
+            mainActivity.exploreNearbyFragment.replaceTicketCalendarFragment();
         }
     }
 
