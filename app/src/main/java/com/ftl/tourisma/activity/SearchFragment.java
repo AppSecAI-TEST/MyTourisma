@@ -346,6 +346,7 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                 JSONObject jsonObject = jsonArray.optJSONObject(i);
                 Nearby nearby = new Nearby();
                 nearby.setPlace_Id(jsonObject.optString("Place_Id"));
+                nearby.setGroup_Id(jsonObject.optString("Group_Id"));
                 nearby.setCategory_Name(jsonObject.optString("Category_Name"));
                 nearby.setPlace_Name(jsonObject.optString("Place_Name"));
                 nearby.setPlace_ShortInfo(jsonObject.optString("Place_ShortInfo"));

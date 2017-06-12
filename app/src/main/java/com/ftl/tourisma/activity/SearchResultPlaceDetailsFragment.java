@@ -105,6 +105,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
     private int pos = 0;
     private Marker marker;
     private String placeId;
+    private String groupId;
     private NormalTextView tv_map_location;
     private int mFlag = 0;
     private ImageView iv_search_map;
@@ -134,6 +135,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
         view = inflater.inflate(R.layout.fragment_place_details, container, false);
         Bundle mIntent = getArguments();
         placeId = mIntent.getString("placeId");
+        groupId = mIntent.getString("groupId");
         locationName = mIntent.getString("location");
         jsonObjConverter = new JSONObjConverter();
         _24HourSDF = new SimpleDateFormat("HH:mm");
@@ -359,12 +361,12 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
                     if (like == 0) {
                         txt_add_to_fav.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Remove Favourite"));
                         txt_add_to_fav.setCompoundDrawablesWithIntrinsicBounds(Utilities.getDrawable(getActivity(), R.drawable.ic_favourite_active), null, null, null);
-                        addFavoriteCall(mNearby.getPlace_Id());
+                        addFavoriteCall(mNearby.getPlace_Id(), mNearby.getGroup_Id());
                         mFlag = mId;
                     } else if (like == 1) {
                         txt_add_to_fav.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Add to Favourites"));
                         txt_add_to_fav.setCompoundDrawablesWithIntrinsicBounds(Utilities.getDrawable(getActivity(), R.drawable.ic_favourite_default), null, null, null);
-                        deleteFavoriteCall(mNearby.getFav_Id());
+                        deleteFavoriteCall(mNearby.getFav_Id(), mNearby.getGroup_Id());
                         mFlag = mId;
                     }
                     mCounter = 1;
@@ -535,6 +537,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
                 JSONObject jsonObject = jsonArray.optJSONObject(i);
                 mNearby = new Nearby();
                 mNearby.setPlace_Id(jsonObject.optString("Place_Id"));
+                mNearby.setGroup_Id(jsonObject.optString("Group_Id"));
                 mNearby.setCategory_Name(jsonObject.optString("Category_Name"));
                 mNearby.setPlace_Name(jsonObject.optString("Place_Name"));
                 mNearby.setPlace_ShortInfo(jsonObject.optString("Place_ShortInfo"));
@@ -676,10 +679,10 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
         return feesArrayList;
     }
 
-    private void addFavoriteCall(String Place_Id) {
+    private void addFavoriteCall(String Place_Id, String group_id) {
         if (CommonClass.hasInternetConnection(getActivity())) {
             String url = Constants.SERVER_URL + "json.php?action=AddFavorite";
-            String json = "[{\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Place_Id\":\"" + Place_Id + "\"}]";
+            String json = "[{\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Place_Id\":\"" + Place_Id + "\",\"Group_Id\":\"" + group_id + "\"}]";
             new PostSync(getActivity(), "AddFavorite", SearchResultPlaceDetailsFragment.this).execute(url, json);
         } else {
             Intent intent = new Intent(getActivity(), NoInternet.class);
@@ -712,10 +715,10 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
         }
     }
 
-    private void deleteFavoriteCall(String Fav_Id) {
+    private void deleteFavoriteCall(String Fav_Id, String group_id) {
         if (CommonClass.hasInternetConnection(getActivity())) {
             String url = Constants.SERVER_URL + "json.php?action=DeleteFavorite";
-            String json = "[{\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Fav_Id\":\"" + Fav_Id + "\"}]";
+            String json = "[{\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Group_Id\":\"" + group_id + "\"}]";
             new PostSync(getActivity(), "DeleteFavorite", SearchResultPlaceDetailsFragment.this).execute(url, json);
         } else {
             Intent intent = new Intent(getActivity(), NoInternet.class);

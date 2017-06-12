@@ -522,12 +522,12 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
                     if (like == 0) {
                         txt_add_to_fav.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Remove Favourite"));
                         txt_add_to_fav.setCompoundDrawablesWithIntrinsicBounds(Utilities.getDrawable(getActivity(), R.drawable.ic_favourite_active), null, null, null);
-                        addFavoriteCall(nearby.getPlace_Id());
+                        addFavoriteCall(nearby.getPlace_Id(), nearby.getGroup_Id());
                         mFlag = mId;
                     } else if (like == 1) {
                         txt_add_to_fav.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Add to Favourites"));
                         txt_add_to_fav.setCompoundDrawablesWithIntrinsicBounds(Utilities.getDrawable(getActivity(), R.drawable.ic_favourite_default), null, null, null);
-                        deleteFavoriteCall(nearby.getFav_Id());
+                        deleteFavoriteCall(nearby.getFav_Id(), nearby.getGroup_Id());
                         mFlag = mId;
                     }
                     mCounter = 1;
@@ -752,10 +752,10 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
         return timingArrayList;
     }
 
-    private void addFavoriteCall(String Place_Id) {
+    private void addFavoriteCall(String Place_Id, String group_id) {
         if (CommonClass.hasInternetConnection(getActivity())) {
             String url = Constants.SERVER_URL + "json.php?action=AddFavorite";
-            String json = "[{\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Place_Id\":\"" + Place_Id + "\"}]";
+            String json = "[{\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Place_Id\":\"" + Place_Id + "\",\"Group_Id\":\"" + group_id + "\"}]";
             new PostSync(getActivity(), "AddFavorite", SearchResultFragmentFragment.this).execute(url, json);
         } else {
             Intent intent = new Intent(getActivity(), NoInternet.class);
@@ -791,10 +791,10 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
         }
     }
 
-    private void deleteFavoriteCall(String Fav_Id) {
+    private void deleteFavoriteCall(String Fav_Id, String group_id) {
         if (CommonClass.hasInternetConnection(getActivity())) {
             String url = Constants.SERVER_URL + "json.php?action=DeleteFavorite";
-            String json = "[{\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Fav_Id\":\"" + Fav_Id + "\"}]";
+            String json = "[{\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Group_Id\":\"" + group_id + "\"}]";
             new PostSync(getActivity(), "DeleteFavorite", SearchResultFragmentFragment.this).execute(url, json);
         } else {
             Intent intent = new Intent(getActivity(), NoInternet.class);
@@ -872,7 +872,7 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
                     if (mainActivity.mainTabHostFragment.vpFragment.getCurrentItem() == 1) {
                         mainActivity.favouriteFragment.replacePlaceDetailsFragment(nearbies.get(id1).getPlace_Id(), tv_map_location.getText().toString());
                     } else {
-                        mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(nearbies.get(id1).getPlace_Id(), tv_map_location.getText().toString());
+                        mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(nearbies.get(id1).getPlace_Id(), tv_map_location.getText().toString(), nearbies.get(id1).getGroup_Id());
                     }
                     mNearby = nearbies.get(v.getId());
                 }
@@ -885,7 +885,7 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
                     if (mainActivity.mainTabHostFragment.vpFragment.getCurrentItem() == 1) {
                         mainActivity.favouriteFragment.replacePlaceDetailsFragment(nearbies.get(id1).getPlace_Id(), tv_map_location.getText().toString());
                     } else {
-                        mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(nearbies.get(id1).getPlace_Id(), tv_map_location.getText().toString());
+                        mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(nearbies.get(id1).getPlace_Id(), tv_map_location.getText().toString(), nearbies.get(id1).getGroup_Id());
                     }
                     mNearby = nearbies.get(v.getId());
 
@@ -935,11 +935,11 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
                             if (v.getId() == j) {
                                 if (nearbies.get(j).getFav_Id().equalsIgnoreCase("0")) {
                                     viewHolder.iv_favorite.setActivated(true);
-                                    addFavoriteCall(nearbies.get(j).getPlace_Id());
+                                    addFavoriteCall(nearbies.get(j).getPlace_Id(), nearbies.get(j).getGroup_Id());
                                     mFlag = j;
                                 } else {
                                     viewHolder.iv_favorite.setActivated(false);
-                                    deleteFavoriteCall(nearbies.get(j).getFav_Id());
+                                    deleteFavoriteCall(nearbies.get(j).getFav_Id(), nearbies.get(j).getGroup_Id());
                                     mFlag = j;
                                 }
                             }

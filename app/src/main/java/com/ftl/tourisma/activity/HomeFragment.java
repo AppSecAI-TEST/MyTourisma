@@ -375,7 +375,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                                 public void onSliderClick(BaseSliderView slider1) {
                                     mFrame = 1;
                                     id = slider.getCurrentPosition();
-                                    mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(recommendeds.get(id).getPlace_Id(), tv_city.getText().toString());
+                                    mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(recommendeds.get(id).getPlace_Id(), tv_city.getText().toString(), recommendeds.get(id).getGroup_Id());
                                 }
                             }).setPicasso(picasso);
                     slider.addSlider(textSliderView);
@@ -674,7 +674,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                     public void onClick(View v) {
                         mFrame = 1;
                         id = v.getId();
-                        mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(nearbies.get(v.getId()).getPlace_Id(), tv_city.getText().toString());
+                        mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(nearbies.get(v.getId()).getPlace_Id(), tv_city.getText().toString(), nearbies.get(v.getId()).getGroup_Id());
                     }
                 });
 
@@ -684,7 +684,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                     public void onClick(View v) {
                         mFrame = 1;
                         id = v.getId();
-                        mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(nearbies.get(v.getId()).getPlace_Id(), tv_city.getText().toString());
+                        mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(nearbies.get(v.getId()).getPlace_Id(), tv_city.getText().toString(), nearbies.get(v.getId()).getGroup_Id());
                     }
                 });
 

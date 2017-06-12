@@ -72,10 +72,11 @@ public class ExploreNearbyFragment extends Fragment implements View.OnClickListe
         getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, new HomeFragment()).commit();
     }
 
-    public void replacePlaceDetailsFragment(String placeId, String location) {
+    public void replacePlaceDetailsFragment(String placeId, String location, String groupId) {
         Bundle bundle = new Bundle();
         bundle.putString("placeId", placeId);
         bundle.putString("location", location);
+        bundle.putString("groupId", groupId);
         SearchResultPlaceDetailsFragment searchResultPlaceDetailsFragment = new SearchResultPlaceDetailsFragment();
         searchResultPlaceDetailsFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, searchResultPlaceDetailsFragment).addToBackStack(SearchResultPlaceDetailsFragment.class.getSimpleName()).commit();
