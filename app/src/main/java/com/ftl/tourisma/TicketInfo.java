@@ -44,9 +44,6 @@ public class TicketInfo extends Fragment {
         dcl_layout_variables(view);
         onClickListners();
 
-//        Bundle bundle = getArguments();
-//        ticketLists = (ArrayList<TicketList>) bundle.getSerializable("arrayList");
-//
 //        //setting adapter and layout manager
 //        ticketInfoAdapter = new TicketInfoAdapter(getActivity(), ticketLists);
 //        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());

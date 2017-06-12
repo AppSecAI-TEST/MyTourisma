@@ -16,9 +16,6 @@ import android.widget.TextView;
 
 import com.ftl.tourisma.activity.MainActivity;
 import com.ftl.tourisma.utils.Constants;
-import com.ftl.tourisma.utils.Utils;
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
 
 /**
  * Created by Vinay on 6/7/2017.
@@ -80,13 +77,13 @@ public class TicketPersonalDetails extends Fragment {
         continue_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (first_name_edtxt.getText().toString().length() == 0) {
-                    SnackbarManager.show(Snackbar.with(getActivity()).color(Utils.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "NAME")));
-                } else if (email_edtxt.getText().toString().length() == 0) {
-                    SnackbarManager.show(Snackbar.with(getActivity()).color(Utils.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "EMAIL")));
-                } else if (!Constants.isValidEmail(email_edtxt.getText().toString())) {
-                    SnackbarManager.show(Snackbar.with(getActivity()).color(Utils.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "VALIDEMAIL")));
-                } else {
+//                if (first_name_edtxt.getText().toString().length() == 0) {
+//                    SnackbarManager.show(Snackbar.with(getActivity()).color(Utils.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "NAME")));
+//                } else if (email_edtxt.getText().toString().length() == 0) {
+//                    SnackbarManager.show(Snackbar.with(getActivity()).color(Utils.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "EMAIL")));
+//                } else if (!Constants.isValidEmail(email_edtxt.getText().toString())) {
+//                    SnackbarManager.show(Snackbar.with(getActivity()).color(Utils.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "VALIDEMAIL")));
+//                } else {
                     Fragment fragment = new TicketEventOptions();
                     Bundle bundle = new Bundle();
                     bundle.putString("DATE", mDate);
@@ -96,7 +93,7 @@ public class TicketPersonalDetails extends Fragment {
                     fragmentTransaction.replace(R.id.fram1, fragment);
                     fragmentTransaction.addToBackStack(TicketEventOptions.class.getSimpleName());
                     fragmentTransaction.commit();
-                }
+//                }
             }
         });
     }

@@ -169,8 +169,6 @@ public class TicketEventOptions extends Fragment {
                 } else {
                     sub_qyt_senr.setEnabled(false);
                 }
-                TicketList ticketList = new TicketList(qty_txt_senr.getText().toString());
-                ticketLists.add(ticketList);
             }
         });
 
@@ -273,16 +271,10 @@ public class TicketEventOptions extends Fragment {
             @Override
             public void onClick(View v) {
                 if (qty_txt_adlt.getText().toString().equals("0") && qty_txt_senr.getText().toString().equals("0") && qty_txt_chld.getText().toString().equals("0") && qty_txt_infant.getText().toString().equals("0")) {
-
                 } else {
                     Fragment fragment = new TicketInfo();
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("arrayList", String.valueOf(ticketLists));
-//                    fragment.setArguments(bundle);
-
                     fragmentTransaction.replace(R.id.fram1, fragment);
                     fragmentTransaction.addToBackStack(TicketInfo.class.getSimpleName());
                     fragmentTransaction.commit();
