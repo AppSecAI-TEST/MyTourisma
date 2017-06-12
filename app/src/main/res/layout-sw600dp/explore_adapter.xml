@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llCategory"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00000000"
-    android:id="@+id/llCategory"
     android:orientation="vertical">
 
     <LinearLayout
@@ -37,6 +37,7 @@
 
 
             <LinearLayout
+                android:id="@+id/category_txt"
                 android:layout_width="@dimen/m0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
@@ -46,12 +47,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingBottom="@dimen/m15dp"
                     android:paddingLeft="@dimen/m5dp"
                     android:paddingRight="@dimen/m5dp"
                     android:paddingTop="@dimen/m15dp"
-                    android:paddingBottom="@dimen/m15dp"
-                    android:maxLines="1"
-                    android:inputType="text"
                     android:text="National Parks"
                     android:textColor="@color/mWhite"
                     android:textSize="@dimen/TEXT_SMALL" />
