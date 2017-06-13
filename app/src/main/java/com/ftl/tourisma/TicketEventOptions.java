@@ -29,7 +29,11 @@ import java.util.ArrayList;
 
 public class TicketEventOptions extends Fragment {
 
-    Integer cart_count_adlt = 0;
+    private static final String CART_COUNT_ADLT = "Adult";
+    private static final String CART_COUNT_SENR = "Senior";
+    private static final String CART_COUNT_CHLD = "Child";
+    private static final String CART_COUNT_INFANT = "Infant";
+    Integer cart_count_adlt = 1;
     Integer cart_count_senr = 0;
     Integer cart_count_chld = 0;
     Integer cart_count_infant = 0;
@@ -61,7 +65,7 @@ public class TicketEventOptions extends Fragment {
         view = inflater.inflate(R.layout.ticket_event_options, container, false);
         dcl_layout_variable(view);
 
-        cart_count_adlt = 0;
+        cart_count_adlt = 1;
         cart_count_senr = 0;
         cart_count_chld = 0;
         cart_count_infant = 0;
@@ -273,6 +277,12 @@ public class TicketEventOptions extends Fragment {
                 if (qty_txt_adlt.getText().toString().equals("0") && qty_txt_senr.getText().toString().equals("0") && qty_txt_chld.getText().toString().equals("0") && qty_txt_infant.getText().toString().equals("0")) {
                 } else {
                     Fragment fragment = new TicketInfo();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(CART_COUNT_ADLT, cart_count_adlt);
+                    bundle.putInt(CART_COUNT_CHLD, cart_count_chld);
+                    bundle.putInt(CART_COUNT_INFANT, cart_count_infant);
+                    bundle.putInt(CART_COUNT_SENR, cart_count_senr);
+                    fragment.setArguments(bundle);
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.fram1, fragment);
