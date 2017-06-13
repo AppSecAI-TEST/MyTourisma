@@ -226,7 +226,7 @@
                 android:id="@+id/relativeLayout_senior"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/relativeLayout_adult">
+                android:layout_below="@+id/relativeLayout_infant">
 
                 <TextView
                     android:id="@+id/senior_txt"
@@ -298,7 +298,7 @@
                 android:id="@+id/relativeLayout_child"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/relativeLayout_senior">
+                android:layout_below="@+id/relativeLayout_adult">
 
                 <TextView
                     android:id="@+id/child_txt"
@@ -442,7 +442,7 @@
                 android:id="@+id/promo_txt_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/relativeLayout_infant"
+                android:layout_below="@+id/relativeLayout_senior"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:gravity="center"

@@ -53,8 +53,10 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ticket_info_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/continue_btn"
         android:layout_below="@+id/info_txt"
+        android:layout_marginBottom="10dp"
         android:scrollbars="vertical" />
 
     <com.ftl.tourisma.custom_views.NormalTextView

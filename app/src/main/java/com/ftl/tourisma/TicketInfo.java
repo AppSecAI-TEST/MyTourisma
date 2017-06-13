@@ -15,9 +15,7 @@ import android.widget.TextView;
 
 import com.ftl.tourisma.activity.MainActivity;
 import com.ftl.tourisma.adapters.CustomRecyclerAdapterForMembers;
-import com.ftl.tourisma.adapters.TicketInfoAdapter;
 import com.ftl.tourisma.minterface.RecyclerMembersListener;
-import com.ftl.tourisma.models.TicketList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +40,6 @@ public class TicketInfo extends Fragment implements RecyclerMembersListener {
     ImageView img_close;
     TextView txtTitle, info_txt, continue_btn;
     RecyclerView ticket_info_recycler_view;
-    TicketInfoAdapter ticketInfoAdapter;
-    ArrayList<TicketList> ticketLists = new ArrayList<>();
     LinearLayoutManager m_cLayoutManager;
     CustomRecyclerAdapterForMembers m_cRecycAdPlaces;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
@@ -77,12 +73,6 @@ public class TicketInfo extends Fragment implements RecyclerMembersListener {
         checkAndUpdateValues(cart_count_senr, CART_COUNT_SENR);
         init(view);
 
-//        //setting adapter and layout manager
-//        ticketInfoAdapter = new TicketInfoAdapter(getActivity(), ticketLists);
-//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-//        ticket_info_recycler_view.setLayoutManager(mLayoutManager);
-//        ticket_info_recycler_view.setAdapter(ticketInfoAdapter);
-
         return view;
     }
 
@@ -98,16 +88,10 @@ public class TicketInfo extends Fragment implements RecyclerMembersListener {
                     visibleItemCount = m_cLayoutManager.getChildCount();
                     totalItemCount = m_cLayoutManager.getItemCount();
                     pastVisiblesItems = m_cLayoutManager.findFirstVisibleItemPosition();
-
-//                    int page = totalItemCount / 15;
                     if (m_cLoading) {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             m_cLoading = false;
                             Log.v("...", "Last Item Wow !");
-                            //Do pagination.. i.e. fetch new data
-//                            int lpage = page + 1;
-//                            page = lpage;
-//                            doPagination(lpage);
                         }
                     }
                 }
@@ -151,5 +135,6 @@ public class TicketInfo extends Fragment implements RecyclerMembersListener {
 
     @Override
     public void onInfoClick(int pPostion, String pMember, View pView) {
+
     }
 }

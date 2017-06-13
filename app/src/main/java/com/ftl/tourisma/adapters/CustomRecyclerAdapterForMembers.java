@@ -26,8 +26,7 @@ public class CustomRecyclerAdapterForMembers extends RecyclerView.Adapter {
     private final int VIEW_PROG = 0;
     private Context m_cObjContext;
 
-    public CustomRecyclerAdapterForMembers(Context pContext, List<String> pJsonUsers,
-                                           RecyclerMembersListener pListener) {
+    public CustomRecyclerAdapterForMembers(Context pContext, List<String> pJsonUsers, RecyclerMembersListener pListener) {
         this.m_cObjContext = pContext;
         this.m_cObjJsonUsers = pJsonUsers;
         this.m_cClickListener = pListener;
@@ -49,11 +48,11 @@ public class CustomRecyclerAdapterForMembers extends RecyclerView.Adapter {
         View lView;
         // paging logic
         if (viewType == VIEW_ITEM) {
-            lView = LayoutInflater.from(parent.getContext()).inflate(R.layout.members_cell, parent, false);
+            lView = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_information_recycler, parent, false);
             DataObjectHolder ldataObjectHolder = new DataObjectHolder(lView);
             vh = ldataObjectHolder;
         } else {
-            lView = LayoutInflater.from(parent.getContext()).inflate(R.layout.members_cell, parent, false);
+            lView = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_information_recycler, parent, false);
             ProgressViewHolder lprogressViewHolder = new ProgressViewHolder(lView);
             vh = lprogressViewHolder;
         }
@@ -76,14 +75,12 @@ public class CustomRecyclerAdapterForMembers extends RecyclerView.Adapter {
     public static class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         EditText editBox;
-
         TextView fullNametxt;
-
 
         public DataObjectHolder(View itemView) {
             super(itemView);
-            editBox = (EditText) itemView.findViewById(R.id.EDIT_MEMBER);
-            fullNametxt = (TextView) itemView.findViewById(R.id.MEMBER_NAME);
+            editBox = (EditText) itemView.findViewById(R.id.promo_edtxt);
+            fullNametxt = (TextView) itemView.findViewById(R.id.name_txt);
         }
 
         @Override
