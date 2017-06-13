@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "896003599318",
+    "firebase_url": "https://mytourisma-e6cdb.firebaseio.com",
+    "project_id": "mytourisma-e6cdb",
+    "storage_bucket": "mytourisma-e6cdb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:896003599318:android:b27154a273a37071",
+        "android_client_info": {
+          "package_name": "com.ftl.tourisma"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "896003599318-pii4lhftjceldmposfc1a4fjml31je48.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCP-k2WbeMpvBfTNHJRnLpc3wr7WL6IM40"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

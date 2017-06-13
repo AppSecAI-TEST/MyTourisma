@@ -1,18 +1,25 @@
 package com.ftl.tourisma;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.ftl.tourisma.activity.IntroScreens;
 import com.ftl.tourisma.activity.NoInternet;
+import com.ftl.tourisma.app.Config;
 import com.ftl.tourisma.custom_views.NormalTextView;
 import com.ftl.tourisma.database.DBAdapter;
 import com.ftl.tourisma.database.Language;
@@ -21,6 +28,7 @@ import com.ftl.tourisma.postsync.post_sync;
 import com.ftl.tourisma.utils.CommonClass;
 import com.ftl.tourisma.utils.Constants;
 import com.github.paolorotolo.appintro.util.AppConstants;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;
@@ -35,6 +43,8 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
     private static final String TAG = LanguageFragmentActivity.class.getSimpleName();
     Animation animFadeIn, animFadeOut;
     Handler handler = new Handler();
+    // for fcm
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
     private ImageView iv_arrow_language;
     private NormalTextView button_bt_english, button_bt_russian, button_bt_arabic;
     private SharedPreferences mPreferences;
@@ -42,20 +52,20 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
     private DBAdapter dbAdapter;
     private Language language;
     private NormalTextView txtChooseLanguage;
-    Runnable runnableIn = new Runnable() {
-        @Override
-        public void run() {
-            txtChooseLanguage.startAnimation(animFadeIn);
-            handler.removeCallbacks(runnableIn);
-            handler.postDelayed(runnableOut, 3000);
-        }
-    };
     Runnable runnableOut = new Runnable() {
         @Override
         public void run() {
             txtChooseLanguage.startAnimation(animFadeOut);
             handler.removeCallbacks(runnableOut);
             handler.postDelayed(runnableIn, 200);
+        }
+    };
+    Runnable runnableIn = new Runnable() {
+        @Override
+        public void run() {
+            txtChooseLanguage.startAnimation(animFadeIn);
+            handler.removeCallbacks(runnableIn);
+            handler.postDelayed(runnableOut, 3000);
         }
     };
 
@@ -138,6 +148,61 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
 
         txtChooseLanguage.setTag("EN");
         handler.postDelayed(runnableIn, 3000);
+
+
+        //FCM
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // checking for type intent filter
+                if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
+                    // gcm successfully registered
+                    // now subscribe to `global` topic to receive app wide notifications
+                    FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
+//                    displayFirebaseRegId();
+                } else if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
+                    // new push notification is received
+                    String message = intent.getStringExtra("message");
+//                    Toast.makeText(getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // register GCM registration complete receiver
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.REGISTRATION_COMPLETE));
+
+        // register new push message receiver
+        // by doing this, the activity will be notified each time a new message arrives
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.PUSH_NOTIFICATION));
+
+        // clear the notification area when the app is opened
+//        NotificationUtils.clearNotifications(getApplicationContext());
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        super.onPause();
+    }
+
+    //FCM
+    private void displayFirebaseRegId() {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
+        String regId = pref.getString("regId", null);
+
+        Log.e(TAG, "Firebase reg id: " + regId);
+
+        if (!TextUtils.isEmpty(regId))
+            Toast.makeText(getApplicationContext(), "Firebase Reg Id: " + regId, Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(getApplicationContext(), "Firebase Reg Id is not received yet!", Toast.LENGTH_LONG).show();
     }
 
     private void initialisation() {

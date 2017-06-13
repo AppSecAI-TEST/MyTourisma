@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -29,7 +31,8 @@ import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -49,11 +52,12 @@ import java.util.List;
 /**
  * Created by harpalsinh on 27-Feb-2016.
  */
-public class MapLocationFragment extends FragmentActivity implements View.OnClickListener {
+public class MapLocationFragment extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener {
 
     List<LatLng> pontos = null;
     private TextView tv_map_location;
-    private GoogleMap map_direction1;
+    private SupportMapFragment map_direction1;
+    private GoogleMap map;
     private String latitude, longitude;
     private Double latitude1, longitude1;
     private Marker marker, marker1;
@@ -100,13 +104,7 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
             }
         }
 
-        if (mDirection.equalsIgnoreCase("yes")) {
-            getSingleLocation1();
-            fab2_single.setImageResource(R.drawable.direction_icon_map);
-            new GetDirection().execute();
-        } else if (mDirection.equalsIgnoreCase("no")) {
-            getSingleLocation();
-        }
+
 
         gpsTracker = new GPSTracker(this);
         if (gpsTracker.canGetLocation()) {
@@ -127,9 +125,11 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
         tv_cate_name = (TextView) findViewById(R.id.tv_cate_name);
         iv_close_header1 = (ImageView) findViewById(R.id.img_close);
         iv_close_header1.setOnClickListener(this);
-        map_direction1 = ((MapFragment) this.getFragmentManager().findFragmentById(R.id.map_direction1)).getMap();
+//        map_direction1 = ((MapFragment) this.getFragmentManager().findFragmentById(R.id.map_direction1)).getMap();
+        map_direction1 = (SupportMapFragment) this.getSupportFragmentManager().findFragmentById(R.id.map_direction1);
+        map_direction1.getMapAsync(this);
         mapWrapper = (MapWrapperLayout) findViewById(R.id.mapWrapper);
-        map_direction1.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker marker) {
                 return null;
@@ -154,7 +154,7 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
             finish();
         } else if (v == fab2_single) {
             fab2_single.setImageResource(R.drawable.direction_icon_map);
-            map_direction1.clear();
+            map.clear();
             getSingleLocation1();
             new GetDirection().execute();
         }
@@ -163,9 +163,9 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
     private void getSingleLocation() {
         try {
             tv_cate_name.setText(placeName);
-            map_direction1.clear();
+            map.clear();
             LatLngBounds.Builder b = new LatLngBounds.Builder();
-            map_direction1.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(mPreferences.getString("latitude1", "")), Double.parseDouble(mPreferences.getString("longitude1", ""))), 15));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(mPreferences.getString("latitude1", "")), Double.parseDouble(mPreferences.getString("longitude1", ""))), 15));
             try {
                 latitude1 = Double.parseDouble(latitude);
                 longitude1 = Double.parseDouble(longitude);
@@ -175,15 +175,25 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
                 Log.e("System out", e.getMessage());
             }
             try {
-                map_direction1.setMyLocationEnabled(false);
-                map_direction1.getUiSettings().setZoomControlsEnabled(true);
-                map_direction1.getUiSettings().setCompassEnabled(false);
-                map_direction1.getUiSettings().setMyLocationButtonEnabled(false);
-                map_direction1.getUiSettings().setAllGesturesEnabled(true);
-                map_direction1.setTrafficEnabled(true);
+                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                map.setMyLocationEnabled(false);
+                map.getUiSettings().setZoomControlsEnabled(true);
+                map.getUiSettings().setCompassEnabled(false);
+                map.getUiSettings().setMyLocationButtonEnabled(false);
+                map.getUiSettings().setAllGesturesEnabled(true);
+                map.setTrafficEnabled(true);
                 View marker1 = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.pin_popup, null);
                 final ImageView pin_image = (ImageView) marker1.findViewById(R.id.pin_image);
-                marker = map_direction1.addMarker(new MarkerOptions()
+                marker = map.addMarker(new MarkerOptions()
                         .position(new LatLng(latitude1, longitude1))
                         .snippet("" + 0)
                         .icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(this, marker1))));
@@ -196,7 +206,7 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
             }
             LatLngBounds bounds = b.build();
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 150, 150, 3);
-            map_direction1.animateCamera(cu);
+            map.animateCamera(cu);
         } catch (Exception e) {
             // Tracking exception
             MyTorismaApplication.getInstance().trackException(e);
@@ -207,9 +217,9 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
     private void getSingleLocation1() {
         try {
             tv_cate_name.setText(placeName);
-            map_direction1.clear();
+            map.clear();
             LatLngBounds.Builder b = new LatLngBounds.Builder();
-            map_direction1.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(mPreferences.getString("latitude1", "")), Double.parseDouble(mPreferences.getString("longitude1", ""))), 15));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(mPreferences.getString("latitude1", "")), Double.parseDouble(mPreferences.getString("longitude1", ""))), 15));
             try {
                 latitude1 = Double.parseDouble(latitude);
                 longitude1 = Double.parseDouble(longitude);
@@ -219,21 +229,31 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
                 Log.e("System out", e.getMessage());
             }
             try {
-                map_direction1.setMyLocationEnabled(false);
-                map_direction1.getUiSettings().setZoomControlsEnabled(true);
-                map_direction1.getUiSettings().setCompassEnabled(false);
-                map_direction1.getUiSettings().setMyLocationButtonEnabled(false);
-                map_direction1.getUiSettings().setAllGesturesEnabled(true);
-                map_direction1.setTrafficEnabled(true);
+                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                map.setMyLocationEnabled(false);
+                map.getUiSettings().setZoomControlsEnabled(true);
+                map.getUiSettings().setCompassEnabled(false);
+                map.getUiSettings().setMyLocationButtonEnabled(false);
+                map.getUiSettings().setAllGesturesEnabled(true);
+                map.setTrafficEnabled(true);
                 View marker1 = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.pin_popup, null);
                 final ImageView pin_image = (ImageView) marker1.findViewById(R.id.pin_image);
 
-                marker = map_direction1.addMarker(new MarkerOptions()
+                marker = map.addMarker(new MarkerOptions()
                         .position(new LatLng(latitude1, longitude1))
                         .snippet("" + 0)
                         .icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(this, marker1))));
 
-                this.marker1 = map_direction1.addMarker(new MarkerOptions()
+                this.marker1 = map.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.parseDouble(mPreferences.getString("latitude1", "")), Double.parseDouble(mPreferences.getString("longitude1", ""))))
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
@@ -247,7 +267,7 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
             }
             LatLngBounds bounds = b.build();
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 400, 400, 3);
-            map_direction1.animateCamera(cu);
+            map.animateCamera(cu);
         } catch (Exception e) {
             // Tracking exception
             MyTorismaApplication.getInstance().trackException(e);
@@ -298,6 +318,19 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
         }
 
         return poly;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+
+        if (mDirection.equalsIgnoreCase("yes")) {
+            getSingleLocation1();
+            fab2_single.setImageResource(R.drawable.direction_icon_map);
+            new GetDirection().execute();
+        } else if (mDirection.equalsIgnoreCase("no")) {
+            getSingleLocation();
+        }
     }
 
     // This Map Direction.
@@ -359,7 +392,7 @@ public class MapLocationFragment extends FragmentActivity implements View.OnClic
                     LatLng dest = pontos.get(i + 1);
                     try {
                         // here is where it will draw the polyline in your map
-                        Polyline line = map_direction1
+                        Polyline line = map
                                 .addPolyline(new PolylineOptions()
                                         .add(new LatLng(src.latitude,
                                                         src.longitude),

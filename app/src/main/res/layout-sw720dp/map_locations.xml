@@ -41,7 +41,7 @@
 
                 <fragment
                     android:id="@+id/map_detail"
-                    android:name="com.google.android.gms.maps.MapFragment"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:layout="@layout/abc_screen_simple" />
@@ -184,8 +184,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone"
-                    android:padding="@dimen/m5dp">
+                    android:padding="@dimen/m5dp"
+                    android:visibility="gone">
 
                     <com.ftl.tourisma.custom_views.NormalTextView
                         android:id="@+id/txtOpenNowVal"
@@ -193,10 +193,10 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/m5dp"
                         android:paddingRight="@dimen/m5dp"
-                        android:visibility="gone"
                         android:paddingTop="@dimen/m5dp"
                         android:text="10ap to 7pm (Mon)"
-                        android:textSize="@dimen/TEXT_SMALL" />
+                        android:textSize="@dimen/TEXT_SMALL"
+                        android:visibility="gone" />
 
                     <com.ftl.tourisma.custom_views.NormalTextView
                         android:id="@+id/txtDailyWorkingHours"
@@ -214,19 +214,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/m10dp"
-                    android:visibility="gone"
                     android:paddingLeft="@dimen/m10dp"
-                    android:paddingRight="@dimen/m10dp">
+                    android:paddingRight="@dimen/m10dp"
+                    android:visibility="gone">
 
                     <com.ftl.tourisma.custom_views.NormalTextView
                         android:id="@+id/tv_detail_map_main"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:visibility="gone"
                         android:maxLines="2"
                         android:textColor="@color/mBlack"
-                        android:textSize="@dimen/m12dp" />
+                        android:textSize="@dimen/m12dp"
+                        android:visibility="gone" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
