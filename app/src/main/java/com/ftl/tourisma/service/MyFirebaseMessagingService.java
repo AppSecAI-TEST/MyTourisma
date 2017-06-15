@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.ftl.tourisma.LanguageFragmentActivity;
+import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
 import com.ftl.tourisma.utils.NotificationUtils;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -36,7 +37,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             // app is in background, show the notification in notification tray
-            int nid = 0;
             Intent resultIntent = new Intent(getApplicationContext(), LanguageFragmentActivity.class);
             resultIntent.putExtra("message", remoteMessage.getNotification().getBody());
             System.out.println("Message Notification Body : " + remoteMessage.getNotification().getBody());
@@ -50,7 +50,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .build();
             notification.defaults |= Notification.DEFAULT_SOUND;
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(1, notification);
+            notificationManager.notify(MyTorismaApplication.mAtomicInteger.incrementAndGet(), notification);
         }
 
         // Check if message contains a data payload.

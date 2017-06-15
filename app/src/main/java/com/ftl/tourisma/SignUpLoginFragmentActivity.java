@@ -11,14 +11,17 @@ import android.view.View;
 
 import com.estimote.sdk.SystemRequirementsChecker;
 import com.ftl.tourisma.activity.MainActivity;
+import com.ftl.tourisma.activity.NoInternet;
 import com.ftl.tourisma.custom_views.NormalTextView;
+import com.ftl.tourisma.postsync.post_sync;
+import com.ftl.tourisma.utils.CommonClass;
 import com.ftl.tourisma.utils.Constants;
 import com.pixplicity.easyprefs.library.Prefs;
 
 /**
  * Created by fipl11111 on 22-Feb-16.
  */
-public class SignUpLoginFragmentActivity extends FragmentActivity implements View.OnClickListener {
+public class SignUpLoginFragmentActivity extends FragmentActivity implements View.OnClickListener, post_sync.ResponseHandler {
 
     private NormalTextView btn_sign_up1, btn_sign_up2, btn_login1;
     private SharedPreferences mPreferences;
@@ -33,6 +36,7 @@ public class SignUpLoginFragmentActivity extends FragmentActivity implements Vie
         mPreferences = getSharedPreferences(Constants.mPref, 0);
         mEditor = mPreferences.edit();
         initialisation();
+        sendFcmTokenToBackend();
         btn_login1.setOnClickListener(this);
         btn_sign_up2.setOnClickListener(this);
         txtSkipSignUpLogin.setOnClickListener(this);
@@ -107,5 +111,22 @@ public class SignUpLoginFragmentActivity extends FragmentActivity implements Vie
         Intent mIntent = new Intent(SignUpLoginFragmentActivity.this, LanguageFragmentActivity.class);
         startActivity(mIntent);
         finish();
+    }
+
+    private void sendFcmTokenToBackend() {
+        if (CommonClass.hasInternetConnection(getApplicationContext())) {
+            String url = "http://35.154.205.155/mytourisma/json.php?action=addDevice";
+            String json = "[{\"deviceType\":\"" + "Android" + "\",\"deviceId\":\"" + Prefs.getString(Constants.fcm_regid, "") + "\"}]";
+            System.out.println("addDevice_json " + json);
+            new post_sync(getApplicationContext(), "addDevice", SignUpLoginFragmentActivity.this, true).execute(url, json);
+        } else {
+            Intent intent = new Intent(getApplicationContext(), NoInternet.class);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onResponse(String response, String action) {
+
     }
 }

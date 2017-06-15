@@ -6,8 +6,10 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.ftl.tourisma.app.Config;
+import com.ftl.tourisma.utils.Constants;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.pixplicity.easyprefs.library.Prefs;
 
 
 /**
@@ -38,6 +40,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         // sending gcm token to server
         Log.e(TAG, "sendRegistrationToServer: " + token);
         System.out.println("sendRegistrationToServer" + token);
+        Prefs.putString(Constants.fcm_regid, token);
     }
 
     private void storeRegIdInPref(String token) {

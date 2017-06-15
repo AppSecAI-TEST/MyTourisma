@@ -49,6 +49,7 @@ public class Constants {
     public static String from_login = "from_login";
     public static String first_time = "first_time";
     public static String searchFragment = "searchFragment";
+    public static String fcm_regid = "fcm_regid";
 
     public static boolean isValidEmail(String email) {
         Pattern pattern;

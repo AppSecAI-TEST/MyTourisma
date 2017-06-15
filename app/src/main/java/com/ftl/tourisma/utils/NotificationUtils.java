@@ -16,8 +16,8 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Patterns;
 
+import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
-import com.ftl.tourisma.app.Config;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,9 +31,7 @@ import java.net.URL;
 public class NotificationUtils {
 
     private static String TAG = NotificationUtils.class.getSimpleName();
-
     private Context mContext;
-
     public NotificationUtils(Context mContext) {
         this.mContext = mContext;
     }
@@ -80,19 +78,17 @@ public class NotificationUtils {
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
         inboxStyle.addLine(message);
         Notification notification;
-        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
+        notification = mBuilder
                 .setAutoCancel(true)
                 .setContentTitle(title)
                 .setContentIntent(resultPendingIntent)
-                .setSound(alarmSound)
-                .setStyle(inboxStyle)
                 .setSmallIcon(R.drawable.appicon1)
-                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
                 .setContentText(message)
+                .setDefaults(Notification.DEFAULT_SOUND)
                 .build();
 
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(Config.NOTIFICATION_ID, notification);
+        notificationManager.notify(MyTorismaApplication.mAtomicInteger.incrementAndGet(), notification);
     }
 
     private void showBigNotification(Bitmap bitmap, NotificationCompat.Builder mBuilder, int icon, String title, String message, PendingIntent resultPendingIntent, Uri alarmSound) {
@@ -101,19 +97,18 @@ public class NotificationUtils {
         bigPictureStyle.setSummaryText(Html.fromHtml(message).toString());
         bigPictureStyle.bigPicture(bitmap);
         Notification notification;
-        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
+        notification = mBuilder
                 .setAutoCancel(true)
                 .setContentTitle(title)
                 .setContentIntent(resultPendingIntent)
-                .setSound(alarmSound)
                 .setStyle(bigPictureStyle)
                 .setSmallIcon(R.drawable.appicon1)
-                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
                 .setContentText(message)
+                .setDefaults(Notification.DEFAULT_SOUND)
                 .build();
 
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(Config.NOTIFICATION_ID_BIG_IMAGE, notification);
+        notificationManager.notify(MyTorismaApplication.mAtomicInteger.incrementAndGet(), notification);
     }
 
     /**

@@ -15,6 +15,8 @@ import com.google.android.gms.analytics.StandardExceptionParser;
 import com.google.android.gms.analytics.Tracker;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import io.fabric.sdk.android.Fabric;
 
 /**
@@ -23,10 +25,10 @@ import io.fabric.sdk.android.Fabric;
 
 public class MyTorismaApplication extends MultiDexApplication {
     //Google Analytics
-    public static final String TAG = MyTorismaApplication.class
-            .getSimpleName();
+    public static final String TAG = MyTorismaApplication.class.getSimpleName();
     public static Context context;
     public static MyTypeFace typeFace;
+    public static AtomicInteger mAtomicInteger = new AtomicInteger();
     private static MyTorismaApplication mInstance;
 
     public static Context getContext() {
