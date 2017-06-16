@@ -18,6 +18,9 @@ import com.ftl.tourisma.utils.CommonClass;
 import com.ftl.tourisma.utils.Constants;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by fipl11111 on 22-Feb-16.
  */
@@ -127,6 +130,20 @@ public class SignUpLoginFragmentActivity extends FragmentActivity implements Vie
 
     @Override
     public void onResponse(String response, String action) {
+        try {
+            FcmTokenResponse(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void FcmTokenResponse(String resultString) {
+        try {
+            JSONObject jsonObject = new JSONObject(resultString);
+            String message = jsonObject.getString("message");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 }
