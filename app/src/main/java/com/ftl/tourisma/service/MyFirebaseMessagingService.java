@@ -44,9 +44,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Notification notification = new Notification.Builder(this)
                     .setSmallIcon(R.drawable.appicon1)
                     .setContentTitle("myTourisma")
-                    .setContentText(remoteMessage.getNotification().getBody())
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
+                    .setStyle(new Notification.BigTextStyle().bigText(remoteMessage.getNotification().getBody()))
+                    .setContentText(remoteMessage.getNotification().getBody())
                     .build();
             notification.defaults |= Notification.DEFAULT_SOUND;
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
