@@ -50,6 +50,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -230,9 +231,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         if (CommonClass.hasInternetConnection(getActivity())) {
 //            String url = Constants.SERVER_URL + "json.php?action=HomePageData";
 //            String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"keyword\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\"}]";
-//            String url = "http://35.154.205.155/mytourisma/json.php?action=newHomePageData";
-            String url = Constants.SERVER_URL + "json.php?action=newHomePageData";
-            String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"City_Name\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\"}]";
+            String url = "http://35.154.205.155/mytourisma/json.php?action=newHomePageData";
+//            String url = Constants.SERVER_URL + "json.php?action=newHomePageData";
+            String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"City_Name\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\",\"deviceType\":\"" + "Android" + "\",\"deviceId\":\"" + Prefs.getString(Constants.fcm_regid, "") + "\"}]";
             System.out.println("homepagedata_json " + json);
             System.out.println("homepagedata_url " + url);
             new post_sync(getActivity(), "HomePageData", HomeFragment.this, true).execute(url, json);

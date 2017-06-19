@@ -54,8 +54,8 @@ public class SplashFragmentActivity extends FragmentActivity {
                 finish();
             }
         } else {
-            final TranslateAnimation animation11 = new TranslateAnimation(10, -100, 0, 0);
-            animation11.setDuration(7000);
+            final TranslateAnimation animation11 = new TranslateAnimation(2, -100, 0, 0);
+            animation11.setDuration(3000);
             animation11.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
@@ -76,11 +76,11 @@ public class SplashFragmentActivity extends FragmentActivity {
 
             final Animation fadeIn = new AlphaAnimation(0, 1);
             fadeIn.setInterpolator(new LinearInterpolator()); //add this
-            fadeIn.setDuration(1000);
+            fadeIn.setDuration(500);
 
             final Animation fadeIn1 = new AlphaAnimation(0, 1);
             fadeIn1.setInterpolator(new LinearInterpolator()); //add this
-            fadeIn1.setDuration(1000);
+            fadeIn1.setDuration(500);
 
             fadeIn.setAnimationListener(new Animation.AnimationListener() {
                 @Override
@@ -112,7 +112,7 @@ public class SplashFragmentActivity extends FragmentActivity {
                         @Override
                         public void run() {
                             try {
-                                Thread.sleep(3000);
+                                Thread.sleep(2000);
                                 if (mPreferences.getString("User_Id", "").length() != 0 || mPreferences.getString("User_Email", "").length() != 0 || Prefs.getString(Constants.beacons_guestuser_session, "").equals("start")) {
                                     Constants.mFromSelectLocation = 0;
                                     Intent mIntent = new Intent(SplashFragmentActivity.this, MainActivity.class);

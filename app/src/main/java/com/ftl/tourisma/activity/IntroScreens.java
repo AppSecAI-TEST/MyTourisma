@@ -78,7 +78,7 @@ public class IntroScreens extends AppIntro {
     public void init(Bundle savedInstanceState) {
         addSlide(new firstSlide());
         addSlide(new secondSlide());
-        addSlide(new thirdSlide());
+//        addSlide(new thirdSlide());
         setFlowAnimation();
         setScrollDurationFactor(1);
     }
