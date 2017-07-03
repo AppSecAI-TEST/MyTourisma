@@ -348,9 +348,15 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
             txt_add_to_fav.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Add to Favourites"));
             like = 0;
         } else {
-            txt_add_to_fav.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Remove Favourite"));
-            txt_add_to_fav.setCompoundDrawablesWithIntrinsicBounds(Utilities.getDrawable(getActivity(), R.drawable.ic_favourite_active), null, null, null);
-            like = 1;
+            if (mPreferences.getString("Lan_Id", "").equals("7")) {
+                txt_add_to_fav.setText("Удалить из избранного");
+                txt_add_to_fav.setCompoundDrawablesWithIntrinsicBounds(Utilities.getDrawable(getActivity(), R.drawable.ic_favourite_active), null, null, null);
+                like = 1;
+            } else {
+                txt_add_to_fav.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Remove Favourite"));
+                txt_add_to_fav.setCompoundDrawablesWithIntrinsicBounds(Utilities.getDrawable(getActivity(), R.drawable.ic_favourite_active), null, null, null);
+                like = 1;
+            }
         }
 
         txt_add_to_fav.setOnClickListener(new View.OnClickListener() {
@@ -360,10 +366,17 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
                     ((MainActivity) getActivity()).guestSnackToast();
                 } else {
                     if (like == 0) {
-                        txt_add_to_fav.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Remove Favourite"));
-                        txt_add_to_fav.setCompoundDrawablesWithIntrinsicBounds(Utilities.getDrawable(getActivity(), R.drawable.ic_favourite_active), null, null, null);
-                        addFavoriteCall(mNearby.getPlace_Id(), mNearby.getGroup_Id());
-                        mFlag = mId;
+                        if (mPreferences.getString("Lan_Id", "").equals("7")) {
+                            txt_add_to_fav.setText("Удалить из избранного");
+                            txt_add_to_fav.setCompoundDrawablesWithIntrinsicBounds(Utilities.getDrawable(getActivity(), R.drawable.ic_favourite_active), null, null, null);
+                            addFavoriteCall(mNearby.getPlace_Id(), mNearby.getGroup_Id());
+                            mFlag = mId;
+                        } else {
+                            txt_add_to_fav.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Remove Favourite"));
+                            txt_add_to_fav.setCompoundDrawablesWithIntrinsicBounds(Utilities.getDrawable(getActivity(), R.drawable.ic_favourite_active), null, null, null);
+                            addFavoriteCall(mNearby.getPlace_Id(), mNearby.getGroup_Id());
+                            mFlag = mId;
+                        }
                     } else if (like == 1) {
                         txt_add_to_fav.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Add to Favourites"));
                         txt_add_to_fav.setCompoundDrawablesWithIntrinsicBounds(Utilities.getDrawable(getActivity(), R.drawable.ic_favourite_default), null, null, null);

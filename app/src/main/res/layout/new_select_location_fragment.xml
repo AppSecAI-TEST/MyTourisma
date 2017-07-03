@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/mBlue">
+
+        <com.andexert.library.RippleView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            ripple:rv_type="rectangle">
+
+            <ImageView
+                android:id="@+id/img_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="18dp"
+                android:src="@drawable/close_icon_signup" />
+
+        </com.andexert.library.RippleView>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="COUNTRY"
+                android:textAllCaps="true"
+                android:textColor="@color/mWhite"
+                android:textSize="@dimen/TEXT_SMALL" />
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/country_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/txtTitle"
+                android:text="UAE"
+                android:textAllCaps="true"
+                android:textColor="@color/mWhite"
+                android:textSize="@dimen/TEXT_SMALL" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/auto_detect_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:background="#000000"
+        android:padding="@dimen/m5dp">
+
+        <ImageView
+            android:id="@+id/iv_auto_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/m10dp"
+            android:src="@drawable/ic_gps_white" />
+
+        <LinearLayout
+            android:layout_width="@dimen/m0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/tv_auto_detect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="@dimen/m10dp"
+                android:text="Auto "
+                android:textColor="@color/mGray"
+                android:textSize="@dimen/TEXT_SMALL" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.ftl.tourisma.custom_views.NormalTextView
+        android:id="@+id/chose_dest_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/auto_detect_layout"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:inputType="text"
+        android:maxLines="1"
+        android:padding="@dimen/m10dp"
+        android:text="or choose your destination "
+        android:textColor="#555555"
+        android:textSize="@dimen/TEXT_SMALL" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/chose_dest_txt">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/location_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

@@ -47,6 +47,7 @@ import com.ftl.tourisma.utils.Preference;
 import com.ftl.tourisma.utils.Utilities;
 import com.ftl.tourisma.utils.Utils;
 import com.github.clans.fab.FloatingActionButton;
+import com.google.gson.Gson;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -231,8 +232,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         if (CommonClass.hasInternetConnection(getActivity())) {
 //            String url = Constants.SERVER_URL + "json.php?action=HomePageData";
 //            String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"keyword\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\"}]";
-            String url = "http://35.154.205.155/mytourisma/json.php?action=newHomePageData";
-//            String url = Constants.SERVER_URL + "json.php?action=newHomePageData";
+            String url = Constants.SERVER_URL + "json.php?action=newHomePageData";
             String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"City_Name\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\",\"deviceType\":\"" + "Android" + "\",\"deviceId\":\"" + Prefs.getString(Constants.fcm_regid, "") + "\"}]";
             System.out.println("homepagedata_json " + json);
             System.out.println("homepagedata_url " + url);
@@ -308,7 +308,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
 
     private void getAllCategoriesCall() {
         if (CommonClass.hasInternetConnection(getActivity())) {
-            String url = Constants.SERVER_URL + "json.php?action=GetAllCategories";
+            String url = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/json.php?action=GetAllCategories";
+//            String url = Constants.SERVER_URL + "json.php?action=GetAllCategories";
             String json = "";
             new post_sync(getActivity(), "GetAllCategories", HomeFragment.this, true).execute(url, json);
         } else {
@@ -319,6 +320,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     }
 
     public void getAllCategoriesResponse(String resultString) {
+        Gson gson = new Gson();
         allCategories.clear();
         allCategories1.clear();
         homePageDataCall();
@@ -334,7 +336,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                     categories.setLan_Id(jsonObject.optString("Lan_Id"));
                     categories.setCategory_Info(jsonObject.optString("Category_Info"));
                     categories.setCategory_Status(jsonObject.optString("Category_Status"));
-                    if (mainActivity.getPreferences().getString("Lan_Id", "").equalsIgnoreCase(jsonObject.optString("Lan_Id"))) {
+                    if (mainActivity.getPreferences().getString("Lan_Id", "").equals(jsonObject.optString("Lan_Id"))) {
                         if (allCategories1.size() <= 9) {
                             allCategories.add(categories);
                         }

@@ -93,11 +93,11 @@ public class ExploreNearbyFragment extends Fragment implements View.OnClickListe
     }
 
     public void replaceLocationFragment() {
-        Fragment fragment = new SearchLocationFragment();
+        Fragment fragment = new NewSelectLocationFragment();
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fram1, fragment);
-        fragmentTransaction.addToBackStack(SearchLocationFragment.class.getSimpleName());
+        fragmentTransaction.addToBackStack(NewSelectLocationFragment.class.getSimpleName());
         fragmentTransaction.commit();
     }
 
