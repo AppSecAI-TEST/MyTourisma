@@ -388,7 +388,8 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
             }
         });
 
-        tv_distance1_search_result2.setText(Utilities.GetRoutDistane(Double.parseDouble(mPreferences.getString("latitude2", "")), Double.parseDouble(mPreferences.getString("longitude2", "")), Double.parseDouble(mNearby.getPlace_Latitude()), Double.parseDouble(mNearby.getPlace_Longi()), mNearby.getDist()) + " " + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
+        tv_distance1_search_result2.setText(mNearby.getDist() + " " + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
+//        tv_distance1_search_result2.setText(Utilities.GetRoutDistane(Double.parseDouble(mPreferences.getString("latitude2", "")), Double.parseDouble(mPreferences.getString("longitude2", "")), Double.parseDouble(mNearby.getPlace_Latitude()), Double.parseDouble(mNearby.getPlace_Longi()), mNearby.getDist()) + " " + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
         tv_full_name_search_result2.setText(mNearby.getPlace_Name());
         tv_info_search_result2.setText(mNearby.getPlace_Address());
 //        tv_discription_search_result2.setText(Html.fromHtml(Html.fromHtml("<html><body><p style=\"text-align:justify\">" + mNearby.getPlace_Description() + "</p></body></html>").toString()));
@@ -803,7 +804,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
             tv_name.setText(nearbies1.get(position).getPlace_Name());
             tv_name.setSelected(true);
             tv_name.requestFocus();
-            tv_km.setText(nearbies1.get(position).getDistance() + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
+            tv_km.setText(nearbies1.get(position).getDist() + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
             String imageUrl = Constants.IMAGE_URL + nearbies1.get(position).getPlace_MainImage() + "&w=" + (width);
             System.out.println("images_url" + imageUrl);
 

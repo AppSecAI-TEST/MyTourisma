@@ -645,7 +645,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                 } else {
                     imgFav.setActivated(true);
                 }
-                txtDistance.setText(nearbies.get(i).getDistance() + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "KM"));
+                txtDistance.setText(nearbies.get(i).getDist() + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "KM"));
                 rl_fav.setId(i);
                 rl_fav.setOnClickListener(new View.OnClickListener() {
                     @Override

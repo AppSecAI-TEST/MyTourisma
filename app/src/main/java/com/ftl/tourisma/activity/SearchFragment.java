@@ -532,11 +532,11 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
         location_select.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new SearchCityLocationFragment();
+                Fragment fragment = new NewSelectCityLocationFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fram1, fragment);
-                fragmentTransaction.addToBackStack(SearchLocationFragment.class.getSimpleName());
+                fragmentTransaction.addToBackStack(NewSelectLocationFragment.class.getSimpleName());
                 fragmentTransaction.commit();
             }
         });
