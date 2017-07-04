@@ -112,7 +112,7 @@ public class NewSelectLocationFragmentAdapter extends RecyclerView.Adapter<NewSe
 
             @Override
             public void onClick(View v) {
-                initiatePopupWindow(position, CategoryViewHolder);
+                initiatePopupWindow(position);
             }
         });
 
@@ -123,7 +123,7 @@ public class NewSelectLocationFragmentAdapter extends RecyclerView.Adapter<NewSe
         return newCities.size();
     }
 
-    private void initiatePopupWindow(final int position, final CategoryViewHolder holder) {
+    private void initiatePopupWindow(final int position) {
         LayoutInflater layoutInflater = (LayoutInflater) activity.getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View view = layoutInflater.inflate(R.layout.city_info, null);
         WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
@@ -132,12 +132,15 @@ public class NewSelectLocationFragmentAdapter extends RecyclerView.Adapter<NewSe
         display.getSize(size);
         int width = size.x;
         int height = size.y;
-        popupWindow = new PopupWindow(view, (width * 90) / 100, (height * 80) / 100, true);
+//        popupWindow = new PopupWindow(view, (width * 90) / 100, (height * 80) / 100, true);
+        popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, false);
         popupWindow.setTouchable(true);
         popupWindow.setFocusable(true);
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
         ImageView img_close = (ImageView) view.findViewById(R.id.img_close);
+        ImageView next_img = (ImageView) view.findViewById(R.id.next_img);
+        ImageView next_img_footer = (ImageView) view.findViewById(R.id.next_img_footer);
 
         TextView txtTitle = (TextView) view.findViewById(R.id.txtTitle);
         txtTitle.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "View Attractions"));
@@ -149,7 +152,7 @@ public class NewSelectLocationFragmentAdapter extends RecyclerView.Adapter<NewSe
         place_name_txt.setText(newCities.get(position).getCity_Name());
 
         TextView city_info = (TextView) view.findViewById(R.id.city_info);
-        city_info.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "View City Info"));
+        city_info.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "City info"));
 
         TextView city_desc = (TextView) view.findViewById(R.id.city_desc);
         city_desc.setText(newCities.get(position).getCity_Description());
@@ -170,6 +173,32 @@ public class NewSelectLocationFragmentAdapter extends RecyclerView.Adapter<NewSe
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
+            }
+        });
+
+        next_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEditor.putString(Preference.Pref_City, newCities.get(position).getCity_Id_Name()).commit();
+                Intent mIntent = new Intent(activity, MainActivity.class);
+                Constants.mStatic = 0;
+                Constants.mFromSelectLocation = 1;
+                mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                activity.startActivity(mIntent);
+                activity.finish();
+            }
+        });
+
+        next_img_footer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEditor.putString(Preference.Pref_City, newCities.get(position).getCity_Id_Name()).commit();
+                Intent mIntent = new Intent(activity, MainActivity.class);
+                Constants.mStatic = 0;
+                Constants.mFromSelectLocation = 1;
+                mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                activity.startActivity(mIntent);
+                activity.finish();
             }
         });
 
