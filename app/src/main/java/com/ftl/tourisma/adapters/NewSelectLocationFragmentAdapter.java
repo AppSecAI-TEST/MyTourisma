@@ -1,13 +1,19 @@
 package com.ftl.tourisma.adapters;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,9 +33,11 @@ import java.util.ArrayList;
 
 public class NewSelectLocationFragmentAdapter extends RecyclerView.Adapter<NewSelectLocationFragmentAdapter.CategoryViewHolder> {
 
-    ArrayList<NewCities> newCities = new ArrayList<>();
+    public static ArrayList<NewCities> newCities = new ArrayList<>();
     ArrayList<IMAGE_MODEL> image_models = new ArrayList<>();
     Activity activity;
+    PopupWindow popupWindow;
+    View view;
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
 
@@ -101,9 +109,10 @@ public class NewSelectLocationFragmentAdapter extends RecyclerView.Adapter<NewSe
         });
 
         CategoryViewHolder.city_info_txt.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-
+                initiatePopupWindow(position, CategoryViewHolder);
             }
         });
 
@@ -112,6 +121,96 @@ public class NewSelectLocationFragmentAdapter extends RecyclerView.Adapter<NewSe
     @Override
     public int getItemCount() {
         return newCities.size();
+    }
+
+    private void initiatePopupWindow(final int position, final CategoryViewHolder holder) {
+        LayoutInflater layoutInflater = (LayoutInflater) activity.getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View view = layoutInflater.inflate(R.layout.city_info, null);
+        WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        popupWindow = new PopupWindow(view, (width * 90) / 100, (height * 80) / 100, true);
+        popupWindow.setTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        ImageView img_close = (ImageView) view.findViewById(R.id.img_close);
+
+        TextView txtTitle = (TextView) view.findViewById(R.id.txtTitle);
+        txtTitle.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "View Attractions"));
+
+        ImageView place_img_dialog = (ImageView) view.findViewById(R.id.place_img);
+        Picasso.with(activity).load(newCities.get(position).getCity_Image()).into(place_img_dialog);
+
+        TextView place_name_txt = (TextView) view.findViewById(R.id.place_name_txt);
+        place_name_txt.setText(newCities.get(position).getCity_Name());
+
+        TextView city_info = (TextView) view.findViewById(R.id.city_info);
+        city_info.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "View City Info"));
+
+        TextView city_desc = (TextView) view.findViewById(R.id.city_desc);
+        city_desc.setText(newCities.get(position).getCity_Description());
+
+        ImageView img_close_footer = (ImageView) view.findViewById(R.id.img_close_footer);
+
+        TextView txtTitle_footer = (TextView) view.findViewById(R.id.txtTitle_footer);
+        txtTitle_footer.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "View Attractions"));
+
+        img_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+
+        img_close_footer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+
+        place_img_dialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEditor.putString(Preference.Pref_City, newCities.get(position).getCity_Id_Name()).commit();
+                Intent mIntent = new Intent(activity, MainActivity.class);
+                Constants.mStatic = 0;
+                Constants.mFromSelectLocation = 1;
+                mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                activity.startActivity(mIntent);
+                activity.finish();
+            }
+        });
+
+        txtTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEditor.putString(Preference.Pref_City, newCities.get(position).getCity_Id_Name()).commit();
+                Intent mIntent = new Intent(activity, MainActivity.class);
+                Constants.mStatic = 0;
+                Constants.mFromSelectLocation = 1;
+                mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                activity.startActivity(mIntent);
+                activity.finish();
+            }
+        });
+
+        txtTitle_footer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEditor.putString(Preference.Pref_City, newCities.get(position).getCity_Id_Name()).commit();
+                Intent mIntent = new Intent(activity, MainActivity.class);
+                Constants.mStatic = 0;
+                Constants.mFromSelectLocation = 1;
+                mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                activity.startActivity(mIntent);
+                activity.finish();
+            }
+        });
     }
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
