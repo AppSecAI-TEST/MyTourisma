@@ -153,8 +153,8 @@ public class NewSelectCityLocationFragment extends Fragment implements post_sync
 
     private void newCitiesCall() {
         if (CommonClass.hasInternetConnection(getActivity())) {
-//            String url = Constants.SERVER_URL + "json.php?action=newCmsPlaces";
-            String url = "http://35.154.205.155/mytourisma/json.php?action=newCmsPlaces";
+            String url = Constants.SERVER_URL + "json.php?action=newCmsPlaces";
+//            String url = "http://35.154.205.155/mytourisma/json.php?action=newCmsPlaces";
             String json = "[{\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\"}]";
             new PostSync(getActivity(), "newCmsPlaces", NewSelectCityLocationFragment.this).execute(url, json);
         } else {

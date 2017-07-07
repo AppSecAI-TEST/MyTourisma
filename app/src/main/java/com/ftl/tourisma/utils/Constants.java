@@ -29,7 +29,8 @@ public class Constants {
     public static String IMAGE_URL = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/timthumb.php?src=/uploads/place/";
     public static String IMAGE_URL1 = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/uploads/user/";
     public static String IMAGE_URL2 = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/timthumb.php?src=/uploads/category/";
-    public static String VR_IMAGE = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/uploads/vrplace/";
+    //    public static String VR_IMAGE = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/uploads/vrplace/";
+    public static String VR_IMAGE = "http://13.126.151.196/uploads/vrplace/";
     public static Dialog dialog;
     public static List<Fragment> fragments = new Vector<Fragment>();
     public static int mStatic = 0;

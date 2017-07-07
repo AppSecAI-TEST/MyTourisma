@@ -52,20 +52,20 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
     private DBAdapter dbAdapter;
     private Language language;
     private NormalTextView txtChooseLanguage;
-    Runnable runnableIn = new Runnable() {
-        @Override
-        public void run() {
-            txtChooseLanguage.startAnimation(animFadeIn);
-            handler.removeCallbacks(runnableIn);
-            handler.postDelayed(runnableOut, 3000);
-        }
-    };
     Runnable runnableOut = new Runnable() {
         @Override
         public void run() {
             txtChooseLanguage.startAnimation(animFadeOut);
             handler.removeCallbacks(runnableOut);
             handler.postDelayed(runnableIn, 200);
+        }
+    };
+    Runnable runnableIn = new Runnable() {
+        @Override
+        public void run() {
+            txtChooseLanguage.startAnimation(animFadeIn);
+            handler.removeCallbacks(runnableIn);
+            handler.postDelayed(runnableOut, 3000);
         }
     };
 
@@ -290,8 +290,8 @@ public class LanguageFragmentActivity extends FragmentActivity implements View.O
 
     private void languageCall() {
         if (CommonClass.hasInternetConnection(this)) {
-//            String url = Constants.SERVER_URL + "json.php?action=GetLanguages";
-            String url = "http://35.154.205.155/mytourisma/json.php?action=GetLanguages";
+            String url = Constants.SERVER_URL + "json.php?action=GetLanguages";
+//            String url = "http://35.154.205.155/mytourisma/json.php?action=GetLanguages";
             String json = "";
             new PostSync(LanguageFragmentActivity.this, "GetLanguages", LanguageFragmentActivity.this).execute(url, json);
         } else {

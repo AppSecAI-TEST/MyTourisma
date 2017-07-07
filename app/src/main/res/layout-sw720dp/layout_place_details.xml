@@ -313,7 +313,7 @@
             android:text="Buy Tickets"
             android:textColor="@color/mBlue"
             android:textSize="@dimen/TEXT_EXTRA_SMALL"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"
