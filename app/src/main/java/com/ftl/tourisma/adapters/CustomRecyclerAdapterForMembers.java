@@ -66,10 +66,14 @@ public class CustomRecyclerAdapterForMembers extends RecyclerView.Adapter {
 
             try {
                 ((DataObjectHolder) holder).fullNametxt.setText(m_cObjJsonUsers.get(position));
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+
+
     }
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -81,11 +85,16 @@ public class CustomRecyclerAdapterForMembers extends RecyclerView.Adapter {
             super(itemView);
             editBox = (EditText) itemView.findViewById(R.id.promo_edtxt);
             fullNametxt = (TextView) itemView.findViewById(R.id.name_txt);
+
+            String text = editBox.getText().toString();
+
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
+
+
             }
         }
     }

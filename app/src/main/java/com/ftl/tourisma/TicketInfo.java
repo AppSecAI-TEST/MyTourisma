@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ftl.tourisma.activity.MainActivity;
 import com.ftl.tourisma.adapters.CustomRecyclerAdapterForMembers;
@@ -47,6 +48,7 @@ public class TicketInfo extends Fragment implements RecyclerMembersListener {
     ImageView m_cBackImg;
     private boolean m_cLoading = true;
     private List<String> listMenbers;
+
 
     @Override
     public void onAttach(Context context) {
@@ -128,6 +130,10 @@ public class TicketInfo extends Fragment implements RecyclerMembersListener {
         continue_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                Toast.makeText(getContext(), "fill the filled after next ", Toast.LENGTH_LONG).show();
+
 
             }
         });
