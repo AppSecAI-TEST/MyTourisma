@@ -125,6 +125,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getAllCategories();
         _24HourSDF = new SimpleDateFormat("HH:mm");
         _12HourSDF = new SimpleDateFormat("hh:mma");
     }
@@ -199,10 +200,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         txt_recommended.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "recommended"));
         txt_description.setText("");
         txt_categoty.setText("");
-        explorerAdapter = new ExplorerAdapter(getActivity());
-        gv_explorer.setAdapter(null);
-        gv_explorer.setAdapter(explorerAdapter);
-        gv_explorer.setExpanded(true);
+//        explorerAdapter = new ExplorerAdapter(getActivity());
+//        gv_explorer.setAdapter(null);
+//        gv_explorer.setAdapter(explorerAdapter);
+//        gv_explorer.setExpanded(true);
     }
 
     @Override
@@ -222,7 +223,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
-        getAllCategoriesCall();
         return view;
     }
 
@@ -302,13 +302,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         });
     }
 
-    private void getAllCategoriesCall() {
+    private void getAllCategories() {
+        allCategories.clear();
+        allCategories1.clear();
         if (CommonClass.hasInternetConnection(getActivity())) {
-            String url = "http://ec2-54-93-117-123.eu-central-1.compute.amazonaws.com/json.php?action=GetAllCategories";
-//            String url = Constants.SERVER_URL + "json.php?action=GetAllCategories";
-//            String url = "http://13.126.151.196/json.php?action=GetAllCategories";
-            String json = "";
-            new post_sync(getActivity(), "GetAllCategories", HomeFragment.this, true).execute(url, json);
+            String url = Constants.SERVER_URL + "json.php?action=GetCategoriesByLanId";
+            String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\"}]";
+            new post_sync(getActivity(), "GetCategoriesByLanId", HomeFragment.this, true).execute(url, json);
         } else {
             Intent intent = new Intent(getActivity(), NoInternet.class);
             startActivity(intent);
@@ -316,10 +316,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     }
 
     public void getAllCategoriesResponse(String resultString) {
-        homePageDataCall();
-        allCategories.clear();
-        allCategories1.clear();
-        if (resultString.length() > 2) {
             try {
                 JSONArray jsonArray = new JSONArray(resultString);
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -331,23 +327,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
                     categories.setLan_Id(jsonObject.optString("Lan_Id"));
                     categories.setCategory_Info(jsonObject.optString("Category_Info"));
                     categories.setCategory_Status(jsonObject.optString("Category_Status"));
-                    if (mainActivity.getPreferences().getString("Lan_Id", "").equals(jsonObject.optString("Lan_Id"))) {
-                        if (allCategories1.size() <= 9) {
-                            allCategories.add(categories);
-                        }
-                        allCategories1.add(categories);
+                    if (allCategories1.size() <= 9) {
+                        allCategories.add(categories);
                     }
+                    allCategories1.add(categories);
                 }
             } catch (JSONException e) {
                 // Tracking exception
                 MyTorismaApplication.getInstance().trackException(e);
                 e.printStackTrace();
             }
-        }
         explorerAdapter = new ExplorerAdapter(getActivity());
         gv_explorer.setAdapter(null);
         gv_explorer.setAdapter(explorerAdapter);
         gv_explorer.setExpanded(true);
+        homePageDataCall();
     }
 
     private void setCreateView(boolean isCategoryView) {
@@ -503,7 +497,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         try {
             if (action.equalsIgnoreCase("HomePageData")) {
                 homePageDataResponse(response);
-            } else if (action.equalsIgnoreCase("GetAllCategories")) {
+            } else if (action.equalsIgnoreCase("GetCategoriesByLanId")) {
                 getAllCategoriesResponse(response);
             } else if (action.equalsIgnoreCase("AddFavorite")) {
                 addFavoriteResponse(response);

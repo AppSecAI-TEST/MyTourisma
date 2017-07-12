@@ -61,26 +61,7 @@ public class NewSelectLocationFragmentAdapter extends RecyclerView.Adapter<NewSe
     public void onBindViewHolder(final NewSelectLocationFragmentAdapter.CategoryViewHolder CategoryViewHolder, final int position) {
         CategoryViewHolder.place_name_txt.setText(newCities.get(position).getCity_Name());
         CategoryViewHolder.city_info_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "City info"));
-        Picasso.with(activity).load(image_models.get(position).getImage()).into(CategoryViewHolder.place_img);
-        /*if (newCities.get(position).getCity_Name().contains("Abu Dhabi")) {
-            CategoryViewHolder.place_img.setBackgroundResource(R.drawable.abudhabi);
-        } else if (newCities.get(position).getCity_Name().contains("Ajman")) {
-            CategoryViewHolder.place_img.setBackgroundResource(R.drawable.ajman);
-        } else if (newCities.get(position).getCity_Name().contains("Al Ain")) {
-            CategoryViewHolder.place_img.setBackgroundResource(R.drawable.alain);
-        } else if (newCities.get(position).getCity_Name().contains("Dubai")) {
-            CategoryViewHolder.place_img.setBackgroundResource(R.drawable.dubai);
-        } else if (newCities.get(position).getCity_Name().contains("Fujairah")) {
-            CategoryViewHolder.place_img.setBackgroundResource(R.drawable.fujairah);
-        } else if (newCities.get(position).getCity_Name().contains("Hatta")) {
-            CategoryViewHolder.place_img.setBackgroundResource(R.drawable.hatta);
-        } else if (newCities.get(position).getCity_Name().contains("Sharjah ")) {
-            CategoryViewHolder.place_img.setBackgroundResource(R.drawable.sharjah);
-        } else if (newCities.get(position).getCity_Name().contains("Ras Al Khaimah ")) {
-            CategoryViewHolder.place_img.setBackgroundResource(R.drawable.rasalkhaima);
-        } else if (newCities.get(position).getCity_Name().contains("Umm al Quwain ")) {
-            CategoryViewHolder.place_img.setBackgroundResource(R.drawable.ummalquain);
-        }*/
+        Picasso.with(activity).load(newCities.get(position).getCity_Main_Image()).into(CategoryViewHolder.place_img);
 
         CategoryViewHolder.place_img.setOnClickListener(new View.OnClickListener() {
             @Override

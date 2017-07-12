@@ -77,7 +77,6 @@ public class NewSelectCityLocationFragment extends Fragment implements post_sync
 
         initialization();
         newCitiesCall();
-        prepareImageData();
         onClickListners();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -283,34 +282,5 @@ public class NewSelectCityLocationFragment extends Fragment implements post_sync
             Intent intent = new Intent(getActivity(), NoInternet.class);
             startActivity(intent);
         }
-    }
-
-    public void prepareImageData() {
-        IMAGE_MODEL image_model = new IMAGE_MODEL(R.drawable.abudhabi);
-        image_models.add(image_model);
-
-        image_model = new IMAGE_MODEL(R.drawable.ajman);
-        image_models.add(image_model);
-
-        image_model = new IMAGE_MODEL(R.drawable.alain);
-        image_models.add(image_model);
-
-        image_model = new IMAGE_MODEL(R.drawable.dubai);
-        image_models.add(image_model);
-
-        image_model = new IMAGE_MODEL(R.drawable.fujairah);
-        image_models.add(image_model);
-
-        image_model = new IMAGE_MODEL(R.drawable.hatta);
-        image_models.add(image_model);
-
-        image_model = new IMAGE_MODEL(R.drawable.sharjah);
-        image_models.add(image_model);
-
-        image_model = new IMAGE_MODEL(R.drawable.rasalkhaima);
-        image_models.add(image_model);
-
-        image_model = new IMAGE_MODEL(R.drawable.ummalquain);
-        image_models.add(image_model);
     }
 }

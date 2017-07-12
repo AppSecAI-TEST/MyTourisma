@@ -14,6 +14,7 @@ public class NewCities implements Serializable {
     private String City_Title;
     private String City_Image;
     private String City_Description;
+    private String City_Main_Image;
 
     public String getCity_Id() {
         return City_Id;
@@ -61,5 +62,13 @@ public class NewCities implements Serializable {
 
     public void setCity_Description(String city_Description) {
         City_Description = city_Description;
+    }
+
+    public String getCity_Main_Image() {
+        return City_Main_Image;
+    }
+
+    public void setCity_Main_Image(String city_Main_Image) {
+        City_Main_Image = city_Main_Image;
     }
 }
