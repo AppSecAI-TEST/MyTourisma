@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -78,12 +79,18 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_gravity="right|bottom"
-                    android:background="#99000000"
                     android:gravity="center"
                     android:orientation="horizontal">
 
+                    <View
+                        android:id="@+id/opacityFilter"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/black"
+                        android:alpha="0.8 "/>
+
                     <com.ftl.tourisma.custom_views.NormalTextView
-                        android:id="@+id/description"
+                        android:id="@+id/main_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
@@ -95,12 +102,12 @@
                         android:textSize="@dimen/TEXT_SMALL" />
 
                     <com.ftl.tourisma.custom_views.NormalTextView
-                        android:id="@+id/description1"
+                        android:id="@+id/description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:layout_below="@+id/description"
+                        android:layout_below="@+id/main_description"
                         android:layout_marginLeft="@dimen/m10dp"
                         android:text=""
                         android:textColor="@color/mGray"
