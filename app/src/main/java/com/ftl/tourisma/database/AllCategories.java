@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by fipl11111 on 01-Mar-16.
  */
 public class AllCategories implements Serializable {
-    String Category_Id, Category_Name, Category_Map_Icon, Lan_Id, Category_Info, Category_Status;
+    String Category_Id, Category_Name, Category_Map_Icon, Lan_Id, Category_Info, Category_Status, Category_Image, Category_Places;
 
     public String getCategory_Id() {
         return Category_Id;
@@ -54,5 +54,21 @@ public class AllCategories implements Serializable {
 
     public void setCategory_Status(String category_Status) {
         Category_Status = category_Status;
+    }
+
+    public String getCategory_Image() {
+        return Category_Image;
+    }
+
+    public void setCategory_Image(String category_Image) {
+        Category_Image = category_Image;
+    }
+
+    public String getCategory_Places() {
+        return Category_Places;
+    }
+
+    public void setCategory_Places(String category_Places) {
+        Category_Places = category_Places;
     }
 }

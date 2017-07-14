@@ -25,7 +25,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_margin="15dp"
-            android:src="@drawable/favourite" />
+            android:src="@drawable/favourite_inactive" />
 
         <com.ftl.tourisma.custom_views.NormalTextView
             android:id="@+id/tv_recommended"
@@ -80,7 +80,7 @@
                     android:layout_height="20dp"
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/clock" />
+                    android:src="@drawable/new_time" />
 
                 <com.ftl.tourisma.custom_views.NormalTextView
                     android:id="@+id/timing_txt"
@@ -111,7 +111,7 @@
                     android:layout_height="20dp"
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="15dp"
-                    android:src="@drawable/ticket_home" />
+                    android:src="@drawable/new_ticket" />
 
                 <com.ftl.tourisma.custom_views.NormalTextView
                     android:id="@+id/ticket_txt"
@@ -140,7 +140,7 @@
                     android:layout_height="20dp"
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="15dp"
-                    android:src="@drawable/location" />
+                    android:src="@drawable/new_location" />
 
                 <com.ftl.tourisma.custom_views.NormalTextView
                     android:id="@+id/location_txt"

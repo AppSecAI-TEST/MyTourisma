@@ -86,8 +86,8 @@
                         android:id="@+id/opacityFilter"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@android:color/black"
-                        android:alpha="0.8 "/>
+                        android:alpha="0.8 "
+                        android:background="@android:color/black" />
 
                     <com.ftl.tourisma.custom_views.NormalTextView
                         android:id="@+id/main_description"
@@ -121,7 +121,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_margin="@dimen/m10dp"
                         android:padding="@dimen/m10dp"
-                        android:src="@drawable/selector_favourite" />
+                        android:src="@drawable/favourite_inactive" />
 
                 </RelativeLayout>
 
