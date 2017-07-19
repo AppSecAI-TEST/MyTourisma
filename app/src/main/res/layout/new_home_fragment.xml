@@ -3,7 +3,7 @@
     android:id="@+id/rl_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#EDEDED"
     android:orientation="vertical">
 
     <include
@@ -19,7 +19,7 @@
         android:layout_below="@+id/header"
         android:fadingEdge="none"
         android:fillViewport="true"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:layout_marginBottom="115dp"
+                        android:layout_marginBottom="75dp"
                         android:layout_marginLeft="@dimen/m10dp"
                         android:layout_marginRight="@dimen/m10dp"
                         android:gravity="center">
@@ -108,6 +108,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
                         android:layout_below="@+id/main_description"
+                        android:layout_marginBottom="@dimen/m10dp"
                         android:layout_marginLeft="@dimen/m10dp"
                         android:text=""
                         android:textColor="@color/mGray"
@@ -121,7 +122,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_margin="@dimen/m10dp"
                         android:padding="@dimen/m10dp"
-                        android:src="@drawable/favourite_inactive" />
+                        android:src="@drawable/selector_favourite" />
 
                 </RelativeLayout>
 
@@ -133,6 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl_recommended"
                 android:layout_marginTop="15dp"
+                android:background="@color/white"
                 android:visibility="gone">
 
                 <com.ftl.tourisma.custom_views.NormalTextView
@@ -162,6 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl_tags"
                 android:layout_marginTop="15dp"
+                android:background="@color/white"
                 android:visibility="visible">
 
                 <com.ftl.tourisma.custom_views.NormalTextView
@@ -169,7 +172,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="@dimen/m10dp"
                     android:layout_marginTop="15dp"
                     android:text="EXPLORE"
@@ -191,6 +194,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl_categories"
                 android:layout_marginTop="15dp"
+                android:background="@color/white"
                 android:visibility="visible">
 
                 <com.ftl.tourisma.custom_views.NormalTextView
@@ -198,7 +202,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="@dimen/m10dp"
                     android:layout_marginTop="15dp"
                     android:text="NEARBY"
@@ -210,7 +214,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/nearby_txt"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_marginBottom="5dp" />
 
             </RelativeLayout>
 
@@ -218,6 +222,70 @@
 
     </ScrollView>
 
-    <include layout="@layout/layout_empty" />
+    <LinearLayout
+        android:id="@+id/llEmptyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imgIcon"
+                android:layout_width="70dp"
+                android:layout_height="100dp"
+                android:layout_above="@+id/txtMessage"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/not_available" />
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/txtMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="No records available for this place"
+                android:textColor="#ababab"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtMessage"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="63dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/txtOk"
+                    style="@style/MyCustomButton"
+                    android:layout_width="match_parent"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:padding="@dimen/m10dp"
+                    android:text="Change Location" />
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/txtSuggest"
+                    style="@style/MyCustomButton"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/m5dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:padding="@dimen/m10dp"
+                    android:text="Suggest Location" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

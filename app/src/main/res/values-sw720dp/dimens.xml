@@ -2,7 +2,7 @@
 <resources>
     <dimen name="m10dp">15dp</dimen>
     <dimen name="m20dp">30dp</dimen>
-    <dimen name="m70dp">160dp</dimen>
+    <dimen name="m70dp">95dp</dimen>
     <dimen name="m30dp">50dp</dimen>
 
     <dimen name="m50dp">80dp</dimen>

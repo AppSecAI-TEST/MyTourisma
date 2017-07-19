@@ -180,9 +180,11 @@ public class DBAdapter {
         Cursor cr = sqlDB.rawQuery("select * from " + TABLE_LANGUAGES + " where Lan_ID = \"" + Lan_ID + "\" and " + "Msg_Constant = \"" + Msg_Constant + "\"", null);
         if (cr != null && cr.moveToFirst()) {
             msg = cr.getString(cr.getColumnIndex(KEY_Msg_Statement));
+            cr.close();
         } else {
             msg = "";
         }
+        sqlDB.close();
         return msg.trim();
     }
 

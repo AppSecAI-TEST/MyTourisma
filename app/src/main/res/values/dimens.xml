@@ -7,7 +7,7 @@
     <dimen name="m30dp">30dp</dimen>
     <dimen name="m50dp">50dp</dimen>
     <dimen name="m60dp">60dp</dimen>
-    <dimen name="m70dp">100dp</dimen>
+    <dimen name="m70dp">60dp</dimen>
     <dimen name="m15dp">15dp</dimen>
     <dimen name="m9dp">9dp</dimen>
     <dimen name="m10dp">10dp</dimen>

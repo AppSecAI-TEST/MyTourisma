@@ -18,6 +18,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
@@ -28,6 +29,7 @@ import com.estimote.sdk.repackaged.gson_v2_3_1.com.google.gson.Gson;
 import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
 import com.ftl.tourisma.adapters.CategoriesAdapter;
+import com.ftl.tourisma.adapters.HomePageAdapter;
 import com.ftl.tourisma.custom_views.NormalTextView;
 import com.ftl.tourisma.database.AllCategories;
 import com.ftl.tourisma.database.Nearby;
@@ -36,6 +38,7 @@ import com.ftl.tourisma.utils.CommonClass;
 import com.ftl.tourisma.utils.Constants;
 import com.ftl.tourisma.utils.JSONObjConverter;
 import com.ftl.tourisma.utils.Preference;
+import com.ftl.tourisma.utils.RecyclerItemClickListener;
 import com.ftl.tourisma.utils.Utils;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.squareup.picasso.Picasso;
@@ -55,7 +58,8 @@ import static com.ftl.tourisma.ResolverActivity.TAG;
 
 public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeListener, post_sync.ResponseHandler {
 
-    RelativeLayout rl_home;
+    RelativeLayout rl_home, rl_recommended;
+    ScrollView sv_explorer_location;
     NormalTextView txtMessage, txtSuggest, txtOk, tv_city, tv_your_location_header3, tv_recommended, main_description, description, explore_txt, nearby_txt;
     LinearLayout ll_change_city, llEmptyLayout;
     ImageView iv_search_header3, imgFav;
@@ -69,7 +73,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
     ArrayList<AllCategories> allCategories = new ArrayList<>();
     ArrayList<Nearby> nearbies = new ArrayList<>();
     CategoriesAdapter categoriesAdapter;
-
+    HomePageAdapter adapter;
     View view;
     MainActivity mainActivity;
 
@@ -100,7 +104,9 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
 
 
     public void initialization(View view) {
+        sv_explorer_location = (ScrollView) view.findViewById(R.id.sv_explorer_location);
         rl_home = (RelativeLayout) view.findViewById(R.id.rl_home);
+        rl_recommended = (RelativeLayout) view.findViewById(R.id.rl_recommended);
         tv_your_location_header3 = (NormalTextView) view.findViewById(R.id.tv_your_location_header3);
         tv_recommended = (NormalTextView) view.findViewById(R.id.tv_recommended);
         main_description = (NormalTextView) view.findViewById(R.id.main_description);
@@ -130,34 +136,15 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         nearby_rv = (RecyclerView) view.findViewById(R.id.nearby_rv);
     }
 
-    public void setSlider() {
-        slider = (SliderLayout) view.findViewById(R.id.slider);
-        slider.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (mainActivity.height * 60) / 100));
-        slider.setDuration(4000);
-        slider.removeAllSliders();
-        for (Nearby nearby : recommendeds) {
-            String imageUrl = Constants.IMAGE_URL + nearby.getPlace_MainImage() + "&w=" + (mainActivity.width);
-            DefaultSliderView textSliderView = new DefaultSliderView(getActivity());
-            // initialize a SliderLayout
-            Picasso picasso = Picasso.with(getActivity());
-            textSliderView
-                    .description(nearby.getPlace_Name())
-                    .image(imageUrl)
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
-                    .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
-                        @Override
-                        public void onSliderClick(BaseSliderView slider1) {
-                            id = slider.getCurrentPosition();
-                            mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(recommendeds.get(id).getPlace_Id(), tv_city.getText().toString(), recommendeds.get(id).getGroup_Id());
-                        }
-                    }).setPicasso(picasso);
-            slider.addSlider(textSliderView);
-        }
-        slider.setCustomIndicator(custom_indicator);
-        slider.addOnPageChangeListener(this);
-    }
-
     public void onClickListners() {
+
+        nearby_rv.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(HomePageAdapter.nearbies.get(position).getPlace_Id(), tv_city.getText().toString(), HomePageAdapter.nearbies.get(position).getGroup_Id());
+                    }
+                })
+        );
 
         txtOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,40 +194,86 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         }
     }
 
-    public void getHomePageDataResponse(String resultString) {
-        JSONObjConverter jonObjConverter = new JSONObjConverter();
-        Gson gson = new Gson();
-        recommendeds.clear();
-        allCategories.clear();
-        try {
-            //Adding recommnded to array list
-            JSONObject jsonObject = new JSONObject(resultString);
-            JSONArray recommnded_jsonArray = jsonObject.optJSONArray("recommnded");
-            for (int i = 0; i < recommnded_jsonArray.length(); i++) {
-                recommended = jonObjConverter.convertJsonToNearByObj(recommnded_jsonArray.optJSONObject(i));
-                recommendeds.add(recommended);
-            }
-            //setting slider
-            setSlider();
+    public void getHomePageDataResponse(final String resultString) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                JSONObjConverter jonObjConverter = new JSONObjConverter();
+                Gson gson = new Gson();
+                recommendeds.clear();
+                allCategories.clear();
+                nearbies.clear();
 
-            //checking if recommendeds array is empty, setting location change
-            if (recommendeds.size() == 0) {
-                llEmptyLayout.setVisibility(View.VISIBLE);
-            } else {
-                llEmptyLayout.setVisibility(View.GONE);
-                downloadNearBy();
-            }
+                try {
+                    //Adding recommnded to array list
+                    JSONObject jsonObject = new JSONObject(resultString);
+                    JSONArray recommnded_jsonArray = jsonObject.optJSONArray("recommnded");
+                    for (int i = 0; i < recommnded_jsonArray.length(); i++) {
+                        recommended = jonObjConverter.convertJsonToNearByObj(recommnded_jsonArray.optJSONObject(i));
+                        recommendeds.add(recommended);
+                    }
 
-            //Adding categories to array list
-            JSONArray categories_jsonArray = jsonObject.getJSONArray("category");
-            for (int i = 0; i < categories_jsonArray.length(); i++) {
-                allCategories.add(gson.fromJson(categories_jsonArray.get(i).toString(), AllCategories.class));
-            }
-            categoriesAdapter = new CategoriesAdapter(getActivity(), allCategories);
-            categories_rv.setAdapter(categoriesAdapter);
+                    //Adding categories to array list
+                    JSONArray categories_jsonArray = jsonObject.getJSONArray("category");
+                    for (int i = 0; i < categories_jsonArray.length(); i++) {
+                        allCategories.add(gson.fromJson(categories_jsonArray.get(i).toString(), AllCategories.class));
+                    }
+                    categoriesAdapter = new CategoriesAdapter(getActivity(), allCategories);
+                    categories_rv.setAdapter(categoriesAdapter);
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+                    //Adding nearby to array list
+                    JSONArray nearby_jsonArray = jsonObject.optJSONArray("nearby");
+                    for (int i = 0; i < nearby_jsonArray.length(); i++) {
+                        nearby = jonObjConverter.convertJsonToNearByObj(nearby_jsonArray.optJSONObject(i));
+                        nearbies.add(nearby);
+                    }
+                    adapter = new HomePageAdapter(getActivity(), nearbies);
+                    nearby_rv.setAdapter(adapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                //Setting slider
+                setSlider();
+                sv_explorer_location.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    public void setSlider() {
+        if (recommendeds.size() > 0) {
+            rl_recommended.setVisibility(View.VISIBLE);
+            slider = (SliderLayout) view.findViewById(R.id.slider);
+            slider.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (mainActivity.height * 60) / 100));
+            slider.setDuration(4000);
+            slider.removeAllSliders();
+            for (Nearby nearby : recommendeds) {
+                String imageUrl = Constants.IMAGE_URL + nearby.getPlace_MainImage() + "&w=" + (mainActivity.width);
+                DefaultSliderView textSliderView = new DefaultSliderView(getActivity());
+                // initialize a SliderLayout
+                Picasso picasso = Picasso.with(getActivity());
+                textSliderView
+                        .description(nearby.getPlace_Name())
+                        .image(imageUrl)
+                        .setScaleType(BaseSliderView.ScaleType.Fit)
+                        .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                            @Override
+                            public void onSliderClick(BaseSliderView slider1) {
+                                id = slider.getCurrentPosition();
+                                mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(recommendeds.get(id).getPlace_Id(), tv_city.getText().toString(), recommendeds.get(id).getGroup_Id());
+                            }
+                        }).setPicasso(picasso);
+                slider.addSlider(textSliderView);
+            }
+            slider.setCustomIndicator(custom_indicator);
+            slider.addOnPageChangeListener(this);
+        } else {
+            rl_recommended.setVisibility(View.GONE);
+        }
+        if (recommendeds.size() == 0) {
+            llEmptyLayout.setVisibility(View.VISIBLE);
+        } else {
+//            downloadNearBy();
         }
     }
 
@@ -267,6 +300,9 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                 nearby = jonObjConverter.convertJsonToNearByObj(nearby_jsonArray.optJSONObject(i));
                 nearbies.add(nearby);
             }
+            //Setting nearby Adapter
+            adapter = new HomePageAdapter(getActivity(), nearbies);
+            nearby_rv.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -42,7 +42,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         Picasso.with(activity)
                 .load(allCategories.get(position).getCategory_Image())
                 .into(CategoryViewHolder.category_img);
-
     }
 
     @Override
