@@ -13,18 +13,18 @@
                 android:id="@+id/opacityFilter"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/black"
-                android:alpha="0.5 "/>
+                android:alpha="0.5 "
+                android:background="@android:color/black" />
 
             <ImageView
-                android:id="@+id/tags_img"
+                android:id="@+id/category_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY" />
 
             <com.ftl.tourisma.custom_views.NormalTextView
-                android:id="@+id/tag_name_txt"
+                android:id="@+id/category_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/place_count_txt"

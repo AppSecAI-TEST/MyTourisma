@@ -5,10 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.ftl.tourisma.R;
+import com.ftl.tourisma.custom_views.NormalTextView;
 import com.ftl.tourisma.database.AllCategories;
-import com.ftl.tourisma.models.IMAGE_MODEL;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -18,8 +20,7 @@ import java.util.ArrayList;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder> {
 
-    public static ArrayList<AllCategories> allCategories = new ArrayList<>();
-    ArrayList<IMAGE_MODEL> image_models = new ArrayList<>();
+    ArrayList<AllCategories> allCategories = new ArrayList<>();
     Activity activity;
 
     public CategoriesAdapter(Activity activity, ArrayList<AllCategories> allCategories) {
@@ -36,6 +37,11 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     @Override
     public void onBindViewHolder(final CategoriesAdapter.CategoryViewHolder CategoryViewHolder, final int position) {
 
+        CategoryViewHolder.category_name.setText(allCategories.get(position).getCategory_Name());
+        CategoryViewHolder.place_count_txt.setText(allCategories.get(position).getCategory_Places());
+        Picasso.with(activity)
+                .load(allCategories.get(position).getCategory_Image())
+                .into(CategoryViewHolder.category_img);
 
     }
 
@@ -46,9 +52,14 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
 
+        NormalTextView category_name, place_count_txt;
+        ImageView category_img;
+
         public CategoryViewHolder(View v) {
             super(v);
-
+            category_name = (NormalTextView) v.findViewById(R.id.category_name);
+            place_count_txt = (NormalTextView) v.findViewById(R.id.place_count_txt);
+            category_img = (ImageView) v.findViewById(R.id.category_img);
         }
     }
 }

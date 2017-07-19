@@ -39,4 +39,9 @@
     <dimen name="m110dp">110dp</dimen>
     <dimen name="progressDailog">76dip</dimen>
 
+    <!--select location dimens-->
+    <dimen name="tollbar_ht">50dp</dimen>
+    <dimen name="img_ht">190dp</dimen>
+    <dimen name="bg_img_ht">50dp</dimen>
+
 </resources>

@@ -218,4 +218,6 @@
 
     </ScrollView>
 
+    <include layout="@layout/layout_empty" />
+
 </RelativeLayout>
