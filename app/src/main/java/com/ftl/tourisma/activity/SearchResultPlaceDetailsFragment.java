@@ -247,8 +247,12 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
             suggestPlace();
         } else if (v == txtDailyWorkingHours) {
             openWeekDaysPopup();
+            txtDailyWorkingHours.setEnabled(false);
+            visiting_hours_layout.setEnabled(false);
         } else if (v == visiting_hours_layout) {
             openWeekDaysPopup();
+            txtDailyWorkingHours.setEnabled(false);
+            visiting_hours_layout.setEnabled(false);
         } else if (v == rlVirtualTour) {
             Intent intent = new Intent(getActivity(), SimpleVrPanoramaActivity.class);
             intent.putExtra("path", mNearby.getPlaceVRMainImage());
@@ -268,32 +272,37 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
     }
 
     public void suggestPlace() {
-        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-        sendIntent.setType("text/plain");
-        sendIntent.setData(Uri.parse("info@mytourisma.com"));
-        sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-        sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@mytourisma.com"});
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "myTourisma - Suggest new location");
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "Hello,\n" +
-                "\n" +
-                "\n" +
-                "I would like to suggest a new location for myTourisma app\n" +
-                "\n" +
-                "Location name:\n" +
-                "Location:\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "Thank you");
-        final PackageManager pm = getActivity().getPackageManager();
-        final List<ResolveInfo> matches = pm.queryIntentActivities(sendIntent, 0);
-        ResolveInfo best = null;
-        for (final ResolveInfo info : matches)
-            if (info.activityInfo.packageName.endsWith(".gm") || info.activityInfo.name.toLowerCase().contains("gmail"))
-                best = info;
-        if (best != null)
-            sendIntent.setClassName(best.activityInfo.packageName, best.activityInfo.name);
-        startActivity(sendIntent);
+        try {
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            emailIntent.setData(Uri.parse("info@mytourisma.com"));
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@mytourisma.com"});
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "myTourisma - Suggest new location");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Hello,\n" +
+                    "\n" +
+                    "\n" +
+                    "I would like to suggest a new location for myTourisma app\n" +
+                    "\n" +
+                    "Location name:\n" +
+                    "Location:\n" +
+                    "\n" +
+                    "\n" +
+                    "\n" +
+                    "Thank you");
+            emailIntent.setType("text/plain");
+            final PackageManager pm = getActivity().getPackageManager();
+            final List<ResolveInfo> matches = pm.queryIntentActivities(emailIntent, 0);
+            ResolveInfo best = null;
+            for (final ResolveInfo info : matches)
+                if (info.activityInfo.packageName.endsWith(".gm") || info.activityInfo.name.toLowerCase().contains("gmail"))
+                    best = info;
+            if (best != null)
+                emailIntent.setClassName(best.activityInfo.packageName, best.activityInfo.name);
+            getActivity().startActivity(emailIntent);
+        } catch (Exception e) {
+            // Tracking exception
+            MyTorismaApplication.getInstance().trackException(e);
+            Utils.Log(TAG, "suggestPlace Exception: " + e.getLocalizedMessage());
+        }
     }
 
 
@@ -646,6 +655,8 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
             iv_menu_close.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    txtDailyWorkingHours.setEnabled(true);
+                    visiting_hours_layout.setEnabled(true);
                     dialog.dismiss();
                 }
             });

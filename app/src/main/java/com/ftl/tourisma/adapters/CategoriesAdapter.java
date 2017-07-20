@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder> {
 
-    ArrayList<AllCategories> allCategories = new ArrayList<>();
+    public static ArrayList<AllCategories> allCategories = new ArrayList<>();
     Activity activity;
 
     public CategoriesAdapter(Activity activity, ArrayList<AllCategories> allCategories) {

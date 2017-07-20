@@ -179,12 +179,24 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/TEXT_MEDIUM" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/categories_rv"
+                <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/explore_txt"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_marginBottom="15dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/categories_rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </RelativeLayout>
+
+                </ScrollView>
 
             </RelativeLayout>
 
@@ -209,12 +221,24 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/TEXT_MEDIUM" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/nearby_rv"
+                <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/nearby_txt"
-                    android:layout_marginBottom="5dp" />
+                    android:layout_marginBottom="5dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/nearby_rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </RelativeLayout>
+
+                </ScrollView>
 
             </RelativeLayout>
 

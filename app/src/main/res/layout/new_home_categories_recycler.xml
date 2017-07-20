@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="75dp"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     android:layout_marginTop="5dp"
-    android:background="@drawable/new_rect_home_bg">
+    card_view:cardCornerRadius="4dp">
 
     <RelativeLayout
         android:id="@+id/rlBottomView"
@@ -58,4 +59,4 @@
 
     </RelativeLayout>
 
-</RelativeLayout>
+</android.support.v7.widget.CardView>

@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
@@ -82,6 +84,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static com.ftl.tourisma.utils.Constants.PlaceClosed;
 import static com.ftl.tourisma.utils.Constants.PlaceOpenFor24Hours;
@@ -296,23 +299,37 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
         } else if (v == txtDailyWorkingHours) {
             openWeekDaysPopup();
         } else if (v == txtSuggest) {
-            Intent emailIntent = new Intent(Intent.ACTION_SEND);
-            emailIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@mytourisma.com"});
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "myTourisma - Suggest new location");
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "Hello,\n" +
-                    "\n" +
-                    "\n" +
-                    "I would like to suggest a new location for myTourisma app\n" +
-                    "\n" +
-                    "Location name:\n" +
-                    "Location:\n" +
-                    "\n" +
-                    "\n" +
-                    "\n" +
-                    "Thank you");
-            emailIntent.setType("text/plain");
-            startActivity(Intent.createChooser(emailIntent, "myTourisma"));
+            try {
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setData(Uri.parse("info@mytourisma.com"));
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@mytourisma.com"});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "myTourisma - Suggest new location");
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "Hello,\n" +
+                        "\n" +
+                        "\n" +
+                        "I would like to suggest a new location for myTourisma app\n" +
+                        "\n" +
+                        "Location name:\n" +
+                        "Location:\n" +
+                        "\n" +
+                        "\n" +
+                        "\n" +
+                        "Thank you");
+                emailIntent.setType("text/plain");
+                final PackageManager pm = getActivity().getPackageManager();
+                final List<ResolveInfo> matches = pm.queryIntentActivities(emailIntent, 0);
+                ResolveInfo best = null;
+                for (final ResolveInfo info : matches)
+                    if (info.activityInfo.packageName.endsWith(".gm") || info.activityInfo.name.toLowerCase().contains("gmail"))
+                        best = info;
+                if (best != null)
+                    emailIntent.setClassName(best.activityInfo.packageName, best.activityInfo.name);
+                getActivity().startActivity(emailIntent);
+            } catch (Exception e) {
+                // Tracking exception
+                MyTorismaApplication.getInstance().trackException(e);
+                Utils.Log(TAG, "suggestPlace Exception: " + e.getLocalizedMessage());
+            }
         }
     }
 
@@ -934,7 +951,7 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
                         }
                         if (hourDetails.getPOHCharges() != null && !hourDetails.getPOHCharges().equals("") && !hourDetails.getPOHCharges().equalsIgnoreCase("null")) {
                             isTicketSet = true;
-                            viewHolder.tv_ticket.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tickets") + ": " + hourDetails.getPOHCharges());
+//                            viewHolder.tv_ticket.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tickets") + ": " + hourDetails.getPOHCharges());
                         }
                         break;
                     } else {
@@ -949,9 +966,15 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
                 viewHolder.tv_timing.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Timing") + ": " + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Closed"));
             }
             if (!isTicketSet) {
-                viewHolder.tv_ticket.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tickets") + ": -");
+//                viewHolder.tv_ticket.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Tickets") + ": -");
             }
             viewHolder.txtDistance.setText(nearbies.get(position).getDistance() + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
+
+            if (nearbies.get(position).getFree_entry().equals("0")) {
+                viewHolder.tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Check Details"));
+            } else if (nearbies.get(position).getFree_entry().equals("1")) {
+                viewHolder.tv_ticket.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Tickets") + ": " + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Free Entry"));
+            }
         }
 
         @Override
