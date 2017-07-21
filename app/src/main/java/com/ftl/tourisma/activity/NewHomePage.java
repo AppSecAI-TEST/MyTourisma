@@ -73,7 +73,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
     private static int mCounter = -1;
     RelativeLayout rl_home, rl_recommended;
     ScrollView sv_explorer_location;
-    NormalTextView txtMessage, txtSuggest, txtOk, tv_city, tv_your_location_header3, tv_recommended, main_description, description, explore_txt, nearby_txt;
+    NormalTextView txtShowMoreLess, txtMessage, txtSuggest, txtOk, tv_city, tv_your_location_header3, tv_recommended, main_description, description, explore_txt, nearby_txt;
     LinearLayout ll_change_city, llEmptyLayout;
     ImageView iv_search_header3, imgFav;
     SliderLayout slider;
@@ -87,6 +87,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
     Nearby nearby;
     ArrayList<Nearby> recommendeds = new ArrayList<>();
     ArrayList<AllCategories> allCategories = new ArrayList<>();
+    ArrayList<AllCategories> moreCategories = new ArrayList<>();
     ArrayList<Nearby> nearbies = new ArrayList<>();
     ArrayList<Nearby> nearbies_category = new ArrayList<>();
     CategoriesAdapter categoriesAdapter;
@@ -105,8 +106,8 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.new_home_fragment, container, false);
         initialization(view);
-        onClickListners();
         downloadHomePage();
+        onClickListners();
 
         //setting layoutmanager for categories
         org.solovyev.android.views.llm.LinearLayoutManager linearLayoutManager_categories = new org.solovyev.android.views.llm.LinearLayoutManager(getActivity());
@@ -119,17 +120,35 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         return view;
     }
 
-
     public void initialization(View view) {
         sv_explorer_location = (ScrollView) view.findViewById(R.id.sv_explorer_location);
         rl_home = (RelativeLayout) view.findViewById(R.id.rl_home);
         rl_recommended = (RelativeLayout) view.findViewById(R.id.rl_recommended);
-        tv_your_location_header3 = (NormalTextView) view.findViewById(R.id.tv_your_location_header3);
-        tv_recommended = (NormalTextView) view.findViewById(R.id.tv_recommended);
         main_description = (NormalTextView) view.findViewById(R.id.main_description);
         description = (NormalTextView) view.findViewById(R.id.description);
+        ll_change_city = (LinearLayout) view.findViewById(R.id.ll_change_city);
+        llEmptyLayout = (LinearLayout) view.findViewById(R.id.llEmptyLayout);
+        iv_search_header3 = (ImageView) view.findViewById(R.id.iv_search_header3);
+        imgFav = (ImageView) view.findViewById(R.id.imgFav);
+        slider = (SliderLayout) view.findViewById(R.id.slider);
+        custom_indicator = (PagerIndicator) view.findViewById(R.id.custom_indicator);
+        categories_rv = (RecyclerView) view.findViewById(R.id.categories_rv);
+        nearby_rv = (RecyclerView) view.findViewById(R.id.nearby_rv);
+
+        tv_recommended = (NormalTextView) view.findViewById(R.id.tv_recommended);
+        tv_recommended.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "recommended"));
+
         explore_txt = (NormalTextView) view.findViewById(R.id.explore_txt);
+        explore_txt.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "explore"));
+
         nearby_txt = (NormalTextView) view.findViewById(R.id.nearby_txt);
+        nearby_txt.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "nearby"));
+
+        tv_your_location_header3 = (NormalTextView) view.findViewById(R.id.tv_your_location_header3);
+        tv_your_location_header3.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "locationtitle"));
+
+        txtShowMoreLess = (NormalTextView) view.findViewById(R.id.txtShowMoreLess);
+        txtShowMoreLess.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "More"));
 
         tv_city = (NormalTextView) view.findViewById(R.id.tv_city);
         tv_city.setText(mainActivity.getPreferences().getString(Preference.Pref_City, ""));
@@ -142,15 +161,6 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
 
         txtSuggest = (NormalTextView) view.findViewById(R.id.txtSuggest);
         txtSuggest.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "Suggest Location"));
-
-        ll_change_city = (LinearLayout) view.findViewById(R.id.ll_change_city);
-        llEmptyLayout = (LinearLayout) view.findViewById(R.id.llEmptyLayout);
-        iv_search_header3 = (ImageView) view.findViewById(R.id.iv_search_header3);
-        imgFav = (ImageView) view.findViewById(R.id.imgFav);
-        slider = (SliderLayout) view.findViewById(R.id.slider);
-        custom_indicator = (PagerIndicator) view.findViewById(R.id.custom_indicator);
-        categories_rv = (RecyclerView) view.findViewById(R.id.categories_rv);
-        nearby_rv = (RecyclerView) view.findViewById(R.id.nearby_rv);
     }
 
     public void onClickListners() {
@@ -158,7 +168,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         categories_rv.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Category_Id = CategoriesAdapter.allCategories.get(position).getCategory_Id();
+                        Category_Id = allCategories.get(position).getCategory_Id();
                         downloadPlaceByCategory();
                     }
                 })
@@ -249,8 +259,6 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                     for (int i = 0; i < categories_jsonArray.length(); i++) {
                         allCategories.add(gson.fromJson(categories_jsonArray.get(i).toString(), AllCategories.class));
                     }
-                    categoriesAdapter = new CategoriesAdapter(getActivity(), allCategories);
-                    categories_rv.setAdapter(categoriesAdapter);
 
                     //Adding nearby to array list
                     JSONArray nearby_jsonArray = jsonObject.optJSONArray("nearby");
@@ -258,8 +266,6 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                         nearby = jonObjConverter.convertJsonToNearByObj(nearby_jsonArray.optJSONObject(i));
                         nearbies.add(nearby);
                     }
-                    adapter = new HomePageAdapter(getActivity(), nearbies);
-                    nearby_rv.setAdapter(adapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -267,6 +273,12 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                 //Setting slider
                 setSlider();
                 sv_explorer_location.setVisibility(View.VISIBLE);
+
+                categoriesAdapter = new CategoriesAdapter(getActivity(), allCategories);
+                categories_rv.setAdapter(categoriesAdapter);
+
+                adapter = new HomePageAdapter(getActivity(), nearbies);
+                nearby_rv.setAdapter(adapter);
             }
         });
     }
@@ -618,8 +630,12 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
             holder.place_txt.setText(nearbies.get(position).getPlace_Name());
             if (nearbies.get(position).getFree_entry().equals("0")) {
                 holder.ticket_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Check Details"));
+                holder.ticket_txt.setSelected(true);
+                holder.ticket_txt.requestFocus();
             } else if (nearbies.get(position).getFree_entry().equals("1")) {
                 holder.ticket_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Free Entry"));
+                holder.ticket_txt.setSelected(true);
+                holder.ticket_txt.requestFocus();
             }
             holder.dist_txt.setText(nearbies.get(position).getDist());
 

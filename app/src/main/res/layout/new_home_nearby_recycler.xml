@@ -125,6 +125,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="15dp"
                         android:layout_marginLeft="10dp"
+                        android:ellipsize="marquee"
+                        android:freezesText="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxLines="1"
+                        android:singleLine="true"
                         android:text="OPEN NOW"
                         android:textColor="@color/mWhite"
                         android:textSize="@dimen/TEXT_EXTRA_SMALL" />

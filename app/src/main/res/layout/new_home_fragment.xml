@@ -3,7 +3,7 @@
     android:id="@+id/rl_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EDEDED"
+    android:background="@drawable/ic_bg_blur"
     android:orientation="vertical">
 
     <include
@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/header"
+        android:background="#EDEDED"
         android:fadingEdge="none"
         android:fillViewport="true"
         android:visibility="gone">
@@ -193,6 +194,18 @@
                             android:id="@+id/categories_rv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
+
+                        <com.ftl.tourisma.custom_views.NormalTextView
+                            android:id="@+id/txtShowMoreLess"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/categories_rv"
+                            android:background="@color/mTrans2"
+                            android:gravity="center"
+                            android:padding="@dimen/m20dp"
+                            android:text=""
+                            android:textColor="@color/mWhite"
+                            android:textSize="@dimen/TEXT_SMALL" />
 
                     </RelativeLayout>
 
