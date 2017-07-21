@@ -125,7 +125,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getAllCategories();
         _24HourSDF = new SimpleDateFormat("HH:mm");
         _12HourSDF = new SimpleDateFormat("hh:mma");
     }
@@ -223,6 +222,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
+        getAllCategories();
         return view;
     }
 
@@ -303,8 +303,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     }
 
     private void getAllCategories() {
-        allCategories.clear();
-        allCategories1.clear();
         if (CommonClass.hasInternetConnection(getActivity())) {
             String url = Constants.SERVER_URL + "json.php?action=GetCategoriesByLanId";
             String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\"}]";
@@ -316,6 +314,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
     }
 
     public void getAllCategoriesResponse(String resultString) {
+        allCategories.clear();
+        allCategories1.clear();
+        homePageDataCall();
             try {
                 JSONArray jsonArray = new JSONArray(resultString);
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -341,7 +342,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Upda
         gv_explorer.setAdapter(null);
         gv_explorer.setAdapter(explorerAdapter);
         gv_explorer.setExpanded(true);
-        homePageDataCall();
     }
 
     private void setCreateView(boolean isCategoryView) {
