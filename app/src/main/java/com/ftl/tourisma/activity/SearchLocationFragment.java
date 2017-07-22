@@ -144,8 +144,7 @@ public class SearchLocationFragment extends Fragment implements post_sync.Respon
             }
         });
 
-        search_recycler_view.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+        search_recycler_view.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         mEditor.putString(Preference.Pref_City, SearchLocationAdapter.locationSearches.get(position).getCityName()).commit();

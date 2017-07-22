@@ -762,7 +762,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                 super(view);
                 nearby_img = (ImageView) view.findViewById(R.id.nearby_img);
                 imgFav = (ImageView) view.findViewById(R.id.imgFav);
-                category_txt = (NormalTextView) view.findViewById(R.id.category_txt);
+                category_txt = (NormalTextView) view.findViewById(R.id.nearby_category_txt);
                 place_txt = (NormalTextView) view.findViewById(R.id.place_txt);
                 timing_txt = (NormalTextView) view.findViewById(R.id.timing_txt);
                 ticket_txt = (NormalTextView) view.findViewById(R.id.ticket_txt);
