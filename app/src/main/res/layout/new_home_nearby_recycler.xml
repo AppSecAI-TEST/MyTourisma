@@ -6,9 +6,11 @@
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     android:layout_marginTop="5dp"
+    android:paddingBottom="15dp"
     card_view:cardCornerRadius="4dp">
 
     <RelativeLayout
+        android:id="@+id/relative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -167,6 +169,12 @@
             </LinearLayout>
 
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_below="@+id/rlBottomView"
+            android:background="@color/white" />
 
     </RelativeLayout>
 

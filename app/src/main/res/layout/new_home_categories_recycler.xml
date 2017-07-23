@@ -2,60 +2,59 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="75dp"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     android:layout_marginTop="5dp"
     card_view:cardCornerRadius="4dp">
 
     <RelativeLayout
-        android:id="@+id/rlBottomView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <View
-            android:id="@+id/opacityFilter"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.5"
-            android:background="@android:color/black" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/category_img"
+        <RelativeLayout
+            android:id="@+id/rl_categories"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY" />
+            android:layout_height="75dp">
 
-        <com.ftl.tourisma.custom_views.NormalTextView
-            android:id="@+id/category_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/place_count_txt"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="@dimen/m10dp"
-            android:text="Out Door"
-            android:textColor="@color/mWhite"
-            android:textSize="@dimen/TEXT_NORMAL"
-            android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/category_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY" />
 
-        <com.ftl.tourisma.custom_views.NormalTextView
-            android:id="@+id/place_count_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="@dimen/m10dp"
-            android:layout_marginLeft="@dimen/m10dp"
-            android:text="30 places"
-            android:textColor="@color/mWhite"
-            android:textSize="@dimen/TEXT_EXTRA_SMALL" />
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/category_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/place_count_txt"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="@dimen/m10dp"
+                android:text="Out Door"
+                android:textColor="@color/mWhite"
+                android:textSize="@dimen/TEXT_NORMAL"
+                android:textStyle="bold" />
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/place_count_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="@dimen/m10dp"
+                android:layout_marginLeft="@dimen/m10dp"
+                android:text="30 places"
+                android:textColor="@color/mWhite"
+                android:textSize="@dimen/TEXT_EXTRA_SMALL" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_below="@+id/rl_categories"
+            android:background="@color/white" />
 
     </RelativeLayout>
 

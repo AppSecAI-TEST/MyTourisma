@@ -71,29 +71,29 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
     private static final String TAG = "HomeFragment";
     private static int mFrame = 0;
     private static int mCounter = -1;
-    RelativeLayout rl_home, rl_recommended;
-    ScrollView sv_explorer_location;
-    NormalTextView txtShowMoreLess, txtMessage, txtSuggest, txtOk, tv_city, tv_your_location_header3, tv_recommended, main_description, description, explore_txt, nearby_txt;
-    LinearLayout ll_change_city, llEmptyLayout;
-    ImageView iv_search_header3, imgFav;
-    SliderLayout slider;
-    PagerIndicator custom_indicator;
-    RecyclerView categories_rv, nearby_rv;
-    int id;
     int mFlag = 0;
-    int like;
-    String mGroupId, mPlaceId, mFav, Category_Id;
-    Nearby recommended;
-    Nearby nearby;
-    ArrayList<Nearby> recommendeds = new ArrayList<>();
-    ArrayList<AllCategories> allCategories = new ArrayList<>();
-    ArrayList<AllCategories> moreCategories = new ArrayList<>();
-    ArrayList<Nearby> nearbies = new ArrayList<>();
-    ArrayList<Nearby> nearbies_category = new ArrayList<>();
-    CategoriesAdapter categoriesAdapter;
-    HomePageAdapter adapter;
-    View view;
     MainActivity mainActivity;
+    private RelativeLayout rl_home, rl_recommended;
+    private ScrollView sv_explorer_location;
+    private NormalTextView txtShowMoreLess, txtMessage, txtSuggest, txtOk, tv_city, tv_your_location_header3, tv_recommended, main_description, description, explore_txt, nearby_txt;
+    private LinearLayout ll_change_city, llEmptyLayout;
+    private ImageView iv_search_header3, imgFav;
+    private SliderLayout slider;
+    private PagerIndicator custom_indicator;
+    private RecyclerView categories_rv, nearby_rv;
+    private int id;
+    private int like;
+    private String mGroupId, mPlaceId, mFav, Category_Id;
+    private Nearby recommended;
+    private Nearby nearby;
+    private ArrayList<Nearby> recommendeds = new ArrayList<>();
+    private ArrayList<AllCategories> allCategories = new ArrayList<>();
+    private ArrayList<AllCategories> moreCategories = new ArrayList<>();
+    private ArrayList<Nearby> nearbies = new ArrayList<>();
+    private ArrayList<Nearby> nearbies_category = new ArrayList<>();
+    private CategoriesAdapter categoriesAdapter;
+    private HomePageAdapter adapter;
+    private View view;
 
     @Override
     public void onAttach(Activity activity) {
@@ -113,9 +113,9 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         org.solovyev.android.views.llm.LinearLayoutManager linearLayoutManager_categories = new org.solovyev.android.views.llm.LinearLayoutManager(getActivity());
         categories_rv.setLayoutManager(linearLayoutManager_categories);
 
-        //setting layoutmanger for nearby places
-        org.solovyev.android.views.llm.LinearLayoutManager linearLayoutManager_nearby = new org.solovyev.android.views.llm.LinearLayoutManager(getActivity());
-        nearby_rv.setLayoutManager(linearLayoutManager_nearby);
+//        //setting layoutmanger for nearby places
+//        org.solovyev.android.views.llm.LinearLayoutManager linearLayoutManager_nearby = new org.solovyev.android.views.llm.LinearLayoutManager(getActivity());
+//        nearby_rv.setLayoutManager(linearLayoutManager_nearby);
 
         return view;
     }
@@ -132,8 +132,8 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         imgFav = (ImageView) view.findViewById(R.id.imgFav);
         slider = (SliderLayout) view.findViewById(R.id.slider);
         custom_indicator = (PagerIndicator) view.findViewById(R.id.custom_indicator);
-        categories_rv = (RecyclerView) view.findViewById(R.id.categories_rv);
-        nearby_rv = (RecyclerView) view.findViewById(R.id.nearby_rv);
+//        categories_rv = (RecyclerView) view.findViewById(R.id.categories_rv);
+//        nearby_rv = (RecyclerView) view.findViewById(R.id.nearby_rv);
 
         tv_recommended = (NormalTextView) view.findViewById(R.id.tv_recommended);
         tv_recommended.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "recommended"));
@@ -277,8 +277,9 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                 categoriesAdapter = new CategoriesAdapter(getActivity(), allCategories);
                 categories_rv.setAdapter(categoriesAdapter);
 
-                adapter = new HomePageAdapter(getActivity(), nearbies);
-                nearby_rv.setAdapter(adapter);
+                System.out.println("nearby_response_123");
+//                adapter = new HomePageAdapter(getActivity(), nearbies);
+//                nearby_rv.setAdapter(adapter);
             }
         });
     }
@@ -344,8 +345,8 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                 nearbies.add(nearby);
             }
             //Setting nearby Adapter
-            adapter = new HomePageAdapter(getActivity(), nearbies);
-            nearby_rv.setAdapter(adapter);
+//            adapter = new HomePageAdapter(getActivity(), nearbies);
+//            nearby_rv.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }

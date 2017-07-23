@@ -190,16 +190,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/categories_rv"
+                        <com.ftl.tourisma.utils.ExpandableHeightGridView
+                            android:id="@+id/gv_explorer"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:background="@color/mTrans2"
+                            android:gravity="center" />
+
 
                         <com.ftl.tourisma.custom_views.NormalTextView
                             android:id="@+id/txtShowMoreLess"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/categories_rv"
+                            android:layout_below="@+id/gv_explorer"
                             android:background="@color/mTrans2"
                             android:gravity="center"
                             android:padding="@dimen/m20dp"
@@ -234,7 +239,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/TEXT_MEDIUM" />
 
-                <ScrollView
+                <!--<ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/nearby_txt"
@@ -252,6 +257,16 @@
                     </RelativeLayout>
 
                 </ScrollView>
+-->
+                <LinearLayout
+                    android:id="@+id/ll_nearby_explorer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nearby_txt"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:orientation="vertical" />
+
 
             </RelativeLayout>
 

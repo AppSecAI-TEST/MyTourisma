@@ -3,13 +3,13 @@ package com.ftl.tourisma.utils;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
-import android.widget.GridView;
+import android.widget.ListView;
 
 /**
  *
  *
  */
-public class ExpandableHeightGridView extends GridView {
+public class ExpandableHeightGridView extends ListView {
 
     boolean expanded = false;
 
