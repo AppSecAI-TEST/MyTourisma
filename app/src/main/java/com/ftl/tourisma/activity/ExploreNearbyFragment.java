@@ -70,7 +70,7 @@ public class ExploreNearbyFragment extends Fragment implements View.OnClickListe
     }
 
     public void replaceFragment() {
-        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, new NewHomeFragment()).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, new NewHomePage()).commit();
     }
 
     public void replacePlaceDetailsFragment(String placeId, String location, String groupId) {

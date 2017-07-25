@@ -113,9 +113,9 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         org.solovyev.android.views.llm.LinearLayoutManager linearLayoutManager_categories = new org.solovyev.android.views.llm.LinearLayoutManager(getActivity());
         categories_rv.setLayoutManager(linearLayoutManager_categories);
 
-//        //setting layoutmanger for nearby places
-//        org.solovyev.android.views.llm.LinearLayoutManager linearLayoutManager_nearby = new org.solovyev.android.views.llm.LinearLayoutManager(getActivity());
-//        nearby_rv.setLayoutManager(linearLayoutManager_nearby);
+        //setting layoutmanger for nearby places
+        org.solovyev.android.views.llm.LinearLayoutManager linearLayoutManager_nearby = new org.solovyev.android.views.llm.LinearLayoutManager(getActivity());
+        nearby_rv.setLayoutManager(linearLayoutManager_nearby);
 
         return view;
     }
@@ -132,8 +132,8 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         imgFav = (ImageView) view.findViewById(R.id.imgFav);
         slider = (SliderLayout) view.findViewById(R.id.slider);
         custom_indicator = (PagerIndicator) view.findViewById(R.id.custom_indicator);
-//        categories_rv = (RecyclerView) view.findViewById(R.id.categories_rv);
-//        nearby_rv = (RecyclerView) view.findViewById(R.id.nearby_rv);
+        categories_rv = (RecyclerView) view.findViewById(R.id.categories_rv);
+        nearby_rv = (RecyclerView) view.findViewById(R.id.nearby_rv);
 
         tv_recommended = (NormalTextView) view.findViewById(R.id.tv_recommended);
         tv_recommended.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "recommended"));
@@ -278,8 +278,8 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                 categories_rv.setAdapter(categoriesAdapter);
 
                 System.out.println("nearby_response_123");
-//                adapter = new HomePageAdapter(getActivity(), nearbies);
-//                nearby_rv.setAdapter(adapter);
+                adapter = new HomePageAdapter(getActivity(), nearbies);
+                nearby_rv.setAdapter(adapter);
             }
         });
     }
