@@ -207,7 +207,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                     categories_rv.setAdapter(categoriesAdapter);
                     categoriesAdapter.notifyDataSetChanged();
                     imgShowMoreLess.setBackgroundResource(R.drawable.show_more);
-                    sv_explorer_location.scrollTo(0, 5);
+                    sv_explorer_location.scrollTo(5, 5);
 
                 }
             }
@@ -226,7 +226,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                     categories_rv.setAdapter(categoriesAdapter);
                     categoriesAdapter.notifyDataSetChanged();
                     imgShowMoreLess.setBackgroundResource(R.drawable.show_more);
-                    sv_explorer_location.scrollTo(0, 5);
+                    sv_explorer_location.scrollTo(5, 5);
 
                 }
             }
@@ -276,32 +276,36 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                 moreCategories.clear();
                 nearbies.clear();
 
-                try {
-                    //Adding recommnded to array list
-                    JSONObject jsonObject = new JSONObject(resultString);
-                    JSONArray recommnded_jsonArray = jsonObject.getJSONArray("recommnded");
-                    for (int i = 0; i < recommnded_jsonArray.length(); i++) {
-                        recommended = jonObjConverter.convertJsonToNearByObj(recommnded_jsonArray.getJSONObject(i));
-                        recommendeds.add(recommended);
-                    }
+                Log.d("Explore", "result string get all categories " + resultString);
 
-                    //Adding categories to array list
-                    JSONArray categories_jsonArray = jsonObject.getJSONArray("category");
-                    for (int i = 0; i < categories_jsonArray.length(); i++) {
-                        if (moreCategories.size() <= 3) {
-                            allCategories.add(gson.fromJson(categories_jsonArray.get(i).toString(), AllCategories.class));
+                if (resultString.length() > 2) {
+                    try {
+                        //Adding recommnded to array list
+                        JSONObject jsonObject = new JSONObject(resultString);
+                        JSONArray recommnded_jsonArray = jsonObject.getJSONArray("recommnded");
+                        for (int i = 0; i < recommnded_jsonArray.length(); i++) {
+                            recommended = jonObjConverter.convertJsonToNearByObj(recommnded_jsonArray.getJSONObject(i));
+                            recommendeds.add(recommended);
                         }
-                        moreCategories.add(gson.fromJson(categories_jsonArray.get(i).toString(), AllCategories.class));
-                    }
 
-                    //Adding nearby to array list
-                    JSONArray nearby_jsonArray = jsonObject.getJSONArray("nearby");
-                    for (int i = 0; i < nearby_jsonArray.length(); i++) {
-                        nearby = jonObjConverter.convertJsonToNearByObj(nearby_jsonArray.getJSONObject(i));
-                        nearbies.add(nearby);
+                        //Adding categories to array list
+                        JSONArray categories_jsonArray = jsonObject.getJSONArray("category");
+                        for (int i = 0; i < categories_jsonArray.length(); i++) {
+                            if (moreCategories.size() <= 3) {
+                                allCategories.add(gson.fromJson(categories_jsonArray.get(i).toString(), AllCategories.class));
+                            }
+                            moreCategories.add(gson.fromJson(categories_jsonArray.get(i).toString(), AllCategories.class));
+                        }
+
+                        //Adding nearby to array list
+                        JSONArray nearby_jsonArray = jsonObject.getJSONArray("nearby");
+                        for (int i = 0; i < nearby_jsonArray.length(); i++) {
+                            nearby = jonObjConverter.convertJsonToNearByObj(nearby_jsonArray.getJSONObject(i));
+                            nearbies.add(nearby);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
 
                 //Setting slider
@@ -831,7 +835,13 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         public void onBindViewHolder(final CategoriesAdapter.CategoryViewHolder CategoryViewHolder, final int position) {
 
             CategoryViewHolder.category_name.setText(allCategories.get(position).getCategory_Name());
-            CategoryViewHolder.place_count_txt.setText(allCategories.get(position).getCategory_Places());
+
+            if (allCategories.get(position).getCategory_Places().equals("0") || allCategories.get(position).getCategory_Places().equals("1")) {
+                CategoryViewHolder.place_count_txt.setText(allCategories.get(position).getCategory_Places() + " " + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "place"));
+            } else {
+                CategoryViewHolder.place_count_txt.setText(allCategories.get(position).getCategory_Places() + " " + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "places"));
+            }
+
             Picasso.with(activity)
                     .load(allCategories.get(position).getCategory_Image())
                     .into(CategoryViewHolder.category_img);
@@ -889,7 +899,13 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         public void onBindViewHolder(final CategoriesAdapter1.CategoryViewHolder CategoryViewHolder, final int position) {
 
             CategoryViewHolder.category_name.setText(moreCategories.get(position).getCategory_Name());
-            CategoryViewHolder.place_count_txt.setText(moreCategories.get(position).getCategory_Places());
+
+            if (moreCategories.get(position).getCategory_Places().equals("0") || moreCategories.get(position).getCategory_Places().equals("1")) {
+                CategoryViewHolder.place_count_txt.setText(moreCategories.get(position).getCategory_Places() + " " + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "place"));
+            } else {
+                CategoryViewHolder.place_count_txt.setText(moreCategories.get(position).getCategory_Places() + " " + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "places"));
+            }
+
             Picasso.with(activity)
                     .load(moreCategories.get(position).getCategory_Image())
                     .into(CategoryViewHolder.category_img);

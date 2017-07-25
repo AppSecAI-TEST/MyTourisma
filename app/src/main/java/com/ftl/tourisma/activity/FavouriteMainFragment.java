@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +84,13 @@ public class FavouriteMainFragment extends Fragment implements View.OnClickListe
     }
 
     public void replaceLocationFragment() {
-        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram_fav, new SelectLocationFragment()).addToBackStack(SelectLocationFragment.class.getSimpleName()).commit();
+//        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram_fav, new NewSelectLocationFragment()).addToBackStack(NewSelectLocationFragment.class.getSimpleName()).commit();
+        Fragment fragment = new NewSelectLocationFragment();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fram_fav, fragment);
+        fragmentTransaction.addToBackStack(NewSelectLocationFragment.class.getSimpleName());
+        fragmentTransaction.commit();
     }
 
     public void replaceSearchResultFragment(ArrayList<Nearby> nearbies1, String search) {
