@@ -195,27 +195,21 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
-                        <!-- <com.ftl.tourisma.utils.ExpandableHeightGridView
-                             android:id="@+id/gv_explorer"
-                             android:layout_width="match_parent"
-                             android:layout_height="wrap_content"
-                             android:layout_marginLeft="8dp"
-                             android:layout_marginRight="8dp"
-                             android:background="@color/mTrans2"
-                             android:gravity="center" />
+                        <RelativeLayout
+                            android:id="@+id/rv_ShowMoreLess"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/categories_rv">
 
- -->
-                         <com.ftl.tourisma.custom_views.NormalTextView
-                             android:id="@+id/txtShowMoreLess"
-                             android:layout_width="match_parent"
-                             android:layout_height="wrap_content"
-                             android:layout_below="@+id/categories_rv"
-                             android:background="@color/mTrans2"
-                             android:gravity="center"
-                             android:padding="@dimen/m20dp"
-                             android:text=""
-                             android:textColor="@color/mWhite"
-                             android:textSize="@dimen/TEXT_SMALL" />
+                            <ImageView
+                                android:id="@+id/imgShowMoreLess"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/show_more" />
+
+                        </RelativeLayout>
 
                     </RelativeLayout>
 
@@ -262,15 +256,6 @@
                     </RelativeLayout>
 
                 </ScrollView>
-                <!--     <LinearLayout
-                         android:id="@+id/ll_nearby_explorer"
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content"
-                         android:layout_below="@+id/nearby_txt"
-                         android:layout_marginLeft="8dp"
-                         android:layout_marginRight="8dp"
-                         android:orientation="vertical" />-->
-
 
             </RelativeLayout>
 

@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -30,7 +31,6 @@ import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.estimote.sdk.repackaged.gson_v2_3_1.com.google.gson.Gson;
 import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
-import com.ftl.tourisma.adapters.CategoriesAdapter;
 import com.ftl.tourisma.custom_views.NormalTextView;
 import com.ftl.tourisma.database.AllCategories;
 import com.ftl.tourisma.database.Nearby;
@@ -40,7 +40,6 @@ import com.ftl.tourisma.utils.CommonClass;
 import com.ftl.tourisma.utils.Constants;
 import com.ftl.tourisma.utils.JSONObjConverter;
 import com.ftl.tourisma.utils.Preference;
-import com.ftl.tourisma.utils.RecyclerItemClickListener;
 import com.ftl.tourisma.utils.Utilities;
 import com.ftl.tourisma.utils.Utils;
 import com.nispok.snackbar.Snackbar;
@@ -73,11 +72,12 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
     private static int mCounter = -1;
     int mFlag = 0;
     MainActivity mainActivity;
-    private RelativeLayout rl_home, rl_recommended;
+    boolean isShowLess;
+    private RelativeLayout rl_home, rl_recommended, rv_ShowMoreLess;
     private ScrollView sv_explorer_location;
-    private NormalTextView txtShowMoreLess, txtMessage, txtSuggest, txtOk, tv_city, tv_your_location_header3, tv_recommended, main_description, description, explore_txt, nearby_txt;
+    private NormalTextView txtMessage, txtSuggest, txtOk, tv_city, tv_your_location_header3, tv_recommended, main_description, description, explore_txt, nearby_txt;
     private LinearLayout ll_change_city, llEmptyLayout;
-    private ImageView iv_search_header3, imgFav;
+    private ImageView iv_search_header3, imgFav, imgShowMoreLess;
     private SliderLayout slider;
     private PagerIndicator custom_indicator;
     private RecyclerView categories_rv, nearby_rv;
@@ -92,6 +92,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
     private ArrayList<Nearby> nearbies = new ArrayList<>();
     private ArrayList<Nearby> nearbies_category = new ArrayList<>();
     private CategoriesAdapter categoriesAdapter;
+    private CategoriesAdapter1 categoriesAdapter1;
     private HomePageAdapter adapter;
     private View view;
 
@@ -110,11 +111,11 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         onClickListners();
 
         //setting layoutmanager for categories
-        org.solovyev.android.views.llm.LinearLayoutManager linearLayoutManager_categories = new org.solovyev.android.views.llm.LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager_categories = new LinearLayoutManager(getActivity());
         categories_rv.setLayoutManager(linearLayoutManager_categories);
 
         //setting layoutmanger for nearby places
-        org.solovyev.android.views.llm.LinearLayoutManager linearLayoutManager_nearby = new org.solovyev.android.views.llm.LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager_nearby = new LinearLayoutManager(getActivity());
         nearby_rv.setLayoutManager(linearLayoutManager_nearby);
 
         return view;
@@ -124,6 +125,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         sv_explorer_location = (ScrollView) view.findViewById(R.id.sv_explorer_location);
         rl_home = (RelativeLayout) view.findViewById(R.id.rl_home);
         rl_recommended = (RelativeLayout) view.findViewById(R.id.rl_recommended);
+        rv_ShowMoreLess = (RelativeLayout) view.findViewById(R.id.rv_ShowMoreLess);
         main_description = (NormalTextView) view.findViewById(R.id.main_description);
         description = (NormalTextView) view.findViewById(R.id.description);
         ll_change_city = (LinearLayout) view.findViewById(R.id.ll_change_city);
@@ -147,8 +149,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         tv_your_location_header3 = (NormalTextView) view.findViewById(R.id.tv_your_location_header3);
         tv_your_location_header3.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "locationtitle"));
 
-        txtShowMoreLess = (NormalTextView) view.findViewById(R.id.txtShowMoreLess);
-        txtShowMoreLess.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "More"));
+        imgShowMoreLess = (ImageView) view.findViewById(R.id.imgShowMoreLess);
 
         tv_city = (NormalTextView) view.findViewById(R.id.tv_city);
         tv_city.setText(mainActivity.getPreferences().getString(Preference.Pref_City, ""));
@@ -164,15 +165,6 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
     }
 
     public void onClickListners() {
-
-        categories_rv.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Category_Id = allCategories.get(position).getCategory_Id();
-                        downloadPlaceByCategory();
-                    }
-                })
-        );
 
         iv_search_header3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,6 +191,44 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
             @Override
             public void onClick(View v) {
                 mainActivity.exploreNearbyFragment.replaceLocationFragment();
+            }
+        });
+
+        imgShowMoreLess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isShowLess) {
+                    categoriesAdapter1 = new CategoriesAdapter1(getActivity(), moreCategories);
+                    categories_rv.setAdapter(categoriesAdapter1);
+                    categoriesAdapter1.notifyDataSetChanged();
+                    imgShowMoreLess.setBackgroundResource(R.drawable.show_less);
+                } else {
+                    categoriesAdapter = new CategoriesAdapter(getActivity(), allCategories);
+                    categories_rv.setAdapter(categoriesAdapter);
+                    categoriesAdapter.notifyDataSetChanged();
+                    imgShowMoreLess.setBackgroundResource(R.drawable.show_more);
+                    sv_explorer_location.scrollTo(0, 5);
+
+                }
+            }
+        });
+
+        rv_ShowMoreLess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isShowLess) {
+                    categoriesAdapter1 = new CategoriesAdapter1(getActivity(), moreCategories);
+                    categories_rv.setAdapter(categoriesAdapter1);
+                    categoriesAdapter1.notifyDataSetChanged();
+                    imgShowMoreLess.setBackgroundResource(R.drawable.show_less);
+                } else {
+                    categoriesAdapter = new CategoriesAdapter(getActivity(), allCategories);
+                    categories_rv.setAdapter(categoriesAdapter);
+                    categoriesAdapter.notifyDataSetChanged();
+                    imgShowMoreLess.setBackgroundResource(R.drawable.show_more);
+                    sv_explorer_location.scrollTo(0, 5);
+
+                }
             }
         });
     }
@@ -243,27 +273,31 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                 Gson gson = new Gson();
                 recommendeds.clear();
                 allCategories.clear();
+                moreCategories.clear();
                 nearbies.clear();
 
                 try {
                     //Adding recommnded to array list
                     JSONObject jsonObject = new JSONObject(resultString);
-                    JSONArray recommnded_jsonArray = jsonObject.optJSONArray("recommnded");
+                    JSONArray recommnded_jsonArray = jsonObject.getJSONArray("recommnded");
                     for (int i = 0; i < recommnded_jsonArray.length(); i++) {
-                        recommended = jonObjConverter.convertJsonToNearByObj(recommnded_jsonArray.optJSONObject(i));
+                        recommended = jonObjConverter.convertJsonToNearByObj(recommnded_jsonArray.getJSONObject(i));
                         recommendeds.add(recommended);
                     }
 
                     //Adding categories to array list
                     JSONArray categories_jsonArray = jsonObject.getJSONArray("category");
                     for (int i = 0; i < categories_jsonArray.length(); i++) {
-                        allCategories.add(gson.fromJson(categories_jsonArray.get(i).toString(), AllCategories.class));
+                        if (moreCategories.size() <= 3) {
+                            allCategories.add(gson.fromJson(categories_jsonArray.get(i).toString(), AllCategories.class));
+                        }
+                        moreCategories.add(gson.fromJson(categories_jsonArray.get(i).toString(), AllCategories.class));
                     }
 
                     //Adding nearby to array list
-                    JSONArray nearby_jsonArray = jsonObject.optJSONArray("nearby");
+                    JSONArray nearby_jsonArray = jsonObject.getJSONArray("nearby");
                     for (int i = 0; i < nearby_jsonArray.length(); i++) {
-                        nearby = jonObjConverter.convertJsonToNearByObj(nearby_jsonArray.optJSONObject(i));
+                        nearby = jonObjConverter.convertJsonToNearByObj(nearby_jsonArray.getJSONObject(i));
                         nearbies.add(nearby);
                     }
                 } catch (JSONException e) {
@@ -535,7 +569,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
     private void downloadPlaceByCategory() {
         if (CommonClass.hasInternetConnection(getActivity())) {
             String url = Constants.SERVER_URL + "json.php?action=PlaceByCategory";
-            String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"Category_Id\":\"" + Category_Id + "\",\"City_Name\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\"}]";
+            String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"Category_Id\":\"" + Category_Id + "\",\"keyword\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\"}]";
             new post_sync(getActivity(), "PlaceByCategory", NewHomePage.this, true).execute(url, json);
         } else {
             Intent intent = new Intent(getActivity(), NoInternet.class);
@@ -622,6 +656,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
+            System.out.println("nearby123 " + nearbies.get(position).getCategory_Name());
             String imageURL = Constants.IMAGE_URL + nearbies.get(position).getPlace_MainImage() + "&w=" + (width);
             Picasso.with(activity)
                     .load(imageURL)
@@ -770,6 +805,121 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                 dist_txt = (NormalTextView) view.findViewById(R.id.dist_txt);
                 rl_main_img = (RelativeLayout) view.findViewById(R.id.rl_main_img);
                 rlBottomView = (RelativeLayout) view.findViewById(R.id.rlBottomView);
+            }
+        }
+    }
+
+    //Setting categories adapter for alf arraylist
+    class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder> {
+
+        ArrayList<AllCategories> allCategories = new ArrayList<>();
+        Activity activity;
+
+        public CategoriesAdapter(Activity activity, ArrayList<AllCategories> allCategories) {
+            this.allCategories = allCategories;
+            this.activity = activity;
+        }
+
+        @Override
+        public CategoriesAdapter.CategoryViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+            isShowLess = true;
+            View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.new_home_categories_recycler, viewGroup, false);
+            return new CategoriesAdapter.CategoryViewHolder(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(final CategoriesAdapter.CategoryViewHolder CategoryViewHolder, final int position) {
+
+            CategoryViewHolder.category_name.setText(allCategories.get(position).getCategory_Name());
+            CategoryViewHolder.place_count_txt.setText(allCategories.get(position).getCategory_Places());
+            Picasso.with(activity)
+                    .load(allCategories.get(position).getCategory_Image())
+                    .into(CategoryViewHolder.category_img);
+
+            CategoryViewHolder.rl_categories.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Category_Id = allCategories.get(position).getCategory_Id();
+                    downloadPlaceByCategory();
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return allCategories.size();
+        }
+
+        public class CategoryViewHolder extends RecyclerView.ViewHolder {
+
+            NormalTextView category_name, place_count_txt;
+            ImageView category_img;
+            RelativeLayout rl_categories;
+
+            public CategoryViewHolder(View v) {
+                super(v);
+                category_name = (NormalTextView) v.findViewById(R.id.category_name);
+                place_count_txt = (NormalTextView) v.findViewById(R.id.place_count_txt);
+                category_img = (ImageView) v.findViewById(R.id.category_img);
+                rl_categories = (RelativeLayout) v.findViewById(R.id.rl_categories);
+            }
+        }
+    }
+
+
+    //Setting categories adapter for full arraylist
+    class CategoriesAdapter1 extends RecyclerView.Adapter<CategoriesAdapter1.CategoryViewHolder> {
+
+        ArrayList<AllCategories> moreCategories = new ArrayList<>();
+        Activity activity;
+
+        public CategoriesAdapter1(Activity activity, ArrayList<AllCategories> moreCategories) {
+            this.moreCategories = moreCategories;
+            this.activity = activity;
+        }
+
+        @Override
+        public CategoriesAdapter1.CategoryViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+            isShowLess = false;
+            View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.new_home_categories_recycler, viewGroup, false);
+            return new CategoriesAdapter1.CategoryViewHolder(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(final CategoriesAdapter1.CategoryViewHolder CategoryViewHolder, final int position) {
+
+            CategoryViewHolder.category_name.setText(moreCategories.get(position).getCategory_Name());
+            CategoryViewHolder.place_count_txt.setText(moreCategories.get(position).getCategory_Places());
+            Picasso.with(activity)
+                    .load(moreCategories.get(position).getCategory_Image())
+                    .into(CategoryViewHolder.category_img);
+
+            CategoryViewHolder.rl_categories.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Category_Id = moreCategories.get(position).getCategory_Id();
+                    downloadPlaceByCategory();
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return moreCategories.size();
+        }
+
+        public class CategoryViewHolder extends RecyclerView.ViewHolder {
+
+            NormalTextView category_name, place_count_txt;
+            ImageView category_img;
+            RelativeLayout rl_categories;
+
+            public CategoryViewHolder(View v) {
+                super(v);
+                category_name = (NormalTextView) v.findViewById(R.id.category_name);
+                place_count_txt = (NormalTextView) v.findViewById(R.id.place_count_txt);
+                category_img = (ImageView) v.findViewById(R.id.category_img);
+                rl_categories = (RelativeLayout) v.findViewById(R.id.rl_categories);
             }
         }
     }

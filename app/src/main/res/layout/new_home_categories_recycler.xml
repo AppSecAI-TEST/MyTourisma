@@ -15,7 +15,7 @@
         <RelativeLayout
             android:id="@+id/rl_categories"
             android:layout_width="match_parent"
-            android:layout_height="75dp">
+            android:layout_height="85dp">
 
             <ImageView
                 android:id="@+id/category_img"
@@ -49,12 +49,6 @@
                 android:textSize="@dimen/TEXT_EXTRA_SMALL" />
 
         </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_below="@+id/rl_categories"
-            android:background="@color/white" />
 
     </RelativeLayout>
 
