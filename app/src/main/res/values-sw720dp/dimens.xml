@@ -35,4 +35,12 @@
     <dimen name="img_ht">380dp</dimen>
     <dimen name="bg_img_ht">70dp</dimen>
 
+    <!--home page dimens-->
+    <dimen name="category_img_ht">200dp</dimen>
+    <dimen name="nearby_rlBottomView">120dp</dimen>
+    <dimen name="nearby_timing_img">25dp</dimen>
+    <dimen name="nearby_ticket_img">25dp</dimen>
+    <dimen name="nearby_location_img">25dp</dimen>
+
+
 </resources>

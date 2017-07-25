@@ -15,7 +15,7 @@
         <RelativeLayout
             android:id="@+id/rl_categories"
             android:layout_width="match_parent"
-            android:layout_height="85dp">
+            android:layout_height="@dimen/category_img_ht">
 
             <ImageView
                 android:id="@+id/category_img"
