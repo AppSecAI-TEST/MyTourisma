@@ -55,7 +55,6 @@ import com.ftl.tourisma.postsync.post_sync;
 import com.ftl.tourisma.utils.CommonClass;
 import com.ftl.tourisma.utils.Constants;
 import com.ftl.tourisma.utils.CustomTypefaceSpan;
-import com.ftl.tourisma.utils.GPSTracker;
 import com.ftl.tourisma.utils.JSONObjConverter;
 import com.ftl.tourisma.utils.Preference;
 import com.ftl.tourisma.utils.TimingFunction;
@@ -840,14 +839,151 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             LayoutInflater inflater = activity.getLayoutInflater();
-            View view = inflater.inflate(R.layout.search_result_adapter, viewGroup, false);
+            View view = inflater.inflate(R.layout.new_nearby_recycler_fav, viewGroup, false);
             viewHolder = new ViewHolder(view);
             return viewHolder;
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-            viewHolder.txtShare.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Share"));
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
+
+            String imageURL = Constants.IMAGE_URL + nearbies.get(position).getPlace_MainImage() + "&w=" + (width);
+            Picasso.with(activity)
+                    .load(imageURL)
+                    .resize(width, (height * 60) / 100)
+                    .into(holder.nearby_img);
+            holder.category_txt.setText(nearbies.get(position).getCategory_Name());
+            holder.place_txt.setText(nearbies.get(position).getPlace_Name());
+            if (nearbies.get(position).getFree_entry().equals("0")) {
+                holder.ticket_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Check Details"));
+                holder.ticket_txt.setSelected(true);
+                holder.ticket_txt.requestFocus();
+            } else if (nearbies.get(position).getFree_entry().equals("1")) {
+                holder.ticket_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Free Entry"));
+                holder.ticket_txt.setSelected(true);
+                holder.ticket_txt.requestFocus();
+            }
+            holder.dist_txt.setText(nearbies.get(position).getDist());
+
+            if (nearbies.get(position).getFav_Id().equalsIgnoreCase("0")) {
+                holder.imgFav.setActivated(false);
+            } else {
+                holder.imgFav.setActivated(true);
+            }
+
+            if (nearbies.get(position).getFav_Id().equalsIgnoreCase("0")) {
+                holder.imgFav.setActivated(false);
+            } else {
+                holder.imgFav.setActivated(true);
+            }
+
+            holder.imgFav.setId(position);
+            holder.imgFav.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mPreferences.getString("User_Id", "").equalsIgnoreCase("0")) {
+                        mainActivity.showGuestSnackToast();
+                    } else {
+                        for (int j = 0; j < nearbies.size(); j++) {
+                            if (v.getId() == j) {
+                                if (nearbies.get(j).getFav_Id().equalsIgnoreCase("0")) {
+                                    holder.imgFav.setActivated(true);
+                                    addFavoriteCall(nearbies.get(j).getPlace_Id(), nearbies.get(j).getGroup_Id());
+                                    mFlag = j;
+                                } else {
+                                    holder.imgFav.setActivated(false);
+                                    deleteFavoriteCall(nearbies.get(j).getFav_Id(), nearbies.get(j).getGroup_Id());
+                                    mFlag = j;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            int dayFoundStatus = 0; //0 -> closed - 2-> open for 24 hours  1-> updated
+            boolean isTicketSet = false;
+            if (nearbies.get(position).getHourDetailsArrayList() != null && nearbies.get(position).getHourDetailsArrayList().size() > 0) {
+                for (HourDetails hourDetails : nearbies.get(position).getHourDetailsArrayList()) {
+                    if (hourDetails.getPOHKey().equals(Utils.getCurrentDay())) {
+                        if (hourDetails.getPOHIsOpen().equals(PlaceClosed)) {
+                            dayFoundStatus = 0;
+                        } else if (hourDetails.getPOHIsOpen().equals(PlaceOpenFor24Hours)) {
+                            dayFoundStatus = 2;
+                        } else if (hourDetails.getPOHIsOpen().equals(PlaceOpenWithAnyTime)) {
+                            _24HourTime = hourDetails.getPOHStartTime();
+                            _24HourTime1 = hourDetails.getPOHEndTime();
+                            _24HourDt = null;
+                            _24HourDt1 = null;
+                            if (_24HourTime != null && !_24HourTime.equalsIgnoreCase("NULL")) {
+                                try {
+                                    _24HourDt = _24HourSDF.parse(_24HourTime);
+                                } catch (ParseException e) {
+                                    // Tracking exception
+                                    MyTorismaApplication.getInstance().trackException(e);
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (_24HourTime1 != null && !_24HourTime1.equalsIgnoreCase("NULL")) {
+                                try {
+                                    _24HourDt1 = _24HourSDF.parse(_24HourTime1);
+                                } catch (ParseException e) {
+                                    // Tracking exception
+                                    MyTorismaApplication.getInstance().trackException(e);
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (_24HourDt != null && _24HourDt1 != null) {
+                                holder.timing_txt.setText(_24HourSDF.format(_24HourDt) + " " + Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "TO") + " " + _24HourSDF.format(_24HourDt1));
+                            } else {
+                                holder.timing_txt.setText("");
+                                dayFoundStatus = 3;
+                            }
+                        }
+                        if (hourDetails.getPOHCharges() != null && !hourDetails.getPOHCharges().equals("") && !hourDetails.getPOHCharges().equalsIgnoreCase("null")) {
+                            isTicketSet = true;
+                        }
+                        break;
+                    } else {
+                        holder.timing_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Timing") + ": -");
+                        dayFoundStatus = 3;
+                    }
+                }
+            }
+            if (dayFoundStatus == 3) {
+            } else if (dayFoundStatus == 2) {
+                holder.timing_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Open Now"));
+            } else {
+                holder.timing_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Closed"));
+            }
+
+            holder.rl_main_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    id1 = v.getId();
+                    if (mainActivity.mainTabHostFragment.vpFragment.getCurrentItem() == 1) {
+                        mainActivity.favouriteFragment.replacePlaceDetailsFragment(nearbies.get(position).getPlace_Id(), tv_map_location.getText().toString());
+                    } else {
+                        mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(nearbies.get(position).getPlace_Id(), tv_map_location.getText().toString(), nearbies.get(position).getGroup_Id());
+                    }
+                    mNearby = nearbies.get(position);
+                }
+            });
+
+            holder.rlBottomView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    id1 = v.getId();
+                    if (mainActivity.mainTabHostFragment.vpFragment.getCurrentItem() == 1) {
+                        mainActivity.favouriteFragment.replacePlaceDetailsFragment(nearbies.get(position).getPlace_Id(), tv_map_location.getText().toString());
+                    } else {
+                        mainActivity.exploreNearbyFragment.replacePlaceDetailsFragment(nearbies.get(position).getPlace_Id(), tv_map_location.getText().toString(), nearbies.get(position).getGroup_Id());
+                    }
+                    mNearby = nearbies.get(position);
+                }
+            });
+
+           /* viewHolder.txtShare.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Share"));
             viewHolder.txtFav.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Favourite"));
             String imageURL = Constants.IMAGE_URL + nearbies.get(position).getPlace_MainImage() + "&w=" + (width - 30);
             viewHolder.iv_nearby_explorer.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (height * 60) / 100));
@@ -1008,7 +1144,7 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
 
             }
 //            viewHolder.tv_distance.setText(Utilities.GetRoutDistane(Double.parseDouble(mPreferences.getString("latitude2", "")), Double.parseDouble(mPreferences.getString("longitude2", "")), Double.parseDouble(nearbies.get(position).getPlace_Latitude()), Double.parseDouble(nearbies.get(position).getPlace_Longi()), nearbies.get(position).getDist()) + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
-            viewHolder.tv_distance.setText(nearbies.get(position).getDist() + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
+            viewHolder.tv_distance.setText(nearbies.get(position).getDist() + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));*/
         }
 
         @Override
@@ -1018,16 +1154,32 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
-            private ImageView iv_nearby_explorer;
+            /*private ImageView iv_nearby_explorer;
             private ImageView iv_favorite;
             private NormalTextView tv_ticket, tv_distance, txtCategory, txtFav, txtDistance, tv_near, txtShare, tv_timing;
             private LinearLayout rl_share, rl_navigator, rl_fav;
             private LinearLayout llView;
             private View container;
+*/
+            ImageView nearby_img, imgFav;
+            NormalTextView category_txt, place_txt, timing_txt, ticket_txt, dist_txt;
+            RelativeLayout rl_main_img, rlBottomView;
 
-            public ViewHolder(View convertView) {
-                super(convertView);
-                iv_nearby_explorer = (ImageView) convertView.findViewById(R.id.iv_nearby_explorer);
+
+            public ViewHolder(View view) {
+                super(view);
+
+                nearby_img = (ImageView) view.findViewById(R.id.nearby_img);
+                imgFav = (ImageView) view.findViewById(R.id.imgFav);
+                category_txt = (NormalTextView) view.findViewById(R.id.nearby_category_txt);
+                place_txt = (NormalTextView) view.findViewById(R.id.place_txt);
+                timing_txt = (NormalTextView) view.findViewById(R.id.timing_txt);
+                ticket_txt = (NormalTextView) view.findViewById(R.id.ticket_txt);
+                dist_txt = (NormalTextView) view.findViewById(R.id.dist_txt);
+                rl_main_img = (RelativeLayout) view.findViewById(R.id.rl_main_img);
+                rlBottomView = (RelativeLayout) view.findViewById(R.id.rlBottomView);
+
+               /* iv_nearby_explorer = (ImageView) convertView.findViewById(R.id.iv_nearby_explorer);
                 iv_favorite = (ImageView) convertView.findViewById(R.id.imgFav);
                 tv_near = (NormalTextView) convertView.findViewById(R.id.tv_near);
                 txtCategory = (NormalTextView) convertView.findViewById(R.id.txtCategory);
@@ -1039,7 +1191,7 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
                 rl_navigator = (LinearLayout) convertView.findViewById(R.id.rl_navigator);
                 rl_fav = (LinearLayout) convertView.findViewById(R.id.rl_fav);
                 txtShare = (NormalTextView) convertView.findViewById(R.id.txtShare);
-                txtFav = (NormalTextView) convertView.findViewById(R.id.txtFav);
+                txtFav = (NormalTextView) convertView.findViewById(R.id.txtFav);*/
             }
         }
     }
@@ -1105,5 +1257,4 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
             return convertView;
         }
     }
-
 }
