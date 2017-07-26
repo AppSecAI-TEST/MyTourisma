@@ -66,12 +66,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@null"
-                android:dropDownSelector="@color/wallet_holo_blue_light"
-                android:dropDownWidth="match_parent"
                 android:hint="Landmarks, Places, Parks..."
                 android:imeOptions="actionDone"
                 android:inputType="text"
-                android:maxLines="1"
                 android:textSize="@dimen/TEXT_SMALL" />
         </LinearLayout>
 

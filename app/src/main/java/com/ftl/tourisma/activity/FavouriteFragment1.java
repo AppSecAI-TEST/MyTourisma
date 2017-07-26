@@ -618,7 +618,8 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
                                 }
                             }
                             if (_24HourDt != null && _24HourDt1 != null) {
-                                holder.timing_txt.setText(_24HourSDF.format(_24HourDt) + " " + Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "TO") + " " + _24HourSDF.format(_24HourDt1));
+                                holder.timing_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Open Now"));
+//                                holder.timing_txt.setText(_24HourSDF.format(_24HourDt) + " " + Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "TO") + " " + _24HourSDF.format(_24HourDt1));
                             } else {
                                 holder.timing_txt.setText("");
                                 dayFoundStatus = 3;
