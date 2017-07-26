@@ -749,9 +749,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                                 }
                             }
                             if (_24HourDt != null && _24HourDt1 != null) {
-                                holder.timing_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Open Now"));
-                                //Commented According to New UI
-//                                holder.timing_txt.setText(_24HourSDF.format(_24HourDt) + " " + Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "TO") + " " + _24HourSDF.format(_24HourDt1));
+                                holder.timing_txt.setText(_24HourSDF.format(_24HourDt) + " " + Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "TO") + " " + _24HourSDF.format(_24HourDt1));
                             } else {
                                 holder.timing_txt.setText("");
                                 dayFoundStatus = 3;
@@ -815,7 +813,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         }
     }
 
-    //Setting categories adapter for half arraylist
+    //Setting categories adapter for alf arraylist
     class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder> {
 
         ArrayList<AllCategories> allCategories = new ArrayList<>();
