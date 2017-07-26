@@ -50,7 +50,7 @@
         <RelativeLayout
             android:id="@+id/rlBottomView"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="@dimen/nearby_rlBottomView"
             android:layout_below="@+id/rl_main_img"
             android:background="#000000">
 
@@ -82,8 +82,8 @@
 
                     <ImageView
                         android:id="@+id/timing_img"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="@dimen/nearby_timing_img"
+                        android:layout_height="@dimen/nearby_timing_img"
                         android:layout_marginBottom="15dp"
                         android:layout_marginLeft="10dp"
                         android:src="@drawable/new_time" />
@@ -113,8 +113,8 @@
 
                     <ImageView
                         android:id="@+id/ticket_img"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="@dimen/nearby_ticket_img"
+                        android:layout_height="@dimen/nearby_ticket_img"
                         android:layout_marginBottom="15dp"
                         android:layout_marginLeft="15dp"
                         android:src="@drawable/new_ticket" />
@@ -147,8 +147,8 @@
 
                     <ImageView
                         android:id="@+id/location_img"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="@dimen/nearby_location_img"
+                        android:layout_height="@dimen/nearby_location_img"
                         android:layout_marginBottom="15dp"
                         android:layout_marginLeft="15dp"
                         android:src="@drawable/new_location" />
