@@ -251,8 +251,6 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         try {
             if (action.equalsIgnoreCase("newHomePage")) {
                 getHomePageDataResponse(response);
-            } else if (action.equalsIgnoreCase("newNearBy")) {
-                getNearByResponse(response);
             } else if (action.equalsIgnoreCase("AddFavorite")) {
                 addFavoriteResponse(response);
             } else if (action.equalsIgnoreCase("DeleteFavorite")) {
@@ -326,7 +324,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         if (recommendeds.size() > 0) {
             rl_recommended.setVisibility(View.VISIBLE);
             slider = (SliderLayout) view.findViewById(R.id.slider);
-            slider.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (mainActivity.height * 60) / 100));
+            slider.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (mainActivity.height * 50) / 100));
             slider.setDuration(4000);
             slider.removeAllSliders();
             for (Nearby nearby : recommendeds) {
@@ -355,38 +353,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         if (recommendeds.size() == 0) {
             llEmptyLayout.setVisibility(View.VISIBLE);
         } else {
-//            downloadNearBy();
-        }
-    }
 
-    public void downloadNearBy() {
-        if (CommonClass.hasInternetConnection(getActivity())) {
-            String url = Constants.SERVER_URL + "json.php?action=getNearBy";
-            String json = "[{\"Lan_Id\":\"" + mainActivity.getPreferences().getString("Lan_Id", "") + "\",\"User_Id\":\"" + mainActivity.getPreferences().getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mainActivity.getPreferences().getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mainActivity.getPreferences().getString("longitude2", "") + "\",\"City_Name\":\"" + mainActivity.getPreferences().getString(Preference.Pref_City, "") + "\",\"deviceType\":\"" + "Android" + "\",\"deviceId\":\"" + Prefs.getString(Constants.fcm_regid, "") + "\"}]";
-            new post_sync(getActivity(), "newNearBy", NewHomePage.this, true).execute(url, json);
-        } else {
-            Intent intent = new Intent(getActivity(), NoInternet.class);
-            startActivity(intent);
-        }
-    }
-
-    public void getNearByResponse(String resultString) {
-        JSONObjConverter jonObjConverter = new JSONObjConverter();
-        nearbies.clear();
-
-        //Adding nearby to array list
-        try {
-            JSONObject jsonObject = new JSONObject(resultString);
-            JSONArray nearby_jsonArray = jsonObject.optJSONArray("nearby");
-            for (int i = 0; i < nearby_jsonArray.length(); i++) {
-                nearby = jonObjConverter.convertJsonToNearByObj(nearby_jsonArray.optJSONObject(i));
-                nearbies.add(nearby);
-            }
-            //Setting nearby Adapter
-//            adapter = new HomePageAdapter(getActivity(), nearbies);
-//            nearby_rv.setAdapter(adapter);
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 
@@ -677,7 +644,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                 holder.ticket_txt.setSelected(true);
                 holder.ticket_txt.requestFocus();
             }
-            holder.dist_txt.setText(nearbies.get(position).getDist());
+            holder.dist_txt.setText(nearbies.get(position).getDist() + " " + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
 
             if (nearbies.get(position).getFav_Id().equalsIgnoreCase("0")) {
                 holder.imgFav.setActivated(false);
@@ -749,7 +716,8 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                                 }
                             }
                             if (_24HourDt != null && _24HourDt1 != null) {
-                                holder.timing_txt.setText(_24HourSDF.format(_24HourDt) + " " + Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "TO") + " " + _24HourSDF.format(_24HourDt1));
+//                                holder.timing_txt.setText(_24HourSDF.format(_24HourDt) + " " + Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "TO") + " " + _24HourSDF.format(_24HourDt1));
+                                holder.timing_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Open Now"));
                             } else {
                                 holder.timing_txt.setText("");
                                 dayFoundStatus = 3;

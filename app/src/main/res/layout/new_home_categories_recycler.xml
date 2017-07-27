@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
-    android:layout_marginTop="5dp"
+    android:layout_marginTop="8dp"
     card_view:cardCornerRadius="4dp">
 
     <RelativeLayout
@@ -20,9 +20,16 @@
             <ImageView
                 android:id="@+id/category_img"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/opacityFilter"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/category_img_ht"
+                android:layout_alignTop="@+id/category_img"
+                android:background="#40000000" />
 
             <com.ftl.tourisma.custom_views.NormalTextView
                 android:id="@+id/category_name"

@@ -20,11 +20,11 @@
         android:layout_height="35dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30sp"
+        android:layout_marginBottom="80dp"
         android:background="@drawable/rounded_btn"
         android:text="Try Again"
         android:textColor="#ffffff"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <com.ftl.tourisma.custom_views.NormalTextView
         android:id="@+id/internet_fail_txt"

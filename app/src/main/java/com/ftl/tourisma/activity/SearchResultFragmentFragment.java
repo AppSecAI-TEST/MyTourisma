@@ -863,7 +863,7 @@ public class SearchResultFragmentFragment extends Fragment implements View.OnCli
                 holder.ticket_txt.setSelected(true);
                 holder.ticket_txt.requestFocus();
             }
-            holder.dist_txt.setText(nearbies.get(position).getDist());
+            holder.dist_txt.setText(nearbies.get(position).getDist() + " " + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
 
             if (nearbies.get(position).getFav_Id().equalsIgnoreCase("0")) {
                 holder.imgFav.setActivated(false);
