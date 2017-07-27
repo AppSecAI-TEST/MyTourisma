@@ -274,7 +274,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                 moreCategories.clear();
                 nearbies.clear();
 
-                Log.d("Explore", "result string get all categories " + resultString);
+                Log.d("Explore", "newHomePageResponseFromServer " + resultString);
 
                 if (resultString.length() > 2) {
                     try {
@@ -627,13 +627,14 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
-            System.out.println("nearby123 " + nearbies.get(position).getCategory_Name());
             String imageURL = Constants.IMAGE_URL + nearbies.get(position).getPlace_MainImage() + "&w=" + (width);
             Picasso.with(activity)
                     .load(imageURL)
                     .resize(width, (height * 60) / 100)
                     .into(holder.nearby_img);
             holder.category_txt.setText(nearbies.get(position).getCategory_Name());
+            holder.category_txt.setSelected(true);
+            holder.category_txt.requestFocus();
             holder.place_txt.setText(nearbies.get(position).getPlace_Name());
             if (nearbies.get(position).getFree_entry().equals("0")) {
                 holder.ticket_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Check Details"));
@@ -718,8 +719,12 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                             if (_24HourDt != null && _24HourDt1 != null) {
 //                                holder.timing_txt.setText(_24HourSDF.format(_24HourDt) + " " + Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "TO") + " " + _24HourSDF.format(_24HourDt1));
                                 holder.timing_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Open Now"));
+                                holder.timing_txt.setSelected(true);
+                                holder.timing_txt.requestFocus();
                             } else {
                                 holder.timing_txt.setText("");
+                                holder.timing_txt.setSelected(true);
+                                holder.timing_txt.requestFocus();
                                 dayFoundStatus = 3;
                             }
                         }
@@ -729,6 +734,8 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                         break;
                     } else {
                         holder.timing_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Timing") + ": -");
+                        holder.timing_txt.setSelected(true);
+                        holder.timing_txt.requestFocus();
                         dayFoundStatus = 3;
                     }
                 }
@@ -736,8 +743,12 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
             if (dayFoundStatus == 3) {
             } else if (dayFoundStatus == 2) {
                 holder.timing_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Open Now"));
+                holder.timing_txt.setSelected(true);
+                holder.timing_txt.requestFocus();
             } else {
                 holder.timing_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Closed"));
+                holder.timing_txt.setSelected(true);
+                holder.timing_txt.requestFocus();
             }
 
             holder.rl_main_img.setOnClickListener(new View.OnClickListener() {

@@ -431,6 +431,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
             sliderPlaceImages.removeAllSliders();
             for (String imgName : strImg1) {
                 String imageUrl = Constants.IMAGE_URL + imgName + "&w=" + (width);
+                System.out.println("place_img_url " + imageUrl);
                 DefaultSliderView textSliderView = new DefaultSliderView(getActivity());
                 // initialize a SliderLayout
                 textSliderView
