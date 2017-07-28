@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
+    <com.ftl.tourisma.custom_views.CalenderSqureButton
         android:id="@+id/CALENDAR_DAY_GRIDTEXT"
         android:layout_width="50dp"
         android:layout_height="50dp"

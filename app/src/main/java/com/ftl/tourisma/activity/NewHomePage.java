@@ -289,6 +289,8 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                         //Adding categories to array list
                         JSONArray categories_jsonArray = jsonObject.getJSONArray("category");
                         for (int i = 0; i < categories_jsonArray.length(); i++) {
+                            JSONObject cat_jsonObject = categories_jsonArray.getJSONObject(i);
+//                            if (!(cat_jsonObject.getString("Category_Places")))
                             if (moreCategories.size() <= 3) {
                                 allCategories.add(gson.fromJson(categories_jsonArray.get(i).toString(), AllCategories.class));
                             }
