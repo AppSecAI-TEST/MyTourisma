@@ -865,7 +865,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
 
         @Override
         public int getItemCount() {
-            return allCategories.size();
+            return tagses.size();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
