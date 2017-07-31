@@ -28,8 +28,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 25
         multiDexEnabled true
-        versionCode 15
-        versionName '2.3'
+        versionCode 16
+        versionName '2.4'
     }
     dexOptions {
         javaMaxHeapSize "4g"

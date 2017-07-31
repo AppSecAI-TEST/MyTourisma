@@ -537,6 +537,8 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
                     .resize(width, (height * 60) / 100)
                     .into(holder.nearby_img);
             holder.category_txt.setText(nearbies.get(position).getCategory_Name());
+            holder.category_txt.setSelected(true);
+            holder.category_txt.requestFocus();
             holder.place_txt.setText(nearbies.get(position).getPlace_Name());
             if (nearbies.get(position).getFree_entry().equals("0")) {
                 holder.ticket_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Check Details"));
@@ -547,7 +549,7 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
                 holder.ticket_txt.setSelected(true);
                 holder.ticket_txt.requestFocus();
             }
-            holder.dist_txt.setText(nearbies.get(position).getDist());
+            holder.dist_txt.setText(nearbies.get(position).getDist() + " " + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "KM"));
 
             if (nearbies.get(position).getFav_Id().equalsIgnoreCase("0")) {
                 holder.imgFav.setActivated(false);
@@ -618,9 +620,14 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
                                 }
                             }
                             if (_24HourDt != null && _24HourDt1 != null) {
-                                holder.timing_txt.setText(_24HourSDF.format(_24HourDt) + " " + Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "TO") + " " + _24HourSDF.format(_24HourDt1));
+                                holder.timing_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Open Now"));
+                                holder.timing_txt.setSelected(true);
+                                holder.timing_txt.requestFocus();
+//                                holder.timing_txt.setText(_24HourSDF.format(_24HourDt) + " " + Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "TO") + " " + _24HourSDF.format(_24HourDt1));
                             } else {
                                 holder.timing_txt.setText("");
+                                holder.timing_txt.setSelected(true);
+                                holder.timing_txt.requestFocus();
                                 dayFoundStatus = 3;
                             }
                         }
@@ -630,6 +637,8 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
                         break;
                     } else {
                         holder.timing_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Timing") + ": -");
+                        holder.timing_txt.setSelected(true);
+                        holder.timing_txt.requestFocus();
                         dayFoundStatus = 3;
                     }
                 }
@@ -637,8 +646,12 @@ public class FavouriteFragment1 extends Fragment implements View.OnClickListener
             if (dayFoundStatus == 3) {
             } else if (dayFoundStatus == 2) {
                 holder.timing_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Open Now"));
+                holder.timing_txt.setSelected(true);
+                holder.timing_txt.requestFocus();
             } else {
                 holder.timing_txt.setText(Constants.showMessage(activity, mPreferences.getString("Lan_Id", ""), "Closed"));
+                holder.timing_txt.setSelected(true);
+                holder.timing_txt.requestFocus();
             }
 
             holder.rl_main_img.setOnClickListener(new View.OnClickListener() {

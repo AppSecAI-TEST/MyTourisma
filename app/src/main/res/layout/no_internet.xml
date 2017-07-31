@@ -16,15 +16,17 @@
 
     <Button
         android:id="@+id/try_btn"
-        android:layout_width="125dp"
+        android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30sp"
+        android:layout_marginBottom="80dp"
         android:background="@drawable/rounded_btn"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
         android:text="Try Again"
         android:textColor="#ffffff"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <com.ftl.tourisma.custom_views.NormalTextView
         android:id="@+id/internet_fail_txt"

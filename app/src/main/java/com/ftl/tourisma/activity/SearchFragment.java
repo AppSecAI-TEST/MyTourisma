@@ -263,12 +263,13 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
             if (etSearchPlace.getText().toString().length() <= 1 || isLocationChanged) {
                 isLocationChanged = false;
                 getLocationFromAddress(getActivity(), etAutoDetect.getText().toString().trim());
-                String json = "[{\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\",\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mPreferences.getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mPreferences.getString("longitude2", "") + "\",\"keywords\":\"" + etSearchPlace.getText().toString().trim() + "\",\"keyword\":\"" + strAddress + "\",\"secondary_text\":\"" + mainActivity.getPreferences().getString(Preference.Pref_Country, "") + "\"}]";
+                String json = "[{\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\",\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mPreferences.getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mPreferences.getString("longitude2", "") + "\",\"keywords\":\"" + etSearchPlace.getText().toString().trim() + "\",\"keyword\":\"" + mPreferences.getString(Preference.Pref_City, "") + "\"}]";
                 if (postSync != null && postSync.getStatus().equals(AsyncTask.Status.RUNNING)) {
                     postSync.cancel(true);
                 }
                 postSync = new post_sync(getActivity(), "SearchPlacesOTG", SearchFragment.this, false);
                 postSync.execute(url, json);
+                System.out.println("searchPlace_json " + json);
             } else {
                 if (searchPlacesNew != null && searchPlacesNew.size() > 0) {
                     searchPlaces = new ArrayList<>();
@@ -467,14 +468,13 @@ public class SearchFragment extends Fragment implements OnClickListener, post_sy
                 }
             }
             String url = Constants.SERVER_URL + "json.php?action=SearchPlaces";
-            String json = "[{\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\",\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + latitude + "\",\"Current_Longitude\":\"" + longitude + "\",\"keywords\":\"" + etSearchPlace.getText().toString() + "\",\"Category_Id\":\"" + "" + "\",\"keyword\":\"" + strAddress + "\",\"secondary_text\":\"" + mainActivity.getPreferences().getString(Preference.Pref_Country, "") + "\"}]";
+            String json = "[{\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\",\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + latitude + "\",\"Current_Longitude\":\"" + longitude + "\",\"keywords\":\"" + etSearchPlace.getText().toString() + "\",\"Category_Id\":\"" + "" + "\",\"keyword\":\"" + mPreferences.getString(Preference.Pref_City, "") + "\"}]";
             System.out.println("search_url" + url);
             System.out.println("search_json" + json);
             new PostSync(getActivity(), "SearchPlaces", SearchFragment.this).execute(url, json);
         } else {
             Intent intent = new Intent(getActivity(), NoInternet.class);
             startActivity(intent);
-            //SnackbarManager.show((Snackbar) Snackbar.with(getActivity()).color(Utils.getColor(getActivity(), R.color.mBlue)).text(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "NOINTERNET")));
         }
     }
 

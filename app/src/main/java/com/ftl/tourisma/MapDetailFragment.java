@@ -274,7 +274,8 @@ public class MapDetailFragment extends FragmentActivity implements OnMapReadyCal
                         return;
                     }
                     map.setMyLocationEnabled(false);
-                    map.getUiSettings().setZoomControlsEnabled(true);
+                    map.getUiSettings().setZoomControlsEnabled(false);
+                    map.getUiSettings().setMapToolbarEnabled(false);
                     map.getUiSettings().setCompassEnabled(false);
                     map.getUiSettings().setMyLocationButtonEnabled(false);
                     map.getUiSettings().setAllGesturesEnabled(true);
@@ -344,7 +345,8 @@ public class MapDetailFragment extends FragmentActivity implements OnMapReadyCal
                         return;
                     }
                     map.setMyLocationEnabled(false);
-                    map.getUiSettings().setZoomControlsEnabled(true);
+                    map.getUiSettings().setZoomControlsEnabled(false);
+                    map.getUiSettings().setMapToolbarEnabled(false);
                     map.getUiSettings().setCompassEnabled(false);
                     map.getUiSettings().setMyLocationButtonEnabled(false);
                     map.getUiSettings().setAllGesturesEnabled(true);

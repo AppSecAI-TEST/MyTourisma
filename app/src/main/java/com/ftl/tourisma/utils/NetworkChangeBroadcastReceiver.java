@@ -1,3 +1,4 @@
+/*
 package com.ftl.tourisma.utils;
 
 import android.content.BroadcastReceiver;
@@ -6,9 +7,11 @@ import android.content.Intent;
 
 import com.ftl.tourisma.activity.NoInternet;
 
+*/
 /**
  * Created by VirtualDusk on 3/23/2017.
- */
+ *//*
+
 
 public class NetworkChangeBroadcastReceiver extends BroadcastReceiver {
     @Override
@@ -25,3 +28,4 @@ public class NetworkChangeBroadcastReceiver extends BroadcastReceiver {
         }
     }
 }
+*/

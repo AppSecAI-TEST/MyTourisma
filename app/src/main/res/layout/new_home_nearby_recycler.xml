@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
-    android:layout_marginTop="5dp"
+    android:layout_marginTop="8dp"
     android:paddingBottom="15dp"
     card_view:cardCornerRadius="4dp">
 
@@ -37,12 +37,17 @@
 
             <com.ftl.tourisma.custom_views.NormalTextView
                 android:id="@+id/nearby_category_txt"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/m15dp"
                 android:background="@drawable/shape_most_visited"
+                android:ellipsize="marquee"
+                android:freezesText="true"
                 android:gravity="center"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxLines="1"
                 android:padding="@dimen/m8dp"
+                android:singleLine="true"
                 android:text="Aquapark"
                 android:textColor="@color/mWhite"
                 android:textSize="@dimen/TEXT_SMALL_SKIP" />
@@ -63,12 +68,15 @@
                 android:layout_margin="@dimen/m15dp"
                 android:text="Aquapark"
                 android:textColor="@color/mWhite"
-                android:textSize="@dimen/TEXT_SMALL" />
+                android:textSize="@dimen/TEXT_SMALL"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_weight="90"
                 android:orientation="horizontal">
 
@@ -76,7 +84,6 @@
                     android:id="@+id/rl_share"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/m1dp"
                     android:layout_weight="30"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
@@ -84,18 +91,20 @@
 
                     <ImageView
                         android:id="@+id/timing_img"
-                        android:layout_width="@dimen/nearby_timing_img"
-                        android:layout_height="@dimen/nearby_timing_img"
-                        android:layout_marginBottom="15dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/new_time" />
 
                     <com.ftl.tourisma.custom_views.NormalTextView
                         android:id="@+id/timing_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="15dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:ellipsize="marquee"
+                        android:freezesText="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:maxLines="1"
+                        android:singleLine="true"
                         android:text="OPEN NOW"
                         android:textColor="@color/mWhite"
                         android:textSize="@dimen/TEXT_EXTRA_SMALL" />
@@ -108,25 +117,21 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/m1dp"
                     android:layout_weight="30"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/ticket_img"
-                        android:layout_width="@dimen/nearby_ticket_img"
-                        android:layout_height="@dimen/nearby_ticket_img"
-                        android:layout_marginBottom="15dp"
-                        android:layout_marginLeft="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/new_ticket" />
 
                     <com.ftl.tourisma.custom_views.NormalTextView
                         android:id="@+id/ticket_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="15dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="5dp"
                         android:ellipsize="marquee"
                         android:freezesText="true"
                         android:marqueeRepeatLimit="marquee_forever"
@@ -149,21 +154,19 @@
 
                     <ImageView
                         android:id="@+id/location_img"
-                        android:layout_width="@dimen/nearby_location_img"
-                        android:layout_height="@dimen/nearby_location_img"
-                        android:layout_marginBottom="15dp"
-                        android:layout_marginLeft="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/new_location" />
 
                     <com.ftl.tourisma.custom_views.NormalTextView
                         android:id="@+id/dist_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="15dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="5dp"
                         android:text="OPEN NOW"
                         android:textColor="@color/mWhite"
                         android:textSize="@dimen/TEXT_EXTRA_SMALL" />
+
                 </LinearLayout>
 
             </LinearLayout>

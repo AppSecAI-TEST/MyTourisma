@@ -37,6 +37,7 @@ public class CommonClass {
                     + "[a-zA-Z0-9][a-zA-Z0-9-]{0,25}" + ")+");
 
     public static boolean hasInternetConnection(final Context context) {
+
         ConnectivityManager conMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (conMgr.getActiveNetworkInfo() != null && conMgr.getActiveNetworkInfo().isAvailable() && conMgr.getActiveNetworkInfo().isConnected())
             return true;
