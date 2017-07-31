@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:ripple="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/tags_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mBlue">
+
+        <LinearLayout
+            android:id="@+id/ll_header5_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/m5dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/tv_your_location_search_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/your_location"
+                android:textColor="@color/mWhite"
+                android:textSize="@dimen/TEXT_SMALL"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/ll_change_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/tv_place"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/m5dp"
+                    android:ellipsize="marquee"
+                    android:gravity="center"
+                    android:maxLength="35"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textColor="@color/mGrayLight"
+                    android:textSize="@dimen/TEXT_SMALL" />
+
+                <ImageView
+                    android:id="@+id/imgDownArrow"
+                    android:layout_width="@dimen/m10dp"
+                    android:layout_height="@dimen/m10dp"
+                    android:src="@drawable/down_arrow_white"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.andexert.library.RippleView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            ripple:rv_type="rectangle">
+
+            <ImageView
+                android:id="@+id/iv_back_search_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/m18dp"
+                android:src="@drawable/ic_left_arrow" />
+
+        </com.andexert.library.RippleView>
+
+        <com.andexert.library.RippleView
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            ripple:rv_type="rectangle">
+
+            <ImageView
+                android:id="@+id/iv_search_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/m18dp"
+                android:src="@drawable/ic_search_" />
+
+        </com.andexert.library.RippleView>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_tags_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tags_header"
+        android:layout_marginBottom="8dp" />
+
+    <LinearLayout
+        android:id="@+id/llEmptyLayout11"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/noplace_found_relative"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/imgIcon1"
+                android:layout_width="70dp"
+                android:layout_height="100dp"
+                android:layout_above="@+id/txtMessage"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/not_available" />
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/txtMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgIcon"
+                android:layout_centerInParent="true"
+                android:layout_margin="20dp"
+                android:gravity="center"
+                android:text="No records available for this place"
+                android:textColor="@color/texthint"
+                android:textSize="@dimen/TEXT_MEDIUM" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtMessage"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <com.ftl.tourisma.custom_views.NormalTextView
+                    android:id="@+id/txtSuggestPlace"
+                    style="@style/MyCustomButton"
+                    android:layout_marginBottom="@dimen/m20dp"
+                    android:padding="@dimen/m10dp"
+                    android:text="Suggest Location" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
