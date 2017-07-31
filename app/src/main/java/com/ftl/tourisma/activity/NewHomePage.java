@@ -219,7 +219,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                     categories_rv.setAdapter(categoriesAdapter);
                     categoriesAdapter.notifyDataSetChanged();
                     imgShowMoreLess.setBackgroundResource(R.drawable.show_more);
-                    sv_explorer_location.scrollTo(5, 5);
+                    sv_explorer_location.scrollTo(0, 0);
 
                 }
             }
@@ -310,11 +310,12 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                         JSONArray categories_jsonArray = jsonObject.getJSONArray("category");
                         for (int i = 0; i < categories_jsonArray.length(); i++) {
                             JSONObject cat_jsonObject = categories_jsonArray.getJSONObject(i);
-//                            if (!(cat_jsonObject.getString("Category_Places")))
-                            if (moreCategories.size() <= 3) {
-                                allCategories.add(gson.fromJson(categories_jsonArray.get(i).toString(), AllCategories.class));
+                            if (!cat_jsonObject.getString("Category_Places").equals("0")) {
+                                if (moreCategories.size() <= 3) {
+                                    allCategories.add(gson.fromJson(categories_jsonArray.get(i).toString(), AllCategories.class));
+                                }
+                                moreCategories.add(gson.fromJson(categories_jsonArray.get(i).toString(), AllCategories.class));
                             }
-                            moreCategories.add(gson.fromJson(categories_jsonArray.get(i).toString(), AllCategories.class));
                         }
 
                         //Adding nearby to array list
@@ -340,6 +341,12 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                 //setting categories adapter
                 categoriesAdapter = new CategoriesAdapter(getActivity(), allCategories);
                 categories_rv.setAdapter(categoriesAdapter);
+
+                if (moreCategories.size() <= 3) {
+                    rv_ShowMoreLess.setVisibility(View.GONE);
+                } else {
+                    rv_ShowMoreLess.setVisibility(View.VISIBLE);
+                }
 
                 //setting near by adapter
                 adapter = new HomePageAdapter(getActivity(), nearbies);
