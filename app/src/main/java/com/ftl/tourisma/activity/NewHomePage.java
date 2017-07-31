@@ -77,7 +77,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
     boolean isShowLess;
     private RelativeLayout rl_home, rl_recommended, rv_ShowMoreLess;
     private ScrollView sv_explorer_location;
-    private NormalTextView txtMessage, txtSuggest, txtOk, tv_city, tv_your_location_header3, tv_recommended, main_description, description, explore_txt, nearby_txt;
+    private NormalTextView experiance_txt, txtMessage, txtSuggest, txtOk, tv_city, tv_your_location_header3, tv_recommended, main_description, description, explore_txt, nearby_txt;
     private LinearLayout ll_change_city, llEmptyLayout;
     private ImageView iv_search_header3, imgFav, imgShowMoreLess;
     private SliderLayout slider;
@@ -145,6 +145,9 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         tags_rv = (RecyclerView) view.findViewById(R.id.tags_rv);
         categories_rv = (RecyclerView) view.findViewById(R.id.categories_rv);
         nearby_rv = (RecyclerView) view.findViewById(R.id.nearby_rv);
+
+        experiance_txt = (NormalTextView) view.findViewById(R.id.experiance_txt);
+        experiance_txt.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "EXPERIENCE"));
 
         tv_recommended = (NormalTextView) view.findViewById(R.id.tv_recommended);
         tv_recommended.setText(Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "recommended"));
@@ -848,7 +851,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
             viewHolder.rl_tags.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    mainActivity.exploreNearbyFragment.replaceTagsListFragment(tagses.get(position).getTag_Id());
                 }
             });
         }
