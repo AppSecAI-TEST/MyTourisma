@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -35,6 +36,7 @@ import com.ftl.tourisma.custom_views.NormalTextView;
 import com.ftl.tourisma.database.AllCategories;
 import com.ftl.tourisma.database.Nearby;
 import com.ftl.tourisma.models.HourDetails;
+import com.ftl.tourisma.models.Tags;
 import com.ftl.tourisma.postsync.post_sync;
 import com.ftl.tourisma.utils.CommonClass;
 import com.ftl.tourisma.utils.Constants;
@@ -80,7 +82,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
     private ImageView iv_search_header3, imgFav, imgShowMoreLess;
     private SliderLayout slider;
     private PagerIndicator custom_indicator;
-    private RecyclerView categories_rv, nearby_rv;
+    private RecyclerView tags_rv, categories_rv, nearby_rv;
     private int id;
     private int like;
     private String mGroupId, mPlaceId, mFav, Category_Id;
@@ -91,6 +93,8 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
     private ArrayList<AllCategories> moreCategories = new ArrayList<>();
     private ArrayList<Nearby> nearbies = new ArrayList<>();
     private ArrayList<Nearby> nearbies_category = new ArrayList<>();
+    private ArrayList<Tags> tagses = new ArrayList<>();
+    private TagsAdapter tagsAdapter;
     private CategoriesAdapter categoriesAdapter;
     private CategoriesAdapter1 categoriesAdapter1;
     private HomePageAdapter adapter;
@@ -109,6 +113,10 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         initialization(view);
         downloadHomePage();
         onClickListners();
+
+        //setting layout manager for tags
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        tags_rv.setLayoutManager(gridLayoutManager);
 
         //setting layoutmanager for categories
         LinearLayoutManager linearLayoutManager_categories = new LinearLayoutManager(getActivity());
@@ -134,6 +142,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
         imgFav = (ImageView) view.findViewById(R.id.imgFav);
         slider = (SliderLayout) view.findViewById(R.id.slider);
         custom_indicator = (PagerIndicator) view.findViewById(R.id.custom_indicator);
+        tags_rv = (RecyclerView) view.findViewById(R.id.tags_rv);
         categories_rv = (RecyclerView) view.findViewById(R.id.categories_rv);
         nearby_rv = (RecyclerView) view.findViewById(R.id.nearby_rv);
 
@@ -270,6 +279,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                 JSONObjConverter jonObjConverter = new JSONObjConverter();
                 Gson gson = new Gson();
                 recommendeds.clear();
+                tagses.clear();
                 allCategories.clear();
                 moreCategories.clear();
                 nearbies.clear();
@@ -284,6 +294,13 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                         for (int i = 0; i < recommnded_jsonArray.length(); i++) {
                             recommended = jonObjConverter.convertJsonToNearByObj(recommnded_jsonArray.getJSONObject(i));
                             recommendeds.add(recommended);
+                        }
+
+                        //Adding tags to array list
+                        JSONArray tags_jsonArray = jsonObject.getJSONArray("tags");
+                        for (int i = 0; i < tags_jsonArray.length(); i++) {
+                            JSONObject tag_jsonObject = tags_jsonArray.getJSONObject(i);
+                            tagses.add(gson.fromJson(tags_jsonArray.get(i).toString(), Tags.class));
                         }
 
                         //Adding categories to array list
@@ -308,14 +325,20 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                     }
                 }
 
-                //Setting slider
+                //setting slider
                 setSlider();
                 sv_explorer_location.setVisibility(View.VISIBLE);
 
+
+                //setting tags adapter
+                tagsAdapter = new TagsAdapter(getActivity(), tagses);
+                tags_rv.setAdapter(tagsAdapter);
+
+                //setting categories adapter
                 categoriesAdapter = new CategoriesAdapter(getActivity(), allCategories);
                 categories_rv.setAdapter(categoriesAdapter);
 
-                System.out.println("nearby_response_123");
+                //setting near by adapter
                 adapter = new HomePageAdapter(getActivity(), nearbies);
                 nearby_rv.setAdapter(adapter);
             }
@@ -790,6 +813,63 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
                 dist_txt = (NormalTextView) view.findViewById(R.id.dist_txt);
                 rl_main_img = (RelativeLayout) view.findViewById(R.id.rl_main_img);
                 rlBottomView = (RelativeLayout) view.findViewById(R.id.rlBottomView);
+            }
+        }
+    }
+
+    //Setting tags adapter
+    class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.ViewHolder> {
+
+        ArrayList<Tags> tagses = new ArrayList<>();
+        Activity activity;
+
+        public TagsAdapter(Activity activity, ArrayList<Tags> tagses) {
+            this.tagses = tagses;
+            this.activity = activity;
+        }
+
+        @Override
+        public TagsAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+            View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.new_home_tags_recycler, viewGroup, false);
+            return new TagsAdapter.ViewHolder(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(final TagsAdapter.ViewHolder viewHolder, final int position) {
+            viewHolder.tag_name_txt.setText(tagses.get(position).getTag_Name());
+            if (tagses.get(position).getTag_Places_Count().equals("0") || tagses.get(position).getTag_Places_Count().equals("1")) {
+                viewHolder.place_count_txt_tags.setText(tagses.get(position).getTag_Places_Count() + " " + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "place"));
+            } else {
+                viewHolder.place_count_txt_tags.setText(tagses.get(position).getTag_Places_Count() + " " + Constants.showMessage(getActivity(), mainActivity.getPreferences().getString("Lan_Id", ""), "places"));
+            }
+            Picasso.with(activity)
+                    .load(tagses.get(position).getTag_Image())
+                    .into(viewHolder.tags_img);
+            viewHolder.rl_tags.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return allCategories.size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+
+            NormalTextView tag_name_txt, place_count_txt_tags;
+            ImageView tags_img;
+            RelativeLayout rl_tags;
+
+            public ViewHolder(View v) {
+                super(v);
+                tag_name_txt = (NormalTextView) v.findViewById(R.id.tag_name_txt);
+                place_count_txt_tags = (NormalTextView) v.findViewById(R.id.place_count_txt_tags);
+                tags_img = (ImageView) v.findViewById(R.id.tags_img);
+                rl_tags = (RelativeLayout) v.findViewById(R.id.rl_tags);
             }
         }
     }

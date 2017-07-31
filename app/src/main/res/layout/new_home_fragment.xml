@@ -220,26 +220,40 @@
                 android:layout_below="@+id/rl_recommended"
                 android:layout_marginTop="15dp"
                 android:background="@color/white"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <com.ftl.tourisma.custom_views.NormalTextView
                     android:id="@+id/experiance_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="@dimen/m10dp"
                     android:layout_marginTop="15dp"
                     android:text="EXPERIANCE"
                     android:textColor="@color/black"
                     android:textSize="@dimen/TEXT_MEDIUM" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/tags_rv"
+                <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/experiance_txt"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_marginBottom="15dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/tags_rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp" />
+
+                    </RelativeLayout>
+
+                </ScrollView>
 
             </RelativeLayout>
 
