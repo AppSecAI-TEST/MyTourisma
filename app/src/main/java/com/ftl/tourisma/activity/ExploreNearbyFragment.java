@@ -113,8 +113,8 @@ public class ExploreNearbyFragment extends Fragment implements View.OnClickListe
         fragmentTransaction.commit();
     }
 
-    public void replaceTagsListFragment(String tagId) {
-        NewTagsList newTagsList = NewTagsList.NewInstance(tagId);
+    public void replaceTagsListFragment(String tagId, String tag_name) {
+        NewTagsList newTagsList = NewTagsList.NewInstance(tagId, tag_name);
         getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, newTagsList, NewTagsList.class.getSimpleName()).addToBackStack(NewTagsList.class.getSimpleName()).commit();
     }
 
