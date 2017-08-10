@@ -858,7 +858,7 @@ public class NewHomePage extends Fragment implements ViewPagerEx.OnPageChangeLis
             viewHolder.rl_tags.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mainActivity.exploreNearbyFragment.replaceTagsListFragment(tagses.get(position).getTag_Id());
+                    mainActivity.exploreNearbyFragment.replaceTagsListFragment(tagses.get(position).getTag_Id(), tagses.get(position).getTag_Name());
                 }
             });
         }

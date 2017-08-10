@@ -10,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="@dimen/tollbar_ht"
         android:background="@color/mBlue">
 
         <LinearLayout

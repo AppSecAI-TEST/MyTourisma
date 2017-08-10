@@ -61,7 +61,7 @@ public class NewTagsList extends Fragment implements post_sync.ResponseHandler {
     int mFlag = 0;
     ArrayList<Nearby> nearbies = new ArrayList<>();
     TagListAdapter tagListAdapter;
-    private NormalTextView tv_your_location_search_result, tv_place, txtMessage, txtSuggestPlace;
+    private NormalTextView tv_your_location_search_result, tv_place, txtMessage, txtSuggestPlace, experience_txt, tags_header_txt;
     private ImageView iv_back_search_result, iv_search_result;
     private LinearLayout ll_change_city, llEmptyLayout11;
     private RecyclerView rv_tags_list;
@@ -69,13 +69,14 @@ public class NewTagsList extends Fragment implements post_sync.ResponseHandler {
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
     private int like;
-    private String mPlaceId, mFav, tagId;
+    private String mPlaceId, mFav, tagId, tag_name;
     private View view;
     private Nearby nearby;
 
-    public static NewTagsList NewInstance(String tagId) {
+    public static NewTagsList NewInstance(String tagId, String tag_name) {
         Bundle bundle = new Bundle();
         bundle.putString("tagId", tagId);
+        bundle.putString("tag_name", tag_name);
         NewTagsList newTagsList = new NewTagsList();
         newTagsList.setArguments(bundle);
         return newTagsList;
@@ -92,16 +93,21 @@ public class NewTagsList extends Fragment implements post_sync.ResponseHandler {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         tagId = bundle.getString("tagId");
+        tag_name = bundle.getString("tag_name");
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.new_tags_list, container, false);
-
         //setting shared preferences
         mPreferences = getActivity().getSharedPreferences(Constants.mPref, 0);
         mEditor = mPreferences.edit();
+
+        if (mPreferences.getString("Lan_Id", "").equals("8")) {
+            view = inflater.inflate(R.layout.new_taglist_arabic, container, false);
+        } else {
+            view = inflater.inflate(R.layout.new_tags_list, container, false);
+        }
 
         initialization(view);
         downloadTagsList();
@@ -120,6 +126,12 @@ public class NewTagsList extends Fragment implements post_sync.ResponseHandler {
         llEmptyLayout11 = (LinearLayout) view.findViewById(R.id.llEmptyLayout11);
         iv_back_search_result = (ImageView) view.findViewById(R.id.iv_back_search_result);
         iv_search_result = (ImageView) view.findViewById(R.id.iv_search_result);
+
+        experience_txt = (NormalTextView) view.findViewById(R.id.experience_txt_tags);
+        experience_txt.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "EXPERIENCE") + " : ");
+
+        tags_header_txt = (NormalTextView) view.findViewById(R.id.tags_header_txt_tags);
+        tags_header_txt.setText(tag_name);
 
         txtSuggestPlace = (NormalTextView) view.findViewById(R.id.txtSuggestPlace);
         txtSuggestPlace.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Suggest Place"));

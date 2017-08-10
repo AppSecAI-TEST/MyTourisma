@@ -50,5 +50,7 @@
     <dimen name="nearby_timing_img">20dp</dimen>
     <dimen name="nearby_ticket_img">20dp</dimen>
     <dimen name="nearby_location_img">20dp</dimen>
+    <dimen name="toolbar_ht">45dp</dimen>
+    <dimen name="tags_ht">170dp</dimen>
 
 </resources>
