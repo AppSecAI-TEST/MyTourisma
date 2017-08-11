@@ -163,27 +163,41 @@
             android:weightSum="2">
 
             <com.ftl.tourisma.custom_views.NormalTextView
-                android:id="@+id/txtStartNavigating"
+                android:id="@+id/txt_add_to_fav"
                 style="@style/MyCustomButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/m5dp"
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_navigating"
+                android:drawableLeft="@drawable/mapviewicon"
                 android:padding="@dimen/m10dp"
-                android:text="Start navigating"
+                android:text="View in Map"
+                android:textSize="@dimen/TEXT_EXTRA_SMALL"
+                android:visibility="gone" />
+
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/mapviewicon"
+                style="@style/MyCustomButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/m5dp"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/mapviewicon"
+                android:padding="@dimen/m10dp"
+                android:text="View in Map"
                 android:textSize="@dimen/TEXT_EXTRA_SMALL" />
 
             <com.ftl.tourisma.custom_views.NormalTextView
-                android:id="@+id/txt_add_to_fav"
+                android:id="@+id/txtStartNavigating"
                 style="@style/MyCustomButton"
                 android:layout_width="@dimen/m0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/m5dp"
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_favourite_default"
+                android:drawableLeft="@drawable/ic_navigating"
                 android:padding="@dimen/m10dp"
-                android:text="Add to favourite"
+                android:text="Get direction"
                 android:textSize="@dimen/TEXT_EXTRA_SMALL" />
         </LinearLayout>
 
@@ -268,6 +282,22 @@
             android:layout_marginRight="@dimen/m15dp"
             android:text=""
             android:textSize="@dimen/TEXT_SMALL" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginBottom="@dimen/m5dp"
+            android:layout_marginTop="@dimen/m20dp"
+            android:background="#f2f2f2e7" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/new_rating_details" />
+        </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/ll_see_all"

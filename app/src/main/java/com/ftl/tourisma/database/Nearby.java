@@ -36,6 +36,17 @@ public class Nearby implements Serializable {
     private double distance;
     private String Group_Id;
 
+    //review variable//////////
+    private String Rev_Count;
+
+    public String getRev_Count() {
+        return Rev_Count;
+    }
+
+    public void setRev_Count(String rev_Count) {
+        Rev_Count = rev_Count;
+    }
+
     public String getPlace_Id() {
         return Place_Id;
     }

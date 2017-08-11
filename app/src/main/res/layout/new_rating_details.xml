@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/review_topbar"
+        android:background="@color/mWhite">
+
+        <com.ftl.tourisma.custom_views.NormalTextView
+            android:id="@+id/reviewtitel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/review_bar20"
+            android:layout_marginTop="@dimen/review_bar20"
+            android:text="Rating and Reviews"
+            android:textColor="@color/mBlack"
+            android:textSize="@dimen/TEXT_MEDIUM" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/header"
+        android:layout_marginTop="10dp"
+        android:background="#C8C8C8">
+
+    </View>
+
+    <RelativeLayout
+        android:id="@+id/mainid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/review_bar20">
+
+            <ImageView
+                android:id="@+id/staricon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/review_bar60"
+                android:src="@drawable/yellows_unslected" />
+
+            <TextView
+                android:id="@+id/totalrating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/review_bar75"
+                android:layout_marginTop="@dimen/review_bar19"
+                android:text="0.0"
+                android:textColor="@color/white"
+                android:textSize="@dimen/TEXT_SMALL" />
+
+
+            <TextView
+                android:id="@+id/reviewtitelid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/staricon"
+                android:layout_marginLeft="@dimen/review_bar60"
+                android:layout_marginTop="@dimen/review_bar10"
+                android:text="Based On"
+                android:textColor="@color/mBlack"
+
+                />
+
+            <TextView
+                android:id="@+id/reviewnoid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/reviewtitelid"
+                android:layout_marginLeft="@dimen/review_bar50"
+                android:text="1234"
+                android:textColor="@color/rgb" />
+
+        </RelativeLayout>
+
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="1dp"
+            android:layout_height="@dimen/viewhight"
+            android:layout_marginLeft="@dimen/review_bar150"
+            android:layout_marginTop="@dimen/review_bar10"
+            android:background="#C8C8C8">
+
+        </View>
+
+        <RelativeLayout
+            android:id="@+id/starview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/review_bar20"
+            android:layout_marginTop="@dimen/review_bar20"
+            android:layout_toRightOf="@+id/view1">
+
+            <RelativeLayout
+                android:id="@+id/rl_progress5"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp">
+
+                <TextView
+                    android:id="@+id/textone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="5"
+                    android:textColor="@color/mBlack" />
+
+                <ImageView
+                    android:id="@+id/staricon1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/review_bar5"
+                    android:layout_toRightOf="@+id/textone"
+                    android:src="@drawable/bar_star_gray" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar1"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="@dimen/barwidth"
+                    android:layout_height="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/review_bar5"
+                    android:layout_toEndOf="@+id/staricon1"
+                    android:layout_toRightOf="@+id/staricon1"
+                    android:progressDrawable="@drawable/progressbar" />
+
+                <TextView
+                    android:id="@+id/number1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/review_bar5"
+                    android:layout_toRightOf="@+id/progressBar1"
+                    android:text="0"
+                    android:textColor="@color/rgb" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_progress4"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@+id/rl_progress5">
+
+                <TextView
+                    android:id="@+id/texttwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="4"
+                    android:textColor="@color/mBlack" />
+
+                <ImageView
+                    android:id="@+id/staricon2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/review_bar5"
+                    android:layout_toRightOf="@+id/texttwo"
+                    android:src="@drawable/bar_star_gray" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar2"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="@dimen/barwidth"
+                    android:layout_height="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/review_bar5"
+                    android:layout_toRightOf="@+id/staricon2"
+                    android:progressDrawable="@drawable/progressbar" />
+
+                <TextView
+                    android:id="@+id/number2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/review_bar5"
+                    android:layout_toRightOf="@+id/progressBar2"
+                    android:text="0"
+                    android:textColor="@color/rgb" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_progress3"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@+id/rl_progress4">
+
+                <TextView
+                    android:id="@+id/text3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="3"
+                    android:textColor="@color/mBlack" />
+
+                <ImageView
+                    android:id="@+id/staricon3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/review_bar5"
+                    android:layout_toRightOf="@+id/text3"
+                    android:src="@drawable/bar_star_gray" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar3"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="@dimen/barwidth"
+                    android:layout_height="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/review_bar5"
+                    android:layout_toRightOf="@+id/staricon3"
+                    android:progressDrawable="@drawable/progressbar" />
+
+                <TextView
+                    android:id="@+id/number3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/review_bar5"
+                    android:layout_toRightOf="@+id/progressBar3"
+                    android:text="0"
+                    android:textColor="@color/rgb" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_progress2"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@+id/rl_progress3">
+
+                <TextView
+                    android:id="@+id/text4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="2"
+                    android:textColor="@color/mBlack" />
+
+                <ImageView
+                    android:id="@+id/staricon4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/review_bar5"
+                    android:layout_toRightOf="@+id/text4"
+                    android:src="@drawable/bar_star_gray" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar4"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="@dimen/barwidth"
+                    android:layout_height="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/review_bar5"
+                    android:layout_toRightOf="@+id/staricon4"
+                    android:progressDrawable="@drawable/progressbar" />
+
+                <TextView
+                    android:id="@+id/number4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/review_bar5"
+                    android:layout_toRightOf="@+id/progressBar4"
+                    android:text="0"
+                    android:textColor="@color/rgb" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_progress1"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@+id/rl_progress2">
+
+                <TextView
+                    android:id="@+id/text5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="1"
+                    android:textColor="@color/mBlack" />
+
+                <ImageView
+                    android:id="@+id/staricon5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/review_bar5"
+                    android:layout_toRightOf="@+id/text5"
+                    android:src="@drawable/bar_star_gray" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar5"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="@dimen/barwidth"
+                    android:layout_height="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/review_bar5"
+                    android:layout_toRightOf="@+id/staricon5"
+                    android:progressDrawable="@drawable/progressbar" />
+
+                <TextView
+                    android:id="@+id/number5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/review_bar5"
+                    android:layout_toRightOf="@+id/progressBar5"
+                    android:text="0"
+                    android:textColor="@color/rgb" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/submitid"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/review_showa_ht"
+            android:layout_below="@+id/starview"
+            android:layout_marginLeft="@dimen/review_bar10"
+            android:layout_marginRight="@dimen/review_bar10"
+            android:layout_marginTop="@dimen/review_bar40"
+            android:background="@drawable/new_rctanglur_submit"
+            android:elevation="3dp"
+            android:gravity="center"
+            android:text="SHOW WHAT PEOPLE  SAY"
+            android:textColor="@color/white"
+            android:textSize="@dimen/TEXT_MEDIUM" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/review_bar20"
+            android:layout_below="@+id/submitid"
+            android:layout_marginTop="@dimen/review_bar20"></View>
+    </RelativeLayout>
+</RelativeLayout>

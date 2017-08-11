@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainviewid"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/review_top_ht"
+        android:background="@color/mBlue">
+
+
+        <ImageView
+            android:id="@+id/backid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/review_saving20"
+            android:layout_marginTop="@dimen/review_saving20"
+            android:src="@drawable/new_leftarrow" />
+
+        <com.ftl.tourisma.custom_views.NormalTextView
+            android:id="@+id/reviewtitel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/review_saving18"
+            android:text="Write your review"
+            android:textColor="@color/mWhite"
+            android:textSize="@dimen/TEXT_MEDIUM" />
+
+    </RelativeLayout>
+
+
+    <com.ftl.tourisma.custom_views.NormalTextView
+        android:id="@+id/ratingtextid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:layout_marginLeft="@dimen/review_saving20"
+        android:layout_marginTop="@dimen/review_saving20"
+        android:text="Your Rating"
+        android:textColor="@color/mBlack"
+        android:textSize="@dimen/TEXT_MEDIUM" />
+
+    <RatingBar
+        android:id="@+id/ratingid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ratingtextid"
+        android:layout_marginLeft="@dimen/review_saving80"
+        android:layout_marginTop="@dimen/review_saving15" />
+
+    <com.ftl.tourisma.custom_views.NormalTextView
+        android:id="@+id/reviewtextid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ratingid"
+        android:layout_marginLeft="@dimen/review_saving20"
+        android:layout_marginTop="@dimen/review_saving10"
+        android:text="Your Review"
+        android:textColor="@color/mBlack"
+        android:textSize="@dimen/TEXT_MEDIUM" />
+
+    <EditText
+        android:id="@+id/reviewinputid"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/review_saving60"
+        android:layout_below="@+id/reviewtextid"
+        android:layout_marginLeft="@dimen/review_saving10"
+        android:layout_marginRight="@dimen/review_saving10"
+        android:layout_marginTop="@dimen/review_saving10"
+        android:background="@drawable/new_rectangluer"
+        android:hint="Review heading"
+        android:inputType="text"
+        android:padding="@dimen/review_saving10" />
+
+    <EditText
+        android:id="@+id/writeid"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/review_saving150"
+        android:layout_below="@+id/reviewinputid"
+        android:layout_marginLeft="@dimen/review_saving10"
+        android:layout_marginRight="@dimen/review_saving10"
+        android:layout_marginTop="@dimen/review_saving20"
+        android:background="@drawable/new_rectangluer"
+        android:gravity="top"
+        android:hint="Write your review here"
+        android:inputType="text"
+        android:padding="@dimen/review_saving10"
+        android:paddingTop="@dimen/review_saving10" />
+
+    <com.ftl.tourisma.custom_views.NormalTextView
+        android:id="@+id/submitid"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/review_saving50"
+        android:layout_below="@+id/writeid"
+        android:layout_marginLeft="@dimen/review_saving10"
+        android:layout_marginRight="@dimen/review_saving10"
+        android:layout_marginTop="@dimen/review_saving30"
+        android:background="@drawable/new_rctanglur_submit"
+        android:elevation="3dp"
+        android:gravity="center"
+        android:text="SUBMIT"
+        android:textColor="@color/mWhite"
+        android:textSize="@dimen/TEXT_MEDIUM" />
+
+</RelativeLayout>

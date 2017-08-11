@@ -44,6 +44,7 @@
     <dimen name="img_ht">190dp</dimen>
     <dimen name="bg_img_ht">50dp</dimen>
 
+
     <!--home page dimens-->
     <dimen name="category_img_ht">85dp</dimen>
     <dimen name="nearby_rlBottomView">80dp</dimen>
@@ -52,5 +53,54 @@
     <dimen name="nearby_location_img">20dp</dimen>
     <dimen name="toolbar_ht">45dp</dimen>
     <dimen name="tags_ht">170dp</dimen>
+
+    <!--Reviwe & Displaying bar with Rateing dimens-->
+
+    <dimen name="review_topbar">50dp</dimen>
+    <dimen name="review_bar18">18dp</dimen>
+    <dimen name="review_bar20">20dp</dimen>
+    <dimen name="rating_img_fram">20dp</dimen>
+    <dimen name="review_bar30">30dp</dimen>
+    <dimen name="review_bar60">40dp</dimen>
+    <dimen name="review_bar19">19dp</dimen>
+    <dimen name="review_bar75">55dp</dimen>
+    <dimen name="review_bar50">35dp</dimen>
+    <dimen name="viewhight">120dp</dimen>
+    <dimen name="review_bar150">130dp</dimen>
+    <dimen name="review_bar10">10dp</dimen>
+    <dimen name="review_showa_ht">50dp</dimen>
+    <dimen name="review_bar5dp">5dp</dimen>
+    <dimen name="barwidth">130dp</dimen>
+    <dimen name="review_bar40">50dp</dimen>
+    <dimen name="review_bar25">25dp</dimen>
+    <dimen name="review_bar5">3dp</dimen>
+    <dimen name="review_bar15">15dp</dimen>
+    <dimen name="review_bar80">80dp</dimen>
+
+    <!-- Review & Rating submition-->
+    <dimen name="review_top_ht">50dp</dimen>
+    <dimen name="review_saving20">20dp</dimen>
+    <dimen name="review_saving10">10dp</dimen>
+    <dimen name="review_saving15">15dp</dimen>
+    <dimen name="review_saving18">18dp</dimen>
+    <dimen name="review_saving30">30dp</dimen>
+    <dimen name="review_saving150">150dp</dimen>
+    <dimen name="review_saving50">50dp</dimen>
+    <dimen name="review_saving80">80dp</dimen>
+    <dimen name="review_saving60">60dp</dimen>
+
+    <!--Review item-->
+
+    <dimen name="review_item10">10dp</dimen>
+    <dimen name="review_item5">5dp</dimen>
+    <dimen name="review_item20">20dp</dimen>
+    <dimen name="review_item150">150dp</dimen>
+    <dimen name="review_item60">60dp</dimen>
+    <dimen name="review_item25">20dp</dimen>
+    <dimen name="review_item40">40dp</dimen>
+    <dimen name="review_item3">3dp</dimen>
+    <dimen name="review_item50">50dp</dimen>
+    <dimen name="trans100">100dp</dimen>
+
 
 </resources>

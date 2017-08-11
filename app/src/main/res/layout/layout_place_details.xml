@@ -17,6 +17,7 @@
             android:layout_height="wrap_content" />
 
 
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -135,9 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/view"
-                    android:ellipsize="marquee"
                     android:freezesText="true"
-                    android:marqueeRepeatLimit="marquee_forever"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="Jumeirah 1, Dubai"
@@ -204,6 +203,7 @@
                     android:paddingRight="@dimen/m5dp"
                     android:paddingTop="@dimen/m5dp"
                     android:text="10ap to 7pm (Mon)"
+                    android:textColor="@color/mBlue"
                     android:textSize="@dimen/TEXT_SMALL" />
 
                 <com.ftl.tourisma.custom_views.NormalTextView
@@ -211,7 +211,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/custom_drop"
                     android:gravity="center"
+                    android:padding="5dp"
                     android:paddingBottom="@dimen/m5dp"
                     android:paddingLeft="@dimen/m5dp"
                     android:paddingRight="@dimen/m5dp"
@@ -228,8 +231,68 @@
                 android:background="#E7E7E7" />
         </LinearLayout>
 
-
         <LinearLayout
+            android:id="@+id/ticketdetailslr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/m10dp"
+            android:layout_marginLeft="@dimen/m10dp"
+            android:layout_marginRight="@dimen/m10dp"
+            android:layout_marginTop="@dimen/m10dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <!-- <com.ftl.tourisma.custom_views.NormalTextView
+                 android:id="@+id/txtOpenNow"
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                 android:gravity="right"
+                 android:visibility="gone"
+                 android:text="Open Now:"
+                 android:textColor="@color/mGreen"
+                 android:textSize="@dimen/TEXT_SMALL" />-->
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/ticketdetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingLeft="@dimen/m5dp"
+                android:paddingRight="@dimen/m5dp"
+                android:paddingTop="@dimen/m5dp"
+                android:text="Ticket Details"
+                android:textColor="@color/mBlue"
+                android:textSize="@dimen/TEXT_SMALL" />
+
+            <com.ftl.tourisma.custom_views.NormalTextView
+                android:id="@+id/numberofuser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/custom_drop"
+                android:gravity="center"
+                android:padding="5dp"
+                android:paddingBottom="@dimen/m5dp"
+                android:paddingLeft="@dimen/m5dp"
+                android:paddingRight="@dimen/m5dp"
+                android:text="Adult : (10 years above)150 AED"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/TEXT_SMALL_SKIP" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/m10dp"
+            android:layout_marginRight="@dimen/m10dp"
+            android:background="#E7E7E7" />
+    </LinearLayout>
+
+
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/m10dp"
@@ -240,28 +303,41 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
+        <com.ftl.tourisma.custom_views.NormalTextView
+            android:id="@+id/txt_add_to_fav"
+            style="@style/MyCustomButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/m5dp"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/mapviewicon"
+            android:padding="@dimen/m10dp"
+            android:text="View in map"
+            android:textSize="@dimen/TEXT_EXTRA_SMALL"
+            android:visibility="gone" />
+
             <com.ftl.tourisma.custom_views.NormalTextView
-                android:id="@+id/txtStartNavigating"
+                android:id="@+id/mapviewid"
                 style="@style/MyCustomButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/m5dp"
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_navigating"
+                android:drawableLeft="@drawable/mapviewicon"
                 android:padding="@dimen/m10dp"
-                android:text="Start navigating"
+                android:text="View in map"
                 android:textSize="@dimen/TEXT_EXTRA_SMALL" />
 
             <com.ftl.tourisma.custom_views.NormalTextView
-                android:id="@+id/txt_add_to_fav"
+                android:id="@+id/txtStartNavigating"
                 style="@style/MyCustomButton"
                 android:layout_width="@dimen/m0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/m5dp"
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_favourite_default"
+                android:drawableLeft="@drawable/ic_navigating"
                 android:padding="@dimen/m10dp"
-                android:text="Add to favourite"
+                android:text="Get direction"
                 android:textSize="@dimen/TEXT_EXTRA_SMALL" />
         </LinearLayout>
 
@@ -325,7 +401,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/m15dp"
             android:layout_marginRight="@dimen/m15dp"
-            android:layout_marginTop="@dimen/m10dp">
+            android:layout_marginTop="@dimen/m10dp"
+            android:orientation="horizontal">
 
             <com.ftl.tourisma.custom_views.NormalTextView
                 android:id="@+id/tv_about_place_explore"
@@ -334,12 +411,14 @@
                 android:text="@string/description"
                 android:textColor="@color/mBlack"
                 android:textSize="@dimen/TEXT_MEDIUM" />
+
+
         </LinearLayout>
 
 
         <com.ftl.tourisma.custom_views.NormalTextView
             android:id="@+id/tv_discription"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/m10dp"
             android:layout_marginLeft="@dimen/m15dp"
@@ -347,7 +426,24 @@
             android:text=""
             android:textSize="@dimen/TEXT_SMALL" />
 
-        <LinearLayout
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_marginBottom="@dimen/m5dp"
+        android:layout_marginTop="@dimen/m20dp"
+        android:background="#f2f2f2e7" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/new_rating_details" />
+    </LinearLayout>
+
+
+    <LinearLayout
             android:id="@+id/ll_see_all"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -417,4 +513,3 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>

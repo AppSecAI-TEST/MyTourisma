@@ -27,14 +27,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.daimajia.slider.library.Transformers.BaseTransformer;
+import com.estimote.sdk.repackaged.gson_v2_3_1.com.google.gson.Gson;
 import com.ftl.tourisma.FullPlaceImageViewActivity;
 import com.ftl.tourisma.MyTorismaApplication;
 import com.ftl.tourisma.R;
@@ -86,6 +89,17 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
     Button buy_tickets;
     GalleryAdapter2 galleryAdapter2;
     View view;
+    Gson gson = new Gson();
+    TextView reviewtitelid;
+    boolean isCheck = true;
+    String halfDescription;
+    String str_seemore;
+    //graph
+    TextView showSubmitid, writesubmitid, ratingnumber1, ratingnumber2, ratingnumber3, ratingnumber4, ratingnumber5, Totalreviewnoid, totalrating;
+    ProgressBar progressBar1, progressBar2, progressBar3, progressBar4, progressBar5;
+    ImageView staricon1, staricon2, staricon3, staricon4, staricon5, staricon;
+    Integer integer1, integer2, integer3, integer4, integer5, integer6;
+    private ArrayList<Nearby> reviewList = new ArrayList<>();
     private ArrayList<Nearby> nearbies1 = new ArrayList<>();
     private Intent mIntent;
     private int width, height;
@@ -95,7 +109,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
     private String _24HourTime, _24HourTime1;
     private Date _24HourDt, _24HourDt1;
     private NormalBoldTextView tv_full_name_search_result2;
-    private NormalTextView txtDailyWorkingHours, txtOpenNowVal, txt_add_to_fav, tv_distance1_search_result2, tv_info_search_result2, tv_discription_search_result2;
+    private NormalTextView txtDailyWorkingHours, txtOpenNowVal, txt_add_to_fav, tv_distance1_search_result2, tv_info_search_result2, tv_discription_search_result2, tv_seemore;
     private com.ftl.tourisma.gallery1.Gallery gv_detail1_search_result2;
     private ImageView iv_back5;
     private String[] strImg1;
@@ -111,7 +125,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
     private ImageView iv_search_map;
     private LinearLayout ll_change_city;
     private NormalTextView tv_fee_search_result;
-    private NormalTextView tv_about_place_search_result;
+    private NormalTextView tv_about_place_search_result, reviewtitel, tv_see_more;
     private NormalTextView tv_similar_search;
     private NormalTextView tv_see_all_search_result;
     private Nearby mNearby = new Nearby();
@@ -122,7 +136,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
     private PagerIndicator custom_indicator1;
     private ImageView imgSharePlace;
     private RelativeLayout rlVirtualTour;
-    private NormalTextView tv_similar_explore, txtSuggestPlace, txtStartNavigating, txt_snack_msg, tv_login_snack, tv_sign_up_snack, tv_snack_msg;
+    private NormalTextView tv_similar_explore, txt_ticketdetails, txtSuggestPlace, txt_Map_view, txtStartNavigating, txt_snack_msg, tv_login_snack, tv_sign_up_snack, tv_snack_msg;
     private Nearby nearByDetails;
     private JSONObjConverter jsonObjConverter;
     private boolean isForSimilarPlaces = false;
@@ -154,11 +168,55 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
         mEditor = mPreferences.edit();
         initialisation(view);
         searchCall(placeId);
+
         return view;
     }
 
 
     private void initialisation(View view) {
+        //Rating Review  code start
+        showSubmitid = (TextView) view.findViewById(R.id.submitid);
+        showSubmitid.setOnClickListener(this);
+        showSubmitid.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "SHOW_WHAT_PEOPLE_SAY"));
+
+//        writesubmitid=(TextView)view.findViewById(R.id.writesubmitid);
+//        writesubmitid.setOnClickListener(this);
+//        writesubmitid.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "RATE_AND_WRITE_A_REVIEW"));
+
+        progressBar1 = (ProgressBar) view.findViewById(R.id.progressBar1);
+        progressBar2 = (ProgressBar) view.findViewById(R.id.progressBar2);
+        progressBar3 = (ProgressBar) view.findViewById(R.id.progressBar3);
+        progressBar4 = (ProgressBar) view.findViewById(R.id.progressBar4);
+        progressBar5 = (ProgressBar) view.findViewById(R.id.progressBar5);
+
+        progressBar1.setMax(1);
+        progressBar2.setMax(1);
+        progressBar3.setMax(1);
+        progressBar4.setMax(1);
+        progressBar5.setMax(1);
+
+        ratingnumber1 = (TextView) view.findViewById(R.id.number1);
+        ratingnumber2 = (TextView) view.findViewById(R.id.number2);
+        ratingnumber3 = (TextView) view.findViewById(R.id.number3);
+        ratingnumber4 = (TextView) view.findViewById(R.id.number4);
+        ratingnumber5 = (TextView) view.findViewById(R.id.number5);
+
+        Totalreviewnoid = (TextView) view.findViewById(R.id.reviewnoid);
+        totalrating = (TextView) view.findViewById(R.id.totalrating);
+
+        //star icon
+        staricon1 = (ImageView) view.findViewById(R.id.staricon1);
+        staricon2 = (ImageView) view.findViewById(R.id.staricon2);
+        staricon3 = (ImageView) view.findViewById(R.id.staricon3);
+        staricon4 = (ImageView) view.findViewById(R.id.staricon4);
+        staricon5 = (ImageView) view.findViewById(R.id.staricon5);
+        staricon = (ImageView) view.findViewById(R.id.staricon);
+
+        reviewtitel = (NormalTextView) view.findViewById(R.id.reviewtitel);
+        reviewtitel.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Rating_and_Reviews"));
+        reviewtitelid = (TextView) view.findViewById(R.id.reviewtitelid);
+        reviewtitelid.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Based_on"));
+
         imgSharePlace = (ImageView) view.findViewById(R.id.imgSharePlace);
         imgSharePlace.setOnClickListener(this);
         visiting_hours_layout = (LinearLayout) view.findViewById(R.id.visiting_hours_layout);
@@ -174,9 +232,19 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
         tv_fee_search_result = (NormalTextView) view.findViewById(R.id.tv_fee_explore);
         tv_fee_search_result.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Fee"));
         txtStartNavigating = (NormalTextView) view.findViewById(R.id.txtStartNavigating);
-        txtStartNavigating.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "StartNavigation"));
+        txtStartNavigating.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Get_direction"));
+
+
+        txt_Map_view = (NormalTextView) view.findViewById(R.id.mapviewid);
+        txt_Map_view.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "View_in_map"));
+
+
+        txt_ticketdetails = (NormalTextView) view.findViewById(R.id.ticketdetails);
+//        txt_ticketdetails.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Ticket_Details  "));
         tv_about_place_search_result = (NormalTextView) view.findViewById(R.id.tv_about_place_explore);
         tv_about_place_search_result.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "aboutplace"));
+
+
         tv_similar_explore = (NormalTextView) view.findViewById(R.id.tv_similar_explore);
         tv_similar_explore.setText(Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "similarplace"));
         tv_see_all_search_result = (NormalTextView) view.findViewById(R.id.tv_see_all_explore);
@@ -207,6 +275,7 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
         txtDailyWorkingHours.setOnClickListener(this);
         tv_distance1_search_result2 = (NormalTextView) view.findViewById(R.id.tv_distance1);
         tv_discription_search_result2 = (NormalTextView) view.findViewById(R.id.tv_discription);
+//        tv_seemore=(NormalTextView)view.findViewById(R.id.tv_seemore);
         gv_detail1_search_result2 = (com.ftl.tourisma.gallery1.Gallery) view.findViewById(R.id.gv_detail1);
         iv_back5 = (ImageView) view.findViewById(R.id.iv_back5);
         iv_back5.setOnClickListener(this);
@@ -268,6 +337,29 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
         } else if (v == buy_tickets) {
 //            mainActivity.exploreNearbyFragment.replaceTicketFragment();
             mainActivity.exploreNearbyFragment.replaceTicketCalendarFragment();
+        } else if (v == showSubmitid) {
+
+            mainActivity.exploreNearbyFragment.replaceAllreviewFragment(groupId, integer1, integer2, integer3, integer4, integer5);
+        } else if (v == writesubmitid) {
+
+            Intent intent = new Intent(getActivity(), RatingSubmition.class);
+            startActivity(intent);
+        }
+    }
+
+    //review condition //
+    private void reviewVisible() {
+        if (integer6 != 0) {
+            showSubmitid.setVisibility(View.VISIBLE);
+            writesubmitid.setVisibility(View.GONE);
+        } else {
+            if (mainActivity.getPreferences().getString("User_Id", "").equalsIgnoreCase("1")) {
+                writesubmitid.setVisibility(View.VISIBLE);
+                showSubmitid.setVisibility(View.GONE);
+            } else {
+                writesubmitid.setVisibility(View.GONE);
+                showSubmitid.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -402,7 +494,30 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
         tv_full_name_search_result2.setText(mNearby.getPlace_Name());
         tv_info_search_result2.setText(mNearby.getPlace_Address());
 //        tv_discription_search_result2.setText(Html.fromHtml(Html.fromHtml("<html><body><p style=\"text-align:justify\">" + mNearby.getPlace_Description() + "</p></body></html>").toString()));
-        tv_discription_search_result2.setText(String.format(mNearby.getPlace_Description()));
+
+
+        halfDescription = mNearby.getPlace_Description().substring(0, mNearby.getPlace_Description().length() / 2);
+//           mainDescription=mNearby.getPlace_Description().substring(String.format(mNearby.getPlace_Description()).length()/2);
+        tv_discription_search_result2.setText(halfDescription);
+
+
+        tv_discription_search_result2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isCheck) {
+                    tv_discription_search_result2.setMaxLines(10);
+                    tv_discription_search_result2.setText(String.format(mNearby.getPlace_Description()));
+
+
+                    isCheck = false;
+                } else {
+                    tv_discription_search_result2.setText(halfDescription);
+                    isCheck = true;
+                }
+            }
+        });
+
+
         String string = mNearby.getPlace_MainImage();
         if (mNearby.getOtherimages().length() != 0 && !mNearby.getOtherimages().equalsIgnoreCase("null")) {
             string += "," + mNearby.getOtherimages();
@@ -462,6 +577,21 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
         if (isForSimilarPlaces)
             searchCall(mNearby.getPlace_Id());
         txtStartNavigating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GPSTracker gpsTracker = new GPSTracker(getActivity());
+                if (!gpsTracker.canGetLocation())
+                    gpsTracker.showSettingsAlert();
+                else {
+                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?q=loc:" + gpsTracker.getLatitude() + "," + gpsTracker.getLongitude() + "&daddr=" + Double.parseDouble(mNearby.getPlace_Latitude()) + "," + Double.parseDouble(mNearby.getPlace_Longi())));
+                    startActivity(intent);
+                }
+            }
+        });
+
+        if (isForSimilarPlaces)
+            searchCall(mNearby.getPlace_Id());
+        txt_Map_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GPSTracker gpsTracker = new GPSTracker(getActivity());
@@ -544,8 +674,9 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
             ll_search_result2.setVisibility(View.GONE);
         if (CommonClass.hasInternetConnection(getActivity())) {
             String url = Constants.SERVER_URL + "json.php?action=PlaceDetails";
-            String json = "[{\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\",\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mPreferences.getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mPreferences.getString("longitude2", "") + "\",\"Place_Id\":\"" + Place_Id + "\"}]";
+            String json = "[{\"Lan_Id\":\"" + mPreferences.getString("Lan_Id", "") + "\",\"User_Id\":\"" + mPreferences.getString("User_Id", "") + "\",\"Current_Latitude\":\"" + mPreferences.getString("latitude2", "") + "\",\"Current_Longitude\":\"" + mPreferences.getString("longitude2", "") + "\",\"Place_Id\":\"" + Place_Id + "\",\"Group_Id\":\"" + groupId + "\"}]";
             new PostSync(getActivity(), "PlaceDetails", SearchResultPlaceDetailsFragment.this).execute(url, json);
+            System.out.println("searchcall_json " + json);
         } else {
             Intent intent = new Intent(getActivity(), NoInternet.class);
             startActivity(intent);
@@ -614,6 +745,92 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
                     }
                     nearbies1 = Utilities.sortLocations(nearbies1);
                 }
+
+                //Inserting reviews into arraylist
+                reviewList.clear();
+                if (jsonObject.has("reviews")) {
+                    JSONArray review_jsonArray = jsonObject.getJSONArray("reviews");
+                    for (int idx = 0; idx < review_jsonArray.length(); idx++) {
+                        reviewList.add(gson.fromJson(review_jsonArray.get(idx).toString(), Nearby.class));
+                    }
+
+                    System.out.println("revies_array " + reviewList.size());
+
+                    //Setting review arraylist to progress bars
+                    integer1 = new Integer(reviewList.get(0).getRev_Count());
+                    integer2 = new Integer(reviewList.get(1).getRev_Count());
+                    integer3 = new Integer(reviewList.get(2).getRev_Count());
+                    integer4 = new Integer(reviewList.get(3).getRev_Count());
+                    integer5 = new Integer(reviewList.get(4).getRev_Count());
+
+                    // sum of rating/////
+                    integer6 = integer1 + integer2 + integer3 + integer4 + integer5;
+
+
+                    if (integer1 != 0) {
+
+                        progressBar1.setProgress(integer1 / integer6);
+                        staricon1.setImageResource(R.drawable.bar_star_yellow);
+
+                    } else if (integer2 != 0) {
+
+
+                        progressBar2.setProgress(integer2 / integer6);
+                        staricon2.setImageResource(R.drawable.bar_star_yellow);
+                    } else if (integer3 != 0) {
+
+                        progressBar3.setProgress(integer3 / integer6);
+                        staricon3.setImageResource(R.drawable.bar_star_yellow);
+                    } else if (integer4 != 0) {
+
+                        progressBar4.setProgress(integer4 / integer6);
+                        staricon4.setImageResource(R.drawable.bar_star_yellow);
+                    } else if (integer5 != 0) {
+
+                        progressBar5.setProgress(integer5 / integer6);
+                        staricon5.setImageResource(R.drawable.bar_star_yellow);
+                    } else {
+
+                        progressBar1.setProgress(integer1);
+                        progressBar2.setProgress(integer2);
+                        progressBar3.setProgress(integer3);
+                        progressBar4.setProgress(integer4);
+                        progressBar5.setProgress(integer5);
+
+
+                    }
+
+                    //review rating number displaying///
+
+                    ratingnumber1.setText("(" + reviewList.get(0).getRev_Count() + ")");
+                    ratingnumber2.setText("(" + reviewList.get(1).getRev_Count() + ")");
+                    ratingnumber3.setText("(" + reviewList.get(2).getRev_Count() + ")");
+                    ratingnumber4.setText("(" + reviewList.get(3).getRev_Count() + ")");
+                    ratingnumber5.setText("(" + reviewList.get(4).getRev_Count() + ")");
+
+                    Totalreviewnoid.setText(integer6.toString().trim() + "  " + Constants.showMessage(getActivity(), mPreferences.getString("Lan_Id", ""), "Reviews"));
+                    //total rating//
+
+
+                    float flt = (integer1 * 5 + integer2 * 4 + integer3 * 3 + integer4 * 2 + integer5 * 1);
+
+                    System.out.print("" + flt);
+
+                    float avrage = flt / integer6.floatValue();
+                    System.out.print("" + avrage);
+
+                    if (avrage != 0.0) {
+
+                        totalrating.setText(String.valueOf(avrage));
+
+                        staricon.setImageResource(R.drawable.select_star);
+                    } else {
+                        staricon.setImageResource(R.drawable.yellows_unslected);
+                    }
+
+
+                }
+
                 if (!isForSimilarPlaces)
                     setDetailInfo(mNearby);
                 galleryAdapter2 = new GalleryAdapter2(getActivity());
@@ -809,9 +1026,10 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
             final NormalTextView tv_km = (NormalTextView) convertView.findViewById(R.id.tv_km);
             final LinearLayout llView = (LinearLayout) convertView.findViewById(R.id.llView);
             final RelativeLayout rlMain = (RelativeLayout) convertView.findViewById(R.id.rlMain);
+
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) rlMain.getLayoutParams();
-            layoutParams.width = (width * 50) / 100;
-            layoutParams.height = (width * 50) / 100;
+            layoutParams.width = (width * 47) / 100;
+            layoutParams.height = (width * 60) / 100;
             rlMain.setLayoutParams(layoutParams);
             tv_name.setText(nearbies1.get(position).getPlace_Name());
             tv_name.setSelected(true);
@@ -838,4 +1056,10 @@ public class SearchResultPlaceDetailsFragment extends Fragment implements View.O
             return convertView;
         }
     }
+
+
+    // See more function////
+
+
+
 }

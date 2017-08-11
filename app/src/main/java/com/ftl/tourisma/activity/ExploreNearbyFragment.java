@@ -127,6 +127,23 @@ public class ExploreNearbyFragment extends Fragment implements View.OnClickListe
         fragmentTransaction.commit();
     }
 
+    public void replaceAllreviewFragment(String groupId, Integer integer1, Integer integer2, Integer integer3, Integer integer4, Integer integer5) {
+        Fragment fragment = new AllRevieFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("groupId", groupId);
+        bundle.putInt("integer1", integer1);
+        bundle.putInt("integer2", integer2);
+        bundle.putInt("integer3", integer3);
+        bundle.putInt("integer4", integer4);
+        bundle.putInt("integer5", integer5);
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fram1, fragment);
+        fragmentTransaction.commit();
+
+    }
+
     public void replaceSearchResultFragment(ArrayList<Nearby> nearbies1, String search, boolean isForCategory) {
         SearchResultFragmentFragment searchResultFragmentFragment = SearchResultFragmentFragment.NewInstance(nearbies1, search, isForCategory);
         getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fram1, searchResultFragmentFragment, SearchResultFragmentFragment.class.getSimpleName()).addToBackStack(SearchResultFragmentFragment.class.getSimpleName()).commit();
